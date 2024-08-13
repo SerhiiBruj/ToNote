@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const BackLeafIcon = (props) => {
   const navigate =useNavigate()
   return (
-    <svg  onClick={()=>{navigate(-1)}}
+    <svg  onClick={()=>{navigate(-1); }}
       width={props.size * 155}
       height={props.size * 78}
       viewBox="0 0 155 78"

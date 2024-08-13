@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import pageType from './pageSlice';
 import isEditable from './isEditable';
+import startAnimation from './startAnimation';
 
 const store = configureStore({
   reducer: {
-    pageType: pageType,
+    startAnimation:startAnimation,
     isEditable:isEditable,
   },
 });

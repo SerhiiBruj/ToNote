@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const PenIcon = (props) => {
   const [roll, setRoll] = useState(true);
-  const page = useSelector((state) => state.pageType.value);
+  const location = useLocation();
+  const page =location.pathname; 
   const ref = useRef();
   useEffect(() => {
     setRoll(true);

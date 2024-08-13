@@ -20,7 +20,11 @@ function App() {
         <Route path="note/:name" element={<Note />} />
         <Route path="todo/:name" element={<Todo />} />
         <Route path="table/:name" element={<Table />} />
-        <Route path="checklist/:name" errorElement={<ErrorOnRoute/>} element={<ChecklistModule />} />
+        <Route
+          path="checklist/:name"
+          errorElement={<ErrorOnRoute />}
+          element={<ChecklistModule />}
+        />
       </Route>
 
       <Route path="*" element={<Navigate to="/404" replace />} />

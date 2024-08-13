@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 
@@ -7,9 +7,7 @@ const Note = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
   const textareaRef = useRef(null);
   const location = useLocation();
-  let typeName = location.pathname.split("/").slice(2).join("/");
-
-  
+  const typeName = location.pathname.split("/").slice(2).join("/");
 
   useEffect(() => {
     const savedText = localStorage.getItem(typeName);
@@ -26,11 +24,11 @@ const Note = () => {
     }
   }, [text]); // Оновлення висоти при зміні тексту
 
-  const handleTextChange = (event) => {
+  const handleTextChange = useCallback((event) => {
     const newText = event.target.value;
     setText(newText);
     localStorage.setItem(typeName, newText);
-  };
+  }, []);
 
   return (
     <div style={{ height: "90%", paddingLeft: 50 }}>
@@ -43,7 +41,6 @@ const Note = () => {
             value={text}
             onChange={handleTextChange}
             autoFocus
-            cols="50"
           />
         </div>
       ) : (
