@@ -1,0 +1,27 @@
+.penSvg {
+    position: relative; /* Необхідно для правильного позиціонування псевдоелемента */
+    display: inline-block;
+    cursor: pointer; /* Щоб підказка виглядала як інтерактивний елемент */
+  }
+  
+  .penSvg::after {
+    content: "Edit"; /* Текст підказки */
+    position: absolute;
+    bottom: 100%; /* Розташовує підказку над SVG */
+    left: 50%;
+    transform: translateX(-50%); /* Вирівнює підказку по центру */
+    background-color: black;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    white-space: nowrap; /* Забезпечує, щоб текст не перетворювався на декілька рядків */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s; /* Плавний перехід */
+  }
+  
+  .penSvg:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
+  

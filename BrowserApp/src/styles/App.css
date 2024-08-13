@@ -1,0 +1,408 @@
+@charset "UTF-8";
+* {
+  color: #323232;
+  font-family: "Kadwa";
+}
+
+.homePageNavbarConteiner {
+  overflow: hidden;
+  display: flex;
+}
+.homePageNavbarConteiner .leftHomePageNavbar {
+  width: 15%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .profile {
+  width: 100%;
+  background-color: rgba(217, 217, 217, 0.5);
+  padding-top: 30px;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .profile .profileImgConteiner {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .profile .profileImgConteiner .profileImg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  border-radius: 50%;
+  height: 180px;
+  width: 180px;
+  background-color: #424242;
+  overflow: hidden;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .profile .profileEmail {
+  width: 100%;
+  left: -1px;
+  top: 176px;
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 36px;
+  text-align: center;
+  margin: 0px;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  background-color: rgba(217, 217, 217, 0.5);
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles {
+  width: 100%;
+  min-height: 350px;
+  background-repeat: no-repeat;
+  background-position: center right;
+  background-size: 150%;
+  background-image: url(../assetModules/svgs/penAndLineSvg.svg);
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings {
+  background-image: url(../assetModules/svgs/gearSvg.svg);
+  width: 100%;
+  background-size: 130%;
+  background-position: right top;
+  min-height: 350px;
+  background-repeat: no-repeat;
+}
+.homePageNavbarConteiner .rightHomePage {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg {
+  height: 100%;
+  display: flex;
+  background-color: rgba(217, 217, 217, 0.5);
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .desktopWithFiles {
+  display: grid;
+  overflow: auto;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(6, 180px);
+  gap: 60px;
+  padding: 3% 12% 5% 3%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 85%;
+  border-top-left-radius: 50px;
+  background-color: #1e1e1e;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .desktopWithFiles::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteiner {
+  height: 180.4px;
+  width: 220px;
+  background-color: #d9d9d9;
+  border-radius: 20px;
+  padding: 10px;
+  transition: 0.4s all cubic-bezier(0.53, -0.35, 0.16, 1.53);
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteiner .fileIconName {
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 50px;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteiner .fileIconType {
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 10px;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteiner:hover {
+  transform: scale(1.04);
+}
+.homePageNavbarConteiner .rightHomePage .upperRightHomePageNavbar {
+  display: flex;
+  height: 80px;
+  background-color: rgba(217, 217, 217, 0.5);
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+.homePageNavbarConteiner .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar {
+  padding-right: 10px;
+  display: flex;
+  width: 400px;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@keyframes changecolor {
+  0% {
+    color: #1e1e1e;
+    transition: 1s all ease;
+  }
+  100% {
+    color: #bfbfbf;
+  }
+}
+.scroll {
+  overflow-y: auto;
+}
+.scroll::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.Name {
+  font-size: 30px;
+}
+
+.centerDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.centerDiv * {
+  text-align: center;
+  color: rgb(211, 211, 211);
+}
+
+.penSvg {
+  position: relative; /* Необхідно для правильного позиціонування псевдоелемента */
+  display: inline-block;
+  cursor: pointer; /* Щоб підказка виглядала як інтерактивний елемент */
+}
+
+.penSvg::after {
+  content: "Edit"; /* Текст підказки */
+  position: absolute;
+  bottom: 100%; /* Розташовує підказку над SVG */
+  left: 50%;
+  transform: translateX(-50%); /* Вирівнює підказку по центру */
+  background-color: black;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+  white-space: nowrap; /* Забезпечує, щоб текст не перетворювався на декілька рядків */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s; /* Плавний перехід */
+}
+
+.penSvg:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ContainerOfNavbar {
+  background-color: #313131;
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+.ContainerOfNavbar .verticalNavbar {
+  background-color: #313131;
+  width: 15%;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  flex-direction: column;
+  flex-direction: column;
+}
+.ContainerOfNavbar .verticalNavbar .menu {
+  padding: 10px;
+  height: 50%;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  justify-content: space-around;
+}
+.ContainerOfNavbar .rightSideNavbar {
+  width: 85%;
+  height: 100%;
+}
+.ContainerOfNavbar .rightSideNavbar .upperRightNavbar {
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 10px;
+}
+.ContainerOfNavbar .rightSideNavbar .upperRightNavbar .nameOfFile {
+  font-family: "Kadwa";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 60px;
+  color: #a6a6a6;
+  text-align: center;
+}
+.ContainerOfNavbar .rightSideNavbar .fileContent {
+  font-size: 27px;
+  color: #a6a6a6;
+  height: 100%;
+  border-top-left-radius: 50px;
+  background-color: #a6a6a6;
+  height: 100%;
+  background-color: #1E1E1E;
+  padding: 40px;
+}
+
+.texarea {
+  color: #bfbfbf;
+  transition: all ease 1s;
+  padding: 20px;
+  font-size: 25px;
+  resize: none;
+  outline: none;
+  background-color: transparent;
+  display: block;
+  width: 90%;
+  height: 100%;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  unicode-bidi: isolate;
+  white-space: pre-wrap;
+  outline: none;
+  border-width: 0px;
+}
+.texarea::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+.texarea:focus {
+  border: 0px;
+  outline: none;
+  resize: none;
+  border: 0px;
+}
+.texarea:active {
+  border: 0px;
+  outline: none;
+  resize: none;
+  border: 0px;
+}
+.texarea:disabled {
+  border: 0px;
+  outline: none;
+  resize: none;
+  border: 0px;
+}
+
+.todo {
+  color: #bfbfbf;
+  transition: all ease 1s;
+  padding: 20px;
+  font-size: 25px;
+  width: 90%;
+  height: 100%;
+  resize: none;
+  outline: none;
+  background-color: transparent;
+  display: block;
+  width: 90%;
+  height: 100%;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+.li * {
+  color: #bfbfbf;
+  transition: all ease 0.5s;
+  font-size: 25px;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+.li {
+  height: 80px;
+  padding: 10px;
+  color: #bfbfbf;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.divindiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.divdiv {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+.circle {
+  width: 30px;
+  height: 30px;
+  background-color: #bfbfbf;
+  border-radius: 50%;
+}
+
+.span {
+  margin-left: 20px;
+}
+
+.checkList {
+  padding: 50px;
+  color: #bfbfbf;
+}
+
+.checkLisList {
+  color: #bfbfbf;
+}
+
+.caption {
+  color: #bfbfbf;
+  font-size: 30px;
+}
+
+.checkLi {
+  color: #bfbfbf;
+  font-size: 25px;
+}
+
+.spbtw {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contic {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+* {
+  font-size: 20px;
+}
+
+.table {
+  padding: 20px;
+}
+
+.table * {
+  color: #bfbfbf;
+  font-size: 25px;
+}/*# sourceMappingURL=App.css.map */

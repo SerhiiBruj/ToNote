@@ -1,0 +1,57 @@
+$navbg: #313131;
+$textColor: #a6a6a6;
+$Contensbg:#1E1E1E;
+.ContainerOfNavbar {
+    background-color: $navbg;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    .verticalNavbar {
+        background-color: $navbg;
+        width: 15%;
+        display: flex;
+        height: 100%;
+        align-items: center;
+        flex-direction: column;
+        flex-direction: column;
+        .menu {
+            padding: 10px;
+            height: 50%;
+            align-items: center;
+            flex-direction: column;
+            display: flex;
+            justify-content: space-around;
+        }
+    }
+    .rightSideNavbar {
+        width: 85%;
+        height: 100%;
+        .upperRightNavbar {
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-right: 10px;
+            .nameOfFile {
+                font-family: "Kadwa";
+                font-style: normal;
+                font-weight: 400;
+                font-size: 30px;
+                line-height: 60px;
+                color: $textColor;
+                text-align: center;
+            }
+        }
+        .fileContent{
+            font-size: 27px;
+            color: $textColor;
+            height: 100%;
+            border-top-left-radius: 50px;
+            background-color: $textColor;
+            height: 100%;
+            background-color: $Contensbg;
+            padding: 40px;
+        }
+    }
+  
+}
