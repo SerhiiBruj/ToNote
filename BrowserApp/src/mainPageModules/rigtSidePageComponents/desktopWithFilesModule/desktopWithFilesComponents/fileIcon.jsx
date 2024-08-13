@@ -14,7 +14,7 @@ const FileIcon = (props) => {
 
   useEffect(() => {
     if (boolAnimate) {
-      ref.current.style.transition = "all ease 1s";
+      ref.current.style.transition = "all ease 0.6s";
       ref.current.style.opacity = "0%";
       ref.current.style.transform = "scale(0)";
     }
@@ -26,7 +26,6 @@ const FileIcon = (props) => {
     else setPage(location.pathname.split("/")[1]);
 
     if (page !== "Home" && ref.current) {
-      ref.current.style.transition = "all ease 1s";
       ref.current.style.opacity = "0%";
       ref.current.style.transform = "scale(0)";
     } else if (page === "Home" && ref.current) {
@@ -48,8 +47,8 @@ const FileIcon = (props) => {
         dispatch(doAnimate());
         setTimeout(() => {
           navigate(`${props.type}/${props.name}`);
-        }, 400);
-      }, 300);
+        }, 200);
+      }, 400);
     }
   };
 

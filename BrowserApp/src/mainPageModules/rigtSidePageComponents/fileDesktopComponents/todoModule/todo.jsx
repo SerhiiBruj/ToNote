@@ -20,12 +20,11 @@ const Todo = () => {
     ref.current.style.opacity = 1;
 
     if (localStorage.getItem(typeName)) {
-      let savedData=localStorage.getItem(typeName);
+      let savedData = localStorage.getItem(typeName);
       setData(JSON.parse(savedData));
     }
   }, []);
   useEffect(() => {
-   
     if (isEditable) {
       const lastIndex = textAreaRefs.current.length - 1;
       textAreaRefs.current[lastIndex]?.focus();
@@ -54,32 +53,33 @@ const Todo = () => {
   return (
     <div className="todo" ref={ref}>
       <ol>
-        {isEditable ? (
-          <>
-            {data.map((todo, index) => (
-              <li className="li" key={index}>
-                <div className="divdiv">
-                  <Circle size={30} color={"#bfbfbf"} />
-                  <textarea
-                    className="texarea"
-                    value={todo}
-                    onChange={(event) => handleTextChange(event, index)}
-                    autoFocus
-                    rows="1"
-                    cols="50"
-                    ref={(el) => (textAreaRefs.current[index] = el)}
-                  />
+        <>
+          {data.map((todo, index) => (
+            <li className="li" key={index}>
+              <div className="divdiv">
+                <Circle size={30} color={"#bfbfbf"} />
+                <textarea
+                  className="texarea"
+                  disabled={isEditable ? false : true}
+                  value={todo}
+                  onChange={(event) => handleTextChange(event, index)}
+                  autoFocus
+                  rows="1"
+                  cols="50"
+                  ref={(el) => (textAreaRefs.current[index] = el)}
+                />
+              </div>
+              <div className="divindiv">
+                <div>
+                  <BellsIcon size={1.5} />
                 </div>
-                <div className="divindiv">
-                  <div>
-                    <BellsIcon size={1.5} />
-                  </div>
-                  <div onClick={() => handleDelete(index)}>
-                    <BinIcon size={1} color={"#bfbfbf"} />
-                  </div>
+                <div onClick={() => handleDelete(index)}>
+                  <BinIcon size={1} color={"#bfbfbf"} />
                 </div>
-              </li>
-            ))}
+              </div>
+            </li>
+          ))}
+          {isEditable && (
             <div className="li">
               <div className="divdiv">
                 <Circle size={30} color={"#bfbfbf"} />
@@ -92,27 +92,8 @@ const Todo = () => {
                 />
               </div>
             </div>
-          </>
-        ) : (
-          <>
-            {data.map((todo, index) => (
-              <li className="li" key={index}>
-                <div className="divdiv">
-                  <Circle size={30} color={"#bfbfbf"} />
-                  <span className="span">{todo}</span>
-                </div>
-                <div className="divindiv">
-                  <div>
-                    <BellsIcon size={1.5} />
-                  </div>
-                  <div onClick={() => handleDelete(index)}>
-                    <BinIcon size={1} color={"#bfbfbf"} />
-                  </div>
-                </div>
-              </li>
-            ))}
-          </>
-        )}
+          )}
+        </>
       </ol>
     </div>
   );

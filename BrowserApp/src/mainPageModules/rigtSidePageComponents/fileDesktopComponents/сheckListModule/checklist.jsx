@@ -51,11 +51,11 @@ const ChecklistModule = () => {
       {data.map((checklist, index) => (
         <ul key={index} className="checkLisList">
           <div className="spbtw">
-            {!isEditable ? (
-              <h3 className="caption">{checklist.p}</h3>
-            ) : (
-              <textarea className="caption texarea" value={checklist.p} />
-            )}
+            <textarea
+              className="caption texarea"
+              disabled={!isEditable}
+              value={checklist.p}
+            />
             <div style={{ display: "flex" }}>
               <BellsIcon size={1.2} />
               <div onClick={() => handleDelete(index)}>
@@ -65,20 +65,17 @@ const ChecklistModule = () => {
           </div>
           {checklist.desc.map((li, idx) => (
             <li key={idx} className="checkLi">
-              {!isEditable ? (
-                <>{li}</>
-              ) : (
-                <textarea
-                  value={li}
-                  onChange={(e) => handleChangeDesc(e, index, idx)}
-                  className="texarea checkLi"
-                  style={{
-                    padding: 0,
-                    height: 25,
-                    margin: 0,
-                  }}
-                />
-              )}
+              <textarea
+                value={li}
+                disabled={!isEditable}
+                onChange={(e) => handleChangeDesc(e, index, idx)}
+                className="texarea checkLi"
+                style={{
+                  padding: 0,
+                  height: 25,
+                  margin: 0,
+                }}
+              />
             </li>
           ))}
         </ul>

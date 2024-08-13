@@ -9,6 +9,7 @@ import ChecklistModule from "./mainPageModules/rigtSidePageComponents/fileDeskto
 import Table from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/tableModule/table.jsx";
 import Todo from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/todoModule/todo.jsx";
 import ErrorOnRoute from "./TestModules/ErrorOnRoute.jsx";
+import Diary from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/diaryModule/diary.jsx";
 
 function App() {
   return (
@@ -20,11 +21,8 @@ function App() {
         <Route path="note/:name" element={<Note />} />
         <Route path="todo/:name" element={<Todo />} />
         <Route path="table/:name" element={<Table />} />
-        <Route
-          path="checklist/:name"
-          errorElement={<ErrorOnRoute />}
-          element={<ChecklistModule />}
-        />
+        <Route path="Diary/:name" element={<Diary />} />
+        <Route path="checklist/:name" element={<ChecklistModule />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/404" replace />} />
@@ -34,3 +32,6 @@ function App() {
 }
 
 export default App;
+
+
+// errorElement={<ErrorOnRoute/>} 

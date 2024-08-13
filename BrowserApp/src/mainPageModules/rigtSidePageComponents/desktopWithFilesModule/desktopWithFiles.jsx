@@ -18,6 +18,8 @@ const DesktopWithFiles = () => {
           <FileIcon name={"type"} type={"table"} />
           <FileIcon name={"v"} type={"dashboard"} />
           <FileIcon name={"div"} type={"checklist"} />
+          <FileIcon name={"Development"} type={"diary"} />
+          
         </div>
 
       </div>

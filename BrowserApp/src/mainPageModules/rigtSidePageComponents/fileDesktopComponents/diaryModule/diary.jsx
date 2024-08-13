@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 
-const Note = () => {
+const Diary = () => {
   const [text, setText] = useState("");
   const isEditable = useSelector((state) => state.isEditable.value);
   const textareaRef = useRef(null);
@@ -10,11 +10,16 @@ const Note = () => {
   const typeName = location.pathname.split("/").slice(2).join("/");
 
   useEffect(() => {
-    const savedText = localStorage.getItem(typeName);
-    if (savedText) {
-      setText(savedText);
+    try {
+      const savedText = localStorage.getItem(typeName);
+      if (savedText) {
+        setText(savedText);
+      }
+    } catch (error) {
+      console.error("Failed to load saved text from localStorage:", error.message);
     }
   }, [typeName]);
+  
 
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -22,13 +27,14 @@ const Note = () => {
       textarea.style.height = "auto";
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
-  }, [text]); // Оновлення висоти при зміні тексту
-
+  }, [text]);
+  
   const handleTextChange = useCallback((event) => {
     const newText = event.target.value;
     setText(newText);
     localStorage.setItem(typeName, newText);
   }, [typeName]);
+  
 
   return (
     <div style={{ height: "90%", paddingLeft: 50 }}>
@@ -47,4 +53,4 @@ const Note = () => {
   );
 };
 
-export default Note;
+export default Diary;
