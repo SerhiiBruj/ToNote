@@ -31,18 +31,20 @@ const ChecklistModule = () => {
           .map((li) => li.trim())
           .filter((desc) => desc !== ""),
       }));
-      setData(correctedData);
-    }
-    else{
+      let corected = correctedData.filter((checklist) => {
+        if(checklist.p !== ""&&checklist.desc[0] !== "") return checklist
+      });
+      setData(corected);
+    } else {
       const newData = data.map((checklist) => ({
         ...checklist,
-        desc: [...checklist.desc,'']
+        desc: [...checklist.desc, ""],
       }));
       newData.push({
-        p:"",
-        desc:['']
-      })
-      setData(newData)
+        p: "",
+        desc: [""],
+      });
+      setData(newData);
     }
   }, [isEditable]);
 
@@ -79,8 +81,6 @@ const ChecklistModule = () => {
     [data, updateData]
   );
 
-  
-
   const handleChangeP = useCallback(
     (e, index) => {
       const newData = data.map((item, idx) => {
@@ -93,8 +93,6 @@ const ChecklistModule = () => {
     },
     [data, updateData]
   );
-
-  
 
   return (
     <div className="checkList">
@@ -131,10 +129,8 @@ const ChecklistModule = () => {
               />
             </li>
           ))}
-         
         </ul>
       ))}
-     
     </div>
   );
 };
