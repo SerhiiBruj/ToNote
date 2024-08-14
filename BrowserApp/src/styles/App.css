@@ -69,6 +69,16 @@
   background-size: 150%;
   background-image: url(../assetModules/svgs/penAndLineSvg.svg);
 }
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .FileInNavbar {
+  box-sizing: border-box;
+  border-top: #cfcfcf 5px solid;
+  border-bottom: #cfcfcf 5px solid;
+  background-color: rgba(160, 160, 160, 0.6980392157);
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings {
   background-image: url(../assetModules/svgs/gearSvg.svg);
   width: 100%;
@@ -83,6 +93,7 @@
   width: 85%;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg {
+  overflow: auto;
   height: 100%;
   display: flex;
   background-color: rgba(217, 217, 217, 0.5);
@@ -164,6 +175,7 @@
 
 .Name {
   font-size: 30px;
+  text-decoration: none;
 }
 
 .peni {
@@ -171,6 +183,22 @@
   height: min-content;
   display: flex;
   align-items: center;
+  text-decoration: none;
+}
+
+.activeNav {
+  text-decoration: none;
+  background-color: #123123;
+}
+.activeNav p {
+  text-decoration: none;
+}
+
+.inactiveNav {
+  text-decoration: none;
+}
+.inactiveNav p {
+  text-decoration: none;
 }
 
 .centerDiv {

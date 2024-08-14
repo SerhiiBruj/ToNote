@@ -1,12 +1,15 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
 
 const BackLeafIcon = (props) => {
-  const navigate =useNavigate()
+  const navigate = useNavigate();
   return (
-    <svg  onClick={()=>{navigate(-1); }}
+    <svg
+      onClick={() => {
+        navigate("/Home");
+      }}
       width={props.size * 155}
-      height={props.size * 78}
+      height={ props.size * 78}
       viewBox="0 0 155 78"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

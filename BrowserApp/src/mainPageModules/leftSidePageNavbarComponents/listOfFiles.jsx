@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 
 const ListOfFiles = () => {
   const [items, setItems] = useState([]);
@@ -13,7 +14,18 @@ const ListOfFiles = () => {
   return (
     <div className="listOfFiles">
       {items.map((item) => (
-        <p key={item.key}>{item.key}</p>
+        <>
+          <NavLink
+            className={({ isActive }) =>
+              `${isActive ? "activeNav" : "inactiveNav"} navLink`
+            }
+            to={`${item.key}`}
+          >
+            <div className="FileInNavbar">
+              <p key={item.key}>{item.key}</p>
+            </div>
+          </NavLink>
+        </>
       ))}
     </div>
   );
