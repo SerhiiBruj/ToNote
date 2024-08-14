@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import LogoIcon from "../../../assetModules/svgs/logo";
 import ShareIcon from "../../../assetModules/svgs/share";
 import BinIcon from "../../../assetModules/svgs/bin";
@@ -39,6 +39,7 @@ const UpperRightHomePgeNavbar = () => {
 
       <div className="upperRightRightsectionHomePageNavbar">
         <div
+        className="peni"
           onClick={() => {
             if (location.pathname.split("/")[3]) dispatch(edit());
           }}

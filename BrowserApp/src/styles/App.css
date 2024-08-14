@@ -166,6 +166,13 @@
   font-size: 30px;
 }
 
+.peni {
+  height: -moz-min-content;
+  height: min-content;
+  display: flex;
+  align-items: center;
+}
+
 .centerDiv {
   display: flex;
   align-items: center;

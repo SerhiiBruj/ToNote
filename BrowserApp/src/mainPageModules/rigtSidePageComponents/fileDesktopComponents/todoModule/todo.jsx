@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BinIcon from "../../../../assetModules/svgs/bin";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
 import Circle from "../../../../assetModules/noSvg/circle";
-import isEditable from "../../../../redux/isEditable";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
@@ -23,7 +22,8 @@ const Todo = () => {
       let savedData = localStorage.getItem(typeName);
       setData(JSON.parse(savedData));
     }
-  }, []);
+  }, [typeName]);
+  
   useEffect(() => {
     if (isEditable) {
       const lastIndex = textAreaRefs.current.length - 1;

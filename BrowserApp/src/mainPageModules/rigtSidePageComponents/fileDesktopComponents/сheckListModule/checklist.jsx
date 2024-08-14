@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import BinIcon from "../../../../assetModules/svgs/bin";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
-import PenIcon from "../../../../assetModules/svgs/pen";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
@@ -46,16 +45,52 @@ const ChecklistModule = () => {
     localStorage.setItem(typeName, JSON.stringify(newData));
   };
 
+
+  const handleChangeAddNewDesc = (e, index) => {
+    const newData = data.map((item, i) => {
+      if (i === index) {
+        return {
+          ...item,
+          desc: [...item.desc, e.target.value]
+        };
+      }
+      return item;
+    });
+    setData(newData);
+    localStorage.setItem(typeName, JSON.stringify(newData));
+  };
+  
+
+
+  const handleChangeP = (e, index) => {
+    const newData = data.map((item, idx) => {
+      if (idx === index) {
+        return { ...item, p: e.target.value };
+      }
+      return item;
+    });
+    setData(newData);
+    localStorage.setItem(typeName, JSON.stringify(newData));
+  };
+
+  const handleAddNewChecklistItem = (e) => {
+    const newChecklistItem = { p: e.target.value, desc: [""] };
+    setData([...data, newChecklistItem]);
+    e.target.value = ""; // Очистка значення textarea
+  };
+
   return (
     <div className="checkList">
       {data.map((checklist, index) => (
         <ul key={index} className="checkLisList">
           <div className="spbtw">
             <textarea
+              onChange={(e) => handleChangeP(e, index)}
               className="caption texarea"
               disabled={!isEditable}
               value={checklist.p}
             />
+
             <div style={{ display: "flex" }}>
               <BellsIcon size={1.2} />
               <div onClick={() => handleDelete(index)}>
@@ -78,8 +113,53 @@ const ChecklistModule = () => {
               />
             </li>
           ))}
+          {isEditable&&<li className="checkLi">
+              <textarea
+                disabled={!isEditable}
+                onChange={(e,index) => handleChangeAddNewDesc(e,index)}
+                className="texarea checkLi"
+                style={{
+                  padding: 0,
+                  height: 25,
+                  margin: 0,
+                }}
+              />
+            </li>}
         </ul>
       ))}
+      {isEditable ? (
+        <ul>
+          <div className="spbtw">
+            <textarea
+              onChange={(event) => handleAddNewChecklistItem(event)}
+              className="caption texarea"
+              disabled={!isEditable}
+              style={{
+                boxShadow: "inset gray 10px -18px 0px -10px",
+              }}
+            />
+
+            <div style={{ display: "flex" }}>
+              <BellsIcon size={1.2} />
+              <div>
+                <BinIcon size={0.8} color={"#bfbfbf"} />
+              </div>
+            </div>
+          </div>
+          <li className="checkLi">
+            <textarea
+              disabled={!isEditable}
+              className="texarea checkLi"
+              style={{
+                padding: 0,
+                height: 25,
+                margin: 0,
+                boxShadow: "gray -20px 18px 0px -10px",
+              }}
+            />
+          </li>
+        </ul>
+      ) : null}
     </div>
   );
 };
