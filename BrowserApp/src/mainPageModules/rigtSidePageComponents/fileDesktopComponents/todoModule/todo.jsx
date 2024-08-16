@@ -7,48 +7,65 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 const Todo = () => {
-  const [data, setData] = useState([]);
   const isEditable = useSelector((state) => state.isEditable.value);
   const location = useLocation();
-  let typeName = location.pathname.split("/").slice(2).join("/");
-
-  useEffect(() => {
-    if (localStorage.getItem(typeName)) {
-      let savedData = localStorage.getItem(typeName);
-      setData(JSON.parse(savedData));
-    }
-  }, [typeName]);
-
-  
+  const typeName = location.pathname.split("/").slice(2).join("/");
+  const [data, setData] = useState([]);
+  const updateLocalStorage = (newData, typeName) => {
+    localStorage.setItem(typeName, JSON.stringify(newData));
+  };
   useEffect(() => {
     if (isEditable) {
       const newData = [...data, ""];
       setData(newData);
-      localStorage.setItem(typeName,newData)
+      // updateLocalStorage(newData);
     } else {
       const newData = data
-        .map((todo) => (todo.trim() ? todo : null)) 
-        .filter(Boolean); 
-  
+        .map((todo) => todo.trim())
+        .filter((todo) => todo !== "");
       setData(newData);
-      localStorage.setItem(typeName,newData)
+      updateLocalStorage(newData);
     }
-  }, [isEditable]);
-  
+  }, [isEditable, typeName]);
 
-  const handleDelete = useCallback((index) => {
-    const newData = data.filter((_, i) => i !== index);
-    setData(newData);
-    localStorage.setItem(typeName, JSON.stringify(newData));
-  });
+  useEffect(() => {
+    const savedData = localStorage.getItem(typeName);
+    if (savedData) {
+      setData(JSON.parse(localStorage.getItem(typeName)));
+    } else {
+      setData([""]);
+    }
+  }, []);
 
-  const handleTextChange = useCallback((e, i) => {
-    let newTodo = [...data];
-    newTodo[i] = e.target.value;
-    setData(newTodo);
-    localStorage.setItem(typeName, JSON.stringify(newTodo));
-    e.target.value = "";
-  });
+  const handleDelete = useCallback(
+    (index) => {
+      const newData = data.filter((_, i) => i !== index);
+      setData(newData);
+      updateLocalStorage(newData);
+    },
+    [data, setData, typeName]
+  );
+
+  const handleTextChange = useCallback(
+    (e, i) => {
+      const newTodo = [...data];
+      newTodo[i] = e.target.value;
+      setData(newTodo);
+      updateLocalStorage(newTodo);
+
+      if (
+        newTodo[i].trim() !== "" &&
+        !newTodo.some((todo) => todo.trim() === "")
+      ) {
+        setData((prevData) => {
+          const updatedData = [...prevData, ""];
+          updateLocalStorage(updatedData);
+          return updatedData;
+        });
+      }
+    },
+    [data, setData]
+  );
 
   return (
     <div className="todo">
@@ -71,7 +88,7 @@ const Todo = () => {
                 <div>
                   <BellsIcon size={1.5} />
                 </div>
-                <div onClick={() => handleDelete(index)}>
+                <div onClick={() =>{if(todo) handleDelete(index)}}>
                   <BinIcon size={1} color={"#bfbfbf"} />
                 </div>
               </div>

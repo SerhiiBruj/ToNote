@@ -13,6 +13,7 @@ const UpperRightHomePgeNavbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   useEffect(() => {
+
     if (location.pathname.split("/")[3])
       setPage(location.pathname.split("/")[3]);
     else setPage(location.pathname.split("/")[1]);

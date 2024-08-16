@@ -69,6 +69,26 @@
   background-size: 150%;
   background-image: url(../assetModules/svgs/penAndLineSvg.svg);
 }
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .activeNav {
+  transition: all ease 0.5s;
+  text-decoration: none;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .activeNav .FileInNavbar {
+  background-color: #b96363;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .activeNav .FileInNavbar p {
+  color: #a6a6a6;
+  text-decoration: none;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .inactiveNav {
+  text-decoration: none;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .inactiveNav .FileInNavbar {
+  background-color: #424242;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .inactiveNav .FileInNavbar p {
+  text-decoration: none;
+}
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .FileInNavbar {
   box-sizing: border-box;
   border-top: #cfcfcf 5px solid;
@@ -98,7 +118,14 @@
   display: flex;
   background-color: rgba(217, 217, 217, 0.5);
 }
-.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .desktopWithFiles {
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll {
+  overflow-y: auto;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles {
   display: grid;
   overflow: auto;
   grid-template-columns: repeat(4, 1fr);
@@ -112,11 +139,11 @@
   border-top-left-radius: 50px;
   background-color: #1e1e1e;
 }
-.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .desktopWithFiles::-webkit-scrollbar {
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles::-webkit-scrollbar {
   width: 0px;
   height: 0px;
 }
-.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteiner {
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner {
   height: 180.4px;
   width: 220px;
   background-color: #d9d9d9;
@@ -124,19 +151,19 @@
   padding: 10px;
   transition: 0.4s all cubic-bezier(0.53, -0.35, 0.16, 1.53);
 }
-.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteiner .fileIconName {
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner .fileIconName {
   font-family: "Kadwa";
   font-weight: 700;
   font-size: 30px;
   line-height: 50px;
 }
-.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteiner .fileIconType {
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner .fileIconType {
   font-family: "Kadwa";
   font-weight: 700;
   font-size: 20px;
   line-height: 10px;
 }
-.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteiner:hover {
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner:hover {
   transform: scale(1.04);
 }
 .homePageNavbarConteiner .rightHomePage .upperRightHomePageNavbar {
@@ -155,6 +182,13 @@
   justify-content: space-between;
   align-items: center;
 }
+.homePageNavbarConteiner .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar div {
+  height: -moz-min-content;
+  height: min-content;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
 
 @keyframes changecolor {
   0% {
@@ -165,39 +199,8 @@
     color: #bfbfbf;
   }
 }
-.scroll {
-  overflow-y: auto;
-}
-.scroll::-webkit-scrollbar {
-  width: 0px;
-  height: 0px;
-}
-
 .Name {
   font-size: 30px;
-  text-decoration: none;
-}
-
-.peni {
-  height: -moz-min-content;
-  height: min-content;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-}
-
-.activeNav {
-  text-decoration: none;
-  background-color: #123123;
-}
-.activeNav p {
-  text-decoration: none;
-}
-
-.inactiveNav {
-  text-decoration: none;
-}
-.inactiveNav p {
   text-decoration: none;
 }
 

@@ -32,7 +32,7 @@ const ChecklistModule = () => {
           .filter((desc) => desc !== ""),
       }));
       let corected = correctedData.filter((checklist) => {
-        if(checklist.p !== ""&&checklist.desc[0] !== "") return checklist
+        if (checklist.p !== "" && checklist.desc[0] !== "") return checklist;
       });
       setData(corected);
     } else {
