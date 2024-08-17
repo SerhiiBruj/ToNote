@@ -1,4 +1,3 @@
-import React from 'react'
 import UnknownUserIcon from '../../assetModules/svgs/unknownUser'
 import PenIcon from '../../assetModules/svgs/pen'
 

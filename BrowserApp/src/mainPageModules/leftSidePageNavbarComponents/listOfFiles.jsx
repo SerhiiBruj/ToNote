@@ -9,7 +9,7 @@ const ListOfFiles = () => {
       key,
     }));
     setItems(items);
-  }, []);
+  }, [localStorage.keys]);
 
   return (
     <div className="listOfFiles">

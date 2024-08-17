@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
@@ -7,7 +7,9 @@ const Note = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
   const textareaRef = useRef(null);
   const location = useLocation();
-  const typeName = location.pathname.split("/").slice(2).join("/");
+  const typeName = useMemo(() => {
+    return location.pathname.split("/").slice(2).join("/");
+  }, [location.pathname]);
 
   useEffect(() => {
     const savedText = localStorage.getItem(typeName);

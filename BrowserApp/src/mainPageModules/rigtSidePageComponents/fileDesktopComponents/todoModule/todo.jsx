@@ -1,47 +1,42 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import BinIcon from "../../../../assetModules/svgs/bin";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
 import Circle from "../../../../assetModules/noSvg/circle";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import useLocalStorage from "../../../../hooks/useLocalStorage";
 
 const Todo = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
   const location = useLocation();
-  const typeName = location.pathname.split("/").slice(2).join("/");
-  const [data, setData] = useState([]);
+  const typeName = useMemo(() => {
+    return location.pathname.split("/").slice(2).join("/");
+  }, [location.pathname]);
+  const [data, setData] = useLocalStorage(typeName, []);
   const updateLocalStorage = (newData, typeName) => {
     localStorage.setItem(typeName, JSON.stringify(newData));
   };
+
   useEffect(() => {
     if (isEditable) {
       const newData = [...data, ""];
       setData(newData);
-      // updateLocalStorage(newData);
+      updateLocalStorage(newData, typeName); // додано typeName
     } else {
       const newData = data
         .map((todo) => todo.trim())
         .filter((todo) => todo !== "");
       setData(newData);
-      updateLocalStorage(newData);
+      updateLocalStorage(newData, typeName); // додано typeName
     }
   }, [isEditable, typeName]);
-
-  useEffect(() => {
-    const savedData = localStorage.getItem(typeName);
-    if (savedData) {
-      setData(JSON.parse(localStorage.getItem(typeName)));
-    } else {
-      setData([""]);
-    }
-  }, []);
 
   const handleDelete = useCallback(
     (index) => {
       const newData = data.filter((_, i) => i !== index);
       setData(newData);
-      updateLocalStorage(newData);
+      updateLocalStorage(newData, typeName); // додано typeName
     },
     [data, setData, typeName]
   );
@@ -51,7 +46,7 @@ const Todo = () => {
       const newTodo = [...data];
       newTodo[i] = e.target.value;
       setData(newTodo);
-      updateLocalStorage(newTodo);
+      updateLocalStorage(newTodo, typeName); 
 
       if (
         newTodo[i].trim() !== "" &&
@@ -59,12 +54,12 @@ const Todo = () => {
       ) {
         setData((prevData) => {
           const updatedData = [...prevData, ""];
-          updateLocalStorage(updatedData);
+          updateLocalStorage(updatedData, typeName);
           return updatedData;
         });
       }
     },
-    [data, setData]
+    [data, setData, typeName]
   );
 
   return (
@@ -88,7 +83,11 @@ const Todo = () => {
                 <div>
                   <BellsIcon size={1.5} />
                 </div>
-                <div onClick={() =>{if(todo) handleDelete(index)}}>
+                <div
+                  onClick={() => {
+                    if (todo) handleDelete(index);
+                  }}
+                >
                   <BinIcon size={1} color={"#bfbfbf"} />
                 </div>
               </div>

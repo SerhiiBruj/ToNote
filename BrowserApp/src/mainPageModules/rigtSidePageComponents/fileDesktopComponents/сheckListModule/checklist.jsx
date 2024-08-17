@@ -5,13 +5,6 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 
-/**
- * Checklist module component for managing checklist items.
- * Manages adding, deleting, and updating checklist items and their descriptions.
- * Uses local storage to persist checklist data.
- * @returns {JSX.Element} Checklist module component
- */
-
 const ChecklistModule = () => {
   const location = useLocation();
   const typeName = useMemo(() => {
@@ -76,6 +69,9 @@ const ChecklistModule = () => {
         }
         return item;
       });
+      if (!newData[index].desc.some((li) => li.trim() === "")) {
+        newData[index].desc.push("");
+      }
       updateData(newData);
     },
     [data, updateData]
@@ -98,13 +94,23 @@ const ChecklistModule = () => {
     <div className="checkList">
       {data.map((checklist, index) => (
         <ul key={index} className="checkLisList">
-          <div className="spbtw">
+          <div
+            className="spbtw"
+            style={{
+              borderBottom: !checklist.p && "5px solid gray",
+            }}
+          >
             <textarea
               ref={(el) => (textareaRefs.current[index * 100] = el)}
               onChange={(e) => handleChangeP(e, index)}
               className="caption texarea"
               disabled={!isEditable}
               value={checklist.p}
+              style={{
+                padding: 10,
+                height: 50,
+                margin: 0,
+              }}
             />
             <div style={{ display: "flex" }}>
               <BellsIcon size={1.2} />
@@ -114,7 +120,7 @@ const ChecklistModule = () => {
             </div>
           </div>
           {checklist.desc.map((li, idx) => (
-            <li key={idx} className="checkLi">
+            <li key={idx} className="checkLi" style={{paddingTop:20}}>
               <textarea
                 ref={(el) => (textareaRefs.current[index * 100 + idx + 1] = el)}
                 value={li}
@@ -122,8 +128,11 @@ const ChecklistModule = () => {
                 onChange={(e) => handleChangeDesc(e, index, idx)}
                 className="texarea checkLi"
                 style={{
-                  padding: 0,
-                  height: 25,
+                  borderBottom: !li && "5px solid gray",
+                  minWidth: "30%",
+                  maxWidth: "fit-content",
+                  padding: 5,
+                  height: 30,
                   margin: 0,
                 }}
               />
