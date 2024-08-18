@@ -18,7 +18,7 @@
 }
 .homePageNavbarConteiner .leftHomePageNavbar .profile {
   width: 100%;
-  background-color: rgba(217, 217, 217, 0.5);
+  background-color: rgba(217, 217, 217, 0.5019607843);
   padding-top: 30px;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .profile .profileImgConteiner {
@@ -52,7 +52,7 @@
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
-  background-color: rgba(217, 217, 217, 0.5);
+  background-color: rgba(217, 217, 217, 0.5019607843);
   width: 100%;
   height: 100%;
   overflow-y: scroll;
@@ -113,7 +113,7 @@
   overflow: auto;
   height: 100%;
   display: flex;
-  background-color: rgba(217, 217, 217, 0.5);
+  background-color: rgba(217, 217, 217, 0.5019607843);
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll {
   overflow-y: auto;
@@ -166,7 +166,7 @@
 .homePageNavbarConteiner .rightHomePage .upperRightHomePageNavbar {
   display: flex;
   height: 80px;
-  background-color: rgba(217, 217, 217, 0.5);
+  background-color: rgba(217, 217, 217, 0.5019607843);
   width: 100%;
   justify-content: space-between;
   align-items: center;

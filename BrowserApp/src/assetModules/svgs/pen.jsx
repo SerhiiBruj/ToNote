@@ -1,14 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { editPayload } from "../../redux/isEditable";
 
 const PenIcon = (props) => {
   const [roll, setRoll] = useState(true);
   const location = useLocation();
+  const dispatch=useDispatch();
   const page =location.pathname; 
   const ref = useRef();
   useEffect(() => {
     setRoll(true);
     ref.current.style.transform = "scaleX(-1)";
+    dispatch(editPayload(false))
   }, [page]);
 
   return (

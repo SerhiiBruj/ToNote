@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 
+const urlRegex  = /(https?:\/\/[^\s]+)/g;
+
 const ChecklistModule = () => {
   const location = useLocation();
   const typeName = useMemo(() => {
@@ -90,6 +92,18 @@ const ChecklistModule = () => {
     [data, updateData]
   );
 
+  const renderTextWithLinks = useCallback((text) => {
+    return text.split(urlRegex).map((part, index) =>
+      urlRegex.test(part) ? (
+        <a href={part} key={index} style={{color:'inherit',fontSize:25}} target="_blank" rel="noopener noreferrer">
+          {part}
+        </a>
+      ) : (
+        part
+      )
+    );
+  }, []);
+
   return (
     <div className="checkList">
       {data.map((checklist, index) => (
@@ -104,6 +118,7 @@ const ChecklistModule = () => {
               ref={(el) => (textareaRefs.current[index * 100] = el)}
               onChange={(e) => handleChangeP(e, index)}
               className="caption texarea"
+              placeholder="Type in"
               disabled={!isEditable}
               value={checklist.p}
               style={{
@@ -121,21 +136,33 @@ const ChecklistModule = () => {
           </div>
           {checklist.desc.map((li, idx) => (
             <li key={idx} className="checkLi" style={{paddingTop:20}}>
-              <textarea
-                ref={(el) => (textareaRefs.current[index * 100 + idx + 1] = el)}
-                value={li}
-                disabled={!isEditable}
-                onChange={(e) => handleChangeDesc(e, index, idx)}
+               {isEditable ? (
+                <textarea
+                  ref={(el) =>
+                    (textareaRefs.current[index * 100 + idx + 1] = el)
+                  }
+                  value={li}
+                  disabled={!isEditable}
+                  onChange={(e) => handleChangeDesc(e, index, idx)}
+                  className="texarea checkLi"
+                  style={{
+                    borderBottom: !li && "5px solid gray",
+                    padding: 5,
+                    height: 30,
+                    margin: 0,
+                  }}
+                />
+              ) : (
+                <div
                 className="texarea checkLi"
                 style={{
                   borderBottom: !li && "5px solid gray",
-                  minWidth: "30%",
-                  maxWidth: "fit-content",
                   padding: 5,
                   height: 30,
                   margin: 0,
                 }}
-              />
+                >{renderTextWithLinks(li)}</div>
+              )}
             </li>
           ))}
         </ul>

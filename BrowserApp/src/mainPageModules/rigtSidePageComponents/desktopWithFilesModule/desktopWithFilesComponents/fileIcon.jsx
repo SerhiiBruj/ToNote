@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { doAnimate, donotanimate } from "../../../../redux/startAnimation";
@@ -9,12 +9,11 @@ const FileIcon = (props) => {
   const boolAnimate = useSelector((state) => state.startAnimation.value);
   const dispatch = useDispatch();
   const ref = useRef();
-  const [page, setPage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    if (boolAnimate) {
+    if (boolAnimate && ref.current) {
       ref.current.style.transition = "all ease 0.5s";
       ref.current.style.opacity = "0%";
       ref.current.style.transform = "scale(0)";
@@ -22,21 +21,19 @@ const FileIcon = (props) => {
   }, [boolAnimate]);
 
   useEffect(() => {
-    if (location.pathname.split("/")[3])
-      setPage(location.pathname.split("/")[3]);
-    else setPage(location.pathname.split("/")[1]);
+    const currentPath = location.pathname.split("/")[3] || location.pathname.split("/")[1];
 
-    if (page !== "Home" && ref.current) {
+    if (currentPath !== "Home" && ref.current) {
+      ref.current.style.transition = "all ease 0.5s";
       ref.current.style.opacity = "0%";
       ref.current.style.transform = "scale(0)";
-    } else if (page === "Home" && ref.current) {
+    } else if (currentPath === "Home" && ref.current) {
+      ref.current.style.transition = "all ease 1s";
       ref.current.style.opacity = "1";
-      ref.current.style.transform = "scale(1)";
-      ref.current.style.backgroundColor = "#d9d9d9";
-      ref.current.style.display = "block";
+      ref.current.style.transform = "none";
       dispatch(donotanimate());
     }
-  }, [dispatch, location.pathname, page]);
+  }, [ location]);
 
   const gotodestination = useCallback(() => {
     if (ref.current) {
@@ -53,7 +50,7 @@ const FileIcon = (props) => {
         }, 100);
       }, 400);
     }
-  });
+  }, [dispatch, navigate, props.type, props.name]);
 
   return (
     <div ref={ref} className="fileIconConteiner">
@@ -66,7 +63,7 @@ const FileIcon = (props) => {
           </div>
           <div
             style={{
-              display: "flex",
+              display: props.type === "todo" || props.type === "dashboard" ? "flex" : "none",
               height: "30%",
               alignItems: "flex-end",
               justifyContent: "flex-end",

@@ -1,27 +1,31 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import FileIcon from "./desktopWithFilesComponents/fileIcon";
-import Content from "../fileDesktopComponents/noteModule/note";
-import Todo from "../fileDesktopComponents/todoModule/todo";
-import ChecklistModule from "../fileDesktopComponents/сheckListModule/checklist";
-import Table from "../fileDesktopComponents/tableModule/table";
-import { edit, editPayload } from "../../../redux/isEditable";
+
 
 const DesktopWithFiles = () => {
+  const [files, setFiles] = useState([]);
+
+  useEffect(() => {
+    const items = Object.keys(localStorage).map((key) => {
+      const [type, name] = key.split("/");
+      return {
+        name: name || key, 
+        type: type || "file",
+      };
+    });
+    setFiles(items);
+  }, []); 
+
   return (
     <>
-   
-      <div  style={{ width: "100%", display: "flex" }}>
+      <div style={{ width: "100%", display: "flex" }}>
         <div className="desktopWithFiles">
-          <FileIcon name={"Plans"} type={"note"} />
-          <FileIcon name={"name"} type={"todo"} />
-          <FileIcon name={"type"} type={"table"} />
-          <FileIcon name={"v"} type={"dashboard"} />
-          <FileIcon name={"div"} type={"checklist"} />
-          <FileIcon name={"Development"} type={"diary"} />
-          
-        </div>
+          {files.map((file, index) => (
+            <FileIcon key={index} name={file.name} type={file.type} />
+          ))}
+            {/* <FileAdd/> */}
 
+        </div>
       </div>
     </>
   );

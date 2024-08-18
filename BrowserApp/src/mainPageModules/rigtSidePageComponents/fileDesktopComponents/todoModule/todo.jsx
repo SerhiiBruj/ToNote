@@ -22,13 +22,13 @@ const Todo = () => {
     if (isEditable) {
       const newData = [...data, ""];
       setData(newData);
-      updateLocalStorage(newData, typeName); // додано typeName
+      updateLocalStorage(newData, typeName); 
     } else {
       const newData = data
         .map((todo) => todo.trim())
         .filter((todo) => todo !== "");
       setData(newData);
-      updateLocalStorage(newData, typeName); // додано typeName
+      updateLocalStorage(newData, typeName); 
     }
   }, [isEditable, typeName]);
 
@@ -36,7 +36,7 @@ const Todo = () => {
     (index) => {
       const newData = data.filter((_, i) => i !== index);
       setData(newData);
-      updateLocalStorage(newData, typeName); // додано typeName
+      updateLocalStorage(newData, typeName); 
     },
     [data, setData, typeName]
   );

@@ -8,8 +8,8 @@ import DesktopWithFiles from "./mainPageModules/rigtSidePageComponents/desktopWi
 import ChecklistModule from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/сheckListModule/checklist.jsx";
 import Table from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/tableModule/table.jsx";
 import Todo from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/todoModule/todo.jsx";
-import ErrorOnRoute from "./TestModules/ErrorOnRoute.jsx";
 import Diary from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/diaryModule/diary.jsx";
+import Dashboard from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/dashboardModule/dashboard.jsx";
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
         <Route path="todo/:name" element={<Todo />} />
         <Route path="table/:name" element={<Table />} />
         <Route path="Diary/:name" element={<Diary />} />
+        <Route path="Dashboard/:name" element={<Dashboard />} />
         <Route path="checklist/:name" element={<ChecklistModule />} />
       </Route>
 
