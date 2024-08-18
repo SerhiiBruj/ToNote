@@ -1,43 +1,56 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
+import { useSelector } from "react-redux";
 
+const sanitize = (input) => input.replace(/[/"]/g, '');
 const FileAdd = () => {
   const [isAdding, setIsAdding] = useState(false);
-  const [fileName,setFileName]=useState('');
-  const [fileType,setFileType]=useState('');
-  const createFile= ()=>{
-    localStorage.setItem(`${!fileType?'note':fileType}/${fileName}`,[]);
-  }
+  const boolAnimate = useSelector((state) => state.startAnimation.value);
+  const [formData, setFormData] = useState({
+    fileName: "",
+    fileType: "note",
+  });
 
+  const ref = useRef(null);
+  useEffect(() => {
+    if (boolAnimate) ref.current.style.animation = " fade 0.6s ease-out";
+  }, [boolAnimate]);
 
-
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: sanitize(value),
+    }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.fileName.trim() === "") {
+      alert("Please enter a file name");
+      return;
+    }
+    localStorage.setItem(`${formData.fileType}/${formData.fileName}`, []);
+    setIsAdding(false);
+    setFormData({ fileName: "", fileType: "note" });
+  };
 
   return (
     <div
-      className="fileIconConteiner"
+      ref={ref}
+      className="fileIconConteiner addFile"
       style={{
-        background: "#d9d9d980",
-        height: isAdding && 300 ,
-        width: isAdding &&340,
-        transition: "all ease 0.6s",
-        cursor: "pointer",
+        height: isAdding && 300,
+        width: isAdding && 340,
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "space-between",
-          transition: "all ease 0.6s",
-        }}
-      >
+      <div className="upperside" style={{}}>
         <span className="fileIconName">Add</span>
         <div
           onClick={() => setIsAdding((prev) => !prev)}
           style={{
             display: "flex",
             height: "100%",
-            transition: "all ease 0.6s",
+            transition: "all 0.6s ease",
             alignItems: "center",
             paddingRight: 20,
             transform: isAdding
@@ -50,19 +63,19 @@ const FileAdd = () => {
       </div>
 
       {isAdding && (
-        <>
-
-          <textarea
-            placeholder="Enter text here"
-            style={{ width: "100%", marginTop: 10 }}
-            onChange={(e)=>setFileName(e.target.value)}
+        <form onSubmit={handleSubmit} style={{ width: "100%", marginTop: 10 }}>
+          <input
+          className="fileName"
+            name="fileName"
+            placeholder="Name"
+            value={formData.fileName}
+            onChange={handleChange}
           />
           <select
+          className="fileType"
             name="fileType"
-            id="fileType"
-            style={{ width: "100%", marginTop: 10 }}
-            onChange={(e)=>setFileType(e.target.value)}
-
+            value={formData.fileType}
+            onChange={handleChange}
           >
             <option value="note">note</option>
             <option value="todo">todo</option>
@@ -71,8 +84,8 @@ const FileAdd = () => {
             <option value="checklist">checklist</option>
             <option value="diary">diary</option>
           </select>
-          <button  onClick={createFile}> Create</button>
-        </>
+          <button type="submit" className="submit">Create</button>
+        </form>
       )}
     </div>
   );

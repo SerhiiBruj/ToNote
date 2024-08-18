@@ -62,12 +62,17 @@
   height: 0px;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles {
+  overflow-y: auto;
   width: 100%;
   min-height: 350px;
   background-repeat: no-repeat;
   background-position: center right;
   background-size: 150%;
   background-image: url(../assetModules/svgs/penAndLineSvg.svg);
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .activeNav {
   transition: all ease 0.5s;
@@ -146,7 +151,11 @@
   background-color: #d9d9d9;
   border-radius: 20px;
   padding: 10px;
-  transition: 0.4s all cubic-bezier(0.53, -0.35, 0.16, 1.53);
+  transition: 0.4s all ease;
+  animation: appear 0.6s ease-out;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner:hover {
+  transform: scale(1.1);
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner .fileIconName {
   font-family: "Kadwa";
@@ -162,6 +171,66 @@
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner:hover {
   transform: scale(1.04);
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile {
+  background: rgba(217, 217, 217, 0.5019607843);
+  animation: appear 0.6s ease-out;
+  cursor: pointer;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile .upperside {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 70%;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile form .submit {
+  background: rgba(217, 217, 217, 0.5);
+  border-radius: 20px;
+  outline: 0px;
+  border-width: 0px;
+  width: 40%;
+  height: 50px;
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 27px;
+  color: #757575;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile form .fileType {
+  background: rgba(217, 217, 217, 0.5);
+  border-radius: 20px;
+  outline: 0px;
+  border-width: 0px;
+  width: 70%;
+  height: 50px;
+  padding-left: 20px;
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 27px;
+  color: #757575;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile form .fileName {
+  background: rgba(217, 217, 217, 0.5);
+  border-radius: 20px;
+  outline: 0px;
+  border-width: 0px;
+  width: 70%;
+  height: 50px;
+  padding-left: 20px;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile form .fileName::-moz-placeholder {
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 27px;
+}
+.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile form .fileName::placeholder {
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 27px;
 }
 .homePageNavbarConteiner .rightHomePage .upperRightHomePageNavbar {
   display: flex;
@@ -187,20 +256,31 @@
   text-decoration: none;
 }
 
-@keyframes changecolor {
-  0% {
-    color: #1e1e1e;
-    transition: 1s all ease;
-  }
-  100% {
-    color: #bfbfbf;
-  }
-}
 .Name {
   font-size: 30px;
   text-decoration: none;
 }
 
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
 .centerDiv {
   display: flex;
   align-items: center;
