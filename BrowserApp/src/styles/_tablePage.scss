@@ -3,9 +3,32 @@ font-size: 20px;
 
 
 }
-.table{
-   
+.conteiner{
     padding: 20px;
+
+}
+.table{
+    .talbetextarea{
+        height: 50px;
+        width: 120px;
+        margin: 0px;
+        padding: 10%;
+        
+    }
+    .tableCell{
+        display: flex;
+        align-items: center;
+        width: 180px;
+        justify-content: center;
+        height: 100%;
+    }
+    .line{
+        width: 5px;
+        background-color: gray;
+        transform-origin: left top;
+        
+    }
+   
 }
 .table *{
     color:#bfbfbf;
@@ -16,3 +39,4 @@ font-size: 20px;
     align-items: center;
     justify-content: center;
 }
+

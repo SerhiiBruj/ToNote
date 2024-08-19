@@ -1,6 +1,6 @@
 @charset "UTF-8";
 * {
-  color: #323232;
+  color: hsl(0, 0%, 20%);
   font-family: "Kadwa";
 }
 
@@ -97,9 +97,20 @@
   border-bottom: #cfcfcf 5px solid;
   background-color: rgba(160, 160, 160, 0.6980392157);
   height: 20%;
+  width: 100%;
+  padding-left: 15%;
+  padding-right: 10%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .FileInNavbar .textInFileInNavbar {
+  font-size: 25px;
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 50px;
+  color: #424242;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings {
   background-image: url(../assetModules/svgs/gearSvg.svg);
@@ -220,6 +231,9 @@
   border-width: 0px;
   width: 70%;
   height: 50px;
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 27px;
   padding-left: 20px;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile form .fileName::-moz-placeholder {
@@ -513,8 +527,27 @@
   font-size: 20px;
 }
 
-.table {
+.conteiner {
   padding: 20px;
+}
+
+.table .talbetextarea {
+  height: 50px;
+  width: 120px;
+  margin: 0px;
+  padding: 10%;
+}
+.table .tableCell {
+  display: flex;
+  align-items: center;
+  width: 180px;
+  justify-content: center;
+  height: 100%;
+}
+.table .line {
+  width: 5px;
+  background-color: gray;
+  transform-origin: left top;
 }
 
 .table * {

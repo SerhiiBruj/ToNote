@@ -87,6 +87,9 @@ const ChecklistModule = () => {
         }
         return item;
       });
+      if (!newData.some((li) => li.p.trim() === "")) {
+        newData.push({p:'',desc:['']});
+      }
       updateData(newData);
     },
     [data, updateData]

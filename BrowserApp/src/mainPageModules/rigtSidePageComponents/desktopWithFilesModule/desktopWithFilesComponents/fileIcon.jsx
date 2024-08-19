@@ -36,7 +36,6 @@ const FileIcon = (props) => {
       }, 400);
     }
   }, [dispatch, navigate, props.type, props.name]);
-``
   return (
     <div ref={ref} className="fileIconConteiner" onClick={gotodestination}>
       {!boolAnimate && (
@@ -49,7 +48,7 @@ const FileIcon = (props) => {
           <div
             style={{
               display:
-                props.type === "todo" || props.type === "dashboard"
+                props.type === "todo" || props.type === "dashboard"||props.type === ""
                   ? "flex"
                   : "none",
               height: "30%",

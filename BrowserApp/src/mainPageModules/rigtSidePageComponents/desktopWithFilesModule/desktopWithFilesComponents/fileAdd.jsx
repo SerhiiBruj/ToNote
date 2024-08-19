@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
 import { useSelector } from "react-redux";
 
-const sanitize = (input) => input.replace(/[/"]/g, '');
+const sanitize = (input) => input.replace(/[/"]/g, "");
 const FileAdd = () => {
   const [isAdding, setIsAdding] = useState(false);
   const boolAnimate = useSelector((state) => state.startAnimation.value);
@@ -46,7 +46,13 @@ const FileAdd = () => {
       <div className="upperside" style={{}}>
         <span className="fileIconName">Add</span>
         <div
-          onClick={() => setIsAdding((prev) => !prev)}
+          onClick={() => {
+            setIsAdding((prev) => !prev);
+            setFormData({
+              fileName: "",
+              fileType: "note",
+            });
+          }}
           style={{
             display: "flex",
             height: "100%",
@@ -65,14 +71,14 @@ const FileAdd = () => {
       {isAdding && (
         <form onSubmit={handleSubmit} style={{ width: "100%", marginTop: 10 }}>
           <input
-          className="fileName"
+            className="fileName"
             name="fileName"
             placeholder="Name"
             value={formData.fileName}
             onChange={handleChange}
           />
           <select
-          className="fileType"
+            className="fileType"
             name="fileType"
             value={formData.fileType}
             onChange={handleChange}
@@ -84,7 +90,9 @@ const FileAdd = () => {
             <option value="checklist">checklist</option>
             <option value="diary">diary</option>
           </select>
-          <button type="submit" className="submit">Create</button>
+          <button type="submit" className="submit">
+            Create
+          </button>
         </form>
       )}
     </div>

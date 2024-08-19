@@ -12,97 +12,101 @@ const Table = () => {
     return location.pathname.split("/").slice(2).join("/");
   }, [location.pathname]);
   const [table, setTable] = useLocalStorage(typeName, [
-    ["",""],
-    ["",''],
+    ["", ""],
+    ["", ""],
   ]);
 
-  // useEffect(() => {
-  //   if (isEditable) {
-  //     const newTable = table.map((row) => [...row, ""]); // Додаємо порожню колонку
-  //     newTable.push(new Array(newTable[0].length).fill("")); // Додаємо порожній рядок
-  //     setTable(newTable);
-  //   } else {
+  const changeTd = useCallback(
+    (e, index, i) => {
+      const newTable = [...table];
+      newTable[index][i] = e.target.value;
+      setTable(newTable);
+    },
+    [table, setTable]
+  );
 
-  //     let newTable = [...table];
+  const changeDone = useCallback(
+    (index, i) => {
+      const newTable = [...table];
+      newTable[index][i] = !table[index][i];
+      setTable(newTable);
+    },
+    [table, setTable]
+  );
 
-  //     if (newTable[newTable.length - 1].every((cell) => cell.trim() === "")) {
-  //       newTable.pop();
-  //     }
-      
-  //     newTable = newTable.filter(row => row[0].trim() !== "");
-
-  //     // Видаляємо стовпець, якщо перший елемент у кожному рядку порожній
-  //     if (newTable.length > 0 && newTable.every(row => row[0].trim() === "")) {
-  //       newTable = newTable.map(row => row.slice(1));
-  //     }
-  
-  //     // Видаляємо останню колонку, якщо вона порожня
-  //     const columnIndexToDelete = newTable[0].length - 1;
-  //     if (newTable.every((row) => row[columnIndexToDelete].trim() === "")) {
-  //       newTable = newTable.map((row) => row.slice(0, -1));
-  //     }
-
-  //     setTable(newTable);
-  //   }
-  // }, [isEditable]);
-
-
-
-  const changeTd = useCallback((e, index, i) => {
+  const addRow = useCallback(() => {
     const newTable = [...table];
-    newTable[index][i] = e.target.value;
+    newTable.push(new Array(newTable[0].length).fill(""));
     setTable(newTable);
-  });
-  const changeDone = useCallback((e, index, i, td) => {
-    const newTable = [...table];
-    newTable[index][i] = !td;
+  }, [table]);
+  const addColumn = useCallback(() => {
+    const newTable = table.map((item) => [...item, ""]);
     setTable(newTable);
-  });
-
+  }, [table]);
   return (
-    <div className="table">
-      <table border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
-        <tbody>
-          {table.map((item, index) => (
-            <tr key={index}>
-              {item.map((td, i) => {
-                if (i !== 0 && index !== 0)
+    <>
+      <div className="conteiner" style={{ display: "flex" }}>
+        <div
+          className="table"
+          style={{ display: "flex", flexDirection: "column" }}
+        >
+          {table.map((row, index) => (
+            <div key={index} className="tableRow" style={{ display: "flex" }}>
+              {row.map((td, i) => {
+                if (index === 0 || i === 0) {
                   return (
-                    <td
-                      key={i}
-                      onClick={(e) => {
-                        if (isEditable) changeDone(e, index, i, td);
-                      }}
-                    >
-                      <div className="td">{td && <DoneIcon />}</div>
-                    </td>
-                  );
-                else
-                  return (
-                    <td key={i}>
-                      <div className="td">
+                    <>
+                      {!i && index !== 0 ? (
+                        <div
+                          className="line"
+                          style={{
+                            transform: ` scaleX(${
+                              row.length * 2.3
+                            }) rotate(-90deg)`,
+                          }}
+                        ></div>
+                      ) : !index && i !== 0 ? (
+                        <div
+                          className="line"
+                          style={{
+                            transform: ` scaleY(${table.length * 1.1}) `,
+                          }}
+                        ></div>
+                      ) : null}
+                      <div key={i} className="tableCell">
                         <textarea
-                          className="texarea"
-                          disabled={!isEditable}
+                          className="texarea talbetextarea"
                           onChange={(e) => changeTd(e, index, i)}
                           value={td}
+                          name="head"
+                          disabled={!isEditable}
                         />
                       </div>
-                    </td>
+                    </>
                   );
+                } else {
+                  return (
+                    <div
+                      onClick={() => isEditable && changeDone(index, i)}
+                      key={i}
+                      className="tableCell"
+                    >
+                      {td && <DoneIcon />}
+                    </div>
+                  );
+                }
               })}
-            
-            </tr>
-            
+            </div>
           ))}
-          <tr>
-              <td>
-               <CrissCrossIcon size={0.5}/>
-              </td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
+          <div onClick={isEditable && addRow}>
+            <CrissCrossIcon size={0.5} />
+          </div>
+        </div>
+        <div onClick={isEditable && addColumn}>
+          <CrissCrossIcon size={0.5} />
+        </div>
+      </div>
+    </>
   );
 };
 
@@ -128,3 +132,44 @@ export default Table;
 // const array = Array.from({ length: rows }, () => Array.from({ length: cols }, () => 0));
 
 // console.log(array);
+
+// useEffect(() => {
+//   if (isEditable) {
+//     const newTable = table.map((row) => [...row, ""]); // Додаємо порожню колонку
+//     newTable.push(new Array(newTable[0].length).fill("")); // Додаємо порожній рядок
+//     setTable(newTable);
+//   } else {
+
+//     let newTable = [...table];
+
+//     if (newTable[newTable.length - 1].every((cell) => cell.trim() === "")) {
+//       newTable.pop();
+//     }
+
+//     newTable = newTable.filter(row => row[0].trim() !== "");
+
+//     // Видаляємо стовпець, якщо перший елемент у кожному рядку порожній
+//     if (newTable.length > 0 && newTable.every(row => row[0].trim() === "")) {
+//       newTable = newTable.map(row => row.slice(1));
+//     }
+
+//     // Видаляємо останню колонку, якщо вона порожня
+//     const columnIndexToDelete = newTable[0].length - 1;
+//     if (newTable.every((row) => row[columnIndexToDelete].trim() === "")) {
+//       newTable = newTable.map((row) => row.slice(0, -1));
+//     }
+
+//     setTable(newTable);
+//   }
+// }, [isEditable]);
+
+// const changeTd = useCallback((e, index, i) => {
+//   const newTable = [...table];
+//   newTable[index][i] = e.target.value;
+//   setTable(newTable);
+// });
+// const changeDone = useCallback((e, index, i, td) => {
+//   const newTable = [...table];
+//   newTable[index][i] = !td;
+//   setTable(newTable);
+// });
