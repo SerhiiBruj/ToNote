@@ -5,15 +5,30 @@ import { useNavigate } from "react-router-dom";
 import { doAnimate, donotanimate } from "../../../../redux/startAnimation";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
 import IsSelected from "../../../../assetModules/noSvg/isSelected";
-import { select } from "../../../../redux/selectSlice";
+import { deSelect, select } from "../../../../redux/selectSlice";
 
 const FileIcon = (props) => {
   const boolAnimate = useSelector((state) => state.startAnimation.value);
-  const { isSelecting } = useSelector((state) => state.select);
+  const { isSelecting, selected } = useSelector((state) => state.select);
   const dispatch = useDispatch();
   const ref = useRef();
   const navigate = useNavigate();
   let typename=`${props.type}/${props.name}`;
+
+
+  
+
+  
+  const handleSelect = (e) => {
+    e.stopPropagation(); 
+
+    if (!selected.includes(typename)) {
+      dispatch(select(typename)); 
+    }
+    else{
+        dispatch(deSelect(typename)); 
+    }
+  };
 
   useEffect(() => {
     if (boolAnimate) {
@@ -41,7 +56,7 @@ const FileIcon = (props) => {
     }
   }, [dispatch, navigate, props.type, props.name]);
   return (
-    <div ref={ref} className="fileIconConteiner" onClick={()=>{!isSelecting?gotodestination():()=>{select(typename)}}}>
+    <div ref={ref} className="fileIconConteiner" onClick={(e)=>{!isSelecting?gotodestination():handleSelect(e)}}>
       {!boolAnimate && (
         <>
           <div style={{ height: "70%" }}>
@@ -58,7 +73,7 @@ const FileIcon = (props) => {
             }}
           >
             <div>
-              <IsSelected typename={typename} />
+              <IsSelected typename={typename} isSelected={selected.includes(typename)}/>
             </div>
 
             <div
