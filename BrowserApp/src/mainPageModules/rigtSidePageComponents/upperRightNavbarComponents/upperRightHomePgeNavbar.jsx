@@ -1,24 +1,38 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import LogoIcon from "../../../assetModules/svgs/logo";
 import ShareIcon from "../../../assetModules/svgs/share";
 import BinIcon from "../../../assetModules/svgs/bin";
 import PenIcon from "../../../assetModules/svgs/pen";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { edit, editPayload } from "../../../redux/isEditable";
 import BackLeafIcon from "../../../assetModules/svgs/backLeaf";
 import { useLocation } from "react-router-dom";
+import StartSelection from "../../../assetModules/noSvg/startSelections";
+import { updatePages } from "../../../redux/pagesSlice";
 
 const UpperRightHomePgeNavbar = () => {
+  const { selected } = useSelector((state) => state.select);
   const [page, setPage] = useState("");
   const dispatch = useDispatch();
   const location = useLocation();
   useEffect(() => {
-
     if (location.pathname.split("/")[3])
       setPage(location.pathname.split("/")[3]);
     else setPage(location.pathname.split("/")[1]);
   }, [location.pathname]);
 
+  const deleteFile = () => {
+    if (selected.length > 0) {
+      for (let file of selected) {
+        localStorage.removeItem(file);
+      }
+      dispatch(updatePages(Object.keys(localStorage)));
+    } else {
+      alert("please choose file to delete");
+    }
+  };
+
+  
   return (
     <div className="upperRightHomePageNavbar">
       <div
@@ -40,18 +54,29 @@ const UpperRightHomePgeNavbar = () => {
 
       <div className="upperRightRightsectionHomePageNavbar">
         <div
-        className="peni"
+          style={{
+            visibility: page === "Home" ? "visible" : "hidden",
+          }}
+        >
+          <StartSelection />
+        </div>
+        <div
+          className="peni"
           onClick={() => {
-            if (location.pathname.split("/")[3]) dispatch(edit());
+            if(page!=="Home")
+             dispatch(edit())
+            
           }}
         >
           <PenIcon
             size={0.9}
             color="#2e2e2e"
-            allow={page !== "Home" ? true : false}
+            allow={!(page==="Home")}
           />
         </div>
-        <BinIcon size={1} color="#2e2e2e" />
+        <div onClick={deleteFile}>
+          <BinIcon size={1} color="#2e2e2e" />
+        </div>
         <ShareIcon size={1} color={"#2e2e2e"} />
         <div style={{ marginTop: "4%" }}>
           <LogoIcon />

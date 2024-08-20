@@ -4,6 +4,11 @@
   font-family: "Kadwa";
 }
 
+body::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
 .homePageNavbarConteiner {
   overflow: hidden;
   display: flex;
@@ -63,6 +68,10 @@
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles {
   overflow-y: auto;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  height: 400px;
   width: 100%;
   min-height: 350px;
   background-repeat: no-repeat;
@@ -96,7 +105,7 @@
   border-top: #cfcfcf 5px solid;
   border-bottom: #cfcfcf 5px solid;
   background-color: rgba(160, 160, 160, 0.6980392157);
-  height: 20%;
+  height: 100px;
   width: 100%;
   padding-left: 15%;
   padding-right: 10%;
@@ -133,6 +142,11 @@
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll {
   overflow-y: auto;
+  width: 100%;
+  border-top-left-radius: 50px;
+  background-color: #1e1e1e;
+  overflow: auto;
+  height: 100%;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll::-webkit-scrollbar {
   width: 0px;
@@ -157,6 +171,9 @@
   height: 0px;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   height: 180.4px;
   width: 220px;
   background-color: #d9d9d9;
@@ -173,6 +190,12 @@
   font-weight: 700;
   font-size: 30px;
   line-height: 50px;
+  height: 50px;
+  padding: 0px;
+  margin: 0px;
+  font-family: "Kadwa";
+  font-weight: 700;
+  color: hsl(0, 0%, 20%);
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner .fileIconType {
   font-family: "Kadwa";
@@ -212,6 +235,7 @@
   color: #757575;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile form .fileType {
+  background-image: url("../assetModules/svgs/arrow.svg");
   background: rgba(217, 217, 217, 0.5);
   border-radius: 20px;
   outline: 0px;
@@ -248,6 +272,9 @@
 }
 .homePageNavbarConteiner .rightHomePage .upperRightHomePageNavbar {
   display: flex;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   height: 80px;
   background-color: rgba(217, 217, 217, 0.5019607843);
   width: 100%;
@@ -256,8 +283,9 @@
 }
 .homePageNavbarConteiner .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar {
   padding-right: 10px;
+  transition: all ease 1s;
   display: flex;
-  width: 400px;
+  width: 450px;
   height: 100%;
   justify-content: space-between;
   align-items: center;
@@ -273,6 +301,25 @@
 .Name {
   font-size: 30px;
   text-decoration: none;
+}
+
+.selectCircle {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: solid rgb(46, 46, 46) 7px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all ease 0.2s;
+  color: #7c7c7c;
+  font-weight: 700;
+  font-size: 30px;
 }
 
 @keyframes appear {
@@ -559,4 +606,73 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.dashboard {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 50px;
+}
+.dashboard .clockonConteiner {
+  background-color: #acacac;
+  display: flex;
+  width: 650px;
+  height: 300px;
+  border-radius: 50px;
+  padding: 20px;
+  justify-content: space-between;
+}
+.dashboard .clockonConteiner .clockonConteinerInner {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  justify-content: space-between;
+}
+.dashboard .clockonConteiner .clockonConteinerInner .clockOn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-family: "Kadwa";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 29px;
+  line-height: 44px;
+  background-color: #313131;
+  height: 200px;
+  width: 200px;
+  color: #acacac;
+}
+.dashboard .clockonConteiner .clockonConteinerInner .schedule {
+  display: flex;
+  width: 320px;
+  height: 70%;
+  border-radius: 20px;
+  background-color: #313131;
+}
+.dashboard .clockonConteiner .clockonConteinerInner .name {
+  font-family: "Kadwa";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 29px;
+  line-height: 44px;
+  color: #313131;
+}
+
+.fsb {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fcsb {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.fe {
+  display: flex;
+  justify-content: flex-end;
 }/*# sourceMappingURL=App.css.map */

@@ -4,12 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { doAnimate, donotanimate } from "../../../../redux/startAnimation";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
+import IsSelected from "../../../../assetModules/noSvg/isSelected";
+import { select } from "../../../../redux/selectSlice";
 
 const FileIcon = (props) => {
   const boolAnimate = useSelector((state) => state.startAnimation.value);
+  const { isSelecting } = useSelector((state) => state.select);
   const dispatch = useDispatch();
   const ref = useRef();
   const navigate = useNavigate();
+  let typename=`${props.type}/${props.name}`;
 
   useEffect(() => {
     if (boolAnimate) {
@@ -37,26 +41,38 @@ const FileIcon = (props) => {
     }
   }, [dispatch, navigate, props.type, props.name]);
   return (
-    <div ref={ref} className="fileIconConteiner" onClick={gotodestination}>
+    <div ref={ref} className="fileIconConteiner" onClick={()=>{!isSelecting?gotodestination():()=>{select(typename)}}}>
       {!boolAnimate && (
         <>
           <div style={{ height: "70%" }}>
-            <span className="fileIconName">{props.name}</span>
-            <br />
+            <span className="fileIconName" >{props.name}</span>
+            <br/>
             <span className="fileIconType">{props.type}</span>
           </div>
           <div
             style={{
-              display:
-                props.type === "todo" || props.type === "dashboard"||props.type === ""
-                  ? "flex"
-                  : "none",
+              display: "flex",
               height: "30%",
               alignItems: "flex-end",
-              justifyContent: "flex-end",
+              justifyContent: "space-between",
             }}
           >
-            <BellsIcon size={1.3} />
+            <div>
+              <IsSelected typename={typename} />
+            </div>
+
+            <div
+              style={{
+                display:
+                  props.type === "todo" ||
+                  props.type === "dashboard" ||
+                  props.type === ""
+                    ? "flex"
+                    : "none",
+              }}
+            >
+              <BellsIcon size={1.3} />
+            </div>
           </div>
         </>
       )}

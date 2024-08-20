@@ -2,7 +2,7 @@ $homePageNavbarBgColor: #d9d9d980;
 $fileIconbg: #d9d9d9;
 $textColor: hsl(0, 0%, 20%);
 $desktopBg: #1e1e1e;
-$vfd: #a0a0a0;
+$navbg: #7c7c7c;
 $textColorhover: #1c1c1c;
 $fileIconbgHover: #d9d9d9ac;
 $coolcolor: #123123;
@@ -20,6 +20,13 @@ $coolcolor: #123123;
 * {
   color: $textColor;
   font-family: "Kadwa";
+}
+
+body {
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
 }
 
 .homePageNavbarConteiner {
@@ -73,6 +80,8 @@ $coolcolor: #123123;
       }
       .listOfFiles {
         overflow-y: auto;
+        user-select: none;
+        height: 400px;
         &::-webkit-scrollbar {
           width: 0px;
           height: 0px;
@@ -82,8 +91,6 @@ $coolcolor: #123123;
           text-decoration: none;
           .FileInNavbar {
             background-color: #b96363;
-
-
 
             p {
               color: #a6a6a6;
@@ -105,20 +112,20 @@ $coolcolor: #123123;
           border-top: #cfcfcf 5px solid;
           border-bottom: #cfcfcf 5px solid;
           background-color: #a0a0a0b2;
-          height: 20%;
+          height: 100px;
           width: 100%;
           padding-left: 15%;
           padding-right: 10%;
           display: flex;
           align-items: center;
           justify-content: space-between;
-        .textInFileInNavbar{
-          font-size: 25px;
-          @include textformat();
-          font-size: 25px;
-          line-height: 50px;
-          color: #424242;
-        }
+          .textInFileInNavbar {
+            font-size: 25px;
+            @include textformat();
+            font-size: 25px;
+            line-height: 50px;
+            color: #424242;
+          }
         }
 
         width: 100%;
@@ -155,7 +162,11 @@ $coolcolor: #123123;
           width: 0px;
           height: 0px;
         }
-
+        width: 100%;
+        border-top-left-radius: 50px;
+        background-color: #1e1e1e;
+        overflow: auto;
+        height: 100%;
         .desktopWithFiles {
           &::-webkit-scrollbar {
             width: 0px;
@@ -176,6 +187,8 @@ $coolcolor: #123123;
           background-color: $desktopBg;
 
           .fileIconConteiner {
+            user-select: none;
+
             height: calc(164 * 1.1px);
             width: calc(200 * 1.1px);
             background-color: $fileIconbg;
@@ -190,6 +203,12 @@ $coolcolor: #123123;
               @include textformat();
               font-size: 30px;
               line-height: 50px;
+              height: 50px;
+              padding: 0px;
+              margin: 0px;
+              font-family: "Kadwa";
+              font-weight: 700;
+              color:hsl(0, 0%, 20%);
             }
             .fileIconType {
               @include textformat();
@@ -215,7 +234,7 @@ $coolcolor: #123123;
               flex-direction: column;
               justify-content: space-around;
               height: 70%;
-              .submit{
+              .submit {
                 background: rgba(217, 217, 217, 0.5);
                 border-radius: 20px;
                 outline: 0px;
@@ -228,6 +247,7 @@ $coolcolor: #123123;
                 color: #757575;
               }
               .fileType {
+                background-image: url("../assetModules/svgs/arrow.svg");
                 background: rgba(217, 217, 217, 0.5);
                 border-radius: 20px;
                 outline: 0px;
@@ -264,6 +284,7 @@ $coolcolor: #123123;
     }
     .upperRightHomePageNavbar {
       display: flex;
+      user-select: none;
       height: 80px;
       background-color: $homePageNavbarBgColor;
       width: 100%;
@@ -271,8 +292,9 @@ $coolcolor: #123123;
       align-items: center;
       .upperRightRightsectionHomePageNavbar {
         padding-right: 10px;
+        transition: all ease 1s;
         display: flex;
-        width: 400px;
+        width: 450px;
         height: 100%;
         justify-content: space-between;
         align-items: center;
@@ -290,6 +312,23 @@ $coolcolor: #123123;
 .Name {
   font-size: 30px;
   text-decoration: none;
+}
+
+.selectCircle {
+  user-select: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: solid rgb(46 46 46) 7px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all ease 0.2s;
+  color: $navbg;
+  font-weight: 700;
+  font-size: 30px;
 }
 
 @keyframes appear {

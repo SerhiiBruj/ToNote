@@ -1,4 +1,3 @@
-import React from "react";
 import ListOfSettings from "./listOfSettings";
 import ListOfFiles from "./listOfFiles";
 

@@ -1,0 +1,72 @@
+$devColor: rgba(240, 255, 255, 0.1);
+$clockConteiner: #acacac;
+.dashboard {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 50px;
+
+  .clockonConteiner {
+    background-color: $clockConteiner;
+    display: flex;
+    width: 650px;
+    height: 300px;
+    border-radius: 50px;
+    padding: 20px;
+    justify-content: space-between;
+
+    .clockonConteinerInner {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+
+      justify-content: space-between;
+      .clockOn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-family: "Kadwa";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 29px;
+        line-height: 44px;
+        background-color: #313131;
+        height: 200px;
+        width: 200px;
+        color: $clockConteiner;
+      }
+      .schedule {
+        display: flex;
+        width: 320px;
+        height: 70%;
+        border-radius: 20px;
+        background-color: #313131;
+      }
+      .name {
+        font-family: "Kadwa";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 29px;
+        line-height: 44px;
+
+        color: #313131;
+      }
+    }
+  }
+}
+
+.fsb {
+  display: flex;
+  justify-content: space-between;
+}
+.fcsb {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.fe {
+  display: flex;
+  justify-content: flex-end;
+}

@@ -1,44 +1,34 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import LeftHomePageNavbar from "../mainPageModules/leftSidePageNavbarComponents/leftHomePageNavbar";
 import UpperRightHomePgeNavbar from "../mainPageModules/rigtSidePageComponents/upperRightNavbarComponents/upperRightHomePgeNavbar";
-import DesktopWithFiles from "../mainPageModules/rigtSidePageComponents/desktopWithFilesModule/desktopWithFiles";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { updatePages } from "../redux/pagesSlice";
+import { clearSelection, stopSelection } from "../redux/selectSlice";
 
 const HomePage = () => {
-  const ref = useRef(null);
+  const location = useLocation();
 
-  const updateHeight = () => {
-    if (ref.current) {
-      ref.current.style.height = `${window.innerHeight}px`;
-    }
-  };
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    document.title = "Home Page";
-    updateHeight();
+    const items = Object.keys(localStorage);
 
-    window.addEventListener("resize", updateHeight);
-    return () => {
-      window.removeEventListener("resize", updateHeight);
-    };
-  }, []);
+    dispatch(updatePages(items));
+  }, [localStorage.key]);
+  useEffect(() => {
+    if (location.pathname.split("/")[1] !== "Home") {
+      dispatch(stopSelection());
+      dispatch(clearSelection());
+    }
+  }, [location.pathname]);
 
   return (
-    <div ref={ref} className="homePageNavbarConteiner">
+    <div className="homePageNavbarConteiner">
       <LeftHomePageNavbar />
       <div className="rightHomePage">
         <UpperRightHomePgeNavbar />
         <div className="desktopWithFilesbgbg">
-          <div
-            className="scroll"
-            style={{
-              width: "100%",
-              borderTopLeftRadius: 50,
-              backgroundColor: "#1e1e1e",
-              overflow: "auto",
-              height: "100%",
-            }}
-          >
+          <div className="scroll">
             <Outlet />
           </div>
         </div>

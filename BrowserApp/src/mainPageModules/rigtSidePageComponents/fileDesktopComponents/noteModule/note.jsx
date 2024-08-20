@@ -1,35 +1,30 @@
-import { useEffect, useState, useRef, useCallback, useMemo } from "react";
+import { useEffect, useRef, useCallback, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import useLocalStorage from "../../../../hooks/useLocalStorage";
 
 const Note = () => {
-  const [text, setText] = useState("");
   const isEditable = useSelector((state) => state.isEditable.value);
   const textareaRef = useRef(null);
   const location = useLocation();
   const typeName = useMemo(() => {
     return location.pathname.split("/").slice(2).join("/");
   }, [location.pathname]);
+  const [text, setText] = useLocalStorage(typeName,'');
+ 
 
   useEffect(() => {
-    const savedText = localStorage.getItem(typeName);
-    if (savedText) {
-      setText(savedText);
-    }
-  }, [typeName]);
-
-  useEffect(() => {
+     location.pathname.split("/")[1] === "Home" ? "flex" : "none"
     const textarea = textareaRef.current;
     if (textarea) {
       textarea.style.height = "auto";
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
-  }, [text]); // Оновлення висоти при зміні тексту
+  }, [text]); 
 
   const handleTextChange = useCallback((event) => {
     const newText = event.target.value;
     setText(newText);
-    localStorage.setItem(typeName, newText);
   }, [typeName]);
 
   return (
@@ -41,7 +36,7 @@ const Note = () => {
           ref={textareaRef}
           className="texarea"
           value={text}
-          onChange={handleTextChange}
+          onChange={(e)=>handleTextChange(e)}
           autoFocus
         />
       </div>

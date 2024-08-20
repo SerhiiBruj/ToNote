@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updatePages } from "../../../../redux/pagesSlice";
 
 const sanitize = (input) => input.replace(/[/"]/g, "");
 const FileAdd = () => {
+  const dispatch = useDispatch();
   const [isAdding, setIsAdding] = useState(false);
   const boolAnimate = useSelector((state) => state.startAnimation.value);
   const [formData, setFormData] = useState({
@@ -29,9 +31,31 @@ const FileAdd = () => {
       alert("Please enter a file name");
       return;
     }
-    localStorage.setItem(`${formData.fileType}/${formData.fileName}`, []);
+    const initialData = (() => {
+      switch (formData.fileType) {
+        case "todo":
+          return [];
+        case "note":
+          return ""; // Повертаємо пустий рядок або іншу потрібну ініціалізацію
+        case "table":
+          return [
+            ["", ""],
+            ["", ""],
+          ];
+        case "checklist":
+          return [];
+        default:
+          return null;
+      }
+    })();
+    const valueToStore = JSON.stringify(initialData);
+    localStorage.setItem(
+      `${formData.fileType}/${formData.fileName}`,
+      valueToStore
+    );
     setIsAdding(false);
     setFormData({ fileName: "", fileType: "note" });
+    dispatch(updatePages(Object.keys(localStorage)));
   };
 
   return (
