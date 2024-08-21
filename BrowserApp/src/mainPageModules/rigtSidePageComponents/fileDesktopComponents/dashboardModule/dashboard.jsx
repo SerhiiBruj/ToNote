@@ -1,6 +1,34 @@
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
+import AddClocker from "./components/Addclocker";
 
 const Dashboard = () => {
+  const someData = [
+    {
+      dateOfStart: "",
+      type: "clock on",
+      data: [],
+      goal: "",
+    },
+    {
+      dateOfStart: "",
+      type: "timer",
+      data: [],
+      goal: "",
+    },
+    {
+      dateOfStart: "",
+      type: "check in",
+      data: [],
+      goal: "",
+    },
+    {
+      dateOfStart: "",
+      type: "counter",
+      data: [],
+      goal: "",
+    },
+  ];
+
   return (
     <div className="dashboard" onClick={(e) => e.stopPropagation()}>
       <div className="clockonConteiner">
@@ -20,11 +48,12 @@ const Dashboard = () => {
                 Clock On
               </div>
             </div>
-            <span className="name">Running</span>
-            <span className="name">Running</span>
+            <span className="name">Goal:</span>
+            <span className="name">Result:</span>
           </div>
         </div>
       </div>
+      <AddClocker />
     </div>
   );
 };

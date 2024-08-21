@@ -4,7 +4,12 @@ import { useSelector } from "react-redux";
 const IsSelected = ({ isSelected }) => {
   const { isSelecting } = useSelector((state) => state.select);
   return (
-    <div style={{ display: isSelecting ? "flex" : "none" }}>
+    <div className="selcirc"
+      style={{
+        transform: isSelecting ? "none" : "scale(0)",
+        opacity: isSelecting ? 1 : 0,
+      }}
+    >
       <div
         className="selectCircle"
         style={{

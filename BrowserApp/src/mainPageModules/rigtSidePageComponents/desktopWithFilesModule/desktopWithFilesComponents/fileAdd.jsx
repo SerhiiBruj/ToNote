@@ -86,7 +86,7 @@ const FileAdd = () => {
             paddingRight: 20,
             transform: isAdding
               ? "rotate(45deg)"
-              : "rotate(0deg) translateY(25px) scale(1.2)",
+              : "rotate(0deg) translateY(15px) scale(1.1)",
           }}
         >
           <CrissCrossIcon  color={'#D9D9D9'} size={!isAdding ? 1.5 : 0.8} />

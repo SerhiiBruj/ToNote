@@ -12,7 +12,8 @@ import { updatePages } from "../../../redux/pagesSlice";
 import { clearSelection, stopSelection } from "../../../redux/selectSlice";
 
 const UpperRightHomePgeNavbar = () => {
-  const { isSelecting,selected } = useSelector((state) => state.select);
+  
+  const { isSelecting, selected } = useSelector((state) => state.select);
   const [page, setPage] = useState("");
   const dispatch = useDispatch();
   const location = useLocation();
@@ -35,7 +36,6 @@ const UpperRightHomePgeNavbar = () => {
     }
   };
 
-  
   return (
     <div className="upperRightHomePageNavbar">
       <div
@@ -52,32 +52,31 @@ const UpperRightHomePgeNavbar = () => {
       </div>
 
       <div>
-        <h1 className="Name">{page.replace('%20'," ")}</h1>
+        <h1 className="Name">{page.replace(/(%20|_)/g, " ")}</h1>
       </div>
 
       <div className="upperRightRightsectionHomePageNavbar">
         <div
           style={{
-            visibility: page === "Home" ? "visible" : "hidden",
+            transition: "all ease 0.2s",
+            transform:  page === "Home" ? "none" : "scale(0)",
+            opacity:  page === "Home" ? 1 : 0,
           }}
+        
         >
           <StartSelection />
         </div>
         <div
           className="peni"
           onClick={() => {
-             dispatch(edit())
-             if(isSelecting){
+            dispatch(edit());
+            if (isSelecting) {
               dispatch(stopSelection());
               dispatch(clearSelection());
-             }
+            }
           }}
         >
-          <PenIcon
-            size={0.9}
-            color="#2e2e2e"
-            roll={isEditable}
-          />
+          <PenIcon size={0.9} color="#2e2e2e" roll={isEditable} />
         </div>
         <div onClick={deleteFile}>
           <BinIcon size={1} color="#2e2e2e" />

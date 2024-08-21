@@ -94,7 +94,6 @@
 
 .texarea {
   color: #bfbfbf;
-  transition: all ease 1s;
   padding: 20px;
   font-size: 25px;
   resize: none;
@@ -272,6 +271,103 @@
   height: 100%;
   gap: 50px;
 }
+.dashboard .addFile {
+  background: rgba(217, 217, 217, 0.5019607843);
+  animation: appear 0.6s ease-out;
+  cursor: pointer;
+}
+.dashboard .addFile .upperside {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.dashboard .addFile form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 70%;
+}
+.dashboard .addFile form .submit {
+  background: rgba(217, 217, 217, 0.5);
+  border-radius: 20px;
+  outline: 0px;
+  border-width: 0px;
+  width: 40%;
+  height: 50px;
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 27px;
+  color: #757575;
+}
+.dashboard .addFile form .submit:focus {
+  background: rgba(217, 217, 217, 0.5);
+  border-radius: 20px;
+  outline: 0px;
+  border-width: 0px;
+  width: 40%;
+  height: 50px;
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 27px;
+  color: #757575;
+}
+.dashboard .addFile form .fileType {
+  background-image: url("../assetModules/svgs/arrow.svg");
+  background: rgba(217, 217, 217, 0.5);
+  border-radius: 20px;
+  outline: 0px;
+  border-width: 0px;
+  width: 70%;
+  height: 50px;
+  padding-left: 20px;
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 27px;
+  color: #757575;
+  display: flex;
+  justify-content: space-between;
+}
+.dashboard .addFile form .fileType * {
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 27px;
+  color: #757575;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  background: rgba(217, 217, 217, 0.5);
+}
+.dashboard .addFile form .fileType::after {
+  content: none !important;
+}
+.dashboard .addFile form .fileType .dropdown {
+  width: 70%;
+}
+.dashboard .addFile form .fileType .dropdown .btn-secondary dropdown-toggle {
+  width: 70%;
+}
+.dashboard .addFile form .fileName {
+  background: rgba(217, 217, 217, 0.5);
+  border-radius: 20px;
+  outline: 0px;
+  border-width: 0px;
+  width: 70%;
+  height: 50px;
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 27px;
+  padding-left: 20px;
+}
+.dashboard .addFile form .fileName::-moz-placeholder {
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 27px;
+}
+.dashboard .addFile form .fileName::placeholder {
+  font-family: "Kadwa";
+  font-weight: 700;
+  font-size: 27px;
+}
 .dashboard .clockonConteiner {
   background-color: #acacac;
   display: flex;
@@ -334,6 +430,39 @@
   justify-content: flex-end;
 }
 
+.fileIconConteiner {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  height: 176px;
+  width: 220px;
+  background-color: #d9d9d9;
+  border-radius: 20px;
+  padding: 10px;
+  transition: 0.4s all ease;
+  animation: appear 0.6s ease-out;
+}
+.fileIconConteiner:hover {
+  transform: scale(1.1);
+}
+.fileIconConteiner .fileIconName {
+  font-size: 130%;
+  line-height: 30px;
+  height: 40px;
+  padding: 0px;
+  margin: 0px;
+  font-family: "Kadwa";
+  font-weight: 700;
+  color: hsl(0, 0%, 20%);
+}
+.fileIconConteiner .fileIconType {
+  font-size: 85%;
+  line-height: 10px;
+}
+.fileIconConteiner:hover {
+  transform: scale(1.04);
+}
+
 * {
   color: hsl(0, 0%, 20%);
   font-family: "Kadwa";
@@ -351,10 +480,12 @@ body::-webkit-scrollbar {
 .homePageNavbarConteiner .leftHomePageNavbar {
   width: 15%;
   overflow: hidden;
+  min-width: 220px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: "none";
 }
 .homePageNavbarConteiner .leftHomePageNavbar .profile {
   width: 100%;
@@ -389,30 +520,33 @@ body::-webkit-scrollbar {
   margin: 0px;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel {
-  display: flex;
-  flex-direction: column;
+  flex: 1;
+  position: sticky;
   overflow-x: hidden;
   background-color: rgba(217, 217, 217, 0.5019607843);
   width: 100%;
-  height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel::-webkit-scrollbar {
   width: 0px;
   height: 0px;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles {
-  overflow-y: auto;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  height: 400px;
+  height: -moz-fit-content;
+  height: fit-content;
+  transition: all ease 0.5s;
   width: 100%;
-  min-height: 350px;
+  min-height: 300px;
   background-repeat: no-repeat;
   background-position: center right;
   background-size: 150%;
   background-image: url(../assetModules/svgs/penAndLineSvg.svg);
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles * {
+  transition: all ease 0.5s;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles::-webkit-scrollbar {
   width: 0px;
@@ -442,35 +576,90 @@ body::-webkit-scrollbar {
   background-color: rgba(160, 160, 160, 0.6980392157);
   height: 100px;
   width: 100%;
+  min-width: 250px;
+  padding-left: 15%;
+  padding-right: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .FileInNavbar .textInFileInNavbar {
+  text-align: center;
+  font-size: 25px;
+  font-family: "Kadwa";
+  font-weight: 700;
+  line-height: 50px;
+  color: #424242;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  background-image: url(../assetModules/svgs/gearSvg.svg);
+  width: 100%;
+  background-size: 130%;
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings .activeNav {
+  transition: all ease 0.5s;
+  text-decoration: none;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings .activeNav .FileInNavbar {
+  background-color: rgba(86, 86, 86, 0.7137254902);
+  flex: 1;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings .activeNav .FileInNavbar p {
+  color: #a6a6a6;
+  text-decoration: none;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings .inactiveNav {
+  text-decoration: none;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings .inactiveNav .FileInNavbar {
+  flex: 1;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings .inactiveNav .FileInNavbar p {
+  text-decoration: none;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings .FileInNavbar {
+  flex: 1;
+  box-sizing: border-box;
+  border-top: #cfcfcf 5px solid;
+  border-bottom: #cfcfcf 5px solid;
+  background-color: rgba(160, 160, 160, 0.6980392157);
+  height: 100px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: 100%;
   padding-left: 15%;
   padding-right: 10%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .FileInNavbar .textInFileInNavbar {
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings .FileInNavbar .textInFileInNavbar {
   font-size: 25px;
   font-family: "Kadwa";
   font-weight: 700;
-  font-size: 25px;
   line-height: 50px;
   color: #424242;
-}
-.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings {
-  background-image: url(../assetModules/svgs/gearSvg.svg);
-  width: 100%;
-  background-size: 130%;
-  background-position: right top;
-  min-height: 350px;
-  background-repeat: no-repeat;
 }
 .homePageNavbarConteiner .rightHomePage {
   display: flex;
   flex-direction: column;
   width: 85%;
+  height: 100vh;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg {
-  overflow: auto;
+  overflow-y: auto;
   height: 100%;
   display: flex;
   background-color: rgba(217, 217, 217, 0.5019607843);
@@ -509,7 +698,7 @@ body::-webkit-scrollbar {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  height: 180.4px;
+  height: 176px;
   width: 220px;
   background-color: #d9d9d9;
   border-radius: 20px;
@@ -523,9 +712,9 @@ body::-webkit-scrollbar {
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner .fileIconName {
   font-family: "Kadwa";
   font-weight: 700;
-  font-size: 30px;
-  line-height: 50px;
-  height: 50px;
+  font-size: 130%;
+  line-height: 30px;
+  height: 40px;
   padding: 0px;
   margin: 0px;
   font-family: "Kadwa";
@@ -535,7 +724,7 @@ body::-webkit-scrollbar {
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner .fileIconType {
   font-family: "Kadwa";
   font-weight: 700;
-  font-size: 20px;
+  font-size: 85%;
   line-height: 10px;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner:hover {
@@ -729,4 +918,15 @@ body::-webkit-scrollbar {
      -moz-user-select: none;
           user-select: none;
   cursor: pointer;
+}
+
+.selcirc {
+  transition: all ease 0.5s;
+}
+
+.Settings * {
+  color: #d9d9d9;
+}
+.Settings .Appearance *, .Settings .AccountSettings *, .Settings .CloudStorage *, .Settings .TermsAndPolicy * {
+  color: rgba(217, 217, 217, 0.5019607843);
 }/*# sourceMappingURL=App.css.map */

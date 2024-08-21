@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useCallback, useMemo } from "react";
 import BinIcon from "../../../../assetModules/svgs/bin";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
@@ -41,7 +42,7 @@ const ChecklistModule = () => {
       });
       setData(newData);
     }
-  }, [isEditable]);
+  }, [ isEditable]);
 
   const updateData = useCallback(
     (newData) => {
@@ -124,9 +125,10 @@ const ChecklistModule = () => {
             }}
           >
             <textarea
+
               ref={(el) => (textareaRefs.current[index * 100] = el)}
               onChange={(e) => handleChangeP(e, index)}
-              className="caption texarea"
+              className={`caption texarea ${checklist.p ? 'with-after' : 'noafter'}`}
               placeholder="Type in"
               disabled={!isEditable}
               value={checklist.p}
@@ -163,7 +165,7 @@ const ChecklistModule = () => {
                 />
               ) : (
                 <div
-                  className="texarea checkLi"
+                  className={`texarea checkLi ${!li ? 'with-after' : 'noafter'}`}
                   style={{
                     borderBottom: !li && "5px solid gray",
                     padding: 5,

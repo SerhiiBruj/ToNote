@@ -35,8 +35,9 @@ body {
   .leftHomePageNavbar {
     width: 15%;
     overflow: hidden;
-
-    @include flexcolumn(space-between);
+    min-width: 220px;
+    height: 100vh;
+    @include flexcolumn("none");
     .profile {
       width: 100%;
       background-color: $homePageNavbarBgColor;
@@ -67,21 +68,23 @@ body {
       }
     }
     .scrollpanel {
-      display: flex;
-      flex-direction: column;
+      flex: 1;
+      position: sticky;
       overflow-x: hidden;
       background-color: $homePageNavbarBgColor;
       width: 100%;
-      height: 100%;
-      overflow-y: scroll;
+      overflow-y: auto;
       &::-webkit-scrollbar {
         width: 0px;
         height: 0px;
       }
       .listOfFiles {
-        overflow-y: auto;
         user-select: none;
-        height: 400px;
+        height: fit-content;
+        transition: all ease 0.5s;
+        * {
+          transition: all ease 0.5s;
+        }
         &::-webkit-scrollbar {
           width: 0px;
           height: 0px;
@@ -114,6 +117,71 @@ body {
           background-color: #a0a0a0b2;
           height: 100px;
           width: 100%;
+          min-width: 250px;
+          padding-left: 15%;
+          padding-right: 10%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          display: flex;
+          align-items: center;
+          .textInFileInNavbar {
+            text-align: center;
+            font-size: 25px;
+            @include textformat();
+            line-height: 50px;
+            color: #424242;
+          }
+        }
+
+        width: 100%;
+        min-height: 300px;
+        background-repeat: no-repeat;
+        background-position: center right;
+        background-size: 150%;
+        background-image: url(../assetModules/svgs/penAndLineSvg.svg);
+      }
+
+      .listOfSettings {
+        user-select: none;
+        &::-webkit-scrollbar {
+          width: 0px;
+          height: 0px;
+        }
+        .activeNav {
+          transition: all ease 0.5s;
+          text-decoration: none;
+          .FileInNavbar {
+            background-color: #565656b6;
+            flex: 1;
+            p {
+              color: #a6a6a6;
+              text-decoration: none;
+            }
+          }
+        }
+        .inactiveNav {
+          text-decoration: none;
+          .FileInNavbar {
+            flex: 1;
+
+            p {
+              text-decoration: none;
+            }
+          }
+        }
+
+        .FileInNavbar {
+          flex: 1;
+          box-sizing: border-box;
+          border-top: #cfcfcf 5px solid;
+          border-bottom: #cfcfcf 5px solid;
+          background-color: #a0a0a0b2;
+          height: 100px;
+          display: flex;
+          text-align: center;
+          align-items: center;
+          width: 100%;
           padding-left: 15%;
           padding-right: 10%;
           display: flex;
@@ -122,26 +190,15 @@ body {
           .textInFileInNavbar {
             font-size: 25px;
             @include textformat();
-            font-size: 25px;
             line-height: 50px;
             color: #424242;
           }
         }
 
-        width: 100%;
-        min-height: 350px;
-        background-repeat: no-repeat;
-        background-position: center right;
-        background-size: 150%;
-        background-image: url(../assetModules/svgs/penAndLineSvg.svg);
-      }
-
-      .listOfSettings {
         background-image: url(../assetModules/svgs/gearSvg.svg);
         width: 100%;
         background-size: 130%;
         background-position: right top;
-        min-height: 350px;
         background-repeat: no-repeat;
       }
     }
@@ -150,8 +207,9 @@ body {
     display: flex;
     flex-direction: column;
     width: 85%;
+    height: 100vh;
     .desktopWithFilesbgbg {
-      overflow: auto;
+      overflow-y: auto;
       height: 100%;
       display: flex;
       background-color: $homePageNavbarBgColor;
@@ -189,7 +247,7 @@ body {
           .fileIconConteiner {
             user-select: none;
 
-            height: calc(164 * 1.1px);
+            height: calc(160 * 1.1px);
             width: calc(200 * 1.1px);
             background-color: $fileIconbg;
             border-radius: 20px;
@@ -201,9 +259,9 @@ body {
             }
             .fileIconName {
               @include textformat();
-              font-size: 30px;
-              line-height: 50px;
-              height: 50px;
+              font-size: 130%;
+              line-height: 30px;
+              height: 40px;
               padding: 0px;
               margin: 0px;
               font-family: "Kadwa";
@@ -212,7 +270,7 @@ body {
             }
             .fileIconType {
               @include textformat();
-              font-size: 20px;
+              font-size: 85%;
               line-height: 10px;
             }
             &:hover {
@@ -404,3 +462,18 @@ body {
   user-select: none;
   cursor: pointer;
 }
+.selcirc {
+  transition: all ease 0.5s;
+}
+.Settings {
+  * {
+    color: $fileIconbg;
+  }
+  
+  .Appearance, .AccountSettings, .CloudStorage, .TermsAndPolicy {
+    * {
+      color: $homePageNavbarBgColor;
+    }
+  }
+}
+

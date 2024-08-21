@@ -1,11 +1,114 @@
 $devColor: rgba(240, 255, 255, 0.1);
 $clockConteiner: #acacac;
+$homePageNavbarBgColor: #d9d9d980;
+$fileIconbg: #d9d9d9;
+$textColor: hsl(0, 0%, 20%);
+$desktopBg: #1e1e1e;
+$navbg: #7c7c7c;
+$textColorhover: #1c1c1c;
+$fileIconbgHover: #d9d9d9ac;
+$coolcolor: #123123;
 .dashboard {
   padding: 20px;
   display: flex;
   flex-direction: column;
   height: 100%;
   gap: 50px;
+
+  .addFile {
+    background: #d9d9d980;
+    animation: appear 0.6s ease-out;
+
+    cursor: pointer;
+    .upperside {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      height: 70%;
+      .submit {
+        background: rgba(217, 217, 217, 0.5);
+        border-radius: 20px;
+        outline: 0px;
+        border-width: 0px;
+        width: 40%;
+        height: 50px;
+        font-family: "Kadwa";
+        font-weight: 700;
+        font-size: 27px;
+        color: #757575;
+        &:focus {
+          background: rgba(217, 217, 217, 0.5);
+          border-radius: 20px;
+          outline: 0px;
+          border-width: 0px;
+          width: 40%;
+          height: 50px;
+          font-family: "Kadwa";
+          font-weight: 700;
+          font-size: 27px;
+          color: #757575;
+        }
+      }
+      .fileType {
+        * {
+          font-family: "Kadwa";
+          font-weight: 700;
+          font-size: 27px;
+          color: #757575;
+          display: flex;
+          align-items: center;
+          height: 100%;
+          background: rgba(217, 217, 217, 0.5);
+        }
+        background-image: url("../assetModules/svgs/arrow.svg");
+        background: rgba(217, 217, 217, 0.5);
+        border-radius: 20px;
+        outline: 0px;
+        border-width: 0px;
+        width: 70%;
+        height: 50px;
+        padding-left: 20px;
+        font-family: "Kadwa";
+        font-weight: 700;
+        font-size: 27px;
+        color: #757575;
+        display: flex;
+        justify-content: space-between;
+        &::after {
+          content: none !important;
+        }
+        .dropdown {
+          width: 70%;
+          .btn-secondary dropdown-toggle {
+            width: 70%;
+          }
+        }
+      }
+
+      .fileName {
+        background: rgba(217, 217, 217, 0.5);
+        border-radius: 20px;
+        outline: 0px;
+        border-width: 0px;
+        width: 70%;
+        height: 50px;
+        font-family: "Kadwa";
+        font-weight: 700;
+        font-size: 27px;
+        padding-left: 20px;
+        &::placeholder {
+          font-family: "Kadwa";
+          font-weight: 700;
+          font-size: 27px;
+        }
+      }
+    }
+  }
 
   .clockonConteiner {
     background-color: $clockConteiner;
@@ -69,4 +172,36 @@ $clockConteiner: #acacac;
 .fe {
   display: flex;
   justify-content: flex-end;
+}
+
+.fileIconConteiner {
+  user-select: none;
+
+  height: calc(160 * 1.1px);
+  width: calc(200 * 1.1px);
+  background-color: $fileIconbg;
+  border-radius: 20px;
+  padding: 10px;
+  transition: 0.4s all ease;
+  animation: appear 0.6s ease-out;
+  &:hover {
+    transform: scale(1.1);
+  }
+  .fileIconName {
+    font-size: 130%;
+    line-height: 30px;
+    height: 40px;
+    padding: 0px;
+    margin: 0px;
+    font-family: "Kadwa";
+    font-weight: 700;
+    color: hsl(0, 0%, 20%);
+  }
+  .fileIconType {
+    font-size: 85%;
+    line-height: 10px;
+  }
+  &:hover {
+    transform: scale(1.04);
+  }
 }
