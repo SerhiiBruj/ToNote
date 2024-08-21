@@ -60,6 +60,7 @@ const FileAdd = () => {
 
   return (
     <div
+   
       ref={ref}
       className="fileIconConteiner addFile"
       style={{
@@ -93,7 +94,7 @@ const FileAdd = () => {
       </div>
 
       {isAdding && (
-        <form onSubmit={handleSubmit} style={{ width: "100%", marginTop: 10 }}>
+        <form onSubmit={handleSubmit}   style={{ width: "100%", marginTop: 10 }}>
           <input
             className="fileName"
             name="fileName"

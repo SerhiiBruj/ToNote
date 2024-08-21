@@ -423,7 +423,7 @@ body::-webkit-scrollbar {
   text-decoration: none;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .activeNav .FileInNavbar {
-  background-color: #b96363;
+  background-color: rgba(86, 86, 86, 0.7137254902);
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .activeNav .FileInNavbar p {
   color: #a6a6a6;
@@ -709,4 +709,24 @@ body::-webkit-scrollbar {
     opacity: 0;
     transform: scale(0);
   }
+}
+.hoverSvg {
+  cursor: pointer;
+}
+.hoverSvg * {
+  transition: 0.2s all ease;
+}
+.hoverSvg:hover *:not(.excluded) {
+  border: #474747;
+  fill: #474747;
+}
+
+.selectCircle {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  cursor: pointer;
 }/*# sourceMappingURL=App.css.map */

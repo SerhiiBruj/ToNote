@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useLocalStorage = (key, initialValue) => {
+  let keyy = key.replace("%20", " ");
   const navigate = useNavigate();
 
   const [storedValue, setStoredValue] = useState(() => {
     try {
-      const item = window.localStorage.getItem(key);
+      const item = window.localStorage.getItem(keyy);
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
       console.error(error);
@@ -14,20 +15,19 @@ const useLocalStorage = (key, initialValue) => {
     }
   });
 
-  const item = window.localStorage.getItem(key);
+  const item = window.localStorage.getItem(keyy);
+
   useEffect(() => {
     if (!item) {
       navigate("/404");
     }
   }, [key, navigate]);
 
-
-
   const setValue = (value) => {
     try {
       if (item) {
         setStoredValue(value);
-        window.localStorage.setItem(key, JSON.stringify(value));
+        window.localStorage.setItem(keyy, JSON.stringify(value));
       }
     } catch (error) {
       console.error(error);

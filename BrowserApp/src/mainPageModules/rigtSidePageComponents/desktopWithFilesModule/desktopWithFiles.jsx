@@ -1,11 +1,12 @@
 import FileIcon from "./desktopWithFilesComponents/fileIcon";
 import FileAdd from "./desktopWithFilesComponents/fileAdd";
-import { useDispatch, useSelector } from "react-redux";
-import { clearSelection, stopSelection } from "../../../redux/selectSlice";
+import { useSelector } from "react-redux";
 
 const DesktopWithFiles = () => {
   const pages = useSelector((state) => state.pages.value);
 
+
+  
   return (
     <>
       <div style={{ width: "100%", display: "flex" }}>

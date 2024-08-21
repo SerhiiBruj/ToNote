@@ -6,6 +6,7 @@ const ShareIcon = (props) => {
       height={props.size * 56}
       viewBox="0 0 52 56"
       fill="none"
+      className="hoverSvg"
       xmlns="http://www.w3.org/2000/svg"
     >
       <rect
@@ -23,8 +24,10 @@ const ShareIcon = (props) => {
         height="14.062"
         transform="rotate(90 33.3438 15.7405)"
         fill="#D9D9D9"
+        className="excluded"
       />
       <path
+        className="excluded"
         d="M26.9823 0.289429L40.7095 17.8474H11.5811L26.9823 0.289429Z"
         fill="#D9D9D9"
       />

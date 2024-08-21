@@ -29,9 +29,8 @@ const PenIcon = (props) => {
       width={`${76 * props.size}`}
       height={`${58 * props.size}`}
       viewBox="0 0 76 58"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="penSvg"
+      className="penSvg hoverSvg"
     >
       <rect
         style={roll ? { opacity: "0%" } : { opacity: "100%" }}

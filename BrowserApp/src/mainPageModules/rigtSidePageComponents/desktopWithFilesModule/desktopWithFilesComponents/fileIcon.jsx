@@ -17,6 +17,10 @@ const FileIcon = (props) => {
   const navigate = useNavigate();
   const [name, setName] = useState(props.name);
 
+  useEffect(() => {
+    setName(props.name);
+  }, [props.name]);
+
   const handleSelect = (e) => {
     e.stopPropagation();
 
@@ -42,13 +46,13 @@ const FileIcon = (props) => {
 
   const renameLocalStorageKey = (oldKey, newKey) => {
     if (!newKey || newKey === oldKey) {
+      setName(oldKey.split("/")[1]); // Повернення до старого імені, якщо новий ключ порожній або такий самий
       console.log(
         "Новий ключ не може бути порожнім або таким самим, як старий ключ."
       );
       return;
     }
-
-    if (localStorage.getItem(newKey) !== null) {
+    if (Object.keys(localStorage).includes(newKey)) {
       console.log(`Ключ "${newKey}" вже існує.`);
       return;
     }
@@ -79,6 +83,7 @@ const FileIcon = (props) => {
       }, 400);
     }
   }, [dispatch, navigate, props.type, props.name]);
+
   return (
     <div
       ref={ref}
@@ -100,7 +105,8 @@ const FileIcon = (props) => {
       {!boolAnimate && (
         <>
           <div style={{ height: "70%" }}>
-            <textarea
+            <input
+              style={{ pointerEvents: isEditable ? "all" : "none" }}
               onChange={(e) => handleChange(e)}
               className="texarea fileIconName"
               disabled={!isEditable}
@@ -118,8 +124,9 @@ const FileIcon = (props) => {
           >
             <div>
               <IsSelected
-                typename={`${props.type}/${name}`}
-                isSelected={selected.includes(`${props.type}/${name}`)}
+                isSelected={selected.some(
+                  (item) => item === `${props.type}/${name}`
+                )}
               />
             </div>
 

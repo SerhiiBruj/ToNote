@@ -25,18 +25,22 @@ const StartSelection = () => {
 
   return (
     <div
-      className="selectCircle"
+      className="selectCircle hoverSvg"
       onClick={(e) => {
         e.stopPropagation();
         select();
       }}
       style={{
-        display: "flex",
         background: isSelecting ? "rgb(46 46 46)" : "none",
+        borderColor: isSelecting && "#474747",
         height: 50,
         width: 50,
-        userSelect: "none",
-        cursor: "pointer",
+      }}
+      onMouseOver={(e) => {
+        e.currentTarget.style.borderColor = "#474747";
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.borderColor = "rgb(46 46 46)";
       }}
     >
       {isSelecting && selected.length > 0 && selected.length}

@@ -90,7 +90,7 @@ body {
           transition: all ease 0.5s;
           text-decoration: none;
           .FileInNavbar {
-            background-color: #b96363;
+            background-color: #565656b6;
 
             p {
               color: #a6a6a6;
@@ -245,7 +245,7 @@ body {
                 font-weight: 700;
                 font-size: 27px;
                 color: #757575;
-                &:focus{
+                &:focus {
                   background: rgba(217, 217, 217, 0.5);
                   border-radius: 20px;
                   outline: 0px;
@@ -384,4 +384,23 @@ body {
     opacity: 0;
     transform: scale(0);
   }
+}
+.hoverSvg {
+  cursor: pointer;
+  * {
+    transition: 0.2s all ease;
+  }
+  &:hover {
+    *:not(.excluded) {
+      border: #474747;
+      fill: #474747;
+    }
+  }
+}
+.selectCircle {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  user-select: none;
+  cursor: pointer;
 }

@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 
 const BinIcon = (props) => {
+
   return (
     <svg
+      className="hoverSvg"
       width={props.size * 52}
       height={props.size * 56}
       viewBox="0 0 83 104"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
