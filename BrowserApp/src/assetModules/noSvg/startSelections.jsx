@@ -4,13 +4,18 @@ import {
   startSelection,
   stopSelection,
 } from "../../redux/selectSlice";
+import { editPayload } from "../../redux/isEditable";
 
 const StartSelection = () => {
   const { isSelecting, selected } = useSelector((state) => state.select);
+  const isEditable = useSelector((state) => state.isEditable);
   const dispatch = useDispatch();
 
   const select = () => {
     if (!isSelecting) {
+      if (isEditable) {
+        dispatch(editPayload(false));
+      }
       dispatch(startSelection());
     } else {
       dispatch(stopSelection());
@@ -21,11 +26,12 @@ const StartSelection = () => {
   return (
     <div
       className="selectCircle"
-      onClick={(e)=>{
+      onClick={(e) => {
         e.stopPropagation();
-        select()}}
+        select();
+      }}
       style={{
-        display:  "flex",
+        display: "flex",
         background: isSelecting ? "rgb(46 46 46)" : "none",
         height: 50,
         width: 50,

@@ -4,7 +4,7 @@ import ShareIcon from "../../../assetModules/svgs/share";
 import BinIcon from "../../../assetModules/svgs/bin";
 import PenIcon from "../../../assetModules/svgs/pen";
 import { useDispatch, useSelector } from "react-redux";
-import { edit, editPayload } from "../../../redux/isEditable";
+import isEditable, { edit, editPayload } from "../../../redux/isEditable";
 import BackLeafIcon from "../../../assetModules/svgs/backLeaf";
 import { useLocation } from "react-router-dom";
 import StartSelection from "../../../assetModules/noSvg/startSelections";
@@ -12,7 +12,7 @@ import { updatePages } from "../../../redux/pagesSlice";
 import { clearSelection, stopSelection } from "../../../redux/selectSlice";
 
 const UpperRightHomePgeNavbar = () => {
-  const { selected } = useSelector((state) => state.select);
+  const { isSelecting,selected } = useSelector((state) => state.select);
   const [page, setPage] = useState("");
   const dispatch = useDispatch();
   const location = useLocation();
@@ -52,7 +52,7 @@ const UpperRightHomePgeNavbar = () => {
       </div>
 
       <div>
-        <h1 className="Name">{page}</h1>
+        <h1 className="Name">{page.replace('%20'," ")}</h1>
       </div>
 
       <div className="upperRightRightsectionHomePageNavbar">
@@ -66,16 +66,17 @@ const UpperRightHomePgeNavbar = () => {
         <div
           className="peni"
           onClick={() => {
-            // if(page!=="Home")
              dispatch(edit())
-            
+             if(isSelecting){
+              dispatch(stopSelection());
+              dispatch(clearSelection());
+             }
           }}
         >
           <PenIcon
             size={0.9}
             color="#2e2e2e"
-            allow={true}
-            // !(page==="Home")
+            roll={isEditable}
           />
         </div>
         <div onClick={deleteFile}>

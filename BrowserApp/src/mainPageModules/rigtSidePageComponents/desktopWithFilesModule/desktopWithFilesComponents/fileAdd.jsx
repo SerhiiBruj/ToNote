@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePages } from "../../../../redux/pagesSlice";
-import Arrow from "../../../../assetModules/svgs/arrow";
-import Ard from "../../../../assetModules/svgs/ard";
 
 const sanitize = (input) => input.replace(/[/"]/g, "");
 const FileAdd = () => {

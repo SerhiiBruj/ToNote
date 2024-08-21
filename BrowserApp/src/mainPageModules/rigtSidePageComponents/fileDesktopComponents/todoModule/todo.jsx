@@ -56,7 +56,9 @@ const Todo = () => {
   );
  
   return (
-    <div className="todo">
+    <div className="todo"
+    onClick={(e)=>e.stopPropagation()}
+    >
       <ol>
         {data.map((todo, index) => (
           <li className="li" key={index}>

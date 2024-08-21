@@ -1,31 +1,36 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { editPayload } from "../../redux/isEditable";
 
 const PenIcon = (props) => {
-  const roll = useSelector((state) => !state.isEditable.value);
+  const [roll, setRoll] = useState(true);
   const location = useLocation();
-  const page = location.pathname;
-  const dispatch = useDispatch();
+  const dispatch=useDispatch();
+  const page =location.pathname; 
   const ref = useRef();
   useEffect(() => {
-    dispatch(editPayload(false));
+    setRoll(true);
+    ref.current.style.transform = "scaleX(-1)";
+    dispatch(editPayload(false))
   }, [page]);
-  useEffect(()=>{
-    if (roll) {
-      ref.current.style.transform = "scaleX(-1)";
-    } else {
-      ref.current.style.transform = "scaleX(1)";
-    }
-  },[roll])
 
   return (
     <svg
       ref={ref}
-      style={{ transition: "all ease 0.2s" }}
-      
+      style={{ transform: "scaleX(-1)" }}
+      onClick={() => {
+        if (props.allow) {
+          setRoll(!roll);
+          ref.current.style.transition = "all ease 0.2s";
+          if (roll) {
+            ref.current.style.transform = "scaleX(1)";
+          } else {
+            ref.current.style.transform = "scaleX(-1)";
+          }
+        }
+      }}
       width={`${76 * props.size}`}
       height={`${58 * props.size}`}
       viewBox="0 0 76 58"

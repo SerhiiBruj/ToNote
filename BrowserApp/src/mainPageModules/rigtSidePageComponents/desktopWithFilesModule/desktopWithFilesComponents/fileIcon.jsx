@@ -85,7 +85,9 @@ const FileIcon = (props) => {
       className="fileIconConteiner"
       onClick={(e) => {
         e.stopPropagation();
-        !isSelecting && !isEditable ? gotodestination() : handleSelect(e);
+        !isSelecting && !isEditable
+          ? gotodestination()
+          : isSelecting && handleSelect(e);
       }}
       onBlur={() =>
         isEditable &&

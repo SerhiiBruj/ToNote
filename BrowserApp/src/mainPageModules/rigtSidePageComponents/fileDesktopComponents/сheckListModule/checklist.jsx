@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 
-const urlRegex  = /(https?:\/\/[^\s]+)/g;
+const urlRegex = /(https?:\/\/[^\s]+)/g;
 
 const ChecklistModule = () => {
   const location = useLocation();
@@ -88,7 +88,7 @@ const ChecklistModule = () => {
         return item;
       });
       if (!newData.some((li) => li.p.trim() === "")) {
-        newData.push({p:'',desc:['']});
+        newData.push({ p: "", desc: [""] });
       }
       updateData(newData);
     },
@@ -98,7 +98,13 @@ const ChecklistModule = () => {
   const renderTextWithLinks = useCallback((text) => {
     return text.split(urlRegex).map((part, index) =>
       urlRegex.test(part) ? (
-        <a href={part} key={index} style={{color:'inherit',fontSize:25}} target="_blank" rel="noopener noreferrer">
+        <a
+          href={part}
+          key={index}
+          style={{ color: "inherit", fontSize: 25 }}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {part}
         </a>
       ) : (
@@ -108,7 +114,7 @@ const ChecklistModule = () => {
   }, []);
 
   return (
-    <div className="checkList">
+    <div className="checkList" onClick={(e) => e.stopPropagation()}>
       {data.map((checklist, index) => (
         <ul key={index} className="checkLisList">
           <div
@@ -138,8 +144,8 @@ const ChecklistModule = () => {
             </div>
           </div>
           {checklist.desc.map((li, idx) => (
-            <li key={idx} className="checkLi" style={{paddingTop:20}}>
-               {isEditable ? (
+            <li key={idx} className="checkLi" style={{ paddingTop: 20 }}>
+              {isEditable ? (
                 <textarea
                   ref={(el) =>
                     (textareaRefs.current[index * 100 + idx + 1] = el)
@@ -157,14 +163,16 @@ const ChecklistModule = () => {
                 />
               ) : (
                 <div
-                className="texarea checkLi"
-                style={{
-                  borderBottom: !li && "5px solid gray",
-                  padding: 5,
-                  height: 30,
-                  margin: 0,
-                }}
-                >{renderTextWithLinks(li)}</div>
+                  className="texarea checkLi"
+                  style={{
+                    borderBottom: !li && "5px solid gray",
+                    padding: 5,
+                    height: 30,
+                    margin: 0,
+                  }}
+                >
+                  {renderTextWithLinks(li)}
+                </div>
               )}
             </li>
           ))}

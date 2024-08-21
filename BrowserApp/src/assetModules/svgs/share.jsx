@@ -1,14 +1,9 @@
-import React, { useEffect } from "react";
-// 
+/* eslint-disable react/prop-types */
 const ShareIcon = (props) => {
-
-
-
-
   return (
     <svg
-      width={props.size*52}
-      height={props.size*56}
+      width={props.size * 52}
+      height={props.size * 56}
       viewBox="0 0 52 56"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

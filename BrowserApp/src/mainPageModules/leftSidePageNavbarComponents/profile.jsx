@@ -1,5 +1,5 @@
 import UnknownUserIcon from '../../assetModules/svgs/unknownUser';
-import PenIcon from '../../assetModules/svgs/pen';
+import EditProfile from '../../assetModules/svgs/editProfile';
 import bg from '../../assetModules/noSvg/bg.jpg'; // Переконайтесь, що шлях до зображення правильний
 
 const Profile = () => {
@@ -16,7 +16,7 @@ const Profile = () => {
         >
           {!!bg&&<UnknownUserIcon />}
         </div>
-        <PenIcon color="#2e2e2e" allow={true} size={0.7} />
+        <EditProfile color="#2e2e2e" allow={true} size={0.7} />
       </div>
       <p className="profileEmail">unknown@zhmil.com</p>
     </div>

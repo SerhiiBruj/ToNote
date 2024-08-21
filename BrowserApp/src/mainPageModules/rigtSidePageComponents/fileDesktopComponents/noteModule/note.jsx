@@ -28,7 +28,10 @@ const Note = () => {
   }, [typeName]);
 
   return (
-    <div style={{ height: "90%", paddingLeft: 50 }}>
+    <div style={{ height: "90%", paddingLeft: 50 }} 
+    
+    onClick={(e)=>e.stopPropagation()}
+    >
       <div className="contic">
         <div style={{ paddingTop: 45 }}></div>
         <textarea
