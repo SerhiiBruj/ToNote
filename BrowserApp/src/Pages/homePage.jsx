@@ -8,12 +8,10 @@ import { clearSelection, stopSelection } from "../redux/selectSlice";
 
 const HomePage = () => {
   const location = useLocation();
-
   const dispatch = useDispatch();
-  useEffect(() => {
-    const items = Object.keys(localStorage);
 
-    dispatch(updatePages(items));
+  useEffect(() => {
+    dispatch(updatePages(Object.keys(localStorage)));
   }, [localStorage.key]);
   useEffect(() => {
     if (location.pathname.split("/")[1] !== "Home") {
@@ -23,7 +21,12 @@ const HomePage = () => {
   }, [location.pathname]);
 
   return (
-    <div className="homePageNavbarConteiner">
+    <div className="homePageNavbarConteiner"  
+    
+    onClick={() => {
+      dispatch(stopSelection());
+      dispatch(clearSelection());
+    }}>
       <LeftHomePageNavbar />
       <div className="rightHomePage">
         <UpperRightHomePgeNavbar />

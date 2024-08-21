@@ -21,7 +21,9 @@ const StartSelection = () => {
   return (
     <div
       className="selectCircle"
-      onClick={select}
+      onClick={(e)=>{
+        e.stopPropagation();
+        select()}}
       style={{
         display:  "flex",
         background: isSelecting ? "rgb(46 46 46)" : "none",

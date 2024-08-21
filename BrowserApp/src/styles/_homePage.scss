@@ -182,7 +182,7 @@ body {
           display: flex;
           justify-content: flex-start;
           flex-wrap: wrap;
-          width: 85%;
+          width: 89%;
           border-top-left-radius: 50px;
           background-color: $desktopBg;
 
@@ -208,7 +208,7 @@ body {
               margin: 0px;
               font-family: "Kadwa";
               font-weight: 700;
-              color:hsl(0, 0%, 20%);
+              color: hsl(0, 0%, 20%);
             }
             .fileIconType {
               @include textformat();
@@ -245,8 +245,30 @@ body {
                 font-weight: 700;
                 font-size: 27px;
                 color: #757575;
+                &:focus{
+                  background: rgba(217, 217, 217, 0.5);
+                  border-radius: 20px;
+                  outline: 0px;
+                  border-width: 0px;
+                  width: 40%;
+                  height: 50px;
+                  font-family: "Kadwa";
+                  font-weight: 700;
+                  font-size: 27px;
+                  color: #757575;
+                }
               }
               .fileType {
+                * {
+                  font-family: "Kadwa";
+                  font-weight: 700;
+                  font-size: 27px;
+                  color: #757575;
+                  display: flex;
+                  align-items: center;
+                  height: 100%;
+                  background: rgba(217, 217, 217, 0.5);
+                }
                 background-image: url("../assetModules/svgs/arrow.svg");
                 background: rgba(217, 217, 217, 0.5);
                 border-radius: 20px;
@@ -259,7 +281,19 @@ body {
                 font-weight: 700;
                 font-size: 27px;
                 color: #757575;
+                display: flex;
+                justify-content: space-between;
+                &::after {
+                  content: none !important;
+                }
+                .dropdown {
+                  width: 70%;
+                  .btn-secondary dropdown-toggle {
+                    width: 70%;
+                  }
+                }
               }
+
               .fileName {
                 background: rgba(217, 217, 217, 0.5);
                 border-radius: 20px;

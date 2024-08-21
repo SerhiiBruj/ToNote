@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePages } from "../../../../redux/pagesSlice";
+import Arrow from "../../../../assetModules/svgs/arrow";
+import Ard from "../../../../assetModules/svgs/ard";
 
 const sanitize = (input) => input.replace(/[/"]/g, "");
 const FileAdd = () => {
@@ -88,7 +90,7 @@ const FileAdd = () => {
               : "rotate(0deg) translateY(25px) scale(1.2)",
           }}
         >
-          <CrissCrossIcon size={!isAdding ? 1.5 : 0.8} />
+          <CrissCrossIcon  color={'#D9D9D9'} size={!isAdding ? 1.5 : 0.8} />
         </div>
       </div>
 
@@ -114,6 +116,8 @@ const FileAdd = () => {
             <option value="checklist">checklist</option>
             <option value="diary">diary</option>
           </select>
+
+       
           <button type="submit" className="submit">
             Create
           </button>
@@ -124,3 +128,37 @@ const FileAdd = () => {
 };
 
 export default FileAdd;
+
+
+   {/* <div className="dropdown">
+            <button
+              className="btn btn-secondary dropdown-toggle fileType"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span>{formData.fileType}</span>
+            </button>
+            <ul className="dropdown-menu dropdown-menu-dark">
+              <li>
+                <a className="dropdown-item active" href="#">
+                  Action
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Another action
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Something else here
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Separated link
+                </a>
+              </li>
+            </ul>
+          </div> */}

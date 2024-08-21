@@ -5,17 +5,13 @@ import { clearSelection, stopSelection } from "../../../redux/selectSlice";
 
 const DesktopWithFiles = () => {
   const pages = useSelector((state) => state.pages.value);
-  const dispatch = useDispatch();
- 
+
   return (
     <>
       <div style={{ width: "100%", display: "flex" }}>
         <div
           className="desktopWithFiles"
-          onClick={() => {
-            dispatch(stopSelection());
-            dispatch(clearSelection());
-          }}
+        
         >
           {pages.map((page, index) => (
             <FileIcon

@@ -1,32 +1,29 @@
 import PropTypes from "prop-types";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { doAnimate, donotanimate } from "../../../../redux/startAnimation";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
 import IsSelected from "../../../../assetModules/noSvg/isSelected";
 import { deSelect, select } from "../../../../redux/selectSlice";
+import { updatePages } from "../../../../redux/pagesSlice";
 
 const FileIcon = (props) => {
   const boolAnimate = useSelector((state) => state.startAnimation.value);
+  const isEditable = useSelector((state) => state.isEditable.value);
   const { isSelecting, selected } = useSelector((state) => state.select);
   const dispatch = useDispatch();
   const ref = useRef();
   const navigate = useNavigate();
-  let typename=`${props.type}/${props.name}`;
+  const [name, setName] = useState(props.name);
 
-
-  
-
-  
   const handleSelect = (e) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
 
-    if (!selected.includes(typename)) {
-      dispatch(select(typename)); 
-    }
-    else{
-        dispatch(deSelect(typename)); 
+    if (!selected.includes(`${props.type}/${name}`)) {
+      dispatch(select(`${props.type}/${name}`));
+    } else {
+      dispatch(deSelect(`${props.type}/${name}`));
     }
   };
 
@@ -38,6 +35,33 @@ const FileIcon = (props) => {
       dispatch(donotanimate());
     }
   }, [boolAnimate]);
+
+  const handleChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const renameLocalStorageKey = (oldKey, newKey) => {
+    if (!newKey || newKey === oldKey) {
+      console.log(
+        "Новий ключ не може бути порожнім або таким самим, як старий ключ."
+      );
+      return;
+    }
+
+    if (localStorage.getItem(newKey) !== null) {
+      console.log(`Ключ "${newKey}" вже існує.`);
+      return;
+    }
+
+    const oldValue = localStorage.getItem(oldKey);
+    if (oldValue !== null) {
+      localStorage.setItem(newKey, oldValue);
+      localStorage.removeItem(oldKey);
+      dispatch(updatePages(Object.keys(localStorage)));
+    } else {
+      console.log(`Ключ "${oldKey}" не знайдено.`);
+    }
+  };
 
   const gotodestination = useCallback(() => {
     if (ref.current) {
@@ -56,12 +80,30 @@ const FileIcon = (props) => {
     }
   }, [dispatch, navigate, props.type, props.name]);
   return (
-    <div ref={ref} className="fileIconConteiner" onClick={(e)=>{!isSelecting?gotodestination():handleSelect(e)}}>
+    <div
+      ref={ref}
+      className="fileIconConteiner"
+      onClick={(e) => {
+        e.stopPropagation();
+        !isSelecting && !isEditable ? gotodestination() : handleSelect(e);
+      }}
+      onBlur={() =>
+        isEditable &&
+        renameLocalStorageKey(
+          `${props.type}/${props.name}`,
+          `${props.type}/${name}`
+        )
+      }
+    >
       {!boolAnimate && (
         <>
           <div style={{ height: "70%" }}>
-            <span className="fileIconName" >{props.name}</span>
-            <br/>
+            <textarea
+              onChange={(e) => handleChange(e)}
+              className="texarea fileIconName"
+              disabled={!isEditable}
+              value={!isEditable ? props.name : name}
+            />
             <span className="fileIconType">{props.type}</span>
           </div>
           <div
@@ -73,7 +115,10 @@ const FileIcon = (props) => {
             }}
           >
             <div>
-              <IsSelected typename={typename} isSelected={selected.includes(typename)}/>
+              <IsSelected
+                typename={`${props.type}/${name}`}
+                isSelected={selected.includes(`${props.type}/${name}`)}
+              />
             </div>
 
             <div

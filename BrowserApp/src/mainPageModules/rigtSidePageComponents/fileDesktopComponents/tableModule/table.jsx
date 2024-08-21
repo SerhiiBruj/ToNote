@@ -99,11 +99,11 @@ const Table = () => {
             </div>
           ))}
           <div onClick={isEditable && addRow}>
-            <CrissCrossIcon size={0.5} />
+            <CrissCrossIcon size={0.5} color={isEditable?'#7a7c7c':'#484848'}/>
           </div>
         </div>
         <div onClick={isEditable && addColumn}>
-          <CrissCrossIcon size={0.5} />
+          <CrissCrossIcon size={0.5} color={isEditable?'#7a7c7c':'#484848 '} />
         </div>
       </div>
     </>

@@ -9,12 +9,12 @@ const Profile = () => {
         <div
           className="profileImg"
           style={{
-            backgroundImage: `url(${bg})`,
+            // backgroundImage: `url(${bg})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
-          {!bg&&<UnknownUserIcon />}
+          {!!bg&&<UnknownUserIcon />}
         </div>
         <PenIcon color="#2e2e2e" allow={true} size={0.7} />
       </div>

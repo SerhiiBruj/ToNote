@@ -9,6 +9,7 @@ import BackLeafIcon from "../../../assetModules/svgs/backLeaf";
 import { useLocation } from "react-router-dom";
 import StartSelection from "../../../assetModules/noSvg/startSelections";
 import { updatePages } from "../../../redux/pagesSlice";
+import { clearSelection, stopSelection } from "../../../redux/selectSlice";
 
 const UpperRightHomePgeNavbar = () => {
   const { selected } = useSelector((state) => state.select);
@@ -27,6 +28,8 @@ const UpperRightHomePgeNavbar = () => {
         localStorage.removeItem(file);
       }
       dispatch(updatePages(Object.keys(localStorage)));
+      dispatch(stopSelection());
+      dispatch(clearSelection());
     } else {
       alert("please choose file to delete");
     }
@@ -63,7 +66,7 @@ const UpperRightHomePgeNavbar = () => {
         <div
           className="peni"
           onClick={() => {
-            if(page!=="Home")
+            // if(page!=="Home")
              dispatch(edit())
             
           }}
@@ -71,7 +74,8 @@ const UpperRightHomePgeNavbar = () => {
           <PenIcon
             size={0.9}
             color="#2e2e2e"
-            allow={!(page==="Home")}
+            allow={true}
+            // !(page==="Home")
           />
         </div>
         <div onClick={deleteFile}>
