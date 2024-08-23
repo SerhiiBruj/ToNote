@@ -7,9 +7,12 @@ const SettingsPage = () => {
   return (
     <div style={{padding:50,color:"white"}} className='Settings'>
         <CloudStorage/>
+      <hr className="hr" />
         <Appearence/>
-        <AccountSettings/>
-        <TermsAndPolicy/>
+      <hr className="hr" />
+      <AccountSettings/>
+      <hr className="hr" />
+      <TermsAndPolicy/>
    
     </div>
   );

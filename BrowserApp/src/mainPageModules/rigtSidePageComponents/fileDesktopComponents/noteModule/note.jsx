@@ -10,38 +10,42 @@ const Note = () => {
   const typeName = useMemo(() => {
     return location.pathname.split("/").slice(2).join("/");
   }, [location.pathname]);
-  const [text, setText] = useLocalStorage(typeName,'');
- 
+  const [text, setText] = useLocalStorage(typeName, "");
 
   useEffect(() => {
-     location.pathname.split("/")[1] === "Home" ? "flex" : "none"
+    location.pathname.split("/")[1] === "Home" ? "flex" : "none";
     const textarea = textareaRef.current;
     if (textarea) {
       textarea.style.height = "auto";
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
-  }, [text]); 
+  }, [text]);
 
-  const handleTextChange = useCallback((event) => {
-    const newText = event.target.value;
-    setText(newText);
-  }, [typeName]);
+  const handleTextChange = useCallback(
+    (event) => {
+      const newText = event.target.value;
+      setText(newText);
+    },
+    [typeName]
+  );
 
   return (
-    <div style={{ height: "90%", paddingLeft: 50 }} 
-    
-    onClick={(e)=>e.stopPropagation()}
+    <div
+      style={{ height: "90%"  }}
+      onClick={(e) => e.stopPropagation()}
+      className=" conteiner"
     >
-      <div className="contic">
-        <div style={{ paddingTop: 45 }}></div>
-        <textarea
-          disabled={!isEditable}
-          ref={textareaRef}
-          className="texarea"
-          value={text}
-          onChange={(e)=>handleTextChange(e)}
-          autoFocus
-        />
+      <div className="contic" style={{ paddingTop: 20 ,width:'100%',height:'100%'}}>
+          <textarea
+          style={{width:'100%',height:'100% !important',minHeight: "90%",margin:0}}
+            disabled={!isEditable}
+            ref={textareaRef}
+            className="texarea"
+            placeholder="Type here..."
+            value={text}
+            onChange={(e) => handleTextChange(e)}
+            autoFocus
+          />
       </div>
     </div>
   );

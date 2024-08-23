@@ -115,7 +115,7 @@ const ChecklistModule = () => {
   }, []);
 
   return (
-    <div className="checkList" onClick={(e) => e.stopPropagation()}>
+    <div className="checkList conteiner" onClick={(e) => e.stopPropagation()}>
       {data.map((checklist, index) => (
         <ul key={index} className="checkLisList">
           <div

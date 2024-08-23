@@ -60,7 +60,7 @@ const FileAdd = () => {
 
   return (
     <div
-   
+      onClick={() => setIsAdding(true)}
       ref={ref}
       className="fileIconConteiner addFile"
       style={{
@@ -71,7 +71,8 @@ const FileAdd = () => {
       <div className="upperside" style={{}}>
         <span className="fileIconName">Add</span>
         <div
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             setIsAdding((prev) => !prev);
             setFormData({
               fileName: "",
@@ -89,12 +90,12 @@ const FileAdd = () => {
               : "rotate(0deg) translateY(15px) scale(1.1)",
           }}
         >
-          <CrissCrossIcon  color={'#D9D9D9'} size={!isAdding ? 1.5 : 0.8} />
+          <CrissCrossIcon color={"#D9D9D9"} size={!isAdding ? 1.5 : 0.8} />
         </div>
       </div>
 
       {isAdding && (
-        <form onSubmit={handleSubmit}   style={{ width: "100%", marginTop: 10 }}>
+        <form onSubmit={handleSubmit} style={{ width: "100%", marginTop: 10 }}>
           <input
             className="fileName"
             name="fileName"
@@ -116,7 +117,6 @@ const FileAdd = () => {
             <option value="diary">diary</option>
           </select>
 
-       
           <button type="submit" className="submit">
             Create
           </button>
@@ -128,8 +128,8 @@ const FileAdd = () => {
 
 export default FileAdd;
 
-
-   {/* <div className="dropdown">
+{
+  /* <div className="dropdown">
             <button
               className="btn btn-secondary dropdown-toggle fileType"
               type="button"
@@ -160,4 +160,5 @@ export default FileAdd;
                 </a>
               </li>
             </ul>
-          </div> */}
+          </div> */
+}

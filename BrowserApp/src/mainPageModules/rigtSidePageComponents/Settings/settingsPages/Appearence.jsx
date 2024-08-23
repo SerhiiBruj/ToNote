@@ -1,7 +1,8 @@
 
 const Appearence = () => {
   return (
-    <div className="Appearence" style={{ padding: '20px' }}>
+    <div className="settingsSection">
+
     <h2>Appearance Settings</h2>
     <p>Customize the look and feel of your ToNote app.</p>
     <div>
@@ -30,7 +31,7 @@ const Appearence = () => {
       </label>
     </div>
     <button style={{ marginTop: '20px', padding: '10px 20px' }}>Save Changes</button>
-  </div>
+      </div>
   )
 }
 

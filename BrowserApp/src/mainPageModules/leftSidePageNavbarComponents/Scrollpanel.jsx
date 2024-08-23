@@ -7,16 +7,16 @@ import { useSelector } from "react-redux";
 const Scrollpanel = () => {
   const pages = useSelector((state) => state.pages.value);
 
-  const [allow, setAllow] = useState(false);
+  const [allow, setAllow] = useState(true);
   return (
-    <div className="scrollpanel" style={{ borderTop: "#cfcfcf solid 5px" }}>
+    <div className="scrollpanel" >
       <ListOfFiles allow={allow} />
       <div
+      className="innerdivider"
         onClick={() => setAllow((prev) => !prev)}
         style={{
           height: pages.length > 4 ? 40 : 20,
           width: "100%",
-          background: "#cfcfcf",
           alignItems: "center",
           display: "flex",
           justifyContent: "center",

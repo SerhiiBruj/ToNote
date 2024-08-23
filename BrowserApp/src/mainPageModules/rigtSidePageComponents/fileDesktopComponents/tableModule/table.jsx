@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
@@ -28,7 +28,7 @@ const Table = () => {
   const changeDone = useCallback(
     (index, i) => {
       const newTable = [...table];
-      newTable[index][i] = !table[index][i];
+      newTable[index][i] = table[index][i]===''?true:'';
       setTable(newTable);
     },
     [table, setTable]
@@ -43,6 +43,31 @@ const Table = () => {
     const newTable = table.map((item) => [...item, ""]);
     setTable(newTable);
   }, [table]);
+
+  useEffect(() => {
+    if (!isEditable && table.length > 2) {
+      let newTable = table.filter(
+        (row) => row && row.some((cell) => cell.trim() !== "" && cell !== false)
+      );
+      const columnIndexesToKeep = new Set();
+      for (let i = 0; i < newTable[0].length; i++) {
+        let keepColumn = false;
+        for (let j = 0; j < newTable.length; j++) {
+          if (newTable[j][i].trim() !== "" && newTable[j][i] !== false) {
+            keepColumn = true;
+            break;
+          }
+        }
+        if (keepColumn) columnIndexesToKeep.add(i);
+      }
+      newTable = newTable.map((row) =>
+        row.filter((_, index) => columnIndexesToKeep.has(index))
+      );
+
+      setTable(newTable);
+    }
+  }, [isEditable, table, setTable]);
+
   return (
     <>
       <div
@@ -121,65 +146,3 @@ const Table = () => {
 };
 
 export default Table;
-
-// import * as XLSX from "xlsx";
-
-// const exportToExcel = () => {
-//   // Додаємо заголовки
-//   const ws = XLSX.utils.aoa_to_sheet([["ID", "Ім'я", "Вік"], ...data]);
-//   // Створюємо нову книгу
-//   const wb = XLSX.utils.book_new();
-//   XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-//   // Експортуємо файл
-//   XLSX.writeFile(wb, "data.xlsx");
-// };
-{
-  /* <button onClick={exportToExcel}>Експортувати в Excel</button> */
-}
-// const rows = 5;
-// const cols = 5;
-
-// const array = Array.from({ length: rows }, () => Array.from({ length: cols }, () => 0));
-
-// console.log(array);
-
-// useEffect(() => {
-//   if (isEditable) {
-//     const newTable = table.map((row) => [...row, ""]); // Додаємо порожню колонку
-//     newTable.push(new Array(newTable[0].length).fill("")); // Додаємо порожній рядок
-//     setTable(newTable);
-//   } else {
-
-//     let newTable = [...table];
-
-//     if (newTable[newTable.length - 1].every((cell) => cell.trim() === "")) {
-//       newTable.pop();
-//     }
-
-//     newTable = newTable.filter(row => row[0].trim() !== "");
-
-//     // Видаляємо стовпець, якщо перший елемент у кожному рядку порожній
-//     if (newTable.length > 0 && newTable.every(row => row[0].trim() === "")) {
-//       newTable = newTable.map(row => row.slice(1));
-//     }
-
-//     // Видаляємо останню колонку, якщо вона порожня
-//     const columnIndexToDelete = newTable[0].length - 1;
-//     if (newTable.every((row) => row[columnIndexToDelete].trim() === "")) {
-//       newTable = newTable.map((row) => row.slice(0, -1));
-//     }
-
-//     setTable(newTable);
-//   }
-// }, [isEditable]);
-
-// const changeTd = useCallback((e, index, i) => {
-//   const newTable = [...table];
-//   newTable[index][i] = e.target.value;
-//   setTable(newTable);
-// });
-// const changeDone = useCallback((e, index, i, td) => {
-//   const newTable = [...table];
-//   newTable[index][i] = !td;
-//   setTable(newTable);
-// });

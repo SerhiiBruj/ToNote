@@ -35,6 +35,7 @@ const StartSelection = () => {
         borderColor: isSelecting && "#474747",
         height: 50,
         width: 50,
+        transform: isSelecting ? "scale(1)" : "scale(0)",
       }}
       onMouseOver={(e) => {
         e.currentTarget.style.borderColor = "#474747";

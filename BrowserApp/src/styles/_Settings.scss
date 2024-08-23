@@ -1,0 +1,22 @@
+.Settings {
+  padding: 20px;
+}
+.Settings {
+  * {
+    @include textformat(25px, 700, normal, $textlightcolor !important);
+  }
+  .hr{
+    border: 0;
+    height: 5px;
+transform: scaleX(2);
+    background-color: $textlightcolor;
+    opacity: 50%;
+  }
+  .settingsSection{
+    padding-top: 50px;
+    padding-bottom:50px ;
+    padding-left: 50px;
+  }
+
+
+}

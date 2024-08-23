@@ -1,0 +1,32 @@
+$gray: #d9d9d980;
+$fileIconbg: #d9d9d9;
+$darkgray: #1e1e1e;
+$navbg: #7c7c7c;
+$darkgrayhover: #1c1c1c;
+$coolcolor: #123123;
+$activeFileInNav: #565656b6;
+$inactiveFileInNav: #a0a0a0b2;
+$graytext: #424242;
+$lighterdarkgray: #d9d9d980;
+$hoversvg: 474747;
+$textlightcolor: #bfbfbf;
+
+@mixin flex($fd: row, $jc: center, $ai: center) {
+  display: flex;
+  flex-direction: $fd;
+  justify-content: $jc;
+  align-items: $ai;
+}
+
+@mixin textformat(
+  $font-size: 27px,
+  $font-weight: 700,
+  $line-height: normal,
+  $color: $graytext
+) {
+  font-family: "Kadwa";
+  font-size: $font-size;
+  font-weight: $font-weight;
+  line-height: $line-height;
+  color: $color;
+}

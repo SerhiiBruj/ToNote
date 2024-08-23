@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+// eslint-disable-next-line react/prop-types
 const ListOfFiles = ({ allow }) => {
   const pages = useSelector((state) => state.pages.value);
 
@@ -17,8 +18,8 @@ const ListOfFiles = ({ allow }) => {
         const borders = isAfterFourth
           ? allow
             ? "none"
-            : "#cfcfcf 5px solid"
-          : "#cfcfcf 5px solid";
+            :""
+          :"" ;
         return (
           <NavLink
             key={item}
