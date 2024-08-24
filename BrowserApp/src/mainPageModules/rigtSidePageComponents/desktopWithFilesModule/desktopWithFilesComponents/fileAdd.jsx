@@ -36,7 +36,7 @@ const FileAdd = () => {
         case "todo":
           return [];
         case "note":
-          return ""; // Повертаємо пустий рядок або іншу потрібну ініціалізацію
+          return ""; 
         case "table":
           return [
             ["", ""],
@@ -71,6 +71,7 @@ const FileAdd = () => {
       <div className="upperside" style={{}}>
         <span className="fileIconName">Add</span>
         <div
+        onBlur={() => setIsAdding(false)}
           onClick={(e) => {
             e.stopPropagation();
             setIsAdding((prev) => !prev);
@@ -87,7 +88,7 @@ const FileAdd = () => {
             paddingRight: 20,
             transform: isAdding
               ? "rotate(45deg)"
-              : "rotate(0deg) translateY(15px) scale(1.1)",
+              : "rotate(0deg) translateY(15px)  translateX(-20px)",
           }}
         >
           <CrissCrossIcon color={"#D9D9D9"} size={!isAdding ? 1.5 : 0.8} />

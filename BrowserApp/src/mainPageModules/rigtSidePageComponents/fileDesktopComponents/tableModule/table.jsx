@@ -71,7 +71,7 @@ const Table = () => {
   return (
     <>
       <div
-        className="conteiner"
+        className="conteiner fileConteiner"
         style={{ display: "flex" }}
         onClick={(e) => e.stopPropagation()}
       >

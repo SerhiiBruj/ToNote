@@ -40,7 +40,7 @@ const Diary = () => {
     <div style={{ height: "90%", paddingLeft: 50 }}
     
     onClick={(e) => e.stopPropagation()}>
-      <div className="contic">
+      <div className="contic fileConteiner">
         <div style={{ paddingTop: 45 }}></div>
         <textarea
           disabled={!isEditable}

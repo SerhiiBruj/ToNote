@@ -57,7 +57,7 @@ const Todo = () => {
  
   return (
         
-    <div className="todo conteiner "
+    <div className="todo conteiner fileConteiner "
     onClick={(e)=>e.stopPropagation()}
     >
       <ol>

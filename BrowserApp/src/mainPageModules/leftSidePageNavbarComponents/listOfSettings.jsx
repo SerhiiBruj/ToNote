@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const ListOfSettings = () => {
   let Settings = [
-    "Cloud storage",
+    "Local storage",
     "Appearance",
     "Account settings",
     "Terms and Policy",

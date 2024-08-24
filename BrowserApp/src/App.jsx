@@ -31,7 +31,7 @@ function App() {
           <Route path="checklist/:name" element={<ChecklistModule />} />
 
           <Route path="Settings" element={<SettingsPage />}>
-            <Route path="Cloud_storage" element={<CloudStorage />} />
+            <Route path="Local_storage" element={<CloudStorage />} />
             <Route path="Appearance" element={<Appearence />} />
             <Route path="Account_settings" element={<AccountSettings />} />
             <Route path="Terms_and_Policy" element={<TermsAndPolicy />} />

@@ -1,31 +1,59 @@
-import BellsIcon from '../../../../../assetModules/svgs/bellsIcon'
+import BellsIcon from "../../../../../assetModules/svgs/bellsIcon";
 
-const Clocker = () => {
+const Clocker = ({ dateOfStart, name, type, data, results, goal }) => {
+  const handleClick = () => {
+    if (type === "clock on") {
+      console.log("clock on");
+    }
+    if (type === "timer") {
+      console.log("timer");
+    }
+    if (type === "counter") {
+      console.log("counter");
+    }
+    if (type === "check in") {
+      console.log("check in");
+    }
+  };
 
   return (
     <div className="clockonConteiner">
-        <div className="clockonConteinerInner">
-          <div className="fsb">
-            <span className="name">Running</span> <BellsIcon size={1.5} />
+      <div className="clockonConteinerInner">
+        <div className="fsb">
+          <div>
+            <span className="name">{name}</span>
+            <br />
+            <span>Started:{dateOfStart}</span>
           </div>
-          <div
-            className="schedule
-"
-          ></div>
+          <BellsIcon size={1.5} />
         </div>
-        <div className="clockonConteinerInner">
-          <div className="fcsb">
-            <div className="fe">
-              <div className="clockOn" size={200} color={"#313131"}>
-                Clock On <br/>
-                </div>
+        <div
+          className="schedule
+"
+        ></div>
+      </div>
+      <div className="clockonConteinerInner">
+        <div className="fcsb">
+          <div className="fe">
+            <div
+              className="clockOn"
+              size={200}
+              color={"#313131"}
+              onClick={handleClick}
+            >
+              {type === "timer"
+                ? "Start"
+                : type === "counter"
+                ? "Increase"
+                : type}
             </div>
-            <span className="name">Goal:</span>
-            <span className="name">Result:</span>
           </div>
+          <span className="name">Goal:{goal}</span>
+          <span className="name">Result:{results}</span>
         </div>
       </div>
-  )
-}
+    </div>
+  );
+};
 
-export default Clocker
+export default Clocker;

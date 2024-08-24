@@ -58,7 +58,6 @@ const UpperRightHomePgeNavbar = () => {
           for (let i of selected) {
             if (i.split("/")[0] === "note" && localStorage.getItem(i)) {
               const text = JSON.parse(localStorage.getItem(i), null, 2);
-
               const blob = new Blob([text], { type: "text/plain" });
               const url = URL.createObjectURL(blob);
               const link = document.createElement("a");
@@ -102,14 +101,83 @@ const UpperRightHomePgeNavbar = () => {
             }
             console.log(i);
           }
-        } 
-          dispatch(stopSelection());
-          dispatch(clearSelection());
+        }
+        dispatch(stopSelection());
+        dispatch(clearSelection());
       } else {
         dispatch(startSelection());
       }
     } else if (listOfFileTypes.includes(location.pathname.split("/")[2])) {
-      console.log(location.pathname);
+      switch (location.pathname.split("/")[2]) {
+        case "note":
+          {
+            const text = JSON.parse(
+              localStorage.getItem(`note/${location.pathname.split("/")[3]}`),
+              null,
+              2
+            );
+            const blob = new Blob([text], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `${location.pathname.split("/")[3]}.txt`;
+            link.click();
+            URL.revokeObjectURL(url);
+          }
+          break;
+        case "checklist":
+          {
+            const checklists = JSON.parse(
+              localStorage.getItem(
+                `checklist/${location.pathname.split("/")[3]}`
+              )
+            )
+              .map(
+                (checklist) =>
+                  `${checklist.p}\n\t${checklist.desc.join("\n\t")}`
+              )
+              .join("\n\n");
+            const blob = new Blob([checklists], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `${location.pathname.split("/")[3]}.txt`;
+            link.click();
+            URL.revokeObjectURL(url);
+          }
+          break;
+        case "todo":
+          {
+            const todos = JSON.parse(
+              localStorage.getItem(`todo/${location.pathname.split("/")[3]}`)
+            ).join("\n");
+            const blob = new Blob([todos], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `${location.pathname.split("/")[3]}.txt`;
+            link.click();
+            URL.revokeObjectURL(url);
+          }
+          break;
+        case "table":
+          {
+            const ws = XLSX.utils.aoa_to_sheet(
+              JSON.parse(
+                localStorage.getItem(`table/${location.pathname.split("/")[3]}`)
+              )
+            );
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+            XLSX.writeFile(wb, `${location.pathname.split("/")[3]}.xlsx`);
+          }
+          break;
+        default:
+          () => {
+            console.log("no Eport");
+          };
+          break;
+      }
     }
   };
   return (

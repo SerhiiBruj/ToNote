@@ -78,6 +78,7 @@
   flex-direction: center;
   justify-content: center;
   align-items: flex-end;
+  padding: 10px;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .profile .profileImgConteiner .profileImg {
   display: flex;
@@ -85,8 +86,10 @@
   justify-content: flex-end;
   align-items: center;
   border-radius: 50%;
-  height: 180px;
-  width: 180px;
+  height: 170px;
+  width: 170px;
+  min-width: 170px;
+  min-height: 170px;
   background-color: #1e1e1e;
   overflow: hidden;
 }
@@ -98,13 +101,17 @@
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel {
   background-color: rgba(217, 217, 217, 0.5019607843);
-  border-top: solid 10px #d9d9d9;
-  scroll-snap-type: y mandatory;
+  border-top: solid 10px #b1b1b1;
   width: 100%;
   flex: 1;
   position: sticky;
   overflow-x: hidden;
   overflow-y: auto;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .innerdivider {
+  background-color: #b1b1b1;
+  border-top: #b1b1b1 5px solid;
+  border-bottom: #b1b1b1 5px solid;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel * {
   text-decoration: none !important;
@@ -114,6 +121,7 @@
   background-repeat: no-repeat;
   background-size: 170%;
   background-position: right;
+  min-height: 200px;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings {
   background-image: url(../assetModules/svgs/gearSvg.svg);
@@ -143,7 +151,7 @@
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .activeNav .FileInNavbar p,
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings .activeNav .FileInNavbar p {
-  color: #d9d9d9;
+  color: rgb(217, 217, 217);
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles .inactiveNav .FileInNavbar p,
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings .inactiveNav .FileInNavbar p {
@@ -156,8 +164,8 @@
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  border-top: #d9d9d9 5px solid;
-  border-bottom: #d9d9d9 5px solid;
+  border-top: #b1b1b1 5px solid;
+  border-bottom: #b1b1b1 5px solid;
   background-color: rgba(160, 160, 160, 0.6980392157);
   height: 100px;
   min-width: 250px;
@@ -198,10 +206,6 @@
   border-top-left-radius: 50px;
   background-color: #1e1e1e;
 }
-.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll::-webkit-scrollbar {
-  width: 0px;
-  height: 0px;
-}
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles {
   display: flex;
   flex-direction: row;
@@ -221,9 +225,9 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  height: 176px;
-  width: 220px;
-  background-color: #d9d9d9;
+  height: 170px;
+  width: 200px;
+  background-color: rgb(217, 217, 217);
   border-radius: 20px;
   padding: 10px;
   transition: 0.4s all ease;
@@ -244,7 +248,7 @@
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner .fileIconType {
   font-family: "Kadwa";
-  font-size: 85%;
+  font-size: 100%;
   font-weight: 700;
   line-height: 10px;
   color: #424242;
@@ -253,7 +257,7 @@
   transform: scale(1.04);
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile {
-  background: rgba(217, 217, 217, 0.5019607843);
+  background: #868686;
   animation: appear 0.6s ease-out;
   cursor: pointer;
 }
@@ -266,7 +270,7 @@
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile .upperside .fileIconName {
   font-family: "Kadwa";
-  font-size: 35px;
+  font-size: 30px;
   font-weight: 700;
   line-height: 30px;
   color: hsl(0, 0%, 20%);
@@ -307,6 +311,11 @@
   width: 70%;
   height: 50px;
   padding-left: 20px;
+  font-family: "Kadwa";
+  font-size: 27px;
+  font-weight: 700;
+  line-height: normal;
+  color: #424242;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile form .fileType::after {
   content: none !important;
@@ -353,7 +362,7 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  height: 80px;
+  height: 10%;
   background-color: rgba(217, 217, 217, 0.5019607843);
   width: 100%;
 }
@@ -430,10 +439,6 @@
 .hoverSvg:hover *:not(.excluded) {
   border: 474747;
   fill: 474747;
-}
-
-.innerdivider {
-  background-color: #d9d9d9;
 }
 
 .ContainerOfNavbar {
@@ -668,103 +673,8 @@
   flex-direction: column;
   height: 100%;
   gap: 50px;
-}
-.dashboard .addFile {
-  background: rgba(217, 217, 217, 0.5019607843);
-  animation: appear 0.6s ease-out;
-  cursor: pointer;
-}
-.dashboard .addFile .upperside {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-.dashboard .addFile form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 70%;
-}
-.dashboard .addFile form .submit {
-  background: rgba(217, 217, 217, 0.5);
-  border-radius: 20px;
-  outline: 0px;
-  border-width: 0px;
-  width: 40%;
-  height: 50px;
-  font-family: "Kadwa";
-  font-weight: 700;
-  font-size: 27px;
-  color: #757575;
-}
-.dashboard .addFile form .submit:focus {
-  background: rgba(217, 217, 217, 0.5);
-  border-radius: 20px;
-  outline: 0px;
-  border-width: 0px;
-  width: 40%;
-  height: 50px;
-  font-family: "Kadwa";
-  font-weight: 700;
-  font-size: 27px;
-  color: #757575;
-}
-.dashboard .addFile form .fileType {
-  background-image: url("../assetModules/svgs/arrow.svg");
-  background: rgba(217, 217, 217, 0.5);
-  border-radius: 20px;
-  outline: 0px;
-  border-width: 0px;
-  width: 70%;
-  height: 50px;
-  padding-left: 20px;
-  font-family: "Kadwa";
-  font-weight: 700;
-  font-size: 27px;
-  color: #757575;
-  display: flex;
-  justify-content: space-between;
-}
-.dashboard .addFile form .fileType * {
-  font-family: "Kadwa";
-  font-weight: 700;
-  font-size: 27px;
-  color: #757575;
-  display: flex;
-  align-items: center;
-  height: 100%;
-  background: rgba(217, 217, 217, 0.5);
-}
-.dashboard .addFile form .fileType::after {
-  content: none !important;
-}
-.dashboard .addFile form .fileType .dropdown {
-  width: 70%;
-}
-.dashboard .addFile form .fileType .dropdown .btn-secondary dropdown-toggle {
-  width: 70%;
-}
-.dashboard .addFile form .fileName {
-  background: rgba(217, 217, 217, 0.5);
-  border-radius: 20px;
-  outline: 0px;
-  border-width: 0px;
-  width: 70%;
-  height: 50px;
-  font-family: "Kadwa";
-  font-weight: 700;
-  font-size: 27px;
-  padding-left: 20px;
-}
-.dashboard .addFile form .fileName::-moz-placeholder {
-  font-family: "Kadwa";
-  font-weight: 700;
-  font-size: 27px;
-}
-.dashboard .addFile form .fileName::placeholder {
-  font-family: "Kadwa";
-  font-weight: 700;
-  font-size: 27px;
+  padding: 50px;
+  padding-bottom: 150px;
 }
 .dashboard .clockonConteiner {
   background-color: #acacac;
@@ -862,6 +772,147 @@
   transform: scale(1.04);
 }
 
+.fileIconConteiner {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  height: 170px;
+  width: 200px;
+  background-color: #d9d9d9;
+  border-radius: 20px;
+  padding: 10px;
+  transition: 0.4s all ease;
+  animation: appear 0.6s ease-out;
+}
+.fileIconConteiner:hover {
+  transform: scale(1.1);
+}
+.fileIconConteiner .fileIconName {
+  font-family: "Kadwa";
+  font-size: 130%;
+  font-weight: 700;
+  line-height: 30px;
+  color: hsl(0, 0%, 20%);
+  height: 40px;
+  padding: 0;
+  margin: 0;
+}
+.fileIconConteiner .fileIconType {
+  font-family: "Kadwa";
+  font-size: 100%;
+  font-weight: 700;
+  line-height: 10px;
+  color: #424242;
+}
+.fileIconConteiner:hover {
+  transform: scale(1.04);
+}
+
+.addFile {
+  width: 30%;
+  background: #868686;
+  animation: appear 0.6s ease-out;
+  cursor: pointer;
+}
+.addFile .upperside {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+.addFile .upperside .fileIconName {
+  font-family: "Kadwa";
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 30px;
+  color: hsl(0, 0%, 20%);
+  padding-top: 10px;
+}
+.addFile form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  height: 70%;
+}
+.addFile form .submit {
+  font-family: "Kadwa";
+  font-size: 27px;
+  font-weight: 700;
+  line-height: normal;
+  color: #424242;
+  background: rgba(217, 217, 217, 0.5);
+  border-radius: 20px;
+  outline: 0;
+  border-width: 0;
+  width: 40%;
+  height: 50px;
+}
+.addFile form .submit:focus {
+  background: rgba(217, 217, 217, 0.5);
+}
+.addFile form .fileType {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(217, 217, 217, 0.5);
+  border-radius: 20px;
+  outline: 0;
+  border-width: 0;
+  width: 70%;
+  height: 50px;
+  padding-left: 20px;
+  font-family: "Kadwa";
+  font-size: 27px;
+  font-weight: 700;
+  line-height: normal;
+  color: #424242;
+}
+.addFile form .fileType::after {
+  content: none !important;
+}
+.addFile form .fileType .dropdown {
+  width: 70%;
+}
+.addFile form .fileType .dropdown .btn-secondary.dropdown-toggle {
+  width: 70%;
+}
+.addFile form .fileName {
+  font-family: "Kadwa";
+  font-size: 27px;
+  font-weight: 700;
+  line-height: normal;
+  color: #424242;
+  background: rgba(217, 217, 217, 0.5);
+  border-radius: 20px;
+  outline: 0;
+  border-width: 0;
+  width: 70%;
+  height: 50px;
+  padding-left: 20px;
+}
+.addFile form .fileName::-moz-placeholder {
+  font-family: "Kadwa";
+  font-size: 27px;
+  font-weight: 700;
+  line-height: normal;
+  color: #424242;
+}
+.addFile form .fileName::placeholder {
+  font-family: "Kadwa";
+  font-size: 27px;
+  font-weight: 700;
+  line-height: normal;
+  color: #424242;
+}
+
+.heightCont {
+  height: 30vh;
+  width: 100%;
+}
+
 .Settings {
   padding: 20px;
 }
@@ -887,5 +938,7 @@
 }
 
 .fileConteiner {
-  height: 90% !important;
+  min-height: 100% !important;
+  overflow: auto !important;
+  padding-bottom: 150px;
 }/*# sourceMappingURL=App.css.map */

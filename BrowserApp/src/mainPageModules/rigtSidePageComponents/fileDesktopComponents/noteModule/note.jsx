@@ -33,7 +33,7 @@ const Note = () => {
     <div
       style={{ height: "90%"  }}
       onClick={(e) => e.stopPropagation()}
-      className=" conteiner"
+      className=" conteiner fileConteiner"
     >
       <div className="contic" style={{ paddingTop: 20 ,width:'100%',height:'100%'}}>
           <textarea

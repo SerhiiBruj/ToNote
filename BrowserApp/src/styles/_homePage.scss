@@ -25,12 +25,14 @@
 
       .profileImgConteiner {
         @include flex(center, center, flex-end);
-
+        padding: 10px;
         .profileImg {
           @include flex(column, flex-end);
           border-radius: 50%;
-          height: 180px;
-          width: 180px;
+          height: 170px;
+          width: 170px;
+          min-width: 170px;
+          min-height: 170px;
           background-color: $darkgray;
           overflow: hidden;
         }
@@ -46,13 +48,18 @@
 
     .scrollpanel {
       background-color: $gray;
-      border-top: solid 10px $fileIconbg;
-      scroll-snap-type: y mandatory;
+      border-top: solid 10px $lighterdarkgray;
       width: 100%;
       flex: 1;
       position: sticky;
       overflow-x: hidden;
       overflow-y: auto;
+      .innerdivider {
+        background-color: $lighterdarkgray ;
+        border-top: $lighterdarkgray 5px solid;
+        border-bottom: $lighterdarkgray 5px solid;
+      }
+
       * {
         text-decoration: none !important;
       }
@@ -60,7 +67,9 @@
         background-image: url(../assetModules/svgs/penAndLineSvg.svg);
         background-repeat: no-repeat;
         background-size: 170%;
+
         background-position: right;
+        min-height: 200px;
       }
       .listOfSettings {
         background-image: url(../assetModules/svgs/gearSvg.svg);
@@ -95,8 +104,8 @@
         .FileInNavbar {
           @include flex(row, space-between);
           box-sizing: border-box;
-          border-top: $fileIconbg 5px solid;
-          border-bottom: $fileIconbg 5px solid;
+          border-top: $lighterdarkgray 5px solid;
+          border-bottom: $lighterdarkgray 5px solid;
           background-color: $inactiveFileInNav;
           height: 100px;
           min-width: 250px;
@@ -131,10 +140,6 @@
         border-top-left-radius: 50px;
         background-color: $darkgray;
 
-        &::-webkit-scrollbar {
-          width: 0px;
-          height: 0px;
-        }
 
         .desktopWithFiles {
           @include flex(row, flex-start, flex-start);
@@ -150,8 +155,8 @@
 
           .fileIconConteiner {
             user-select: none;
-            height: calc(160 * 1.1px);
-            width: calc(200 * 1.1px);
+            height: 170px;
+            width: 200px;
             background-color: $fileIconbg;
             border-radius: 20px;
             padding: 10px;
@@ -170,7 +175,7 @@
             }
 
             .fileIconType {
-              @include textformat(85%, 700, 10px);
+              @include textformat(100%, 700, 10px);
             }
 
             &:hover {
@@ -179,7 +184,7 @@
           }
 
           .addFile {
-            background: $lighterdarkgray;
+            background: $AddFilebg;
             animation: appear 0.6s ease-out;
             cursor: pointer;
 
@@ -187,7 +192,7 @@
               @include flex(row, space-between, flex-start);
               width: 100%;
               .fileIconName {
-                @include textformat(35px, 700, 30px, hsl(0, 0%, 20%));
+                @include textformat(30px, 700, 30px, hsl(0, 0%, 20%));
                 padding-top: 10px;
               }
             }
@@ -219,6 +224,7 @@
                 width: 70%;
                 height: 50px;
                 padding-left: 20px;
+                @include textformat(27px, 700);
 
                 &::after {
                   content: none !important;
@@ -256,7 +262,7 @@
     .upperRightHomePageNavbar {
       @include flex(row, space-between);
       user-select: none;
-      height: 80px;
+      height: 10%;
       background-color: $gray;
       width: 100%;
 
@@ -331,8 +337,4 @@
       fill: $hoversvg;
     }
   }
-}
-
-.innerdivider {
-  background-color: $fileIconbg;
 }
