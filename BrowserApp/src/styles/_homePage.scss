@@ -53,9 +53,9 @@
       flex: 1;
       position: sticky;
       overflow-x: hidden;
-      overflow-y: auto;
+      overflow-y: scroll;
       .innerdivider {
-        background-color: $lighterdarkgray ;
+        background-color: $lighterdarkgray;
         border-top: $lighterdarkgray 5px solid;
         border-bottom: $lighterdarkgray 5px solid;
       }
@@ -127,19 +127,18 @@
     height: 100vh;
 
     .desktopWithFilesbgbg {
-      overflow-y: auto;
+     overflow-y: scroll;
       width: 100%;
       height: 100%;
       @include flex(row);
       background-color: $gray;
 
       .scroll {
-        overflow-y: auto;
+        overflow-y: scroll;
         width: 100%;
         height: 100%;
         border-top-left-radius: 50px;
         background-color: $darkgray;
-
 
         .desktopWithFiles {
           @include flex(row, flex-start, flex-start);
@@ -332,9 +331,10 @@
   }
 
   &:hover {
+    fill: aliceblue;
     *:not(.excluded) {
-      border: $hoversvg;
-      fill: $hoversvg;
+      border-color: $hoversvg !important;
+      fill: $hoversvg !important;
     }
   }
 }

@@ -7,13 +7,13 @@ import { editPayload } from "../../redux/isEditable";
 const PenIcon = (props) => {
   const [roll, setRoll] = useState(true);
   const location = useLocation();
-  const dispatch=useDispatch();
-  const page =location.pathname; 
+  const dispatch = useDispatch();
+  const page = location.pathname;
   const ref = useRef();
   useEffect(() => {
     setRoll(true);
     ref.current.style.transform = "scaleX(-1)";
-    dispatch(editPayload(false))
+    dispatch(editPayload(false));
   }, [page]);
 
   return (
@@ -54,7 +54,7 @@ const PenIcon = (props) => {
         transform="matrix(-0.485508 0.874232 -0.878401 -0.477925 58 6.32153)"
         fill={props.color}
       />
-
+      
       <path
         style={roll ? { opacity: "100%" } : { opacity: "0%" }}
         d="M7.265 3.86821C6.22138 2.83434 6.68329 1.60529 8.26207 1.21521C9.57097 0.89181 11.2285 1.25853 12.184 2.08289L61.2435 44.4092L51.9231 48.109L7.265 3.86821Z"

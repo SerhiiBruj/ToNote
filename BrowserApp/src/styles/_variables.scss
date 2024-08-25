@@ -4,13 +4,13 @@ $darkgray: #1e1e1e;
 $navbg: #7c7c7c;
 $darkgrayhover: #1c1c1c;
 $coolcolor: #123123;
-$activeFileInNav: #565656b6;
+$activeFileInNav: hsla(0, 0%, 34%, 0.714);
 $inactiveFileInNav: #a0a0a0b2;
 $graytext: #424242;
 $lighterdarkgray: #b1b1b1;
 $AddFilebg: #868686;
 
-$hoversvg: 474747;
+$hoversvg: #474747;
 $textlightcolor: #bfbfbf;
 
 @mixin flex($fd: row, $jc: center, $ai: center) {

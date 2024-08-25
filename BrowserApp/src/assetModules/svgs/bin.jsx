@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 
 const BinIcon = (props) => {
-
   return (
     <svg
       className="hoverSvg"

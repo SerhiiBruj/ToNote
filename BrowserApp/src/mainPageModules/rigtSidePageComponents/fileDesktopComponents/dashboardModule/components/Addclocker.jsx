@@ -1,22 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
 import CrissCrossIcon from "../../../../../assetModules/svgs/crissCross";
 
 const sanitize = (input) => input.replace(/[/"]/g, "");
 const AddClocker = () => {
   const [isAdding, setIsAdding] = useState(false);
-  const boolAnimate = useSelector((state) => state.startAnimation.value);
   const [formData, setFormData] = useState({
-    fileName: "",
-    fileType: "note",
+    name: "",
+    type: "note",
+    goal: "1",
   });
 
   
 
-  const ref = useRef(null);
-  useEffect(() => {
-    if (boolAnimate) ref.current.style.animation = " fade 0.6s ease-out";
-  }, [boolAnimate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,15 +24,15 @@ const AddClocker = () => {
   return (
     <div
     onClick={()=>{if(!isAdding)setIsAdding(true)}}
-      ref={ref}
       className="fileIconConteiner addFile"
       style={{
-        height: isAdding && 300,
-        width: isAdding && 340,
+        height: isAdding && 500,
+        width: isAdding && 400,
       }}
     >
       <div className="upperside" style={{}}>
         <span className="fileIconName">Add</span>
+
         <div
           onClick={() => {
             setIsAdding((prev) => !prev);
@@ -54,7 +49,7 @@ const AddClocker = () => {
             paddingRight: 20,
             transform: isAdding
               ? "rotate(45deg)"
-              : "rotate(0deg) translateX(-50%) translateY(15px) scale(1.1)",
+              : "rotate(0deg)  translateY(15px) scale(1.1)",
           }}
         >
           <CrissCrossIcon color={"#D9D9D9"} size={!isAdding ? 1.5 : 0.8} />
@@ -65,15 +60,15 @@ const AddClocker = () => {
         <form style={{ width: "100%", marginTop: 10 }}>
           <input
             className="fileName"
-            name="fileName"
+            name="name"
             placeholder="Name"
-            value={formData.fileName}
+            value={formData.name}
             onChange={handleChange}
           />
           <select
             className="fileType"
-            name="fileType"
-            value={formData.fileType}
+            name="type"
+            value={formData.type}
             onChange={handleChange}
           >
             <option value="counter">counter</option>
@@ -81,7 +76,13 @@ const AddClocker = () => {
             <option value="check in">check in</option>
             <option value="timer">timer</option>
           </select>
-
+          <input
+            className="fileName"
+            name="goal"
+            placeholder="Goal"
+            value={formData.goal}
+            onChange={handleChange}
+          />
           <button type="submit" className="submit">
             Create
           </button>
@@ -108,3 +109,7 @@ export default AddClocker;
 //     return ; 
 //   }
     // getLocalStorageSize();
+
+
+
+    

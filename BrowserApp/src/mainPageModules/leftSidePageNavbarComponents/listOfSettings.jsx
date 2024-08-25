@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const ListOfSettings = () => {
   let Settings = [
-    "Local storage",
+    "Storage",
     "Appearance",
     "Account settings",
     "Terms and Policy",
@@ -11,8 +11,9 @@ const ListOfSettings = () => {
   return (
     <div className="listOfSettings">
       {Settings.map((set, index) => (
-        <>
+        <div key={index}>
           <NavLink
+          
             className={({ isActive }) =>
               `${isActive ? "activeNav" : "inactiveNav"} navLink`
             }
@@ -22,7 +23,7 @@ const ListOfSettings = () => {
               <p className="textInFileInNavbar">{set}</p>
             </div>
           </NavLink>
-        </>
+          </div>
       ))}
     </div>
   );

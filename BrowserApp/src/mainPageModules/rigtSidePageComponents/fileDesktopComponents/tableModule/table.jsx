@@ -28,7 +28,7 @@ const Table = () => {
   const changeDone = useCallback(
     (index, i) => {
       const newTable = [...table];
-      newTable[index][i] = table[index][i]===''?true:'';
+      newTable[index][i] = table[index][i] === false ? true : false;
       setTable(newTable);
     },
     [table, setTable]
@@ -39,6 +39,7 @@ const Table = () => {
     newTable.push(new Array(newTable[0].length).fill(""));
     setTable(newTable);
   }, [table]);
+
   const addColumn = useCallback(() => {
     const newTable = table.map((item) => [...item, ""]);
     setTable(newTable);
@@ -46,20 +47,29 @@ const Table = () => {
 
   useEffect(() => {
     if (!isEditable && table.length > 2) {
-      let newTable = table.filter(
-        (row) => row && row.some((cell) => cell.trim() !== "" && cell !== false)
+      // Фільтруємо рядки, щоб залишити тільки ті, що містять не порожні клітинки або значення true
+      let newTable = table.filter((row) =>
+        row.some((item) => item === true || (typeof item === 'string' && item.trim() !== ""))
       );
+
+      // Визначаємо індекси стовпців, які потрібно зберегти
       const columnIndexesToKeep = new Set();
-      for (let i = 0; i < newTable[0].length; i++) {
+      for (let i = 0; i < (newTable[0] || []).length; i++) {
         let keepColumn = false;
         for (let j = 0; j < newTable.length; j++) {
-          if (newTable[j][i].trim() !== "" && newTable[j][i] !== false) {
+          // Перевіряємо, чи є клітинка значенням true або не порожньою
+          if (
+            newTable[j][i] === true ||
+            (newTable[j][i] && newTable[j][i].trim() !== "")
+          ) {
             keepColumn = true;
             break;
           }
         }
         if (keepColumn) columnIndexesToKeep.add(i);
       }
+
+      // Фільтруємо стовпці, зберігаючи тільки ті, індекси яких є у columnIndexesToKeep
       newTable = newTable.map((row) =>
         row.filter((_, index) => columnIndexesToKeep.has(index))
       );
@@ -87,6 +97,7 @@ const Table = () => {
                     <>
                       {!i && index !== 0 ? (
                         <div
+                          key={i}
                           className="line"
                           style={{
                             transform: ` scaleX(${
@@ -96,6 +107,7 @@ const Table = () => {
                         ></div>
                       ) : !index && i !== 0 ? (
                         <div
+                          key={i}
                           className="line"
                           style={{
                             transform: ` scaleY(${table.length * 1.1}) `,

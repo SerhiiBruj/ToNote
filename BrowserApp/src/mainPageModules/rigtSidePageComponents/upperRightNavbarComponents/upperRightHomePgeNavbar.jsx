@@ -212,7 +212,7 @@ const UpperRightHomePgeNavbar = () => {
           <StartSelection />
         </div>
         <div
-          className="peni"
+          className="peni  "
           onClick={() => {
             dispatch(edit());
             if (isSelecting) {
@@ -221,7 +221,7 @@ const UpperRightHomePgeNavbar = () => {
             }
           }}
         >
-          <PenIcon size={0.9} color="#2e2e2e" roll={isEditable} />
+          <PenIcon size={0.9} color="#2e2e2e"  roll={isEditable} />
         </div>
         <div onClick={deleteFile}>
           <BinIcon size={1} color="#2e2e2e" />

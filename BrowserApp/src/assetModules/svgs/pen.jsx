@@ -13,19 +13,18 @@ const PenIcon = (props) => {
   useEffect(() => {
     dispatch(editPayload(false));
   }, [page]);
-  useEffect(()=>{
+  useEffect(() => {
     if (roll) {
       ref.current.style.transform = "scaleX(-1)";
     } else {
       ref.current.style.transform = "scaleX(1)";
     }
-  },[roll])
+  }, [roll]);
 
   return (
     <svg
       ref={ref}
       style={{ transition: "all ease 0.2s" }}
-      
       width={`${76 * props.size}`}
       height={`${58 * props.size}`}
       viewBox="0 0 76 58"
