@@ -32,13 +32,13 @@ $coolcolor: #123123;
     padding: 20px;
     color: initial;
     justify-content: space-between;
+    min-width: 40vw;
 
     .clockonConteinerInner {
       display: flex;
       flex-direction: column;
       width: 50%;
       user-select: none;
-
       justify-content: space-between;
       .clockOn {
         display: flex;
@@ -51,9 +51,10 @@ $coolcolor: #123123;
         font-size: 29px;
         line-height: 44px;
         background-color: #313131;
-        height: 200px;
-        width: 200px;
+        height: 190px;
+        width: 190px;
         color: $clockConteiner;
+        transform: translateY(20px);
       }
       .schedule {
         display: flex;
@@ -111,6 +112,7 @@ $coolcolor: #123123;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  transform: translateY(-20px);
 }
 .fe {
   display: flex;

@@ -10,6 +10,8 @@ import Table from "./mainPageModules/rigtSidePageComponents/fileDesktopComponent
 import Todo from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/todoModule/todo.jsx";
 import Diary from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/diaryModule/diary.jsx";
 import Dashboard from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/dashboardModule/dashboard.jsx";
+import DashboardTable from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/dashboardModule/dashboardTable.jsx";
+
 import SettingsPage from "./mainPageModules/rigtSidePageComponents/Settings/SettingsPage.jsx";
 import CloudStorage from "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/CloudStorage.jsx";
 import AccountSettings from "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/AccountSettings.jsx";
@@ -27,7 +29,8 @@ function App() {
           <Route path="todo/:name" element={<Todo />} />
           <Route path="table/:name" element={<Table />} />
           <Route path="Diary/:name" element={<Diary />} />
-          <Route path="Dashboard/:name" element={<Dashboard />} />
+          <Route path="Dashboard/:name" element={<Dashboard />}/>
+          <Route path="dashboardTable/:name" element={<DashboardTable/>}/>
           <Route path="checklist/:name" element={<ChecklistModule />} />
 
           <Route path="Settings" element={<SettingsPage />}>

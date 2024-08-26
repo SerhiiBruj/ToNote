@@ -138,7 +138,7 @@
   height: fit-content;
   transition: all 0.5s ease;
   scroll-snap-type: y mandatory;
-  max-height: 600px;
+  scroll-behavior: smooth;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles::-webkit-scrollbar,
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings::-webkit-scrollbar {
@@ -167,7 +167,7 @@
   border-top: #b1b1b1 5px solid;
   border-bottom: #b1b1b1 5px solid;
   background-color: rgba(160, 160, 160, 0.6980392157);
-  height: 100px;
+  height: 10vh;
   min-width: 250px;
   padding: 0 10% 0 15%;
 }
@@ -693,6 +693,7 @@
   padding: 20px;
   color: initial;
   justify-content: space-between;
+  min-width: 40vw;
 }
 .dashboard .clockonConteiner .clockonConteinerInner {
   display: flex;
@@ -714,9 +715,10 @@
   font-size: 29px;
   line-height: 44px;
   background-color: #313131;
-  height: 200px;
-  width: 200px;
+  height: 190px;
+  width: 190px;
   color: #acacac;
+  transform: translateY(20px);
 }
 .dashboard .clockonConteiner .clockonConteinerInner .schedule {
   display: flex;
@@ -775,6 +777,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  transform: translateY(-20px);
 }
 
 .fe {

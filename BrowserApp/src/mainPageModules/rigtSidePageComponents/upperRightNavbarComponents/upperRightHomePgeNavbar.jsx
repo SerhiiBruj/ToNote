@@ -6,7 +6,7 @@ import PenIcon from "../../../assetModules/svgs/pen";
 import { useDispatch, useSelector } from "react-redux";
 import isEditable, { edit, editPayload } from "../../../redux/isEditable";
 import BackLeafIcon from "../../../assetModules/svgs/backLeaf";
-import { useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import StartSelection from "../../../assetModules/noSvg/startSelections";
 import { updatePages } from "../../../redux/pagesSlice";
 import {
@@ -99,6 +99,20 @@ const UpperRightHomePgeNavbar = () => {
               XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
               XLSX.writeFile(wb, `${i.split("/")[0]}.xlsx`);
             }
+            if (i.split("/")[0] === "dashboard" && localStorage.getItem(i)) {
+              const ws = XLSX.utils.aoa_to_sheet(
+                JSON.parse(
+                  localStorage.getItem(
+                    `dashboard/${location.pathname.split("/")[3]}`
+                  )
+                ).table.map((row) =>
+                  row.map((td) => (Array.isArray(td) ? td.join(", ") : td))
+                )
+              );
+              const wb = XLSX.utils.book_new();
+              XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+              XLSX.writeFile(wb, `${i.split("/")[0]}.xlsx`);
+            }
             console.log(i);
           }
         }
@@ -172,10 +186,26 @@ const UpperRightHomePgeNavbar = () => {
             XLSX.writeFile(wb, `${location.pathname.split("/")[3]}.xlsx`);
           }
           break;
+        case "dashboard":
+          {
+            const ws = XLSX.utils.aoa_to_sheet(
+              JSON.parse(
+                localStorage.getItem(
+                  `dashboard/${location.pathname.split("/")[3]}`
+                )
+              ).table.map((row) =>
+                row.map((td) => (Array.isArray(td) ? td.join(", ") : td))
+              )
+            );
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+            XLSX.writeFile(wb, `${location.pathname.split("/")[3]}.xlsx`);
+          }
+          break;
         default:
-          () => {
+          {
             console.log("no Eport");
-          };
+          }
           break;
       }
     }
@@ -202,6 +232,11 @@ const UpperRightHomePgeNavbar = () => {
       </div>
 
       <div className="upperRightRightsectionHomePageNavbar">
+        {location.pathname.split("/")[2] === "dashboard" && (
+          <NavLink to={`dashboardTable/${location.pathname.split("/")[3]}`}>
+            table
+          </NavLink>
+        )}
         <div
           style={{
             transition: "all ease 0.2s",
@@ -221,7 +256,7 @@ const UpperRightHomePgeNavbar = () => {
             }
           }}
         >
-          <PenIcon size={0.9} color="#2e2e2e"  roll={isEditable} />
+          <PenIcon size={0.9} color="#2e2e2e" roll={isEditable} />
         </div>
         <div onClick={deleteFile}>
           <BinIcon size={1} color="#2e2e2e" />

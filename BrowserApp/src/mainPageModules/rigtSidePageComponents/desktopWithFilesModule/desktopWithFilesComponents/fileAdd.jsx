@@ -36,7 +36,7 @@ const FileAdd = () => {
         case "todo":
           return [];
         case "note":
-          return ""; 
+          return "";
         case "table":
           return [
             ["", ""],
@@ -44,6 +44,11 @@ const FileAdd = () => {
           ];
         case "checklist":
           return [];
+        case "dashboard":
+          return ({
+            templates: [],
+            table:[],
+          });
         default:
           return null;
       }
@@ -71,7 +76,7 @@ const FileAdd = () => {
       <div className="upperside" style={{}}>
         <span className="fileIconName">Add</span>
         <div
-        onBlur={() => setIsAdding(false)}
+          onBlur={() => setIsAdding(false)}
           onClick={(e) => {
             e.stopPropagation();
             setIsAdding((prev) => !prev);

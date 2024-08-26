@@ -64,69 +64,72 @@ const TimerDiagram = ({ i, table }) => {
       }}
     >
       {neededAr.map((el, index) => {
-        if (count < 5)
-          return (
-            <>
+        if(count<4)
+        return (
+          <>
+            <div
+              key={index}
+              style={{
+                height: "100%",
+                flex: 1,
+                backgroundColor: el ? "gray" : "lightgray",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-end",
+              }}
+            >
               <div
-                key={index}
+                className="div"
                 style={{
-                  height: "100%",
-                  flex: 1,
-                  backgroundColor: el ? "gray" : "lightgray",
                   display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "flex-end",
+                  justifyContent: "center",
+                  alignItems: "flex-end",
+
+                  height: "80% ",
                 }}
               >
-                <div
-                  className="div"
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  {el.value.map((element) => {
-                    count++;
-                    return (
-                      <>
-                        <div
-                          style={{
-                            background: colors[index],
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            color: "lightgray",
-                            width: "100%",
-                            height: `${Math.min(1.5 * ser * el.value, 80)}%`,
-                            overflow: "hidden",
-                          }}
-                        >
-                          {element}
-                        </div>
-                      </>
-                    );
-                  })}
-                </div>
-
-                <div
-                  style={{
-                    alignSelf: "center",
-                    height: "20%",
-                    background: "#00000052",
-                    width: "100%",
-                    textAlign: "center",
-                    color: "lightgray",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  {el.date.split(".")[0]}
-                </div>
+                {el.value.slice(-4).map((element) => {
+                  count++
+                  if(count<5)
+                  return (
+                    <>
+                      <div
+                        style={{
+                          background: colors[index],
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          color: "lightgray",
+                          width: "100%",
+                          height: `${Math.min(ser * element, 100)}%`,
+                          overflow: "hidden",
+                        }}
+                      >
+                        {element}
+                      </div>
+                    </>
+                  );
+                })}
               </div>
-            </>
-          );
+
+              <div
+                style={{
+                  alignSelf: "center",
+                  height: "20%",
+                  background: "#00000052",
+                  width: "100%",
+                  textAlign: "center",
+                  color: "lightgray",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {el.date.split(".")[0]}
+              </div>
+            </div>
+          </>
+        );
       })}
     </div>
   );
@@ -294,7 +297,10 @@ const Diagram = ({ table, i }) => {
         >
           <div
             style={{
-              background: colors[index],
+              background:
+                el.value < colors.length - 1
+                  ? colors[el.value]
+                  : colors[el.value - colors.length],
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -326,6 +332,7 @@ const Diagram = ({ table, i }) => {
     </div>
   );
 };
+
 
 const CalendarComp = ({ i, table }) => {
   const [rows, setRows] = useState([[]]);
