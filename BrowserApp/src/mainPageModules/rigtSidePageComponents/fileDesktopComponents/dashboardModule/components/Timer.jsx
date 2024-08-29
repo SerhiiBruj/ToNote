@@ -8,9 +8,8 @@ const Timer = ({ setClockers, clockers, i, colors }) => {
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
   const bestResults = useMemo(() => {
-    
     let count = 0;
-    for (let j = clockers.table.length - 1; j > 0 && count < 30; j--) {
+    for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
       if (Array.isArray(clockers.table[j][i])) {
         clockers.table[j][i].forEach((element) => {
           if (typeof element === "number" && element > count) {
@@ -19,9 +18,8 @@ const Timer = ({ setClockers, clockers, i, colors }) => {
         });
       }
     }
-
     return count;
-  }, [clockers.table, i]);
+  }, [clockers.table]);
 
   useEffect(() => {
     try {
@@ -45,11 +43,10 @@ const Timer = ({ setClockers, clockers, i, colors }) => {
     } catch (er) {
       console.log(er.message);
     }
-  }, [clockers.table, i]);
+  }, [clockers.table[clockers.table.length - 1][i]]);
 
   const handleClick = useCallback(
     (e) => {
-      console.log("object");
       e.stopPropagation();
 
       if (isTimerActive) {
@@ -57,16 +54,17 @@ const Timer = ({ setClockers, clockers, i, colors }) => {
         setIsTimerActive(false);
         setIntervalId(null);
 
-        // let newTable = deepCopyArray(table);
-        let newTable = [...clockers.table];
-        if (!Array.isArray(newTable[newTable.length - 1][i])) {
-          newTable[newTable.length - 1][i] = [];
+        if (timerTime > 0) {
+          let newTable = [...clockers.table];
+          if (!Array.isArray(newTable[newTable.length - 1][i])) {
+            newTable[newTable.length - 1][i] = [];
+          }
+
+          newTable[newTable.length - 1][i].push(timerTime);
+          setClockers({ ...clockers, table: newTable });
         }
-        newTable[newTable.length - 1][i].push(timerTime);
-        setClockers({ ...clockers, table: newTable });
         setTimerTime(0);
       } else {
-        // Запускаємо таймер
         setIsTimerActive(true);
         const newIntervalId = setInterval(() => {
           setTimerTime((prevTime) => prevTime + 1);
@@ -74,7 +72,7 @@ const Timer = ({ setClockers, clockers, i, colors }) => {
         setIntervalId(newIntervalId);
       }
     },
-    [clockers.table, i, isTimerActive, intervalId, timerTime]
+    [intervalId, timerTime]
   );
 
   return (
@@ -181,37 +179,35 @@ const TimerDiagram = ({ bestResults, i, table, colors }) => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "flex-end",
-
                     height: "80% ",
                   }}
                 >
-                  {el.value.slice(-4).map((element, idx) => {
-                    count++;
-                    if (count < 5)
-                      return (
-                        <>
-                          <div
-                            key={idx}
-                            style={{
-                              background: colors[index],
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              color: "lightgray",
-                              width: "100%",
-                              height: `${Math.min(
-                                (element / bestResults) * 100,
-                                100
-                              )}%`,
+                  {Array.isArray(el.value) &&
+                    el.value.slice(-4).map((element, idx) => {
+                      count++;
+                      if (count < 5 && element)
+                        return (
+                            <div
+                              key={idx}
+                              style={{
+                                background: colors[index],
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                color: "lightgray",
+                                width: "100%",
+                                height: `${Math.min(
+                                  (element / bestResults) * 100,
+                                  100
+                                )}%`,
 
-                              overflow: "hidden",
-                            }}
-                          >
-                            {element}
-                          </div>
-                        </>
-                      );
-                  })}
+                                overflow: "hidden",
+                              }}
+                            >
+                              {element}
+                            </div>
+                        );
+                    })}
                 </div>
 
                 <div

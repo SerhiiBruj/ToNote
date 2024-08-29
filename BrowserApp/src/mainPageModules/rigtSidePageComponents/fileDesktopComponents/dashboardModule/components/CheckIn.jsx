@@ -8,22 +8,26 @@ const CheckIn = ({ setClockers, clockers, i }) => {
   useEffect(() => {
     let total = 0;
     let count = 0;
-    for (let j = clockers.table.length - 1; j > 0 && count < 10; j = j - 1) {
-      if (typeof clockers.table[j][i] === "boolean" && clockers.table[j][i])
+  
+    // Ітеруємо таблицю в зворотному напрямку, щоб знайти останні 30 значень
+    for (let j = clockers.table.length - 1; j > 0 && count < 30; j--) {
+      if (typeof clockers.table[j][i] === "boolean" && clockers.table[j][i]) {
         total += 1;
+      }
       count++;
     }
-    setResults(
-      total &&
-        `every ${
-          count > 0
-            ? (total / count) % 2 === 0
-              ? total / count
-              : (total / count).toFixed(1)
-            : 0
-        } day`
-    );
+  
+    // Обчислюємо результат і встановлюємо в стан
+    if (count > 0) {
+      const average = total / count;
+      const formattedResult = count === 1 ? "1" : average.toFixed(1);
+      setResults(`every ${formattedResult} day`);
+    } else {
+      setResults(null);
+    }
+  
   }, [clockers.table, i]);
+  
 
   const handleClick = useCallback(
     (e) => {
@@ -34,6 +38,7 @@ const CheckIn = ({ setClockers, clockers, i }) => {
         ...clockers,
         table: newTable,
       });
+      console.log('clockers')
     },
     [clockers.table, i]
   );
@@ -89,24 +94,34 @@ const CheckIn = ({ setClockers, clockers, i }) => {
 
 export default CheckIn;
 const CalendarComp = ({ i, table }) => {
-  const [rows, setRows] = useState([[]]);
+  const [rows, setRows] = useState([]);
+  const [month, setMonth] = useState("");
 
   useEffect(() => {
-    let neededarr = table.map((row) => row[i]);
-    neededarr.splice(0, 1);
+    // Створюємо масив з датами та значеннями
+    let neededarr = table.map((row) => ({
+      date: row[0],
+      value: row[i],
+    }));
+
+      // Обрізаємо масив до останніх 21 записів
+    if (neededarr.length > 21) {
+      neededarr = neededarr.slice(-21);
+    }
     let arr = [];
-    let counter = 0;
-    for (let j = 0; j < neededarr.length; j++) {
-      if (!arr[counter]) {
-        arr[counter] = [];
-      }
-      arr[counter].push(neededarr[j]);
-      if ((j + 1) % 7 === 0) {
-        counter += 1;
-      }
+    for (let j = 0; j < neededarr.length; j += 7) {
+      arr.push(neededarr.slice(j, j + 7));
     }
     setRows(arr);
-  }, []);
+
+    // Визначаємо місяць для відображення
+    if (arr.length > 0) {
+      const firstMonth = arr[0][0].date.split(".")[1];
+      const lastMonth = arr[arr.length - 1][arr[arr.length - 1].length - 1].date.split(".")[1];
+      setMonth(firstMonth === lastMonth ? firstMonth : `${firstMonth}-${lastMonth}`);
+    }
+  }, [table, i]);
+
   return (
     <>
       <div className="schedule">
@@ -119,19 +134,56 @@ const CalendarComp = ({ i, table }) => {
           <div>f</div>
           <div>s</div>
         </div>
-        {rows.map((row, index) => (
-          <div className="alignedDiv" key={index}>
-            {row.map((date, idx) => (
-              <div
-                className="indicator"
-                key={idx}
-                style={{
-                  backgroundColor: !date ? "darkred" : "darkgreen",
-                }}
-              ></div>
-            ))}
-          </div>
-        ))}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 0,
+            justifyContent: "space-between",
+            height: "100%",
+            paddingBottom: 10,
+          }}
+        >
+          {rows.map((row, index) => (
+            <div
+              className="alignedDiv"
+              key={index}
+              style={{
+                gap: "7%",
+              }}
+            >
+              {row.map((date, idx) => (
+                <div
+                  className="indicator"
+                  key={idx}
+                  style={{
+                    backgroundColor: date.value ? "#1e4f39" : "brown",
+                    transition: "background-color 0.5s ease",
+                    color: "white",
+                    borderRadius: "20%",
+                    fontSize: "18px",
+                    width: "8%",
+                    height: "fit-content",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {date.date.split(".")[0]}
+                </div>
+              ))}
+            </div>
+          ))}
+          <span
+            style={{
+              alignSelf: "flex-end",
+              paddingRight: "55%",
+              color: "lightgray",
+            }}
+          >
+            {month}
+          </span>
+        </div>
       </div>
     </>
   );

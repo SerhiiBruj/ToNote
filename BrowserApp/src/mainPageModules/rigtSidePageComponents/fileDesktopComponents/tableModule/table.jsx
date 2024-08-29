@@ -7,6 +7,7 @@ import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
 
 const Table = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
+  const showExpo = useSelector((state) => state.showExpo.value);
   const location = useLocation();
   const typeName = useMemo(() => {
     return location.pathname.split("/").slice(2).join("/");
@@ -47,17 +48,16 @@ const Table = () => {
 
   useEffect(() => {
     if (!isEditable && table.length > 2) {
-      // Фільтруємо рядки, щоб залишити тільки ті, що містять не порожні клітинки або значення true
       let newTable = table.filter((row) =>
-        row.some((item) => item === true || (typeof item === 'string' && item.trim() !== ""))
+        row.some(
+          (item) =>
+            item === true || (typeof item === "string" && item.trim() !== "")
+        )
       );
-
-      // Визначаємо індекси стовпців, які потрібно зберегти
       const columnIndexesToKeep = new Set();
       for (let i = 0; i < (newTable[0] || []).length; i++) {
         let keepColumn = false;
         for (let j = 0; j < newTable.length; j++) {
-          // Перевіряємо, чи є клітинка значенням true або не порожньою
           if (
             newTable[j][i] === true ||
             (newTable[j][i] && newTable[j][i].trim() !== "")
@@ -68,22 +68,22 @@ const Table = () => {
         }
         if (keepColumn) columnIndexesToKeep.add(i);
       }
-
-      // Фільтруємо стовпці, зберігаючи тільки ті, індекси яких є у columnIndexesToKeep
       newTable = newTable.map((row) =>
         row.filter((_, index) => columnIndexesToKeep.has(index))
       );
-
       setTable(newTable);
     }
-  }, [isEditable, table, setTable]);
+    console.log("table");
+  }, [isEditable]);
 
   return (
     <>
       <div
         className="conteiner fileConteiner"
         style={{ display: "flex" }}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          if (showExpo || isEditable) e.stopPropagation();
+        }}
       >
         <div
           className="table"
@@ -97,7 +97,7 @@ const Table = () => {
                     <>
                       {!i && index !== 0 ? (
                         <div
-                          key={i}
+                          key={i * Math.random()}
                           className="line"
                           style={{
                             transform: ` scaleX(${
@@ -107,7 +107,7 @@ const Table = () => {
                         ></div>
                       ) : !index && i !== 0 ? (
                         <div
-                          key={i}
+                          key={index * Math.random()}
                           className="line"
                           style={{
                             transform: ` scaleY(${table.length * 1.1}) `,
@@ -129,8 +129,12 @@ const Table = () => {
                   return (
                     <div
                       onClick={() => isEditable && changeDone(index, i)}
-                      key={i}
+                      key={index * Math.random()}
                       className="tableCell"
+                      style={{
+                        cursor: isEditable ? "pointer" : "default",
+                        marginLeft: `${(i * 1) / 1.85}px`,
+                      }}
                     >
                       {td && <DoneIcon />}
                     </div>

@@ -19,7 +19,8 @@ const Note = () => {
       textarea.style.height = "auto";
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
-  }, [text]);
+    console.log('note')
+  }, []);
 
   const handleTextChange = useCallback(
     (event) => {

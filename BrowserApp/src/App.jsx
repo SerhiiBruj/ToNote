@@ -1,6 +1,6 @@
 import "./styles/App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import HomePage from "./Pages/homePage.jsx";
 import NotFoundPage from "./Pages/notFoundPage.jsx";
 import Note from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/noteModule/note.jsx";
@@ -10,27 +10,39 @@ import Table from "./mainPageModules/rigtSidePageComponents/fileDesktopComponent
 import Todo from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/todoModule/todo.jsx";
 import Diary from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/diaryModule/diary.jsx";
 import Dashboard from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/dashboardModule/dashboard.jsx";
-import DashboardTable from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/dashboardModule/dashboardTable.jsx";
-
 import SettingsPage from "./mainPageModules/rigtSidePageComponents/Settings/SettingsPage.jsx";
 import CloudStorage from "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/CloudStorage.jsx";
 import AccountSettings from "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/AccountSettings.jsx";
 import Appearence from "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/Appearence.jsx";
 import TermsAndPolicy from "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/TermsAndPolicy.jsx";
+
+const PrivateRoute = ({ children }) => {
+  const isAuthenticated = !!localStorage.getItem("authToken");
+  return isAuthenticated ? children : <Navigate to="/login" />;
+};
+
 function App() {
+  useEffect(() => {
+    localStorage.setItem("authToken", "true");
+  })
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route path="/" element={<Navigate to="/Home" />} />
-
-        <Route path="/Home" element={<HomePage />}>
+        <Route
+          path="/Home"
+          element={
+            <PrivateRoute>
+              <HomePage />
+            </PrivateRoute>
+          }
+        >
           <Route index element={<DesktopWithFiles />} />
           <Route path="note/:name" element={<Note />} />
           <Route path="todo/:name" element={<Todo />} />
           <Route path="table/:name" element={<Table />} />
           <Route path="Diary/:name" element={<Diary />} />
-          <Route path="Dashboard/:name" element={<Dashboard />}/>
-          <Route path="dashboardTable/:name" element={<DashboardTable/>}/>
+          <Route path="Dashboard/:name" element={<Dashboard />} />
           <Route path="checklist/:name" element={<ChecklistModule />} />
 
           <Route path="Settings" element={<SettingsPage />}>
@@ -40,6 +52,8 @@ function App() {
             <Route path="Terms_and_Policy" element={<TermsAndPolicy />} />
           </Route>
         </Route>
+
+        <Route path="/login" element={<NotFoundPage />} />
 
         <Route path="*" element={<Navigate to="/404" />} />
         <Route path="/404" element={<NotFoundPage />} />

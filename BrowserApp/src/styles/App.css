@@ -369,12 +369,13 @@
 .homePageNavbarConteiner .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding-right: 10px;
   width: 450px;
   height: 100%;
   transition: all ease 1s;
+  gap: 20px;
 }
 .homePageNavbarConteiner .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar div {
   height: -moz-min-content;
@@ -751,7 +752,7 @@
   color: rgba(217, 217, 217, 0.5019607843);
 }
 .dashboard .clockonConteiner .clockonConteinerInner .schedule .alignedDiv .indicator {
-  width: 15px;
+  width: 25px;
   height: 15px;
   border-radius: 50%;
   background-color: darkgreen;
@@ -959,6 +960,290 @@
   width: 100%;
 }
 
+@media screen and (max-width: 1400px) {
+  .dashboard {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 50px;
+    padding: 50px;
+    padding-bottom: 150px;
+    overflow-y: scroll !important;
+  }
+  .dashboard::-webkit-scrollbar {
+    width: 50px !important;
+    height: 50px !important;
+  }
+  .dashboard .clockonConteiner {
+    background-color: #acacac;
+    display: flex;
+    width: 650px;
+    height: 300px;
+    border-radius: 50px;
+    padding: 20px;
+    color: initial;
+    justify-content: space-between;
+    min-width: 40vw;
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    justify-content: space-between;
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner .clockOn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-family: "Kadwa";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 29px;
+    line-height: 44px;
+    background-color: #313131;
+    height: 190px;
+    width: 190px;
+    color: #acacac;
+    transform: translateY(20px);
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner .schedule {
+    display: flex;
+    width: 320px;
+    height: 70%;
+    border-radius: 20px;
+    background-color: #313131;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner .schedule .days {
+    gap: 15%;
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner .schedule .days * {
+    width: 15px;
+    text-align: center;
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner .schedule .alignedDiv {
+    display: flex;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    width: 90%;
+    padding-left: 5%;
+    gap: 10%;
+    padding-bottom: 5%;
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner .schedule .alignedDiv * {
+    color: rgba(217, 217, 217, 0.5019607843);
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner .schedule .alignedDiv .indicator {
+    text-align: center;
+    width: 20px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: darkgreen;
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner .name {
+    font-family: "Kadwa";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 29px;
+    line-height: 44px;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    color: #313131;
+  }
+  .fsb {
+    display: flex;
+    justify-content: space-between;
+  }
+  .fcsb {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    transform: translateY(-20px);
+  }
+  .fe {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .fileIconConteiner {
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    height: 176px;
+    width: 220px;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+    padding: 10px;
+    transition: 0.4s all ease;
+    animation: appear 0.6s ease-out;
+  }
+  .fileIconConteiner:hover {
+    transform: scale(1.1);
+  }
+  .fileIconConteiner .fileIconName {
+    font-size: 130%;
+    line-height: 30px;
+    height: 40px;
+    padding: 0px;
+    margin: 0px;
+    font-family: "Kadwa";
+    font-weight: 700;
+    color: hsl(0, 0%, 20%);
+  }
+  .fileIconConteiner .fileIconType {
+    font-size: 85%;
+    line-height: 10px;
+  }
+  .fileIconConteiner:hover {
+    transform: scale(1.04);
+  }
+  .fileIconConteiner {
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    height: 170px;
+    width: 200px;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+    padding: 10px;
+    transition: 0.4s all ease;
+    animation: appear 0.6s ease-out;
+  }
+  .fileIconConteiner:hover {
+    transform: scale(1.1);
+  }
+  .fileIconConteiner .fileIconName {
+    font-family: "Kadwa";
+    font-size: 130%;
+    font-weight: 700;
+    line-height: 30px;
+    color: hsl(0, 0%, 20%);
+    height: 40px;
+    padding: 0;
+    margin: 0;
+  }
+  .fileIconConteiner .fileIconType {
+    font-family: "Kadwa";
+    font-size: 100%;
+    font-weight: 700;
+    line-height: 10px;
+    color: #424242;
+  }
+  .fileIconConteiner:hover {
+    transform: scale(1.04);
+  }
+  .addFile {
+    width: 250px;
+    background: #868686;
+    animation: appear 0.6s ease-out;
+    cursor: pointer;
+  }
+  .addFile .upperside {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .addFile .upperside .fileIconName {
+    font-family: "Kadwa";
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 30px;
+    color: hsl(0, 0%, 20%);
+    padding-top: 10px;
+  }
+  .addFile form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    height: 70%;
+  }
+  .addFile form .submit {
+    font-family: "Kadwa";
+    font-size: 27px;
+    font-weight: 700;
+    line-height: normal;
+    color: #424242;
+    background: rgba(217, 217, 217, 0.5);
+    border-radius: 20px;
+    outline: 0;
+    border-width: 0;
+    width: 40%;
+    height: 50px;
+  }
+  .addFile form .submit:focus {
+    background: rgba(217, 217, 217, 0.5);
+  }
+  .addFile form .fileType {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(217, 217, 217, 0.5);
+    border-radius: 20px;
+    outline: 0;
+    border-width: 0;
+    width: 70%;
+    height: 50px;
+    padding-left: 20px;
+    font-family: "Kadwa";
+    font-size: 27px;
+    font-weight: 700;
+    line-height: normal;
+    color: #424242;
+  }
+  .addFile form .fileType::after {
+    content: none !important;
+  }
+  .addFile form .fileType .dropdown {
+    width: 70%;
+  }
+  .addFile form .fileType .dropdown .btn-secondary.dropdown-toggle {
+    width: 70%;
+  }
+  .addFile form .fileName {
+    font-family: "Kadwa";
+    font-size: 27px;
+    font-weight: 700;
+    line-height: normal;
+    color: #424242;
+    background: rgba(241, 0, 0, 0.5);
+    border-radius: 20px;
+    outline: 0;
+    border-width: 0;
+    width: 70%;
+    height: 50px;
+    padding-left: 20px;
+  }
+  .addFile form .fileName::-moz-placeholder {
+    font-family: "Kadwa";
+    font-size: 27px;
+    font-weight: 700;
+    line-height: normal;
+    color: #424242;
+  }
+  .addFile form .fileName::placeholder {
+    font-family: "Kadwa";
+    font-size: 27px;
+    font-weight: 700;
+    line-height: normal;
+    color: #424242;
+  }
+  .heightCont {
+    height: 500px;
+    width: 100%;
+  }
+}
 .Settings {
   padding: 20px;
 }

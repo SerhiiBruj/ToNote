@@ -1,11 +1,20 @@
 import FileIcon from "./desktopWithFilesComponents/fileIcon";
 import FileAdd from "./desktopWithFilesComponents/fileAdd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { donotanimate } from "../../../redux/startAnimation";
 
 const DesktopWithFiles = () => {
   const pages = useSelector((state) => state.pages.value);
+  const boolAnimate = useSelector((state) => state.startAnimation.value);
+  const dispatch = useDispatch();
 
-
+  useEffect(() => {
+    if (boolAnimate)
+      setTimeout(() => {
+        dispatch(donotanimate());
+      }, 500);
+  }, [boolAnimate]);
   
   return (
     <>

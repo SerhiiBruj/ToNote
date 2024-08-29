@@ -7,15 +7,16 @@ const Counter = ({   i, clockers,setClockers }) => {
   const [results, setResults] = useState(null);
   const bestResults = useMemo(() => {
     let max = 0;
-    for (let j = clockers.table.length - 1; j > 0; j--) {
-      if (clockers.table[j][i] > max) {
-        max = clockers.table[j][i];
+  
+    for (let j = clockers.table.length - 1; j >= 0; j--) {
+      const value = clockers.table[j][i];
+      if (typeof value === "number" && value > max) {
+        max = value;
       }
     }
-    console.log(clockers.templates[i-1].name, max);
-    return max;
-  }, [clockers.table, i]);
-
+  
+    return max === -Infinity ? null : max; // Повертаємо null, якщо значень не знайдено
+  }, [clockers.table, i]); 
   useEffect(() => {
     try {
       let total = 0;
@@ -36,7 +37,7 @@ const Counter = ({   i, clockers,setClockers }) => {
     } catch (er) {
       console.log(er.message);
     }
-  }, [clockers.table, i]);
+  }, [clockers.table[clockers.table.length - 1][i]]);
 
   const handleClick = (e) => {
     e.stopPropagation();
@@ -48,6 +49,7 @@ const Counter = ({   i, clockers,setClockers }) => {
       table: newTable,
     });
     setCounter(counter + 1); // Update counter here
+
   };
 
   return (
@@ -122,12 +124,12 @@ const Diagram = ({ table, i, bestResults }) => {
 
   useEffect(() => {
     try {
+
       const newNeededAr = table
         .map((row, index) =>
           table.length - index <= 7 ? { date: row[0], value: row[i] } : null
         )
         .filter((el) => el !== null);
-
       setNeededAr(newNeededAr);
     } catch (er) {
       console.error(er);

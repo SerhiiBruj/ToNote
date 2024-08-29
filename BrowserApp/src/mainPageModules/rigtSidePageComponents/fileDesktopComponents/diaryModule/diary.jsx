@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 const Diary = () => {
   const [text, setText] = useState("");
   const isEditable = useSelector((state) => state.isEditable.value);
+  const showExpo = useSelector((state) => state.showExpo.value);
   const textareaRef = useRef(null);
   const location = useLocation();
   const typeName = location.pathname.split("/").slice(2).join("/");
@@ -39,7 +40,9 @@ const Diary = () => {
   return (
     <div style={{ height: "90%", paddingLeft: 50 }}
     
-    onClick={(e) => e.stopPropagation()}>
+    onClick={(e) => {
+      if (showExpo||isEditable) e.stopPropagation();
+    }}>
       <div className="contic fileConteiner">
         <div style={{ paddingTop: 45 }}></div>
         <textarea

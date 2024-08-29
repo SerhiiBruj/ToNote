@@ -8,6 +8,7 @@ import useLocalStorage from "../../../../hooks/useLocalStorage";
 
 const Todo = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
+  const showExpo = useSelector((state) => state.showExpo.value);
   const location = useLocation();
   const typeName = useMemo(
     () => location.pathname.split("/").slice(2).join("/"),
@@ -26,7 +27,7 @@ const Todo = () => {
         .filter((todo) => todo !== "");
       setData(newData);
     }
-  }, [isEditable, typeName]);
+  }, [isEditable]);
 
   const handleDelete = useCallback(
     (index) => {
@@ -54,11 +55,13 @@ const Todo = () => {
     },
     [data, setData, typeName]
   );
- 
+
   return (
-        
-    <div className="todo conteiner fileConteiner "
-    onClick={(e)=>e.stopPropagation()}
+    <div
+      className="todo conteiner fileConteiner "
+      onClick={(e) => {
+        if (showExpo||isEditable) e.stopPropagation();
+      }}
     >
       <ol>
         {data.map((todo, index) => (

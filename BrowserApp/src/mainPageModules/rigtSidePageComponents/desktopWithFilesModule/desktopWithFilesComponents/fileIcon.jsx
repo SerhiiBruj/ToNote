@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { doAnimate, donotanimate } from "../../../../redux/startAnimation";
+import { doAnimate} from "../../../../redux/startAnimation";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
 import IsSelected from "../../../../assetModules/noSvg/isSelected";
 import { deSelect, select } from "../../../../redux/selectSlice";
@@ -21,6 +21,8 @@ const FileIcon = (props) => {
     setName(props.name);
   }, [props.name]);
 
+
+
   const handleSelect = (e) => {
     e.stopPropagation();
 
@@ -36,7 +38,6 @@ const FileIcon = (props) => {
       ref.current.style.transition = "all ease 0.5s";
       ref.current.style.opacity = "0%";
       ref.current.style.transform = "scale(0)";
-      dispatch(donotanimate());
     }
   }, [boolAnimate]);
 

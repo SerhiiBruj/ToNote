@@ -4,9 +4,9 @@ import ShareIcon from "../../../assetModules/svgs/share";
 import BinIcon from "../../../assetModules/svgs/bin";
 import PenIcon from "../../../assetModules/svgs/pen";
 import { useDispatch, useSelector } from "react-redux";
-import isEditable, { edit, editPayload } from "../../../redux/isEditable";
+import isEditable, { edit } from "../../../redux/isEditable";
 import BackLeafIcon from "../../../assetModules/svgs/backLeaf";
-import { NavLink, useLocation } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
 import StartSelection from "../../../assetModules/noSvg/startSelections";
 import { updatePages } from "../../../redux/pagesSlice";
 import {
@@ -14,15 +14,18 @@ import {
   startSelection,
   stopSelection,
 } from "../../../redux/selectSlice";
-import * as XLSX from "xlsx";
+
+import { updateShowExpo } from "../../../redux/showExpo";
+import { updateisTable } from "../../../redux/istable";
 let listOfFileTypes = ["dashboard", "note", "checklist", "todo", "table"];
 
 const UpperRightHomePgeNavbar = () => {
   const { isSelecting, selected } = useSelector((state) => state.select);
   const [page, setPage] = useState("");
-  const [isHome, setIsHome] = useState(true);
+  const showSomething = useSelector((state) => state.showExpo.value);
   const dispatch = useDispatch();
   const location = useLocation();
+  const [isHome, setIsHome] = useState(true);
 
   useEffect(() => {
     if (location.pathname.split("/")[3]) {
@@ -40,7 +43,7 @@ const UpperRightHomePgeNavbar = () => {
         for (let file of selected) {
           localStorage.removeItem(file);
         }
-        dispatch(updatePages(Object.keys(localStorage)));
+        dispatch(updatePages());
         dispatch(stopSelection());
         dispatch(clearSelection());
       } else {
@@ -55,159 +58,23 @@ const UpperRightHomePgeNavbar = () => {
     if (isHome) {
       if (isSelecting) {
         if (selected.length > 0) {
-          for (let i of selected) {
-            if (i.split("/")[0] === "note" && localStorage.getItem(i)) {
-              const text = JSON.parse(localStorage.getItem(i), null, 2);
-              const blob = new Blob([text], { type: "text/plain" });
-              const url = URL.createObjectURL(blob);
-              const link = document.createElement("a");
-              link.href = url;
-              link.download = `${i.split("/")[0]}.txt`;
-              link.click();
-              URL.revokeObjectURL(url);
-            }
-            if (i.split("/")[0] === "todo" && localStorage.getItem(i)) {
-              const todos = JSON.parse(localStorage.getItem(i)).join("\n");
-              const blob = new Blob([todos], { type: "text/plain" });
-              const url = URL.createObjectURL(blob);
-              const link = document.createElement("a");
-              link.href = url;
-              link.download = `${i.split("/")[0]}.txt`;
-              link.click();
-              URL.revokeObjectURL(url);
-            }
-            if (i.split("/")[0] === "checklist" && localStorage.getItem(i)) {
-              const checklists = JSON.parse(localStorage.getItem(i))
-                .map(
-                  (checklist) =>
-                    `${checklist.p}\n\t${checklist.desc.join("\n\t")}`
-                )
-                .join("\n\n");
-              const blob = new Blob([checklists], { type: "text/plain" });
-              const url = URL.createObjectURL(blob);
-              const link = document.createElement("a");
-              link.href = url;
-              link.download = `${i.split("/")[0]}.txt`;
-              link.click();
-              URL.revokeObjectURL(url);
-            }
-            if (i.split("/")[0] === "table" && localStorage.getItem(i)) {
-              const ws = XLSX.utils.aoa_to_sheet(
-                JSON.parse(localStorage.getItem(i))
-              );
-              const wb = XLSX.utils.book_new();
-              XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-              XLSX.writeFile(wb, `${i.split("/")[0]}.xlsx`);
-            }
-            if (i.split("/")[0] === "dashboard" && localStorage.getItem(i)) {
-              const ws = XLSX.utils.aoa_to_sheet(
-                JSON.parse(
-                  localStorage.getItem(
-                    `dashboard/${location.pathname.split("/")[3]}`
-                  )
-                ).table.map((row) =>
-                  row.map((td) => (Array.isArray(td) ? td.join(", ") : td))
-                )
-              );
-              const wb = XLSX.utils.book_new();
-              XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-              XLSX.writeFile(wb, `${i.split("/")[0]}.xlsx`);
-            }
-            console.log(i);
+          if (showSomething) {
+            dispatch(updateShowExpo(false));
+            dispatch(clearSelection());
+            dispatch(stopSelection());
+          } else {
+            dispatch(updateShowExpo(true));
           }
+        } else {
+          dispatch(updateShowExpo(false));
+          dispatch(stopSelection());
         }
-        dispatch(stopSelection());
-        dispatch(clearSelection());
       } else {
         dispatch(startSelection());
       }
     } else if (listOfFileTypes.includes(location.pathname.split("/")[2])) {
-      switch (location.pathname.split("/")[2]) {
-        case "note":
-          {
-            const text = JSON.parse(
-              localStorage.getItem(`note/${location.pathname.split("/")[3]}`),
-              null,
-              2
-            );
-            const blob = new Blob([text], { type: "text/plain" });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = `${location.pathname.split("/")[3]}.txt`;
-            link.click();
-            URL.revokeObjectURL(url);
-          }
-          break;
-        case "checklist":
-          {
-            const checklists = JSON.parse(
-              localStorage.getItem(
-                `checklist/${location.pathname.split("/")[3]}`
-              )
-            )
-              .map(
-                (checklist) =>
-                  `${checklist.p}\n\t${checklist.desc.join("\n\t")}`
-              )
-              .join("\n\n");
-            const blob = new Blob([checklists], { type: "text/plain" });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = `${location.pathname.split("/")[3]}.txt`;
-            link.click();
-            URL.revokeObjectURL(url);
-          }
-          break;
-        case "todo":
-          {
-            const todos = JSON.parse(
-              localStorage.getItem(`todo/${location.pathname.split("/")[3]}`)
-            ).join("\n");
-            const blob = new Blob([todos], { type: "text/plain" });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = `${location.pathname.split("/")[3]}.txt`;
-            link.click();
-            URL.revokeObjectURL(url);
-          }
-          break;
-        case "table":
-          {
-            const ws = XLSX.utils.aoa_to_sheet(
-              JSON.parse(
-                localStorage.getItem(`table/${location.pathname.split("/")[3]}`)
-              )
-            );
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-            XLSX.writeFile(wb, `${location.pathname.split("/")[3]}.xlsx`);
-          }
-          break;
-        case "dashboard":
-          {
-            const ws = XLSX.utils.aoa_to_sheet(
-              JSON.parse(
-                localStorage.getItem(
-                  `dashboard/${location.pathname.split("/")[3]}`
-                )
-              ).table.map((row) =>
-                row.map((td) => (Array.isArray(td) ? td.join(", ") : td))
-              )
-            );
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-            XLSX.writeFile(wb, `${location.pathname.split("/")[3]}.xlsx`);
-          }
-          break;
-        default:
-          {
-            console.log("no Eport");
-          }
-          break;
-      }
+      if (!showSomething) dispatch(updateShowExpo(true));
+      else dispatch(updateShowExpo(false));
     }
   };
   return (
@@ -218,9 +85,7 @@ const UpperRightHomePgeNavbar = () => {
           opacity: !isHome ? "1" : "0",
           transform: !isHome ? "scale(1)" : "scale(0)",
         }}
-        onClick={() => {
-          dispatch(editPayload(false));
-        }}
+     
       >
         <BackLeafIcon size={0.8} color={"#2e2e2e"} />
       </div>
@@ -233,10 +98,32 @@ const UpperRightHomePgeNavbar = () => {
 
       <div className="upperRightRightsectionHomePageNavbar">
         {location.pathname.split("/")[2] === "dashboard" && (
-          <NavLink to={`dashboardTable/${location.pathname.split("/")[3]}`}>
-            table
-          </NavLink>
+          <div>
+            <button
+              style={{
+                outline: "none",
+                border: "none",
+                background: "darkgray",
+                borderRadius: 15,
+                padding: 10,
+              }}
+              onClick={() => dispatch(updateisTable())}
+            >
+              Table
+            </button>
+
+            {/* <NavLink
+              to={
+                location.pathname.split("/")[2] === "dashboard"
+                  ? `dashboardTable/${location.pathname.split("/")[3]}`
+                  : `dashboard/${location.pathname.split("/")[3]}`
+              }
+            >
+              table
+            </NavLink> */}
+          </div>
         )}
+
         <div
           style={{
             transition: "all ease 0.2s",
@@ -247,7 +134,7 @@ const UpperRightHomePgeNavbar = () => {
           <StartSelection />
         </div>
         <div
-          className="peni  "
+          className="peni "
           onClick={() => {
             dispatch(edit());
             if (isSelecting) {
@@ -261,7 +148,12 @@ const UpperRightHomePgeNavbar = () => {
         <div onClick={deleteFile}>
           <BinIcon size={1} color="#2e2e2e" />
         </div>
-        <div onClick={exportFile}>
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            exportFile();
+          }}
+        >
           <ShareIcon size={1} color={"#2e2e2e"} />
         </div>
         <div style={{ marginTop: "4%" }}>

@@ -1,18 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { editPayload } from "../../redux/isEditable";
+import {  useSelector } from "react-redux";
 
 const PenIcon = (props) => {
   const roll = useSelector((state) => !state.isEditable.value);
-  const location = useLocation();
-  const page = location.pathname;
-  const dispatch = useDispatch();
   const ref = useRef();
-  useEffect(() => {
-    dispatch(editPayload(false));
-  }, [page]);
   useEffect(() => {
     if (roll) {
       ref.current.style.transform = "scaleX(-1)";

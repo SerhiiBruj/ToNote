@@ -16,6 +16,7 @@ const ChecklistModule = () => {
 
   const [data, setData] = useLocalStorage(typeName, []);
   const isEditable = useSelector((state) => state.isEditable.value);
+  const showExpo = useSelector((state) => state.showExpo.value);
 
   const textareaRefs = useRef([]);
 
@@ -42,7 +43,7 @@ const ChecklistModule = () => {
       });
       setData(newData);
     }
-  }, [ isEditable]);
+  }, [isEditable]);
 
   const updateData = useCallback(
     (newData) => {
@@ -115,7 +116,12 @@ const ChecklistModule = () => {
   }, []);
 
   return (
-    <div className="checkList conteiner fileConteiner"  onClick={(e) => e.stopPropagation()}>
+    <div
+      className="checkList conteiner fileConteiner"
+      onClick={(e) => {
+        if (showExpo||isEditable) e.stopPropagation();
+      }}
+    >
       {data.map((checklist, index) => (
         <ul key={index} className="checkLisList">
           <div
@@ -125,10 +131,11 @@ const ChecklistModule = () => {
             }}
           >
             <textarea
-
               ref={(el) => (textareaRefs.current[index * 100] = el)}
               onChange={(e) => handleChangeP(e, index)}
-              className={`caption texarea ${checklist.p ? 'with-after' : 'noafter'}`}
+              className={`caption texarea ${
+                checklist.p ? "with-after" : "noafter"
+              }`}
               placeholder="Type in"
               disabled={!isEditable}
               value={checklist.p}
@@ -165,7 +172,9 @@ const ChecklistModule = () => {
                 />
               ) : (
                 <div
-                  className={`texarea checkLi ${!li ? 'with-after' : 'noafter'}`}
+                  className={`texarea checkLi ${
+                    !li ? "with-after" : "noafter"
+                  }`}
                   style={{
                     borderBottom: !li && "5px solid gray",
                     padding: 5,
