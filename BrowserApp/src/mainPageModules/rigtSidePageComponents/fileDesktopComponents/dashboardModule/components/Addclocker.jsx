@@ -1,29 +1,68 @@
 import { useState } from "react";
 import CrissCrossIcon from "../../../../../assetModules/svgs/crissCross";
 
-const sanitize = (input) => input.replace(/[/"]/g, "");
-const AddClocker = () => {
+const AddClocker = ({ clockers, setClockers }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    type: "note",
-    goal: "1",
+    fileName: "",
+    type: "counter",
+    goal: "",
   });
-
-  
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: sanitize(value),
+      [name]: value,
     }));
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.fileName.trim() === "" &&formData.fileName.trim() === "") return;
+    let newTemplate = {
+      fileName: formData.fileName,
+      type: formData.type?formData.type:'counter',
+      goal: formData.goal,
+      dateOfStart: new Date().toLocaleDateString("uk-UA", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }),
+    };
+    setFormData({
+      fileName: "",
+      type: "counter",
+      goal: "",
+    });
+
+    let newTable = clockers.table.map((row) => {
+      switch (formData.type) {
+        case "clock on":
+          return [...row, []];
+        case "check in":
+          return [...row, false];
+        case "counter":
+          return [...row, 0];
+        case "timer":
+          return [...row, []];
+        default:
+          return row;
+      }
+    });
+
+    setClockers({
+      templates: [...clockers.templates, newTemplate],
+      table: newTable,
+    });
+
+    
+  };
   return (
     <div
-    onClick={()=>{if(!isAdding)setIsAdding(true)}}
+      onClick={() => {
+        if (!isAdding) setIsAdding(true);
+      }}
       className="fileIconConteiner addFile"
       style={{
         height: isAdding && 500,
@@ -57,12 +96,12 @@ const AddClocker = () => {
       </div>
 
       {isAdding && (
-        <form style={{ width: "100%", marginTop: 10 }}>
+        <form style={{ width: "100%", marginTop: 10 }} onSubmit={handleSubmit}>
           <input
             className="fileName"
-            name="name"
+            name="fileName"
             placeholder="Name"
-            value={formData.name}
+            value={formData.fileName}
             onChange={handleChange}
           />
           <select
@@ -72,7 +111,7 @@ const AddClocker = () => {
             onChange={handleChange}
           >
             <option value="counter">counter</option>
-            <option value="clockon">clockon</option>
+            <option value="clock on">clock on</option>
             <option value="check in">check in</option>
             <option value="timer">timer</option>
           </select>
@@ -94,22 +133,3 @@ const AddClocker = () => {
 
 export default AddClocker;
 
-
-
-// function getLocalStorageSize() {
-//     let totalSize = 0;
-//     for (let key in localStorage) {
-//       if (localStorage.hasOwnProperty(key)) {
-//         let itemSize = (localStorage[key].length + key.length) * 2; // Вимірюємо кількість символів у ключі та значенні (по 2 байти на кожен символ)
-//         totalSize += itemSize;
-//       }
-//     }
-//     console.log(`Local Storage зайнято: ${totalSize} байтів`);
-
-//     return ; 
-//   }
-    // getLocalStorageSize();
-
-
-
-    

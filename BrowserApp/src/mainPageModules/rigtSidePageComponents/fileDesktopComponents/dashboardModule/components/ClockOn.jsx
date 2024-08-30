@@ -1,69 +1,135 @@
 /* eslint-disable react/prop-types */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import BellsIcon from "../../../../../assetModules/svgs/bellsIcon";
+const timeToMilliseconds = (time) => {
+  const [hours, minutes] = time.split(":").map(Number);
+  return (hours * 60 + minutes) * 60 * 1000;
+};
+
+const calculateDuration = (ar) => {
+  let total = 0;
+
+  for (let j = 0; j < ar.length; j++) {
+    let { s, e } = ar[j];
+
+    if (!e) continue;
+
+    const startTime = timeToMilliseconds(s);
+    const endTime = timeToMilliseconds(e);
+
+    total += endTime - startTime;
+  }
+
+  return total;
+};
 
 const ClockOn = ({ i, clockers, setClockers }) => {
   const [results, setResults] = useState(null);
   const bestResults = useMemo(() => {
-    let count = 0;
-    for (let j = clockers.table.length - 1; j > 0 && count < 30; j--) {
-      if (clockers.table[j][i] > count) {
-        count = clockers.table[j][i];
+    if (!Array.isArray(clockers.table[clockers.table.length - 1][i]))
+      return null;
+    let maxDuration = 0;
+
+    for (
+      let j = clockers.table.length - 1;
+      j >= 0 && j >= clockers.table.length - 30;
+      j--
+    ) {
+      const duration = calculateDuration(clockers.table[j][i]);
+      if (duration > maxDuration) {
+        maxDuration = duration;
       }
     }
 
-    return count;
+    const hours = Math.floor(maxDuration / (60 * 60 * 1000));
+    const minutes = Math.floor((maxDuration % (60 * 60 * 1000)) / (60 * 1000));
+    console.log(hours, minutes);
+
+    return `${hours}:${minutes}`;
   }, [clockers.table, i]);
 
   useEffect(() => {
+    if (!Array.isArray(clockers.table[clockers.table.length - 1][i]))
+      return null;
     const updatedTable = clockers.table.map((element) => {
       if (!Array.isArray(element[i])) {
-        return [
-          ...element.slice(0, i),
-          [{ s: "14:00", e: "15:40" }],
-          ...element.slice(i + 1),
-        ];
+        return [...element.slice(0, i), [], ...element.slice(i + 1)];
       } else {
         return element;
       }
     });
-    if(JSON.stringify(updatedTable)!==JSON.stringify(clockers.table))
-    setClockers({ ...clockers, table: updatedTable });
-  console.log('object')
-  },[clockers.table]);
-
-
-
+    if (JSON.stringify(updatedTable) !== JSON.stringify(clockers.table))
+      setClockers({ ...clockers, table: updatedTable });
+  }, [clockers.table]);
 
   useEffect(() => {
+    
+    if (!Array.isArray(clockers.table[clockers.table.length - 1][i]))
+      return null;
     let total = 0;
     let count = 0;
-    for (let j = clockers.table.length - 1; j > 0 && count < 10; j = j - 1) {
-      if (typeof clockers.table[j][i] === "number" && clockers.table[j][i])
-        total += clockers.table[j][i];
-      count++;
+    for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
+      if (Array.isArray(clockers.table[j][i])) {
+        for (let k = 0; k < clockers.table[j][i].length; k++) {
+          total += calculateDuration(clockers.table[j][i]);
+          count++;
+        }
+      }
     }
-    setResults(
-      ` ${
-        count > 0
-          ? (total / count) % 2 === 0
-            ? total / count
-            : (total / count).toFixed(1)
-          : 0
-      } a day`
-    );
+    if (count > 0) {
+      total = total / count;
+      const hours = Math.floor(total / (60 * 60 * 1000));
+      const minutes = Math.floor((total % (60 * 60 * 1000)) / (60 * 1000));
+      setResults(`${hours}:${minutes} a day`);
+    } else {
+      setResults("0:0 a day");
+    }
   }, [clockers.table, i]);
 
-  const handleClick = useCallback((e) => {
-    e.stopPropagation();
-  }, []);
+  const handleClick = useCallback(
+    (e) => {
+      e.stopPropagation();
+      let newClockers = JSON.parse(JSON.stringify(clockers));
+
+      if (
+        newClockers.table[newClockers.table.length - 1][i].length > 0 &&
+        !newClockers.table[newClockers.table.length - 1][i][
+          newClockers.table[newClockers.table.length - 1][i].length - 1
+        ]?.e
+      ) {
+        // Якщо останній запис ще не завершено, оновлюємо його
+        newClockers.table[newClockers.table.length - 1][i][
+          newClockers.table[newClockers.table.length - 1][i].length - 1
+        ] = {
+          ...newClockers.table[newClockers.table.length - 1][i][
+            newClockers.table[newClockers.table.length - 1][i].length - 1
+          ],
+          e: `${String(new Date().getHours()).padStart(2, "0")}:${String(
+            new Date().getMinutes()
+          ).padStart(2, "0")}`,
+        };
+      } else {
+        // Інакше створюємо новий запис
+        let newTime = {
+          s: `${String(new Date().getHours()).padStart(2, "0")}:${String(
+            new Date().getMinutes()
+          ).padStart(2, "0")}`,
+          e: null, // Значення кінцевого часу встановлюється як null
+        };
+        newClockers.table[newClockers.table.length - 1][i].push(newTime);
+      }
+
+      setClockers(newClockers);
+    },
+    [clockers, i]
+  );
 
   return (
     <div className="clockonConteiner">
       <div className="clockonConteinerInner">
         <div className="fsb">
           <div>
-            <span className="name">{clockers.templates[i - 1].name}</span>
+            <span className="name">{clockers.templates[i - 1].fileName}</span>
             <br />
             <span>Started:{clockers.templates[i - 1].dateOfStart}</span>
           </div>
@@ -86,7 +152,15 @@ const ClockOn = ({ i, clockers, setClockers }) => {
               size={200}
               color={"#313131"}
             >
-              ClockOn
+              {!!clockers.table[clockers.table.length - 1][i][0]&&!clockers.table[clockers.table.length - 1][i][
+                      clockers.table[clockers.table.length - 1][i].length - 1
+                    ].e
+                ? `started at ${
+                    clockers.table[clockers.table.length - 1][i][
+                      clockers.table[clockers.table.length - 1][i].length - 1
+                    ].s
+                  }`
+                : "ClockOn"}
             </div>
           </div>
           <div
@@ -96,9 +170,13 @@ const ClockOn = ({ i, clockers, setClockers }) => {
               justifySelf: "flex-end",
             }}
           >
-            <span className="name">Goal:{clockers.templates[i - 1].goal}</span>
-            {results && <span className="name">Results: {results}</span>}
-            {bestResults > 0 ? (
+            {!!clockers.templates[i - 1].goal && (
+              <span className="name">
+                Goal:{clockers.templates[i - 1].goal}
+              </span>
+            )}
+            {!!results && <span className="name">Results: {results}</span>}
+            {bestResults ? (
               <span className="name">Best result: {bestResults}</span>
             ) : null}
           </div>
@@ -118,20 +196,27 @@ const ClockOnSchedule = ({ i, table }) => {
     return (hours * 60 + minutes) * 60 * 1000; // Конвертуємо години та хвилини у мілісекунди
   };
 
-  // Функція для обчислення тривалості між двома часами
-  const calculateDuration = ({ s, e }) => {
-    const startTime = timeToMilliseconds(s);
-    const endTime = timeToMilliseconds(e);
+  const calculateDuration = (ar) => {
+    let total = 0;
 
-    const durationMs = endTime - startTime;
+    for (let j = 0; j < ar.length; j++) {
+      let { s, e } = ar[j];
 
-    // Перетворення тривалості у години та хвилини
-    const hours = Math.floor(durationMs / (60 * 60 * 1000));
-    const minutes = Math.floor((durationMs % (60 * 60 * 1000)) / (60 * 1000));
+      if (!e) continue;
+
+      const startTime = timeToMilliseconds(s);
+      const endTime = timeToMilliseconds(e);
+
+      total += endTime - startTime;
+    }
+
+    const hours = Math.floor(total / (60 * 60 * 1000));
+    const minutes = Math.floor((total % (60 * 60 * 1000)) / (60 * 1000));
 
     return `${hours}:${minutes}`;
   };
   useEffect(() => {
+    if (!Array.isArray(table[table.length - 1][i])) return null;
     let neededarr = table.map((row) => ({ date: row[0], value: row[i] }));
     console.log(table[table.length - 1][i]);
     if (neededarr.length > 21) {
@@ -231,7 +316,7 @@ const ClockOnSchedule = ({ i, table }) => {
                   <div
                     className="indicator"
                     style={{
-                      backgroundColor: !item.value ? "brown" : "#1e4f39",
+                      backgroundColor: !item.value[0] ? "brown" : "#1e4f39",
                       color: "lightgray",
                       padding: 5,
                       borderRadius: 5,
@@ -241,7 +326,8 @@ const ClockOnSchedule = ({ i, table }) => {
                     }}
                   >
                     {typeof item.value[0] === "object" &&
-                      calculateDuration(item.value[0])}
+                      item.value[0].e &&
+                      calculateDuration(item.value)}
                   </div>
                 </div>
               ))}
@@ -261,15 +347,3 @@ const ClockOnSchedule = ({ i, table }) => {
     </>
   );
 };
-
-// function deepCopyArray(arr) {
-//   return arr.map((item) => {
-//     if (Array.isArray(item)) {
-//       return deepCopyArray(item);
-//     } else if (item !== null && typeof item === "object") {
-//       return deepCopyObject(item);
-//     } else {
-//       return item;
-//     }
-//   });
-// }

@@ -31,6 +31,7 @@ const FileAdd = () => {
       alert("Please enter a file name");
       return;
     }
+    let currentDate = new Date();
     const initialData = (() => {
       switch (formData.fileType) {
         case "todo":
@@ -45,56 +46,13 @@ const FileAdd = () => {
         case "checklist":
           return [];
         case "dashboard":
-          let currentDate = new Date();
-
           return {
-            templates: [
-              {
-                dateOfStart: `${String(currentDate.getDate()).padStart(2, "0")}.${String(
-                  currentDate.getMonth() + 1
-                ).padStart(2, "0")}.${currentDate.getFullYear()}`,
-                name: "Something",
-                type: "clock on",
-                results: "some results",
-                goal: "1hr",
-              },
-              {
-                dateOfStart:`${String(currentDate.getDate()).padStart(2, "0")}.${String(
-                  currentDate.getMonth() + 1
-                ).padStart(2, "0")}.${currentDate.getFullYear()}`,
-                name: "Something",
-                type: "check in",
-                results: "some results",
-                goal: "1hr",
-              },
-              {
-                dateOfStart: `${String(currentDate.getDate()).padStart(2, "0")}.${String(
-                  currentDate.getMonth() + 1
-                ).padStart(2, "0")}.${currentDate.getFullYear()}`,
-                name: "Something",
-                type: "counter",
-                results: "some results",
-                goal: "1hr",
-              },
-              {
-                dateOfStart: `${String(currentDate.getDate()).padStart(2, "0")}.${String(
-                  currentDate.getMonth() + 1
-                ).padStart(2, "0")}.${currentDate.getFullYear()}`,
-                name: "Something",
-                type: "timer",
-                results: "some results",
-                goal: "1hr",
-              },
-            ],
+            templates: [],
             table: [
               [
                 `${String(currentDate.getDate()).padStart(2, "0")}.${String(
                   currentDate.getMonth() + 1
                 ).padStart(2, "0")}.${currentDate.getFullYear()}`,
-                0,
-                0,
-                0,
-                0,
               ],
             ],
           };

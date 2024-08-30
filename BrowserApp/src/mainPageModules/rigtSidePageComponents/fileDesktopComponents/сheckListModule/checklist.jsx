@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef, useCallback, useMemo } from "react";
+import { useEffect, useCallback, useMemo } from "react";
 import BinIcon from "../../../../assetModules/svgs/bin";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
 import { useSelector } from "react-redux";
@@ -18,8 +18,25 @@ const ChecklistModule = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
   const showExpo = useSelector((state) => state.showExpo.value);
 
-  const textareaRefs = useRef([]);
+  // const textareaRefs = useRef({});
 
+  // const handleKeyDown = (e, index, idx) => {
+  //   if (e.key === 'Enter') {
+  //     e.preventDefault(); // Запобігти переходу на новий рядок
+
+  //     // Обчислюємо наступний індекс для textarea
+  //     const nextIdx = idx + 1;
+  //     const currentRefKey = `${index}-${idx}`;
+  //     const nextRefKey = `${index}-${nextIdx}`;
+  //     const nextChecklistKey = `${index + 1}-0`; // Перший textarea наступного checklist
+
+  //     if (textareaRefs.current[nextRefKey]) {
+  //       textareaRefs.current[nextRefKey].focus();
+  //     } else if (textareaRefs.current[nextChecklistKey]) {
+  //       textareaRefs.current[nextChecklistKey].focus();
+  //     }
+  //   }
+  // };
   useEffect(() => {
     if (!isEditable) {
       const correctedData = data.map((checklist) => ({
@@ -64,11 +81,21 @@ const ChecklistModule = () => {
     (e, index, i) => {
       const newData = data.map((item, idx) => {
         if (idx === index) {
+          // if (!item.desc[i].includes("\n")) {
+          //   return {
+          //     ...item,
+          //     desc: [
+          //       ...item.desc.slice(0, i),
+          //       ...e.target.value.split("\n"),
+          //       ...item.desc.slice(i + 1),
+          //     ],
+          //   };
+          // }
           return {
             ...item,
-            desc: item.desc.map((desc, descIdx) =>
-              descIdx === i ? e.target.value : desc
-            ),
+            desc: item.desc.map((desc, descIdx) => {
+              descIdx === i ? e.target.value : desc;
+            }),
           };
         }
         return item;
@@ -119,7 +146,7 @@ const ChecklistModule = () => {
     <div
       className="checkList conteiner fileConteiner"
       onClick={(e) => {
-        if (showExpo||isEditable) e.stopPropagation();
+        if (showExpo || isEditable) e.stopPropagation();
       }}
     >
       {data.map((checklist, index) => (
@@ -131,7 +158,6 @@ const ChecklistModule = () => {
             }}
           >
             <textarea
-              ref={(el) => (textareaRefs.current[index * 100] = el)}
               onChange={(e) => handleChangeP(e, index)}
               className={`caption texarea ${
                 checklist.p ? "with-after" : "noafter"
@@ -156,9 +182,7 @@ const ChecklistModule = () => {
             <li key={idx} className="checkLi" style={{ paddingTop: 20 }}>
               {isEditable ? (
                 <textarea
-                  ref={(el) =>
-                    (textareaRefs.current[index * 100 + idx + 1] = el)
-                  }
+              
                   value={li}
                   disabled={!isEditable}
                   onChange={(e) => handleChangeDesc(e, index, idx)}

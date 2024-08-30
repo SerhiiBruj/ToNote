@@ -57,7 +57,7 @@ const Counter = ({   i, clockers,setClockers }) => {
       <div className="clockonConteinerInner">
         <div className="fsb">
           <div>
-          <span className="name">{clockers.templates[i-1].name}</span>
+          <span className="name">{clockers.templates[i-1].fileName}</span>
             <br />
             <span>Started: {clockers.templates[i-1].dateOfStart}</span>
           </div>
@@ -86,11 +86,11 @@ const Counter = ({   i, clockers,setClockers }) => {
               justifySelf: "flex-end",
             }}
           >
-            <span className="name">Goal: {clockers.templates[i-1].goal}</span>
-            {results && <span className="name">Results: {results}</span>}
-            {bestResults && (
+         { !!clockers.templates[i - 1].goal &&<span className="name">Goal:{clockers.templates[i - 1].goal}</span>}
+            {!!results && <span className="name">Results: {results}</span>}
+            {bestResults  ? (
               <span className="name">Best result: {bestResults}</span>
-            )}
+            ) : null}
           </div>
         </div>
       </div>

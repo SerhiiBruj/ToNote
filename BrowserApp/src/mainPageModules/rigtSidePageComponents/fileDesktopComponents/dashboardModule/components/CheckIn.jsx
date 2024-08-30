@@ -9,7 +9,6 @@ const CheckIn = ({ setClockers, clockers, i }) => {
     let total = 0;
     let count = 0;
   
-    // Ітеруємо таблицю в зворотному напрямку, щоб знайти останні 30 значень
     for (let j = clockers.table.length - 1; j > 0 && count < 30; j--) {
       if (typeof clockers.table[j][i] === "boolean" && clockers.table[j][i]) {
         total += 1;
@@ -17,7 +16,6 @@ const CheckIn = ({ setClockers, clockers, i }) => {
       count++;
     }
   
-    // Обчислюємо результат і встановлюємо в стан
     if (count > 0) {
       const average = total / count;
       const formattedResult = count === 1 ? "1" : average.toFixed(1);
@@ -48,7 +46,7 @@ const CheckIn = ({ setClockers, clockers, i }) => {
       <div className="clockonConteinerInner">
         <div className="fsb">
           <div>
-            <span className="name">{clockers.templates[i - 1].name}</span>
+            <span className="name">{clockers.templates[i - 1].fileName}</span>
             <br />
             <span>Started:{clockers.templates[i - 1].dateOfStart}</span>
           </div>
@@ -83,8 +81,8 @@ const CheckIn = ({ setClockers, clockers, i }) => {
               justifySelf: "flex-end",
             }}
           >
-            <span className="name">Goal:{clockers.templates[i - 1].goal}</span>
-            {results && <span className="name">Results: {results}</span>}
+          { !!clockers.templates[i - 1].goal &&<span className="name">Goal:{clockers.templates[i - 1].goal}</span>}
+            {!!results && <span className="name">Results: {results}</span>}
           </div>
         </div>
       </div>

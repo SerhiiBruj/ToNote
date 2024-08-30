@@ -80,7 +80,7 @@ const Timer = ({ setClockers, clockers, i, colors }) => {
       <div className="clockonConteinerInner">
         <div className="fsb">
           <div>
-            <span className="name">{clockers.templates[i - 1].name}</span>
+            <span className="name">{clockers.templates[i - 1].fileName}</span>
             <br />
             <span>Started:{clockers.templates[i - 1].dateOfStart}</span>
           </div>
@@ -118,11 +118,15 @@ const Timer = ({ setClockers, clockers, i, colors }) => {
               justifySelf: "flex-end",
             }}
           >
-            <span className="name">Goal:{clockers.templates[i - 1].goal}</span>
-            {results && <span className="name">Results: {results}</span>}
-            {bestResults && (
-              <span className="name">Best result: {bestResults}</span>
+            {!!clockers.templates[i - 1].goal && (
+              <span className="name">
+                Goal:{clockers.templates[i - 1].goal}
+              </span>
             )}
+            {!!results && <span className="name">Results: {results}</span>}
+            {bestResults ? (
+              <span className="name">Best result: {bestResults}</span>
+            ) : null}
           </div>
         </div>
       </div>
@@ -187,25 +191,25 @@ const TimerDiagram = ({ bestResults, i, table, colors }) => {
                       count++;
                       if (count < 5 && element)
                         return (
-                            <div
-                              key={idx}
-                              style={{
-                                background: colors[index],
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                color: "lightgray",
-                                width: "100%",
-                                height: `${Math.min(
-                                  (element / bestResults) * 100,
-                                  100
-                                )}%`,
+                          <div
+                            key={idx}
+                            style={{
+                              background: colors[index],
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              color: "lightgray",
+                              width: "100%",
+                              height: `${Math.min(
+                                (element / bestResults) * 100,
+                                100
+                              )}%`,
 
-                                overflow: "hidden",
-                              }}
-                            >
-                              {element}
-                            </div>
+                              overflow: "hidden",
+                            }}
+                          >
+                            {element}
+                          </div>
                         );
                     })}
                 </div>

@@ -6,7 +6,7 @@ import PenIcon from "../../../assetModules/svgs/pen";
 import { useDispatch, useSelector } from "react-redux";
 import isEditable, { edit } from "../../../redux/isEditable";
 import BackLeafIcon from "../../../assetModules/svgs/backLeaf";
-import {  useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import StartSelection from "../../../assetModules/noSvg/startSelections";
 import { updatePages } from "../../../redux/pagesSlice";
 import {
@@ -26,6 +26,7 @@ const UpperRightHomePgeNavbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [isHome, setIsHome] = useState(true);
+  const navigate=useNavigate();
 
   useEffect(() => {
     if (location.pathname.split("/")[3]) {
@@ -38,20 +39,28 @@ const UpperRightHomePgeNavbar = () => {
   }, [location.pathname]);
 
   const deleteFile = () => {
-    if (isSelecting) {
-      if (selected.length > 0) {
-        for (let file of selected) {
-          localStorage.removeItem(file);
+    if (isHome)
+      if (isSelecting) {
+        if (selected.length > 0) {
+          for (let file of selected) {
+            localStorage.removeItem(file);
+          }
+          dispatch(updatePages());
+          dispatch(stopSelection());
+          dispatch(clearSelection());
+        } else {
+          dispatch(stopSelection());
+          dispatch(clearSelection());
         }
-        dispatch(updatePages());
-        dispatch(stopSelection());
-        dispatch(clearSelection());
       } else {
-        dispatch(stopSelection());
-        dispatch(clearSelection());
+        dispatch(startSelection());
       }
-    } else {
-      dispatch(startSelection());
+    else if(listOfFileTypes.includes(location.pathname.split("/")[2])){
+      let key=[location.pathname.split("/")[2],location.pathname.split("/")[3]].join('/');
+      console.log(key)  
+      navigate('/Home')
+      localStorage.removeItem(key);
+      dispatch(updatePages())
     }
   };
   const exportFile = () => {
@@ -85,7 +94,6 @@ const UpperRightHomePgeNavbar = () => {
           opacity: !isHome ? "1" : "0",
           transform: !isHome ? "scale(1)" : "scale(0)",
         }}
-     
       >
         <BackLeafIcon size={0.8} color={"#2e2e2e"} />
       </div>
@@ -111,16 +119,6 @@ const UpperRightHomePgeNavbar = () => {
             >
               Table
             </button>
-
-            {/* <NavLink
-              to={
-                location.pathname.split("/")[2] === "dashboard"
-                  ? `dashboardTable/${location.pathname.split("/")[3]}`
-                  : `dashboard/${location.pathname.split("/")[3]}`
-              }
-            >
-              table
-            </NavLink> */}
           </div>
         )}
 
