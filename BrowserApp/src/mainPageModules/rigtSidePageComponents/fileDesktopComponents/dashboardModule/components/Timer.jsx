@@ -11,13 +11,14 @@ const Timer = ({ setClockers, clockers, i, colors }) => {
     let count = 0;
     for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
       if (Array.isArray(clockers.table[j][i])) {
-        clockers.table[j][i].forEach((element) => {
+        clockers.table[j][i].map((element) => {
           if (typeof element === "number" && element > count) {
             count = element;
           }
         });
       }
     }
+    console.log('useMemo')
     return count;
   }, [clockers.table]);
 
@@ -26,12 +27,14 @@ const Timer = ({ setClockers, clockers, i, colors }) => {
       let total = 0;
       let count = 0;
       for (let j = clockers.table.length - 1; j > 0 && count < 10; j = j - 1) {
-        clockers.table[j][i].forEach((element) => {
-          if (typeof element === "number") {
-            total += element;
-            count++;
-          }
-        });
+        if (Array.isArray(clockers.table[j][i])) {
+          clockers.table[j][i].map((element) => {
+            if (typeof element === "number") {
+              total += element;
+              count++;
+            }
+          });
+        }
       }
       setResults(
         count > 0
@@ -43,6 +46,7 @@ const Timer = ({ setClockers, clockers, i, colors }) => {
     } catch (er) {
       console.log(er.message);
     }
+    console.log('useEffect')
   }, [clockers.table[clockers.table.length - 1][i]]);
 
   const handleClick = useCallback(
@@ -147,6 +151,7 @@ const TimerDiagram = ({ bestResults, i, table, colors }) => {
         .filter((el) => el !== null);
 
       setNeededAr(newNeededAr.reverse());
+      console.log('TimerDiagram')
     } catch (er) {
       console.error(er);
     }

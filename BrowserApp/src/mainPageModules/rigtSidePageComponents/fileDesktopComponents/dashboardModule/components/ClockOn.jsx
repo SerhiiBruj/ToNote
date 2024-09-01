@@ -5,7 +5,6 @@ const timeToMilliseconds = (time) => {
   const [hours, minutes] = time.split(":").map(Number);
   return (hours * 60 + minutes) * 60 * 1000;
 };
-
 const calculateDuration = (ar) => {
   let total = 0;
 
@@ -24,66 +23,72 @@ const calculateDuration = (ar) => {
 };
 
 const ClockOn = ({ i, clockers, setClockers }) => {
-  const [results, setResults] = useState(null);
-  const bestResults = useMemo(() => {
-    if (!Array.isArray(clockers.table[clockers.table.length - 1][i]))
-      return null;
-    let maxDuration = 0;
-
-    for (
-      let j = clockers.table.length - 1;
-      j >= 0 && j >= clockers.table.length - 30;
-      j--
-    ) {
-      const duration = calculateDuration(clockers.table[j][i]);
-      if (duration > maxDuration) {
-        maxDuration = duration;
-      }
+  useEffect(() => {
+    if (!Array.isArray(clockers.table[clockers.table.length - 1][i])) {
+      const updatedTable = clockers.table.map((element) => {
+        if (!Array.isArray(element[i])) {
+          return [...element.slice(0, i), [], ...element.slice(i + 1)];
+        } else {
+          return element;
+        }
+      });
+      if (JSON.stringify(updatedTable) !== JSON.stringify(clockers.table))
+        setClockers({ ...clockers, table: updatedTable });
     }
-
-    const hours = Math.floor(maxDuration / (60 * 60 * 1000));
-    const minutes = Math.floor((maxDuration % (60 * 60 * 1000)) / (60 * 1000));
-    console.log(hours, minutes);
-
-    return `${hours}:${minutes}`;
   }, [clockers.table, i]);
 
-  useEffect(() => {
-    if (!Array.isArray(clockers.table[clockers.table.length - 1][i]))
-      return null;
-    const updatedTable = clockers.table.map((element) => {
-      if (!Array.isArray(element[i])) {
-        return [...element.slice(0, i), [], ...element.slice(i + 1)];
-      } else {
-        return element;
-      }
-    });
-    if (JSON.stringify(updatedTable) !== JSON.stringify(clockers.table))
-      setClockers({ ...clockers, table: updatedTable });
-  }, [clockers.table]);
-
-  useEffect(() => {
-    
-    if (!Array.isArray(clockers.table[clockers.table.length - 1][i]))
-      return null;
-    let total = 0;
-    let count = 0;
-    for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
-      if (Array.isArray(clockers.table[j][i])) {
-        for (let k = 0; k < clockers.table[j][i].length; k++) {
-          total += calculateDuration(clockers.table[j][i]);
-          count++;
+  const results = useMemo(() => {
+    if (Array.isArray(clockers.table[clockers.table.length - 1][i])) {
+      let total = 0;
+      let count = clockers.table.length < 30 ? clockers.table.length : 29;
+      for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
+        if (Array.isArray(clockers.table[j][i])) {
+          for (let k = 0; k < clockers.table[j][i].length; k++) {
+            total += calculateDuration(clockers.table[j][i]);
+          }
         }
       }
+      console.log(count)
+
+      if (count > 0) {
+        total = total / count;
+        const hours = Math.floor(total / (60 * 60 * 1000));
+        const minutes = Math.floor((total % (60 * 60 * 1000)) / (60 * 1000));
+        return `${hours}:${minutes} a day`;
+      } else {
+        return "0:0 a day";
+      }
     }
-    if (count > 0) {
-      total = total / count;
-      const hours = Math.floor(total / (60 * 60 * 1000));
-      const minutes = Math.floor((total % (60 * 60 * 1000)) / (60 * 1000));
-      setResults(`${hours}:${minutes} a day`);
-    } else {
-      setResults("0:0 a day");
+  }, [clockers.table]);
+
+  const bestResults = useMemo(() => {
+    if (Array.isArray(clockers.table[clockers.table.length - 1][i])) {
+      try {
+        let maxDuration = 0;
+
+        for (
+          let j = clockers.table.length - 1;
+          j >= 0 && j >= clockers.table.length - 30;
+          j--
+        ) {
+          const duration = calculateDuration(clockers.table[j][i]);
+          if (duration > maxDuration) {
+            maxDuration = duration;
+          }
+        }
+
+        const hours = Math.floor(maxDuration / (60 * 60 * 1000));
+        const minutes = Math.floor(
+          (maxDuration % (60 * 60 * 1000)) / (60 * 1000)
+        );
+        console.log(hours, minutes);
+
+        return `${hours}:${minutes}`;
+      } catch (er) {
+        console.log(er.message);
+      }
     }
+    console.log("useMemo");
   }, [clockers.table, i]);
 
   const handleClick = useCallback(
@@ -120,6 +125,7 @@ const ClockOn = ({ i, clockers, setClockers }) => {
       }
 
       setClockers(newClockers);
+      console.log("handleClick");
     },
     [clockers, i]
   );
@@ -152,9 +158,10 @@ const ClockOn = ({ i, clockers, setClockers }) => {
               size={200}
               color={"#313131"}
             >
-              {!!clockers.table[clockers.table.length - 1][i][0]&&!clockers.table[clockers.table.length - 1][i][
-                      clockers.table[clockers.table.length - 1][i].length - 1
-                    ].e
+              {!!clockers.table[clockers.table.length - 1][i][0] &&
+              !clockers.table[clockers.table.length - 1][i][
+                clockers.table[clockers.table.length - 1][i].length - 1
+              ].e
                 ? `started at ${
                     clockers.table[clockers.table.length - 1][i][
                       clockers.table[clockers.table.length - 1][i].length - 1
@@ -216,24 +223,26 @@ const ClockOnSchedule = ({ i, table }) => {
     return `${hours}:${minutes}`;
   };
   useEffect(() => {
-    if (!Array.isArray(table[table.length - 1][i])) return null;
-    let neededarr = table.map((row) => ({ date: row[0], value: row[i] }));
     console.log(table[table.length - 1][i]);
-    if (neededarr.length > 21) {
-      neededarr.splice(0, neededarr.length - 14);
-    }
-    let arr = [];
-    let counter = 0;
-    for (let j = 0; j < neededarr.length; j++) {
-      if (!arr[counter]) {
-        arr[counter] = [];
+    if (Array.isArray(table[table.length - 1][i])) {
+      let neededarr = table.map((row) => ({ date: row[0], value: row[i] }));
+      console.log(table[table.length - 1][i]);
+      if (neededarr.length > 21) {
+        neededarr.splice(0, neededarr.length - 14);
       }
-      arr[counter].push(neededarr[j]);
-      if ((j + 1) % 7 === 0) {
-        counter += 1;
+      let arr = [];
+      let counter = 0;
+      for (let j = 0; j < neededarr.length; j++) {
+        if (!arr[counter]) {
+          arr[counter] = [];
+        }
+        arr[counter].push(neededarr[j]);
+        if ((j + 1) % 7 === 0) {
+          counter += 1;
+        }
       }
+      setRows(arr);
     }
-    setRows(arr);
   }, [i, table]);
   useEffect(() => {
     if (

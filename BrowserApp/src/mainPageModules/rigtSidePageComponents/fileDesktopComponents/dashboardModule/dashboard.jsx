@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import AddClocker from "./components/Addclocker";
 import { useLocation } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
@@ -11,36 +11,28 @@ import { updateisTable } from "../../../../redux/istable";
 
 const Dashboard = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const ref = useRef();
+
   const typeName = useMemo(() => {
     return location.pathname.split("/").slice(2).join("/");
   }, [location.pathname]);
-  const ref = useRef();
+
   const isTable = useSelector((state) => state.isTable.value);
-  const [tableToRender, setTableToRender] = useState([]);
+
   const [clockers, setClockers] = useLocalStorage(typeName, {
     templates: [],
     table: [],
   });
-  const dispath = useDispatch();
+
+  const tableToRender = useMemo(() => {
+    console.log(isTable);
+    return [["", ...clockers.templates], ...clockers.table];
+  }, [clockers.templates, clockers.table]);
 
   useEffect(() => {
-    let tab = JSON.parse(JSON.stringify(clockers.table));
-    setTableToRender(tab.unshift(["", ...clockers.templates]));
-  }, [isTable]);
-
-  useEffect(() => {
-    if (isTable) dispath(updateisTable(false));
-  }, [location.pathname]);
-
-  useEffect(() => {
-    if (clockers.table.length > 0) {
-      const dates = getDatesArray(clockers.table[clockers.table.length - 1][0]);
-      if (dates) {
-        const newTable = [["", ...clockers.templates], ...clockers.table];
-        setTableToRender(newTable);
-      }
-    }
-  }, [isTable]);
+    if (isTable) dispatch(updateisTable(false));
+  }, [ location.pathname]);
 
   function getDatesArray(startDate) {
     const datesArray = [];
@@ -49,33 +41,31 @@ const Dashboard = () => {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
     date.setHours(0, 0, 0, 0);
-    if (
-      date.getDate() !== currentDate.getDate() ||
-      date.getFullYear() !== currentDate.getFullYear() ||
-      date.getMonth() !== currentDate.getMonth()
-    )
-      while (date <= currentDate) {
-        const day = String(date.getDate()).padStart(2, "0");
-        const month = String(date.getMonth()).padStart(2, "0");
-        const year = date.getFullYear();
-        datesArray.push(`${day}.${month}.${year}`);
-      }
+
+    while (date < currentDate) {
+      date.setDate(date.getDate() + 1);
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0"); // Fixing the month format
+      const year = date.getFullYear();
+      datesArray.push(`${day}.${month}.${year}`);
+    }
+
     return datesArray;
   }
 
   useEffect(() => {
-    const dates = getDatesArray(
-      clockers.table[clockers.table.length - 1][0]
-    ).slice(1);
-    if (dates) {
-      const arr = [...clockers.table];
-      dates.map((date) => {
-        arr.push([date, ...Array(clockers.templates.length).fill(0)]);
-      });
-      setClockers({ ...clockers, table: arr });
+    const lastDate = clockers.table[clockers.table.length - 1]?.[0];
+    if (lastDate) {
+      const dates = getDatesArray(lastDate);
+      if (dates.length > 0) {
+        const updatedTable = [...clockers.table];
+        dates.forEach((date) => {
+          updatedTable.push([date, ...Array(clockers.templates.length).fill(0)]);
+        });
+        setClockers({ ...clockers, table: updatedTable });
+      }
     }
-  }, []);
-
+  }, [clockers, setClockers]);
   return (
     <>
       {!isTable ? (
@@ -149,7 +139,7 @@ const Dashboard = () => {
             >
               {tableToRender.map((row, index) => (
                 <div
-                  key={index}
+                  key={index*1223}
                   className="tableRow"
                   style={{ display: "flex" }}
                 >
@@ -172,9 +162,7 @@ const Dashboard = () => {
                               key={i + 111}
                               className="line"
                               style={{
-                                transform: ` scaleY(${
-                                  tableToRender.length 
-                                }) `,
+                                transform: ` scaleY(${tableToRender.length}) `,
                                 height: 80,
                               }}
                             ></div>

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import CrissCrossIcon from "../../../../../assetModules/svgs/crissCross";
 
@@ -5,7 +6,7 @@ const AddClocker = ({ clockers, setClockers }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [formData, setFormData] = useState({
     fileName: "",
-    type: "counter",
+    type: "",
     goal: "",
   });
 
@@ -19,8 +20,9 @@ const AddClocker = ({ clockers, setClockers }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formData.fileName.trim() === "" &&formData.fileName.trim() === "") return;
-    let newTemplate = {
+    if (formData.fileName.trim() === "") return;
+    console.log(formData.fileName, formData.type);
+    const newTemplate = {
       fileName: formData.fileName,
       type: formData.type?formData.type:'counter',
       goal: formData.goal,
@@ -30,24 +32,17 @@ const AddClocker = ({ clockers, setClockers }) => {
         year: "numeric",
       }),
     };
-    setFormData({
-      fileName: "",
-      type: "counter",
-      goal: "",
-    });
 
-    let newTable = clockers.table.map((row) => {
+    const newTable = clockers.table.map((row) => {
       switch (formData.type) {
         case "clock on":
+        case "timer":
           return [...row, []];
         case "check in":
           return [...row, false];
         case "counter":
-          return [...row, 0];
-        case "timer":
-          return [...row, []];
         default:
-          return row;
+          return [...row, 0];
       }
     });
 
@@ -56,7 +51,16 @@ const AddClocker = ({ clockers, setClockers }) => {
       table: newTable,
     });
 
-    
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setFormData({
+      fileName: "",
+      type: "counter",
+      goal: "",
+    });
+    setIsAdding(false);
   };
   return (
     <div
@@ -103,6 +107,7 @@ const AddClocker = ({ clockers, setClockers }) => {
             placeholder="Name"
             value={formData.fileName}
             onChange={handleChange}
+            required
           />
           <select
             className="fileType"
@@ -121,6 +126,7 @@ const AddClocker = ({ clockers, setClockers }) => {
             placeholder="Goal"
             value={formData.goal}
             onChange={handleChange}
+            required
           />
           <button type="submit" className="submit">
             Create
@@ -132,4 +138,3 @@ const AddClocker = ({ clockers, setClockers }) => {
 };
 
 export default AddClocker;
-

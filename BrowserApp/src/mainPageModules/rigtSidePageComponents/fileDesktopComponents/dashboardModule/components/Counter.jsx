@@ -14,7 +14,7 @@ const Counter = ({   i, clockers,setClockers }) => {
         max = value;
       }
     }
-  
+    console.log('useMemo')
     return max === -Infinity ? null : max; // Повертаємо null, якщо значень не знайдено
   }, [clockers.table, i]); 
   useEffect(() => {
@@ -37,6 +37,9 @@ const Counter = ({   i, clockers,setClockers }) => {
     } catch (er) {
       console.log(er.message);
     }
+  
+    console.log('useEffect')
+  
   }, [clockers.table[clockers.table.length - 1][i]]);
 
   const handleClick = (e) => {
@@ -49,6 +52,7 @@ const Counter = ({   i, clockers,setClockers }) => {
       table: newTable,
     });
     setCounter(counter + 1); // Update counter here
+    console.log('handleClick')
 
   };
 

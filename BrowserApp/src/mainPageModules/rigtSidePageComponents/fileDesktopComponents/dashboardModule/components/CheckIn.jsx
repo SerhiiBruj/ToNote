@@ -1,31 +1,42 @@
 /* eslint-disable react/prop-types */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import BellsIcon from "../../../../../assetModules/svgs/bellsIcon";
 
 const CheckIn = ({ setClockers, clockers, i }) => {
-  const [results, setResults] = useState(null);
-
   useEffect(() => {
+    if (typeof clockers.table[clockers.table.length - 1][i] !== "boolean") {
+      const newtab = clockers.table.map((row) => {
+        if (typeof row[i] !== "boolean") {
+          row[i] = false;
+        }
+        return row;
+      });
+      setClockers({ ...clockers, table: newtab });
+    }
+  }, []);
+  const results = useMemo(() => {
     let total = 0;
-    let count = 0;
-  
-    for (let j = clockers.table.length - 1; j > 0 && count < 30; j--) {
-      if (typeof clockers.table[j][i] === "boolean" && clockers.table[j][i]) {
+    let count = 0; // Count will track the number of valid entries checked
+
+    // Loop through the table in reverse, checking up to 30 rows
+    for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
+      if (
+        typeof clockers.table[j][i] === "boolean" &&
+        clockers.table[j][i] === true
+      ) {
         total += 1;
       }
-      count++;
+      count += 1; 
     }
-  
+
     if (count > 0) {
       const average = total / count;
-      const formattedResult = count === 1 ? "1" : average.toFixed(1);
-      setResults(`every ${formattedResult} day`);
+      const formattedResult = average % 1 === 0 ? 1 : average.toFixed(1);
+      return `every ${formattedResult} day${formattedResult > 1 ? "s" : ""}`;
     } else {
-      setResults(null);
+      return "No data";
     }
-  
   }, [clockers.table, i]);
-  
 
   const handleClick = useCallback(
     (e) => {
@@ -36,7 +47,8 @@ const CheckIn = ({ setClockers, clockers, i }) => {
         ...clockers,
         table: newTable,
       });
-      console.log('clockers')
+      console.log("clockers");
+      console.log("handleClick");
     },
     [clockers.table, i]
   );
@@ -81,7 +93,11 @@ const CheckIn = ({ setClockers, clockers, i }) => {
               justifySelf: "flex-end",
             }}
           >
-          { !!clockers.templates[i - 1].goal &&<span className="name">Goal:{clockers.templates[i - 1].goal}</span>}
+            {!!clockers.templates[i - 1].goal && (
+              <span className="name">
+                Goal:{clockers.templates[i - 1].goal}
+              </span>
+            )}
             {!!results && <span className="name">Results: {results}</span>}
           </div>
         </div>
@@ -102,7 +118,7 @@ const CalendarComp = ({ i, table }) => {
       value: row[i],
     }));
 
-      // Обрізаємо масив до останніх 21 записів
+    // Обрізаємо масив до останніх 21 записів
     if (neededarr.length > 21) {
       neededarr = neededarr.slice(-21);
     }
@@ -115,8 +131,11 @@ const CalendarComp = ({ i, table }) => {
     // Визначаємо місяць для відображення
     if (arr.length > 0) {
       const firstMonth = arr[0][0].date.split(".")[1];
-      const lastMonth = arr[arr.length - 1][arr[arr.length - 1].length - 1].date.split(".")[1];
-      setMonth(firstMonth === lastMonth ? firstMonth : `${firstMonth}-${lastMonth}`);
+      const lastMonth =
+        arr[arr.length - 1][arr[arr.length - 1].length - 1].date.split(".")[1];
+      setMonth(
+        firstMonth === lastMonth ? firstMonth : `${firstMonth}-${lastMonth}`
+      );
     }
   }, [table, i]);
 
