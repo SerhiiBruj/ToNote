@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useLocalStorage = (key, initialValue) => {
-  let keyy = key.replace("%20", " ");
+  let keyy = decodeURIComponent(key.replace(/(%20)/g, " "));
   const navigate = useNavigate();
 
   const [storedValue, setStoredValue] = useState(() => {

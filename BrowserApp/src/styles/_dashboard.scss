@@ -98,7 +98,7 @@ $coolcolor: #1e4f39;
         font-size: 29px;
         line-height: 44px;
         user-select: none;
-
+        text-overflow: ellipsis;
         color: #313131;
       }
     }
@@ -260,7 +260,6 @@ $coolcolor: #1e4f39;
   width: 100%;
 }
 @media screen and (max-width: 1400px) {
-
   .dashboard {
     padding: 20px;
     display: flex;
@@ -274,7 +273,7 @@ $coolcolor: #1e4f39;
       width: 50px !important;
       height: 50px !important;
     }
-  
+
     .clockonConteiner {
       background-color: $clockConteiner;
       display: flex;
@@ -285,7 +284,7 @@ $coolcolor: #1e4f39;
       color: initial;
       justify-content: space-between;
       min-width: 40vw;
-  
+
       .clockonConteinerInner {
         display: flex;
         flex-direction: column;
@@ -297,15 +296,17 @@ $coolcolor: #1e4f39;
           align-items: center;
           justify-content: center;
           border-radius: 50%;
-          font-family: "Kadwa";
-          font-style: normal;
-          font-weight: 700;
-          font-size: 29px;
-          line-height: 44px;
-          background-color: #313131;
           height: 190px;
           width: 190px;
-          color: $clockConteiner;
+          background-color: #313131;
+          * {
+            font-family: "Kadwa";
+            font-style: normal;
+            font-weight: 700;
+            font-size: 29px;
+            line-height: 44px;
+            color: $clockConteiner;
+          }
           transform: translateY(20px);
         }
         .schedule {
@@ -350,13 +351,13 @@ $coolcolor: #1e4f39;
           font-size: 29px;
           line-height: 44px;
           user-select: none;
-  
+
           color: #313131;
         }
       }
     }
   }
-  
+
   .fsb {
     display: flex;
     justify-content: space-between;
@@ -371,10 +372,10 @@ $coolcolor: #1e4f39;
     display: flex;
     justify-content: flex-end;
   }
-  
+
   .fileIconConteiner {
     user-select: none;
-  
+
     height: calc(160 * 1.1px);
     width: calc(200 * 1.1px);
     background-color: $fileIconbg;
@@ -412,33 +413,33 @@ $coolcolor: #1e4f39;
     padding: 10px;
     transition: 0.4s all ease;
     animation: appear 0.6s ease-out;
-  
+
     &:hover {
       transform: scale(1.1);
     }
-  
+
     .fileIconName {
       @include textformat(130%, 700, 30px, hsl(0, 0%, 20%));
       height: 40px;
       padding: 0;
       margin: 0;
     }
-  
+
     .fileIconType {
       @include textformat(100%, 700, 10px);
     }
-  
+
     &:hover {
       transform: scale(1.04);
     }
   }
-  
+
   .addFile {
     width: 250px;
     background: $AddFilebg;
     animation: appear 0.6s ease-out;
     cursor: pointer;
-  
+
     .upperside {
       @include flex(row, space-between, flex-start);
       width: 100%;
@@ -447,11 +448,11 @@ $coolcolor: #1e4f39;
         padding-top: 10px;
       }
     }
-  
+
     form {
       @include flex(column, space-around, flex-start);
       height: 70%;
-  
+
       .submit {
         @include textformat(27px, 700);
         background: rgba(217, 217, 217, 0.5);
@@ -460,12 +461,12 @@ $coolcolor: #1e4f39;
         border-width: 0;
         width: 40%;
         height: 50px;
-  
+
         &:focus {
           background: rgba(217, 217, 217, 0.5);
         }
       }
-  
+
       .fileType {
         @include flex(row, space-between);
         background: rgba(217, 217, 217, 0.5);
@@ -476,20 +477,20 @@ $coolcolor: #1e4f39;
         height: 50px;
         padding-left: 20px;
         @include textformat(27px, 700);
-  
+
         &::after {
           content: none !important;
         }
-  
+
         .dropdown {
           width: 70%;
-  
+
           .btn-secondary.dropdown-toggle {
             width: 70%;
           }
         }
       }
-  
+
       .fileName {
         @include textformat(27px, 700);
         border-radius: 20px;
@@ -498,14 +499,14 @@ $coolcolor: #1e4f39;
         width: 70%;
         height: 50px;
         padding-left: 20px;
-  
+
         &::placeholder {
           @include textformat(27px, 700);
         }
       }
     }
   }
-  
+
   .heightCont {
     height: 500px;
     width: 100%;

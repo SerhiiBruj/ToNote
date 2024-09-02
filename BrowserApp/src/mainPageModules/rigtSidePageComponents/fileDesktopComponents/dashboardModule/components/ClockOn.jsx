@@ -5,11 +5,12 @@ const timeToMilliseconds = (time) => {
   const [hours, minutes] = time.split(":").map(Number);
   return (hours * 60 + minutes) * 60 * 1000;
 };
+
 const calculateDuration = (ar) => {
   let total = 0;
 
   for (let j = 0; j < ar.length; j++) {
-    let { s, e } = ar[j];
+    const { s, e } = ar[j];
 
     if (!e) continue;
 
@@ -21,7 +22,6 @@ const calculateDuration = (ar) => {
 
   return total;
 };
-
 const ClockOn = ({ i, clockers, setClockers }) => {
   useEffect(() => {
     if (!Array.isArray(clockers.table[clockers.table.length - 1][i])) {
@@ -35,31 +35,32 @@ const ClockOn = ({ i, clockers, setClockers }) => {
       if (JSON.stringify(updatedTable) !== JSON.stringify(clockers.table))
         setClockers({ ...clockers, table: updatedTable });
     }
-  }, [clockers.table, i]);
+  }, [i]);
 
   const results = useMemo(() => {
     if (Array.isArray(clockers.table[clockers.table.length - 1][i])) {
-      let total = 0;
-      let count = clockers.table.length < 30 ? clockers.table.length : 29;
+      let count = 0; // Tracks the number of valid entries checked
+      let total = 0; // Tracks the total duration
+  
       for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
         if (Array.isArray(clockers.table[j][i])) {
           for (let k = 0; k < clockers.table[j][i].length; k++) {
-            total += calculateDuration(clockers.table[j][i]);
+            total += calculateDuration(clockers.table[j][i]); // Calculate duration for the day
           }
         }
+        count += 1;
       }
-      console.log(count)
-
       if (count > 0) {
-        total = total / count;
-        const hours = Math.floor(total / (60 * 60 * 1000));
-        const minutes = Math.floor((total % (60 * 60 * 1000)) / (60 * 1000));
-        return `${hours}:${minutes} a day`;
+        const averageDuration = total / count;
+        const hours = Math.floor(averageDuration / (60 * 60 * 1000));
+        const minutes = Math.floor((averageDuration % (60 * 60 * 1000)) / (60 * 1000));
+        return `${hours}:${minutes.toString().padStart(2, '0')} a day`;
       } else {
-        return "0:0 a day";
+        return "0:00 a day";
       }
     }
-  }, [clockers.table]);
+    return "0:00 a day";
+  }, [clockers.table[clockers.table.length - 1][i]]);
 
   const bestResults = useMemo(() => {
     if (Array.isArray(clockers.table[clockers.table.length - 1][i])) {
@@ -244,6 +245,7 @@ const ClockOnSchedule = ({ i, table }) => {
       setRows(arr);
     }
   }, [i, table]);
+  
   useEffect(() => {
     if (
       rows.length > 0 &&
@@ -262,7 +264,7 @@ const ClockOnSchedule = ({ i, table }) => {
               ].date.split(".")[1]
       );
     }
-  }, [rows]);
+  }, []);
 
   return (
     <>

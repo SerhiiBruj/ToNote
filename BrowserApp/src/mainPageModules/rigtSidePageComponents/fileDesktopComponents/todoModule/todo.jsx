@@ -15,13 +15,13 @@ const Todo = () => {
     [location.pathname]
   );
 
-  const [data, setData] = useLocalStorage(typeName);
+  const [data, setData] = useLocalStorage(typeName,['']);
 
   useEffect(() => {
     if (isEditable) {
       const newData = [...data, ""];
       setData(newData);
-    } else {
+    } else if(data.length>1) {
       const newData = data
         .map((todo) => todo.trim())
         .filter((todo) => todo !== "");

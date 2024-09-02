@@ -6,7 +6,7 @@ const AddClocker = ({ clockers, setClockers }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [formData, setFormData] = useState({
     fileName: "",
-    type: "",
+    type: "counter", 
     goal: "",
   });
 
@@ -21,10 +21,10 @@ const AddClocker = ({ clockers, setClockers }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.fileName.trim() === "") return;
-    console.log(formData.fileName, formData.type);
+
     const newTemplate = {
       fileName: formData.fileName,
-      type: formData.type?formData.type:'counter',
+      type: formData.type || "counter", // Ensure type defaults to "counter"
       goal: formData.goal,
       dateOfStart: new Date().toLocaleDateString("uk-UA", {
         day: "2-digit",
@@ -57,11 +57,12 @@ const AddClocker = ({ clockers, setClockers }) => {
   const resetForm = () => {
     setFormData({
       fileName: "",
-      type: "counter",
+      type: "counter", // Reset to "counter" instead of "note"
       goal: "",
     });
     setIsAdding(false);
   };
+
   return (
     <div
       onClick={() => {

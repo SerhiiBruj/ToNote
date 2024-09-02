@@ -1,29 +1,70 @@
 .checkList {
-    padding: 50px;
-    color: #bfbfbf;
-   
+  padding: 50px;
+  color: #bfbfbf;
 }
-.checkLisList{
-    color: #bfbfbf;
-   
+.checkLisList {
+  color: #bfbfbf;
+  list-style-type: none;
 }
-.caption{
-    color: #bfbfbf;
-    font-size: 30px;
+.caption {
+  color: #bfbfbf;
+  font-size: 30px;
 }
-.checkLi{
-    color: #bfbfbf;
-    font-size: 25px;
+.checkLi {
+  color: #bfbfbf;
+  font-size: 25px;
+  &::before {
+    content: "";
+    display: flex;
+    width: 0%;
+    border-radius: 15px;
+    height: 5px;
+    background-color: gray;
+    transition: all ease 0.5s;
+    transform-origin: left;
+  }
+  &::after {
+    content: "";
+    width: 0%;
+    display: flex;
+    border-radius: 15px;
+    height: 5px;
+    background-color: gray;
+    transition: all ease 0.5s;
+    transform-origin: left;
+  }
+}
+.spbtw {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.contic {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
 
-}
-.spbtw{
+.doned {
+  align-items: center !important;
+  &::before {
+    content: "";
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.contic{
-    
+    width: 100%;
+    border-radius: 15px;
+    height: 5px;
+    background-color: gray;
+    transition: all ease 0.5s;
+    transform-origin: left;
+  }
+  &::after {
+    content: "";
+    width: 100%;
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    border-radius: 15px;
+    height: 5px;
+    background-color: gray;
+    transition: all ease 0.5s;
+    transform-origin: left;
+  }
 }

@@ -244,6 +244,7 @@
   color: hsl(0, 0%, 20%);
   height: 40px;
   padding: 0;
+  text-overflow: ellipsis;
   margin: 0;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner .fileIconType {
@@ -609,6 +610,7 @@
 
 .checkLisList {
   color: #bfbfbf;
+  list-style-type: none;
 }
 
 .caption {
@@ -619,6 +621,26 @@
 .checkLi {
   color: #bfbfbf;
   font-size: 25px;
+}
+.checkLi::before {
+  content: "";
+  display: flex;
+  width: 0%;
+  border-radius: 15px;
+  height: 5px;
+  background-color: gray;
+  transition: all ease 0.5s;
+  transform-origin: left;
+}
+.checkLi::after {
+  content: "";
+  width: 0%;
+  display: flex;
+  border-radius: 15px;
+  height: 5px;
+  background-color: gray;
+  transition: all ease 0.5s;
+  transform-origin: left;
 }
 
 .spbtw {
@@ -631,6 +653,30 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
+}
+
+.doned {
+  align-items: center !important;
+}
+.doned::before {
+  content: "";
+  display: flex;
+  width: 100%;
+  border-radius: 15px;
+  height: 5px;
+  background-color: gray;
+  transition: all ease 0.5s;
+  transform-origin: left;
+}
+.doned::after {
+  content: "";
+  width: 100%;
+  display: flex;
+  border-radius: 15px;
+  height: 5px;
+  background-color: gray;
+  transition: all ease 0.5s;
+  transform-origin: left;
 }
 
 * {
@@ -766,6 +812,7 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+  text-overflow: ellipsis;
   color: #313131;
 }
 
@@ -1000,16 +1047,18 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    height: 190px;
+    width: 190px;
+    background-color: #313131;
+    transform: translateY(20px);
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner .clockOn * {
     font-family: "Kadwa";
     font-style: normal;
     font-weight: 700;
     font-size: 29px;
     line-height: 44px;
-    background-color: #313131;
-    height: 190px;
-    width: 190px;
     color: #acacac;
-    transform: translateY(20px);
   }
   .dashboard .clockonConteiner .clockonConteinerInner .schedule {
     display: flex;

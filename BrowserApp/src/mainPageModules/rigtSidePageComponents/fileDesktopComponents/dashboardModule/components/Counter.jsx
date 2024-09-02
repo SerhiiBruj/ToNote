@@ -2,21 +2,23 @@
 import { useEffect, useMemo, useState } from "react";
 import BellsIcon from "../../../../../assetModules/svgs/bellsIcon";
 
-const Counter = ({   i, clockers,setClockers }) => {
-  const [counter, setCounter] = useState(() => clockers.table[clockers.table.length - 1][i] || 0);
+const Counter = ({ i, clockers, setClockers }) => {
+  const [counter, setCounter] = useState(
+    () => clockers.table[clockers.table.length - 1][i] || 0
+  );
   const [results, setResults] = useState(null);
   const bestResults = useMemo(() => {
     let max = 0;
-  
+
     for (let j = clockers.table.length - 1; j >= 0; j--) {
       const value = clockers.table[j][i];
       if (typeof value === "number" && value > max) {
         max = value;
       }
     }
-    console.log('useMemo')
+    console.log("useMemo");
     return max === -Infinity ? null : max; // Повертаємо null, якщо значень не знайдено
-  }, [clockers.table, i]); 
+  }, [clockers.table, i]);
   useEffect(() => {
     try {
       let total = 0;
@@ -37,13 +39,11 @@ const Counter = ({   i, clockers,setClockers }) => {
     } catch (er) {
       console.log(er.message);
     }
-  
-    console.log('useEffect')
-  
+
+    console.log("useEffect");
   }, [clockers.table[clockers.table.length - 1][i]]);
 
-  const handleClick = (e) => {
-    e.stopPropagation();
+  const handleClickIncrease = (e) => {
     const newTable = [...clockers.table];
     newTable[newTable.length - 1][i] = counter + 1;
 
@@ -51,19 +51,28 @@ const Counter = ({   i, clockers,setClockers }) => {
       ...clockers,
       table: newTable,
     });
-    setCounter(counter + 1); // Update counter here
-    console.log('handleClick')
-
+    setCounter(counter +1); // Update counter here
+    console.log("handleClick");
   };
+const handleClickDerease= ()=>{
+  const newTable = [...clockers.table];
+  newTable[newTable.length - 1][i] = counter -1;
 
+  setClockers({
+    ...clockers,
+    table: newTable,
+  });
+  setCounter(counter - 1); // Update counter here
+  console.log("handleClick");
+}
   return (
     <div className="clockonConteiner">
       <div className="clockonConteinerInner">
         <div className="fsb">
           <div>
-          <span className="name">{clockers.templates[i-1].fileName}</span>
+            <span className="name">{clockers.templates[i - 1].fileName}</span>
             <br />
-            <span>Started: {clockers.templates[i-1].dateOfStart}</span>
+            <span>Started: {clockers.templates[i - 1].dateOfStart}</span>
           </div>
           <BellsIcon size={1.5} />
         </div>
@@ -73,14 +82,20 @@ const Counter = ({   i, clockers,setClockers }) => {
         <div className="fcsb" style={{ height: "150%" }}>
           <div className="fe">
             <div
-              onClick={handleClick}
               className="clockOn"
-              style={{ textAlign: "center" }}
+              style={{ textAlign: "center", display:'flex',flexDirection:'column'}}
               size={200}
               color={"#313131"}
             >
+              <span onClick={handleClickIncrease}>
               Increase <br />
+              </span>
               {counter}
+                <br />
+              <span onClick={handleClickDerease}>
+              decrease
+                </span>
+
             </div>
           </div>
           <div
@@ -90,9 +105,13 @@ const Counter = ({   i, clockers,setClockers }) => {
               justifySelf: "flex-end",
             }}
           >
-         { !!clockers.templates[i - 1].goal &&<span className="name">Goal:{clockers.templates[i - 1].goal}</span>}
+            {!!clockers.templates[i - 1].goal && (
+              <span className="name">
+                Goal:{clockers.templates[i - 1].goal}
+              </span>
+            )}
             {!!results && <span className="name">Results: {results}</span>}
-            {bestResults  ? (
+            {bestResults ? (
               <span className="name">Best result: {bestResults}</span>
             ) : null}
           </div>
@@ -128,7 +147,6 @@ const Diagram = ({ table, i, bestResults }) => {
 
   useEffect(() => {
     try {
-
       const newNeededAr = table
         .map((row, index) =>
           table.length - index <= 7 ? { date: row[0], value: row[i] } : null

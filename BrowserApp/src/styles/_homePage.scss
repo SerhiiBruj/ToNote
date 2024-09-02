@@ -170,6 +170,7 @@
               @include textformat(130%, 700, 30px, hsl(0, 0%, 20%));
               height: 40px;
               padding: 0;
+              text-overflow: ellipsis;
               margin: 0;
             }
 

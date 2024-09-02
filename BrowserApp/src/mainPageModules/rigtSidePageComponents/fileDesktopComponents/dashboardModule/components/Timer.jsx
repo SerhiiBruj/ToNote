@@ -169,7 +169,7 @@ const TimerDiagram = ({ bestResults, i, table, colors }) => {
         }}
       >
         {neededAr.map((el, index) => {
-          if (count < 4)
+          if (count < 4 && el.value.length > 0 )
             return (
               <div
                 key={index}
