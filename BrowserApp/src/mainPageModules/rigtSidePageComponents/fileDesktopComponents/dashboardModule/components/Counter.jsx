@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useMemo, useState } from "react";
 import BellsIcon from "../../../../../assetModules/svgs/bellsIcon";
+import Arrow from "../../../../../assetModules/svgs/arrow";
 
 const Counter = ({ i, clockers, setClockers }) => {
-  const [counter, setCounter] = useState(
-    () => clockers.table[clockers.table.length - 1][i] || 0
+  const counter = useMemo(
+    () => clockers.table[clockers.table.length - 1][i] || 0,
+    [clockers.table[clockers.table.length - 1][i]]
   );
   const [results, setResults] = useState(null);
   const bestResults = useMemo(() => {
@@ -43,28 +45,29 @@ const Counter = ({ i, clockers, setClockers }) => {
     console.log("useEffect");
   }, [clockers.table[clockers.table.length - 1][i]]);
 
-  const handleClickIncrease = (e) => {
+  const handleClickIncrease = () => {
     const newTable = [...clockers.table];
-    newTable[newTable.length - 1][i] = counter + 1;
+    newTable[newTable.length - 1][i] = newTable[newTable.length - 1][i] + 1;
 
     setClockers({
       ...clockers,
       table: newTable,
     });
-    setCounter(counter +1); // Update counter here
-    console.log("handleClick");
   };
-const handleClickDerease= ()=>{
-  const newTable = [...clockers.table];
-  newTable[newTable.length - 1][i] = counter -1;
+  const handleClickDerease = () => {
+    if (
+      (clockers.table[clockers.table.length - 1][i]  > 0)
+    ) {
+      const newTable = [...clockers.table];
+      newTable[newTable.length - 1][i] = newTable[newTable.length - 1][i] - 1;
 
-  setClockers({
-    ...clockers,
-    table: newTable,
-  });
-  setCounter(counter - 1); // Update counter here
-  console.log("handleClick");
-}
+      setClockers({
+        ...clockers,
+        table: newTable,
+      });
+      console.log("handleClick");
+    }
+  };
   return (
     <div className="clockonConteiner">
       <div className="clockonConteinerInner">
@@ -83,19 +86,42 @@ const handleClickDerease= ()=>{
           <div className="fe">
             <div
               className="clockOn"
-              style={{ textAlign: "center", display:'flex',flexDirection:'column'}}
-              size={200}
-              color={"#313131"}
+              style={{
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: 160,
+                width: 160,
+                padding: 20,
+              }}
             >
-              <span onClick={handleClickIncrease}>
-              Increase <br />
+              <span
+                onClick={handleClickIncrease}
+                style={{
+                  cursor: "pointer",
+                  transform: "rotate(90deg)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Arrow size={0.5} /> <br />
               </span>
               {counter}
-                <br />
-              <span onClick={handleClickDerease}>
-              decrease
-                </span>
-
+              <br />
+              <span
+                onClick={handleClickDerease}
+                style={{
+                  cursor: "pointer",
+                  transform: "rotate(-90deg)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Arrow size={0.5} />
+              </span>
             </div>
           </div>
           <div
@@ -182,6 +208,7 @@ const Diagram = ({ table, i, bestResults }) => {
                   el.value < colors.length
                     ? colors[el.value]
                     : colors[el.value % colors.length],
+                    transition: "all 0.1s",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",

@@ -2,8 +2,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import BellsIcon from "../../../../../assetModules/svgs/bellsIcon";
 const timeToMilliseconds = (time) => {
-  const [hours, minutes] = time.split(":").map(Number);
-  return (hours * 60 + minutes) * 60 * 1000;
+  if (!time || typeof time !== 'string') {
+    return 0; // Return 0 or any default value if time is null, undefined, or not a string
+  }
+  
+  const [hours, minutes] = time.split(":").map((val) => Number(val));
+  console.log(hours, minutes);
+  return ((hours * 60) + minutes) * 60 * 1000;
 };
 
 const calculateDuration = (ar) => {
@@ -12,7 +17,7 @@ const calculateDuration = (ar) => {
   for (let j = 0; j < ar.length; j++) {
     const { s, e } = ar[j];
 
-    if (!e) continue;
+    if (!e) continue; // Skip if end time is not defined
 
     const startTime = timeToMilliseconds(s);
     const endTime = timeToMilliseconds(e);
@@ -22,31 +27,20 @@ const calculateDuration = (ar) => {
 
   return total;
 };
+
+
+
 const ClockOn = ({ i, clockers, setClockers }) => {
-  useEffect(() => {
-    if (!Array.isArray(clockers.table[clockers.table.length - 1][i])) {
-      const updatedTable = clockers.table.map((element) => {
-        if (!Array.isArray(element[i])) {
-          return [...element.slice(0, i), [], ...element.slice(i + 1)];
-        } else {
-          return element;
-        }
-      });
-      if (JSON.stringify(updatedTable) !== JSON.stringify(clockers.table))
-        setClockers({ ...clockers, table: updatedTable });
-    }
-  }, [i]);
 
   const results = useMemo(() => {
     if (Array.isArray(clockers.table[clockers.table.length - 1][i])) {
-      let count = 0; // Tracks the number of valid entries checked
-      let total = 0; // Tracks the total duration
+      let count = 0; 
+      let total = 0; 
   
       for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
         if (Array.isArray(clockers.table[j][i])) {
           for (let k = 0; k < clockers.table[j][i].length; k++) {
-            total += calculateDuration(clockers.table[j][i]); // Calculate duration for the day
-          }
+            total += calculateDuration(clockers.table[j][i]); console.log(total/(60 * 60 * 1000))          }
         }
         count += 1;
       }
@@ -94,6 +88,7 @@ const ClockOn = ({ i, clockers, setClockers }) => {
 
   const handleClick = useCallback(
     (e) => {
+      
       e.stopPropagation();
       let newClockers = JSON.parse(JSON.stringify(clockers));
 
@@ -199,9 +194,20 @@ export default ClockOn;
 const ClockOnSchedule = ({ i, table }) => {
   const [rows, setRows] = useState([[]]);
   const [month, setMonth] = useState("");
-  const timeToMilliseconds = (time) => {
-    const [hours, minutes] = time.split(":").map(Number);
-    return (hours * 60 + minutes) * 60 * 1000; // Конвертуємо години та хвилини у мілісекунди
+  const timeToMilliseconds = (timeString) => {
+    // Перевіряємо, чи timeString є дійсним
+    if (!timeString) {
+      return 0;  // Повертаємо 0 або інше значення за замовчуванням, якщо timeString є null або undefined
+    }
+    
+    const timeParts = timeString.split(':');
+    
+    // Конвертація годин, хвилин та секунд у мілісекунди
+    const hours = parseInt(timeParts[0], 10) || 0;
+    const minutes = parseInt(timeParts[1], 10) || 0;
+    const seconds = parseInt(timeParts[2], 10) || 0;
+  
+    return (hours * 3600000) + (minutes * 60000) + (seconds * 1000);
   };
 
   const calculateDuration = (ar) => {

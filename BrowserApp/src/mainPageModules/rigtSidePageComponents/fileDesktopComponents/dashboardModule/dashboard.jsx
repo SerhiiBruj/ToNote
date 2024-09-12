@@ -32,7 +32,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (isTable) dispatch(updateisTable(false));
-  }, [ location.pathname]);
+  }, [location.pathname]);
 
   function getDatesArray(startDate) {
     const datesArray = [];
@@ -54,18 +54,42 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    const lastDate = clockers.table[clockers.table.length - 1]?.[0];
+    const lastDate = clockers.table[clockers.table.length - 1]?.[0]; // Отримуємо останню дату з таблиці
     if (lastDate) {
-      const dates = getDatesArray(lastDate);
+      const dates = getDatesArray(lastDate); // Генеруємо масив нових дат
       if (dates.length > 0) {
-        const updatedTable = [...clockers.table];
+        const updatedTable = [...clockers.table]; // Створюємо копію таблиці
         dates.forEach((date) => {
-          updatedTable.push([date, ...Array(clockers.templates.length).fill(0)]);
+          let arr = []; // Створюємо новий рядок для додавання у таблицю
+          // Генеруємо значення для кожної колонки на основі шаблону
+          clockers.templates.forEach((template) => {
+            switch (template.type) {
+              case "clock on":
+                arr.push([]); // Для типу "clock on" додаємо порожній масив
+                break;
+              case "counter":
+                arr.push(0); // Для типу "counter" додаємо 0
+                break;
+              case "timer":
+                arr.push([]); // Для типу "timer" додаємо порожній масив
+                break;
+              case "check in":
+                arr.push(false); // Для типу "check in" додаємо false
+                break;
+              default:
+                arr.push(null); // За замовчуванням додаємо null, якщо тип невідомий
+            }
+          });
+          updatedTable.push([date, ...arr]); // Додаємо новий рядок до таблиці
         });
-        setClockers({ ...clockers, table: updatedTable });
+        setClockers((prevClockers) => ({
+          ...prevClockers,
+          table: updatedTable,
+        })); // Оновлюємо стан
       }
     }
-  }, [clockers, setClockers]);
+  }, [clockers.table, clockers.templates, setClockers]); // Додаємо точні залежності
+
   return (
     <>
       {!isTable ? (
@@ -139,7 +163,7 @@ const Dashboard = () => {
             >
               {tableToRender.map((row, index) => (
                 <div
-                  key={index*1223}
+                  key={index * 1223}
                   className="tableRow"
                   style={{ display: "flex" }}
                 >

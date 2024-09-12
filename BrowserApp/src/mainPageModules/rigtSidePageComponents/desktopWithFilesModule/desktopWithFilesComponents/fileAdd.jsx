@@ -80,7 +80,7 @@ const FileAdd = () => {
         width: isAdding && 340,
       }}
     >
-      <div className="upperside" style={{}}>
+      <div className="upperside">
         <span className="fileIconName">Add</span>
         <div
           onBlur={() => setIsAdding(false)}

@@ -1319,4 +1319,115 @@
 .fileConteiner {
   min-height: 100% !important;
   overflow: scroll !important;
+}
+
+.loginCenterDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+}
+.loginCenterDiv .authContteiner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 50%;
+  height: 60%;
+  background-color: #646464;
+  padding: 15px;
+  border-radius: 50px;
+}
+.loginCenterDiv .authContteiner .logInCont {
+  background-color: gray;
+  height: 100%;
+  flex-direction: column;
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  justify-content: space-around;
+  border-top-left-radius: 45px;
+  border-bottom-left-radius: 45px;
+}
+.loginCenterDiv .authContteiner .RegistrationCont {
+  background-color: gray;
+  padding: 10px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  border-top-right-radius: 45px;
+  border-bottom-right-radius: 45px;
+}
+.loginCenterDiv .authContteiner .Curtain {
+  width: 25%;
+  position: absolute;
+  height: 60%;
+  transition: all ease 0.5s;
+  background-image: url(../assetModules/bg.png.jpg);
+  background-color: #646464;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 5;
+  overflow: hidden;
+}
+.loginCenterDiv .authContteiner .Curtain div {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0) 40%, rgb(128, 128, 128) 45%, rgb(128, 128, 128) 55%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%);
+  background-size: 200% 100%;
+  transform: translateX(-11px) translateY(-11px);
+  padding: 10px;
+}
+
+.AuthForm {
+  padding: 10px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.AuthForm input {
+  background-color: #646464;
+  outline: none;
+  border: none;
+  border-radius: 50px;
+  height: 30px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.AuthForm input::-moz-placeholder {
+  font-family: "Kadwa";
+  font-size: 130%;
+  font-weight: 700;
+  line-height: 10px;
+  color: hsl(0, 0%, 20%);
+  font-size: 20px;
+}
+.AuthForm input::placeholder {
+  font-family: "Kadwa";
+  font-size: 130%;
+  font-weight: 700;
+  line-height: 10px;
+  color: hsl(0, 0%, 20%);
+  font-size: 20px;
+}
+
+.submit {
+  font-family: "Kadwa";
+  font-size: 27px;
+  font-weight: 700;
+  line-height: normal;
+  color: #424242;
+  background: rgba(217, 217, 217, 0.5);
+  border-radius: 20px;
+  outline: 0;
+  border-width: 0;
+  width: 40%;
+  height: 50px;
+}
+.submit:focus {
+  background: rgba(217, 217, 217, 0.5);
 }/*# sourceMappingURL=App.css.map */

@@ -24,7 +24,6 @@ const ChecklistModule = () => {
     if (!isEditable) {
       const correctedData = data.map((checklist) => ({
         ...checklist,
-        // Preserve object structure, only trim the `value` field
         desc: checklist.desc
           .map((li) => ({
             ...li,
@@ -207,7 +206,13 @@ const ChecklistModule = () => {
                     width: "100%",
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      width: "100%",
+                    }}
+                  >
                     <div
                       style={{
                         transform: "translate(-20px)",
@@ -226,6 +231,7 @@ const ChecklistModule = () => {
                         padding: 5,
                         height: 30,
                         margin: 0,
+                        width: "100%",
                       }}
                     />
                   </div>
@@ -255,7 +261,7 @@ const ChecklistModule = () => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ display: "flex", alignItems: "center",width:'80%' }}>
                       <div style={{ transform: "translate(-20px)" }}>
                         <Circle size={20} color={"#bfbfbf"} />
                       </div>
@@ -266,6 +272,10 @@ const ChecklistModule = () => {
                           padding: 5,
                           height: 30,
                           margin: 0,
+                          width: "90%",
+                          maxWidth: "90%",
+                          textWrap: "wrap !important",
+                          overflowWrap: "anywhere",
                         }}
                       >
                         {renderTextWithLinks(li.value)}
@@ -274,6 +284,7 @@ const ChecklistModule = () => {
                     <div
                       onClick={() => handleToggleDone(index, idx)}
                       style={{
+                        transition: "0.5s all ease",
                         opacity: li.done ? 1 : 0.5,
                       }}
                     >

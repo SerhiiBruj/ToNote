@@ -15,13 +15,13 @@ const Todo = () => {
     [location.pathname]
   );
 
-  const [data, setData] = useLocalStorage(typeName,['']);
+  const [data, setData] = useLocalStorage(typeName, [""]);
 
   useEffect(() => {
     if (isEditable) {
       const newData = [...data, ""];
       setData(newData);
-    } else if(data.length>1) {
+    } else if (data.length > 1) {
       const newData = data
         .map((todo) => todo.trim())
         .filter((todo) => todo !== "");
@@ -60,13 +60,18 @@ const Todo = () => {
     <div
       className="todo conteiner fileConteiner "
       onClick={(e) => {
-        if (showExpo||isEditable) e.stopPropagation();
+        if (showExpo || isEditable) e.stopPropagation();
       }}
     >
       <ol>
         {data.map((todo, index) => (
           <li className="li" key={index}>
-            <div className="divdiv">
+            <div
+              className="divdiv"
+              style={{
+                width: "80%",
+              }}
+            >
               <Circle size={30} color={"#bfbfbf"} />
               <textarea
                 className="texarea"

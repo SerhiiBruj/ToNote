@@ -1,0 +1,101 @@
+.loginCenterDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+  .authContteiner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 50%;
+    height: 60%;
+    background-color: #646464;
+    padding: 15px;
+    border-radius: 50px;
+    .logInCont {
+      background-color: gray;
+      height: 100%;
+      flex-direction: column;
+      display: flex;
+      padding: 10px;
+      align-items: center;
+      justify-content: space-around;
+      border-top-left-radius: 45px;
+      border-bottom-left-radius: 45px;
+    }
+    .RegistrationCont {
+      background-color: gray;
+      padding: 10px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: space-around;
+
+      border-top-right-radius: 45px;
+      border-bottom-right-radius: 45px;
+    }
+    .Curtain {
+      width: 25%;
+      position: absolute;
+      height: 60%;
+      transition: all ease 0.5s;
+      background-image: url(../assetModules/bg.png.jpg);
+    background-color: #646464;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: cover;
+      z-index: 5;
+      overflow: hidden;
+      div {
+        background: linear-gradient(
+            to right,
+            rgba(0, 0, 0, 0) 40%,          /* Прозорий до 40% */
+            rgb(128, 128, 128) 45%,         /* Сірий від 40% до 45% */
+            rgb(128, 128, 128) 55%,         /* Сірий від 45% до 55% */
+            rgba(0, 0, 0, 0) 60%,           /* Прозорий від 55% до 60% */
+            rgba(0, 0, 0, 0) 100%           /* Прозорий до кінця */
+          );
+        background-size: 200% 100%;
+        transform: translateX(-11px) translateY(-11px);
+        padding: 10px;
+      }
+    }
+  }
+}
+.AuthForm {
+  padding: 10px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  input {
+    background-color: #646464;
+    outline: none;
+    border: none;
+    border-radius: 50px;
+    height: 30px;
+    padding: 10px;
+    margin-bottom: 10px;
+    &::placeholder {
+      @include textformat(130%, 700, 10px, hsl(0, 0%, 20%));
+      font-size: 20px;
+    }
+  }
+}
+.submit {
+    @include textformat(27px, 700);
+    background: rgba(217, 217, 217, 0.5);
+    border-radius: 20px;
+    outline: 0;
+    border-width: 0;
+    width: 40%;
+    height: 50px;
+
+    &:focus {
+      background: rgba(217, 217, 217, 0.5);
+    }
+  }

@@ -141,7 +141,7 @@ const Timer = ({ setClockers, clockers, i, colors }) => {
 export default Timer;
 const TimerDiagram = ({ bestResults, i, table, colors }) => {
   const [neededAr, setNeededAr] = useState([]);
-  let count = 0;
+
   useEffect(() => {
     try {
       const newNeededAr = table
@@ -169,6 +169,7 @@ const TimerDiagram = ({ bestResults, i, table, colors }) => {
         }}
       >
         {neededAr.map((el, index) => {
+          let count = 0;
           if (count < 4 && el.value.length > 0 )
             return (
               <div
@@ -193,8 +194,8 @@ const TimerDiagram = ({ bestResults, i, table, colors }) => {
                 >
                   {Array.isArray(el.value) &&
                     el.value.slice(-4).map((element, idx) => {
-                      count++;
                       if (count < 5 && element)
+                      count+=1
                         return (
                           <div
                             key={idx}

@@ -17,7 +17,7 @@ const NotFoundPage = () => {
             fontSize: "60px",
           }}
         >
-          Error 404
+          Error 404 testing
         </h1>
         <h2 >
           <Link style={{ fontSize: "40px",textDecoration:'none'}} to="/Home">Go Home</Link>

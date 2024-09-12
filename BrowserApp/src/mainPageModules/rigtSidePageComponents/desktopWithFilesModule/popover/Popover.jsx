@@ -56,7 +56,7 @@ const Popover = () => {
         if (i.split("/")[0] === "checklist" && localStorage.getItem(i)) {
           const checklists = JSON.parse(localStorage.getItem(i))
             .map(
-              (checklist) => `${checklist.p}\n\t${checklist.desc.join("\n\t")}`
+              (checklist) => `${checklist.p}\n\t${checklist.desc.map(desc=>desc.value).join("\n\t")}`
             )
             .join("\n\n");
           const blob = new Blob([checklists], {
@@ -122,7 +122,7 @@ const Popover = () => {
             )
               .map(
                 (checklist) =>
-                  `${checklist.p}\n\t${checklist.desc.join("\n\t")}`
+                  `${checklist.p}\n\t${checklist.desc.map(desc=>desc.value).join("\n\t")}`
               )
               .join("\n\n");
             const blob = new Blob([checklists], { type: "text/plain" });

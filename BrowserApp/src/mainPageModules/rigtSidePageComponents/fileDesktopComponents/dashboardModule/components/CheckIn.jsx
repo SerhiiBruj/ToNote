@@ -3,22 +3,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import BellsIcon from "../../../../../assetModules/svgs/bellsIcon";
 
 const CheckIn = ({ setClockers, clockers, i }) => {
-  useEffect(() => {
-    if (typeof clockers.table[clockers.table.length - 1][i] !== "boolean") {
-      const newtab = clockers.table.map((row) => {
-        if (typeof row[i] !== "boolean") {
-          row[i] = false;
-        }
-        return row;
-      });
-      setClockers({ ...clockers, table: newtab });
-    }
-  }, []);
+
   const results = useMemo(() => {
     let total = 0;
-    let count = 0; // Count will track the number of valid entries checked
+    let count = 0; 
 
-    // Loop through the table in reverse, checking up to 30 rows
     for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
       if (
         typeof clockers.table[j][i] === "boolean" &&

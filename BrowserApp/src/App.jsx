@@ -1,6 +1,6 @@
 import "./styles/App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import HomePage from "./Pages/homePage.jsx";
 import NotFoundPage from "./Pages/notFoundPage.jsx";
 import Note from "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/noteModule/note.jsx";
@@ -15,16 +15,61 @@ import CloudStorage from "./mainPageModules/rigtSidePageComponents/Settings/sett
 import AccountSettings from "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/AccountSettings.jsx";
 import Appearence from "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/Appearence.jsx";
 import TermsAndPolicy from "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/TermsAndPolicy.jsx";
+import Login from "./Pages/LogIn.jsx";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { doHaveData, setUserData } from "./redux/UserData.js";
 
+
+// eslint-disable-next-line react/prop-types
 const PrivateRoute = ({ children }) => {
-  const isAuthenticated = !!localStorage.getItem("authToken");
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  const [isAuthenticated, setIsAuthenticated] = useState(null); // Статус аутентифікації
+  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      if (!token) {
+        setIsAuthenticated(false);
+        return;
+      }
+    
+      try {
+        const response = await axios.get("http://localhost:3000/authentification", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        console.log('Отримано захищені дані:', response.data); 
+        setIsAuthenticated(true);
+        dispatch(
+          setUserData({
+            userName: response.data.decoded.username,
+            email: response.data.decoded.email,
+            imageUrl: response.data.imageUrl
+          })
+        );
+        dispatch(doHaveData());
+      } catch (error) {
+        setIsAuthenticated(false);
+      }
+    };
+
+    verifyToken();
+  }, [token]);
+
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>;
+  }
+  if (!isAuthenticated) {
+    return <Navigate to="/authentification" />;
+  }
+  return children;
 };
 
+
+
 function App() {
-  useEffect(() => {
-    localStorage.setItem("authToken", "true");
-  })
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
@@ -53,7 +98,7 @@ function App() {
           </Route>
         </Route>
 
-        <Route path="/login" element={<NotFoundPage />} />
+        <Route path="/authentification" element={<Login />} />
 
         <Route path="*" element={<Navigate to="/404" />} />
         <Route path="/404" element={<NotFoundPage />} />

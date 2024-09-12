@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { doAnimate} from "../../../../redux/startAnimation";
+import { doAnimate } from "../../../../redux/startAnimation";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
 import IsSelected from "../../../../assetModules/noSvg/isSelected";
 import { deSelect, select } from "../../../../redux/selectSlice";
@@ -20,8 +20,6 @@ const FileIcon = (props) => {
   useEffect(() => {
     setName(props.name);
   }, [props.name]);
-
-
 
   const handleSelect = (e) => {
     e.stopPropagation();
@@ -46,26 +44,31 @@ const FileIcon = (props) => {
   };
 
   const renameLocalStorageKey = (oldKey, newKey) => {
-    if (!newKey || newKey === oldKey) {
-      setName(oldKey.split("/")[1]); // Повернення до старого імені, якщо новий ключ порожній або такий самий
-      console.log(
-        "Новий ключ не може бути порожнім або таким самим, як старий ключ."
-      );
-      return;
-    }
-    if (Object.keys(localStorage).includes(newKey)) {
-      console.log(`Ключ "${newKey}" вже існує.`);
-      return;
-    }
+    console.log(oldKey,newKey);
+    if (typeof newKey === "string" && newKey.split("/")[1].trim() !== "") {
+      if (!newKey || newKey === oldKey) {
+        setName(oldKey.split("/")[1]); // Повернення до старого імені, якщо новий ключ порожній або такий самий
+        console.log(
+          "Новий ключ не може бути порожнім або таким самим, як старий ключ."
+        );
+        return;
+      }
+      if (Object.keys(localStorage).includes(newKey)) {
+        console.log(`Ключ "${newKey}" вже існує.`);
+        return;
+      }
 
-    const oldValue = localStorage.getItem(oldKey);
-    if (oldValue !== null) {
-      localStorage.setItem(newKey, oldValue);
-      localStorage.removeItem(oldKey);
-      dispatch(updatePages(Object.keys(localStorage)));
-    } else {
-      console.log(`Ключ "${oldKey}" не знайдено.`);
+      const oldValue = localStorage.getItem(oldKey);
+      if (oldValue !== null) {
+        localStorage.setItem(newKey, oldValue);
+        localStorage.removeItem(oldKey);
+        dispatch(updatePages(Object.keys(localStorage)));
+      } else {
+        console.log(`Ключ "${oldKey}" не знайдено.`);
+      }
     }
+    setName(props.name);
+
   };
 
   const gotodestination = useCallback(() => {

@@ -3,3 +3,6 @@ body{
   margin: 0px;
   overflow: hidden;
 }
+.root{
+  height: 100vh;
+}
