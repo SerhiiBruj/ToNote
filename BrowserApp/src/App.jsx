@@ -28,6 +28,7 @@ const PrivateRoute = ({ children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log();
     const verifyToken = async () => {
       if (!token) {
         setIsAuthenticated(false);
@@ -38,8 +39,10 @@ const PrivateRoute = ({ children }) => {
         const response = await axios.get("http://localhost:3000/authentification", {
           headers: {
             authorization: `Bearer ${token}`,
+            clientTime: new Date().getTime(),
           },
         });
+
         console.log('Отримано захищені дані:', response.data); 
         setIsAuthenticated(true);
         dispatch(

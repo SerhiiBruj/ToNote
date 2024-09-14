@@ -110,9 +110,9 @@
           height: 10vh;
           min-width: 250px;
           padding: 0 10% 0 15%;
-
           .textInFileInNavbar {
             @include textformat(25px, 700, 50px);
+            line-height: 1;
             text-decoration: none !important;
           }
         }
@@ -170,7 +170,6 @@
               @include textformat(130%, 700, 30px, hsl(0, 0%, 20%));
               height: 40px;
               padding: 0;
-              text-overflow: ellipsis;
               margin: 0;
             }
 

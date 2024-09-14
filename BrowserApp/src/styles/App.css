@@ -1,4 +1,25 @@
 @charset "UTF-8";
+.scroll-container {
+  overflow: visible !important;
+  text-wrap: nowrap !important;
+  width: -moz-fit-content !important;
+  width: fit-content !important;
+  /* Project */
+  line-height: 50px;
+  white-space: nowrap; /* Не дозволяє тексту переходити на новий рядок */
+  display: inline-block; /* Не дозволяє займати всю ширину */
+  white-space: nowrap; /* Не дозволяє тексту переходити на новий рядок */
+  width: fit-content; /* Можна задати конкретну ширину, якщо потрібно */
+}
+
+@keyframes scrollText {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
 .centerDiv {
   display: flex;
   align-items: center;
@@ -178,6 +199,7 @@
   font-weight: 700;
   line-height: 50px;
   color: #424242;
+  line-height: 1;
   text-decoration: none !important;
 }
 .homePageNavbarConteiner .rightHomePage {
@@ -244,7 +266,6 @@
   color: hsl(0, 0%, 20%);
   height: 40px;
   padding: 0;
-  text-overflow: ellipsis;
   margin: 0;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner .fileIconType {
@@ -1294,6 +1315,7 @@
 }
 .Settings {
   padding: 20px;
+  scroll-snap-type: none;
 }
 
 .Settings * {
@@ -1314,6 +1336,36 @@
   padding-top: 50px;
   padding-bottom: 50px;
   padding-left: 50px;
+}
+
+.marker::before {
+  content: "✔ "; /* Ви можете використовувати будь-який символ або навіть юнікод */
+  color: gray; /* Колір маркера */
+  font-weight: bold;
+}
+
+.passwordChange input[type=password] {
+  -webkit-text-security: disc; /* Змінює символи на кружечки */
+  font-size: 20px; /* Змінює розмір зірочок або кружечків */
+  color: red; /* Змінює колір символів у Safari */
+}
+.passwordChange input[type=password] .password-input::-moz-placeholder {
+  color: red; /* Стиль для тексту-підказки */
+}
+.passwordChange input[type=password] .password-input::placeholder {
+  color: red; /* Стиль для тексту-підказки */
+}
+
+.inputpas {
+  /* Змінює символи на кружечки */
+  font-size: 20px; /* Змінює розмір зірочок або кружечків */
+  color: #424242 !important; /* Змінює колір символів у Safari */
+}
+.inputpas .password-input::-moz-placeholder {
+  color: red; /* Стиль для тексту-підказки */
+}
+.inputpas .password-input::placeholder {
+  color: red; /* Стиль для тексту-підказки */
 }
 
 .fileConteiner {

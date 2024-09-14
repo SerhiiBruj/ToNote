@@ -82,10 +82,10 @@ const Dashboard = () => {
           });
           updatedTable.push([date, ...arr]); // Додаємо новий рядок до таблиці
         });
-        setClockers((prevClockers) => ({
-          ...prevClockers,
+        setClockers({
+          ...clockers,
           table: updatedTable,
-        })); // Оновлюємо стан
+        }); // Оновлюємо стан
       }
     }
   }, [clockers.table, clockers.templates, setClockers]); // Додаємо точні залежності

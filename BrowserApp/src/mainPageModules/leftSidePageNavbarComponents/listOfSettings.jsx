@@ -2,11 +2,12 @@ import { NavLink } from "react-router-dom";
 
 const ListOfSettings = () => {
   let Settings = [
-    "Storage",
-    "Appearance",
     "Account settings",
+    "Appearance",
+    "Storage",
     "Terms and Policy",
   ];
+  
 
   return (
     <div className="listOfSettings">

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -17,7 +18,18 @@ class ErrorBoundary extends React.Component {
   
     render() {
       if (this.state.hasError) {
-        return <h1>Something went wrong.</h1>;
+        return <div style={{
+          display: 'flex',
+          width: '100%',
+          height: '100%',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <h1 style={{textAlign: 'center', color: 'gray', fontSize: '40px'}}>Something went wrong.</h1>
+          <p style={{textAlign: 'center', color: 'gray', fontSize: '30px'}}>Please try again later. <br /><Link style={{fontSize: '30px',lineHeight: '60px',color: 'gray'}} to='/'>Go back</Link></p>
+          
+        </div>
       }
   
       return this.props.children; 

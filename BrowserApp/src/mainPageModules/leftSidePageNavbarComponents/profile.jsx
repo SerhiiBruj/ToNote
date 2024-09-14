@@ -1,8 +1,7 @@
-import UnknownUserIcon from "../../assetModules/svgs/unknownUser";
 import EditProfile from "../../assetModules/svgs/editProfile";
-import bg from "../../assetModules/noSvg/bg.jpg"; // Переконайтесь, що шлях до зображення правильний
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import unck from "../../assetModules/svgs/uncknown.svg";
 import axios from "axios";
 import CrissCrossIcon from "../../assetModules/svgs/crissCross";
 
@@ -49,8 +48,12 @@ const Profile = () => {
         <div
           className="profileImg"
           style={{
-            backgroundImage: bg ? `url(${userData.imageUrl})` : null,
-            backgroundSize: "cover",
+            backgroundSize:!userData.imageUrl?"70%":'cover',
+            backgroundRepeat:'no-repeat',
+            backgroundPositionY:!userData.imageUrl?"bottom":'cover',
+            backgroundImage: !userData.imageUrl
+              ? `url(${unck})`
+              : `url(${userData.imageUrl})`,
             backgroundPosition: "center",
             transform: "translateX(15px)",
           }}
@@ -73,7 +76,20 @@ const Profile = () => {
               }}
             />
           )}
-          {editProfile?userData.imageUrl ?<div style={{width:"100%",height:"100%",display:"flex",justifyContent:"center", opacity:"0.5",pointerEvents:'none',alignItems:"center"}}> <CrissCrossIcon color="white"  size={1} /></div>: <div style={{width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}> <CrissCrossIcon color="white"  size={1} /></div> :userData.imageUrl ?null: <UnknownUserIcon />}
+          <div
+            style={{
+              width: "100%",
+              transition: "0.2s all ease",
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
+              opacity: editProfile ? "0.5" : "0",
+              pointerEvents: "none",
+              alignItems: "center",
+            }}
+          >
+            <CrissCrossIcon color="white" size={1} />
+          </div>
         </div>
         <div
           style={{
@@ -91,9 +107,14 @@ const Profile = () => {
           paddingBottom: "5px",
         }}
       >
-        {userData.hasUserData
-          ? <span>{userData.userName} <br />{userData.email}</span>
-          : "uncknown@zmil.com"}
+        {userData.hasUserData ? (
+          <span>
+            {userData.userName} <br />
+            {userData.email}
+          </span>
+        ) : (
+          "uncknown@zmil.com"
+        )}
       </p>
     </div>
   );

@@ -25,6 +25,15 @@ const db = new sqlite3.Database("./users.db", (err) => {
       email TEXT UNIQUE,
       password TEXT
     )`);
+    db.run(`CREATE TABLE IF NOT EXISTS entries (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT,
+      email TEXT,
+      entry_date DATE NOT NULL,
+      user_id INTEGER,
+      client_time INTEGER,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    )`);
   }
 });
 
@@ -35,7 +44,7 @@ const storage = multer.diskStorage({
   },
   filename: async (req, file, cb) => {
     let dname = await decodedToken(req);
-    cb(null, dname.username +'.png'); // Ім'я файлу
+    cb(null, dname.username + ".png"); // Ім'я файлу
   },
 });
 
@@ -90,16 +99,6 @@ app.post("/upload", upload.single("avatar"), (req, res) => {
 // Виведення статичних файлів
 app.use("/profile-image", express.static("profile-image"));
 
-// Статичний доступ до завантажених файлів
-
-// db.run(`ALTER TABLE users ADD COLUMN avatar TEXT DEFAULT '' `, (err) => {
-//   if (err) {
-//     console.error("Помилка при додаванні нового стовпця:", err);
-//   } else {
-//     console.log("Новий стовпець 'age' додано до таблиці 'users'.");
-//   }
-// });
-
 const generateToken = (user) => {
   return jwt.sign(
     { id: user.id, username: user.username, email: user.email }, // дані користувача
@@ -109,20 +108,26 @@ const generateToken = (user) => {
 };
 
 app.get("/authentification", async (req, res) => {
+  console.log("object");
   try {
     const decoded = await decodedToken(req);
+    if (!decoded) throw Error("Invalid Token");
+    console.log(req.headers.clienttime);
+    writeEntriesToDatabase(decoded, req.headers.clienttime);
+
     const imagePath = path.join(
       __dirname,
       "profile-image",
       `${decoded.username}.png`
     );
-     
-      return res.json({
-        message: `Вітаємо, ${decoded.username}! Це ваш профіль.`,
-        decoded,
-        imageUrl: (fs.existsSync(imagePath)) ?`http://localhost:3000/profile-image/${decoded.username}.png`:null, // URL для отримання зображення
-      });
-    
+
+    return res.json({
+      message: `Вітаємо, ${decoded.username}! Це ваш профіль.`,
+      decoded,
+      imageUrl: fs.existsSync(imagePath)
+        ? `http://localhost:3000/profile-image/${decoded.username}.png`
+        : null, // URL для отримання зображення
+    });
   } catch (error) {
     return res.status(401).json({ message: error });
   }
@@ -142,8 +147,15 @@ app.post("/register", (req, res) => {
         .status(500)
         .json({ message: "Помилка при реєстрації користувача." });
     }
+    db.get(`SELECT * FROM users WHERE email = ?`, [email], (err, row) => {
+      // writeEntriesToDatabase(
+      //   { username, email, id: row.id },
+      //   req.headers.clienttime
+      // );
+    });
     const user = { id: this.lastID, username, email };
     const token = generateToken(user);
+
     res.json({ message: "Користувача зареєстровано!", token, username, email });
   });
 });
@@ -176,13 +188,16 @@ app.post("/login", (req, res) => {
       return res.status(400).json({ message: "Невірний логін або пароль." });
     }
 
-    // Перевірка паролю
     const isPasswordValid = bcrypt.compareSync(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({ message: "Невірний логін або пароль." });
     }
 
-    // Генерація JWT токену
+    // writeEntriesToDatabase(
+    //   { username: user.username, email: user.email, id: user.id },
+    //   req.headers.clienttime
+    // );
+
     const token = generateToken(user);
     res.json({
       message: "Вхід успішний!",
@@ -193,10 +208,63 @@ app.post("/login", (req, res) => {
   });
 });
 
-// Запуск сервера
+app.get("/entries", (req, res) => {
+  db.all(
+    "SELECT * FROM entries WHERE username = ? ORDER BY entry_date DESC ",
+    [req.headers.username],
+    (err, rows) => {
+      if (err) {
+        console.error(
+          "Помилка при отриманні даних з таблиці entries: ",
+          err.message
+        );
+        return res.status(500).json({ message: "Помилка сервера" });
+      }
+      return res.json(rows);
+    }
+  );
+});
+
+// Listening
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 app.listen(port, () => {
   console.log(`Сервер працює на http://localhost:${port}`);
 });
+
+// Functions
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const writeEntriesToDatabase = (decoded, ct) => {
+  db.get(`SELECT * FROM users WHERE email = ?`, [decoded.email], (err, row) => {
+    if (err) {
+      throw new Error("Помилка при отриманні користувача: " + err.message);
+    } else if (!row) {
+      console.log("Користувача з таким email не знайдено:", decoded.email);
+      throw new Error("Користувача з таким email не знайдено");
+    } else {
+      db.run(
+        "INSERT INTO entries (user_id, username, email, entry_date,client_time) VALUES (?, ?, ?, ?,?)",
+        [row.id, decoded.username, decoded.email, new Date(), ct],
+        (err) => {
+          if (err) {
+            console.error(
+              "Помилка вставки даних у таблицю entries: ",
+              err.message
+            );
+          } else {
+            console.log("Запис успішно додано до таблиці entries", [
+              row.id,
+              decoded.username,
+              decoded.email,
+              new Date().getTime(),
+              ct,
+            ]);
+          }
+        }
+      );
+    }
+  });
+};
+
 const decodedToken = (req) => {
   return new Promise((resolve, reject) => {
     const authHeader = req.headers.authorization;
@@ -234,5 +302,50 @@ const decodedToken = (req) => {
 //       throw err;
 //     }
 //     res.send(rows);
+//   });
+// });
+
+// Створюємо нову таблицю без UNIQUE для email
+// db.serialize(() => {
+//   // Створюємо нову тимчасову таблицю з потрібною структурою
+//   db.run(`CREATE TABLE IF NOT EXISTS entries_temp (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     username TEXT,
+//     email TEXT,  /* Прибираємо UNIQUE */
+//     entry_date DATE NOT NULL,
+//     user_id INTEGER,
+//     FOREIGN KEY (user_id) REFERENCES users(id)
+//   )`, (err) => {
+//     if (err) {
+//       console.error('Помилка при створенні нової таблиці:', err.message);
+//       return;
+//     }
+
+//     // Копіюємо всі дані зі старої таблиці в нову
+//     db.run(`INSERT INTO entries_temp (id, username, email, entry_date, user_id)
+//             SELECT id, username, email, entry_date, user_id FROM entries`, (err) => {
+//       if (err) {
+//         console.error('Помилка при копіюванні даних:', err.message);
+//         return;
+//       }
+
+//       // Видаляємо стару таблицю
+//       db.run(`DROP TABLE IF EXISTS entries`, (err) => {
+//         if (err) {
+//           console.error('Помилка при видаленні старої таблиці:', err.message);
+//           return;
+//         }
+
+//         // Перейменовуємо нову таблицю на ім'я старої
+//         db.run(`ALTER TABLE entries_temp RENAME TO entries`, (err) => {
+//           if (err) {
+//             console.error('Помилка при перейменуванні таблиці:', err.message);
+//             return;
+//           }
+
+//           console.log('Таблиця entries успішно оновлена.');
+//         });
+//       });
+//     });
 //   });
 // });

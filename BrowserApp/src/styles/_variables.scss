@@ -32,3 +32,25 @@ $textlightcolor: #bfbfbf;
   line-height: $line-height;
   color: $color;
 }
+
+.scroll-container {
+  overflow: visible !important;
+  text-wrap: nowrap !important;
+  width: fit-content !important;
+  /* Project */
+  line-height: 50px;
+  white-space: nowrap; /* Не дозволяє тексту переходити на новий рядок */
+  display: inline-block; /* Не дозволяє займати всю ширину */
+  white-space: nowrap; /* Не дозволяє тексту переходити на новий рядок */
+  width: fit-content; /* Можна задати конкретну ширину, якщо потрібно */
+}
+
+@keyframes scrollText {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+

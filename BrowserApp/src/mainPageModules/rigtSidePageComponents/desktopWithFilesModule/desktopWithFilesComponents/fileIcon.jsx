@@ -44,7 +44,7 @@ const FileIcon = (props) => {
   };
 
   const renameLocalStorageKey = (oldKey, newKey) => {
-    console.log(oldKey,newKey);
+    console.log(oldKey, newKey);
     if (typeof newKey === "string" && newKey.split("/")[1].trim() !== "") {
       if (!newKey || newKey === oldKey) {
         setName(oldKey.split("/")[1]); // Повернення до старого імені, якщо новий ключ порожній або такий самий
@@ -68,7 +68,6 @@ const FileIcon = (props) => {
       }
     }
     setName(props.name);
-
   };
 
   const gotodestination = useCallback(() => {
@@ -108,14 +107,25 @@ const FileIcon = (props) => {
     >
       {!boolAnimate && (
         <>
-          <div style={{ height: "70%" }}>
-            <input
-              style={{ pointerEvents: isEditable ? "all" : "none" }}
-              onChange={(e) => handleChange(e)}
-              className="texarea fileIconName"
-              disabled={!isEditable}
-              value={!isEditable ? props.name : name}
-            />
+          <div style={{ height: "70%", overflow: "hidden" }}>
+           
+              <input
+                style={{
+                  pointerEvents: isEditable ? "all" : "none",
+                  transition: "0.2s all ease",
+                  animation:
+                    props.name.length > 16 && !isEditable
+                      ? "scrollText 5s linear infinite"
+                      : "none",
+                }}
+                onChange={(e) => handleChange(e)}
+                className={`texarea fileIconName ${
+                  props.name.length > 16 && "scroll-container"
+                }`}
+                disabled={!isEditable}
+                value={!isEditable ? props.name  : name}
+              />
+            
             <span className="fileIconType">{props.type}</span>
           </div>
           <div

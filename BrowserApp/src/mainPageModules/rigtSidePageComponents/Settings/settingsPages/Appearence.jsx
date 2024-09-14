@@ -6,6 +6,7 @@ const Appearence = () => {
     <h2>Appearance Settings</h2>
     <p>Customize the look and feel of your ToNote app.</p>
     <div>
+      
       <label>
         <strong>Theme:</strong>
         <select>
@@ -30,6 +31,15 @@ const Appearence = () => {
         <input type="file" />
       </label>
     </div>
+    <div style={{ marginTop: "20px" }}>
+        <label>
+          <strong>Language:</strong>
+          <select className="submit" style={{ width: "fit-content" }}>
+            <option value="en">English</option>
+            <option value="ua">Ukrainian</option>
+          </select>
+        </label>
+      </div>
     <button style={{ marginTop: '20px', padding: '10px 20px' }}>Save Changes</button>
       </div>
   )

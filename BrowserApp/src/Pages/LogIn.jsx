@@ -19,6 +19,9 @@ const Login = () => {
       const response = await axios.post("http://localhost:3000/login", {
         username,
         password,
+        headers:{
+          clientTime:new Date().getTime(),
+        }
       });
 
       // Отримання токену
@@ -49,6 +52,9 @@ const Login = () => {
         username,
         email,
         password,
+        headers:{
+          clientTime:new Date().getTime(),
+        }
       });
       console.log(response.data);
       const token = response.data.token;

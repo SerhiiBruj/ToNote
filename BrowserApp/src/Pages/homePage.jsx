@@ -8,6 +8,7 @@ import { clearSelection, stopSelection } from "../redux/selectSlice";
 import { updateShowExpo } from "../redux/showExpo";
 import { editPayload } from "../redux/isEditable";
 import Popover from "../mainPageModules/rigtSidePageComponents/desktopWithFilesModule/popover/Popover";
+import ErrorBoundary from "../testingComp/ErrorBoundary";
 
 const HomePage = () => {
   const location = useLocation();
@@ -52,7 +53,9 @@ const HomePage = () => {
         <div className="desktopWithFilesbgbg">
           <div className="scroll">
             <Popover />
-            <Outlet />
+            <ErrorBoundary>
+              <Outlet />
+            </ErrorBoundary>
           </div>
         </div>
       </div>

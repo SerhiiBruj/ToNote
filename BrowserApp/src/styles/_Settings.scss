@@ -1,5 +1,7 @@
 .Settings {
   padding: 20px;
+  scroll-snap-type:none;
+  
 }
 .Settings {
   * {
@@ -19,4 +21,31 @@ transform: scaleX(2);
   }
 
 
+}
+
+
+.marker::before {
+  content: "✔ "; /* Ви можете використовувати будь-який символ або навіть юнікод */
+  color: gray; /* Колір маркера */
+  font-weight: bold;
+}
+
+.passwordChange {
+  input[type="password"] {
+    -webkit-text-security: disc; /* Змінює символи на кружечки */
+    font-size: 20px; /* Змінює розмір зірочок або кружечків */
+    color: red; /* Змінює колір символів у Safari */
+    .password-input::placeholder {
+      color: red; /* Стиль для тексту-підказки */
+    }
+  }
+}
+
+.inputpas {
+   /* Змінює символи на кружечки */
+  font-size: 20px; /* Змінює розмір зірочок або кружечків */
+  color: #424242 !important; /* Змінює колір символів у Safari */
+  .password-input::placeholder {
+    color: red; /* Стиль для тексту-підказки */
+  }
 }
