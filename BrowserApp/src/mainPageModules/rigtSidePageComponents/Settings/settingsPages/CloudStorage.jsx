@@ -20,7 +20,8 @@ const CloudStorage = () => {
 
   return (
     <div className="settingsSection">
-      <h2>Local Storage</h2>
+   <h1 style={{ fontSize: "40px" }}>Storage</h1>
+
       <div
         style={{
           userSelect: "none",
@@ -28,7 +29,7 @@ const CloudStorage = () => {
           width: "40%",
           padding: "10px",
           boxShadow: `inset white ${
-            calculateLocalStorageUsage() / ((1024 * 1024 * 10) / 100)
+            calculateLocalStorageUsage() / ((1024 * 1024 *2) / 100)
           }px 0px 0px 0px`,
         }}
       >

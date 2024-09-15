@@ -132,14 +132,20 @@
       height: 100%;
       @include flex(row);
       background-color: $gray;
-
+      background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
       .scroll {
         overflow-y: scroll;
         width: 100%;
         height: 100%;
         border-top-left-radius: 50px;
         background-color: $darkgray;
-
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+        backdrop-filter: blur(10px);
+        overflow-x: hidden;
         .desktopWithFiles {
           @include flex(row, flex-start, flex-start);
           flex-wrap: wrap;

@@ -51,11 +51,23 @@ const HomePage = () => {
       <div className="rightHomePage">
         <UpperRightHomePgeNavbar />
         <div className="desktopWithFilesbgbg">
-          <div className="scroll">
-            <Popover />
-            <ErrorBoundary>
-              <Outlet />
-            </ErrorBoundary>
+          <div
+            className="scroll gfgdf"
+            style={{
+              backgroundRepeat: "no-repeat",
+              backgroundImage: localStorage.getItem("bg")
+                ? `url(${localStorage.getItem("bg")})`
+                : "none",
+            }}
+          >
+            <div className="scroll" style={{
+               background: localStorage.getItem("bg")&&'none',
+            }}>
+              <Popover />
+              <ErrorBoundary>
+                <Outlet />
+              </ErrorBoundary>
+            </div>
           </div>
         </div>
       </div>

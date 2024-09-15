@@ -120,7 +120,7 @@ const Table = () => {
                           onChange={(e) => changeTd(e, index, i)}
                           value={td}
                           name="head"
-                          disabled={!isEditable}
+                          disabled={!isEditable || (index === 0 && i === 0)}
                         />
                       </div>
                     </>

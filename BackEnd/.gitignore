@@ -1,2 +1,2 @@
-./keys
-./users.db
+keys.js
+*.db

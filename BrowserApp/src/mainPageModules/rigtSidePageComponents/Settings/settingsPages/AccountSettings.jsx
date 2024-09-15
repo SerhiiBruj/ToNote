@@ -103,7 +103,7 @@ const AccountSettings = () => {
         />
       </label>
 
-      {passwords.newPassword || passwords.oldPassword && <span
+      {(passwords.newPassword || passwords.oldPassword) && <span
         style={{
           cursor: "pointer",
           textDecoration: "underline",

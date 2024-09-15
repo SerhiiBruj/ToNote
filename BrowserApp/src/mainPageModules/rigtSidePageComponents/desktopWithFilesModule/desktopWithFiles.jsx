@@ -21,7 +21,8 @@ const DesktopWithFiles = () => {
       <div style={{ width: "100%", display: "flex" }}>
         <div
           className="desktopWithFiles"
-        
+          style={{background:'none'}}
+      
         >
           {pages.map((page, index) => (
             <FileIcon
