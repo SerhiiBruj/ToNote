@@ -1,3 +1,8 @@
-let APIKEY="AIzaSyDj8w6aXbY8r8wBpQwDnQ2jB9qCqjQX8Vw"
+let APIKEY = "AIzaSyDj8w6aXbY8r8wBpQwDnQ2jB9qCqjQX8Vw";
 
-module.exports={APIKEY};
+let email = {
+  email: "serhiitonote@gmail.com",
+  password: "buHNbHMHmAB",
+};
+
+module.exports = { APIKEY };
