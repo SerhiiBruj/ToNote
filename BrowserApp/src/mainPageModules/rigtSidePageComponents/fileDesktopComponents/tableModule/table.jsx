@@ -118,7 +118,7 @@ const Table = () => {
                         <textarea
                           className="texarea talbetextarea"
                           onChange={(e) => changeTd(e, index, i)}
-                          value={td}
+                          value={ !(index === 0 && i === 0)?td:typeName.split('/')[1]}
                           name="head"
                           disabled={!isEditable || (index === 0 && i === 0)}
                         />

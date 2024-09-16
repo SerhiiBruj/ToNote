@@ -103,17 +103,19 @@ const AccountSettings = () => {
         />
       </label>
 
-      {(passwords.newPassword || passwords.oldPassword) && <span
-        style={{
-          cursor: "pointer",
-          textDecoration: "underline",
-          width: "fit-content",
-          userSelect: "none",
-        }}
-        onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-      >
-        {isPasswordVisible ? "Hide it" : "Make it visible"}
-      </span>}
+      {(passwords.newPassword || passwords.oldPassword) && (
+        <span
+          style={{
+            cursor: "pointer",
+            textDecoration: "underline",
+            width: "fit-content",
+            userSelect: "none",
+          }}
+          onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+        >
+          {isPasswordVisible ? "Hide it" : "Make it visible"}
+        </span>
+      )}
       <br />
       {passwords.newPassword && passwords.oldPassword && (
         <button
@@ -156,12 +158,9 @@ const AccountSettings = () => {
           }}
         >
           {lastTimeSeen.map((time, index) => (
-            <>
-              <br />
-              <span className="marker" key={index}>
-                {time}
-              </span>
-            </>
+            <div key={time}>
+              <span className="marker">{time}</span>
+            </div>
           ))}
         </div>
       </div>

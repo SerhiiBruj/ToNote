@@ -233,8 +233,8 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
   overflow-x: hidden;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles {

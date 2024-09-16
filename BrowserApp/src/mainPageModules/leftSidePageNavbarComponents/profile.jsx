@@ -9,7 +9,8 @@ const Profile = () => {
   const [editProfile, setEditProfile] = useState(false);
   const userData = useSelector((state) => state.userData);
   const [changes, setChanges] = useState(false);
-  const [avatar, setAvatar] = useState(null); // Стан для аватара
+  const [avatar, setAvatar] = useState(null);
+  const [avatarpath, setAvatarpath] = useState('');
 
   const handleFileChange = (e) => {
     setAvatar(e.target.files[0]); // Зберігаємо файл у стані
@@ -30,6 +31,7 @@ const Profile = () => {
           },
         })
         .then((res) => {
+          setAvatarpath(`http://localhost:3000/profile-image/${userData.userName}.png`);
           console.log(res.data); // Виводимо відповідь сервера у консоль
         })
         .catch((err) => {
@@ -39,8 +41,9 @@ const Profile = () => {
     // Перемикаємо режим редагування
     setEditProfile(!editProfile);
     // Виводимо новий стан editProfile у консоль
-    console.log(editProfile);
   };
+
+  console.log(userData);
 
   return (
     <div className="profile">
@@ -48,15 +51,21 @@ const Profile = () => {
         <div
           className="profileImg"
           style={{
-            backgroundSize:!userData.imageUrl?"70%":'cover',
-            backgroundRepeat:'no-repeat',
-            backgroundPositionY:!userData.imageUrl?"bottom":'cover',
-            backgroundImage: !userData.imageUrl
-              ? `url(${unck})`
-              : `url(${userData.imageUrl})`,
-            backgroundPosition: "center",
-            transform: "translateX(15px)",
-          }}
+            backgroundSize: userData.imageUrl === null 
+            ? (avatarpath ? "cover" : "70%") 
+            : "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundImage: userData.imageUrl !== null 
+            ? `url(${userData.imageUrl})` 
+            : avatarpath !== "" 
+              ? `url(${avatarpath})` 
+              : `url(${unck})`,
+          backgroundPositionY: (userData.imageUrl === null && !avatarpath) 
+            ? "bottom" 
+            : "center",
+          backgroundPositionX: "center",
+          transform: "translateX(15px)"
+        }}
         >
           {editProfile && (
             <input

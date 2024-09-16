@@ -6,7 +6,7 @@ export const userData = createSlice({
         hasUserData: false,
         userName: "",
         email:'',
-        imageUrl:"",
+        imageUrl:null,
     },
     reducers: {
         doHaveData: state => {

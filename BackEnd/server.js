@@ -69,9 +69,13 @@ const upload = multer({
 });
 
 // Директорія для завантажених файлів
-const uploadDir = "./profile-image";
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir); // Створення директорії, якщо вона не існує
+const profileImage = "./profile-image";
+if (!fs.existsSync(profileImage)) {
+  fs.mkdirSync(profileImage); // Створення директорії, якщо вона не існує
+}
+const userFiles = "./user-files";
+if (!fs.existsSync(userFiles)) {
+  fs.mkdirSync(userFiles);
 }
 const testToken = async (req) => {
   try {
@@ -88,7 +92,7 @@ app.post("/upload", upload.single("avatar"), (req, res) => {
     console.log(req.file); // Виводимо інформацію про файл у консоль
     res.status(200).json({
       message: "Зображення успішно завантажено",
-      file: req.file, // Відправляємо інформацію про завантажений файл
+      file: req.file,
     });
   } catch (err) {
     console.error(err);
@@ -96,14 +100,45 @@ app.post("/upload", upload.single("avatar"), (req, res) => {
   }
 });
 
-// Виведення статичних файлів
-app.use("/profile-image", express.static("profile-image"));
+app.use(
+  "/profile-image",
+  // async (req, res, next) => {
+  //   try {
+  //     console.log("Authorization header:", req.headers.authorization); // Виведення заголовка
+
+  //     // Витягуємо токен з заголовка
+  //     const token = req.headers.authorization && req.headers.authorization.split(" ")[1];
+
+  //     if (!token) {
+  //       return res.status(401).send("Invalid Token");
+  //     }
+
+  //     const decoded = await decodedToken(token);
+  //     if (!decoded) {
+  //       return res.status(401).send("Invalid Token");
+  //     }
+
+  //     // Перевіряємо username у шляху
+  //     const usernameInPath = req.path.split("/").pop();
+
+  //     if (decoded.username !== usernameInPath) {
+  //       return res.status(403).send("Unauthorized access");
+  //     }
+
+  //     next(); // Доступ дозволено
+  //   } catch (err) {
+  //     console.error("Token verification error:", err);
+  //     return res.status(500).send("Server Error");
+  //   }
+  // },
+  express.static("profile-image")
+);
 
 const generateToken = (user) => {
   return jwt.sign(
     { id: user.id, username: user.username, email: user.email }, // дані користувача
-    APIKEY, // секретний ключ
-    { expiresIn: "48h" } // час дії токена
+    APIKEY,
+    { expiresIn: "48h" }
   );
 };
 
@@ -126,7 +161,7 @@ app.get("/authentification", async (req, res) => {
       decoded,
       imageUrl: fs.existsSync(imagePath)
         ? `http://localhost:3000/profile-image/${decoded.username}.png`
-        : null, // URL для отримання зображення
+        : null,
     });
   } catch (error) {
     return res.status(401).json({ message: error });
@@ -147,12 +182,6 @@ app.post("/register", (req, res) => {
         .status(500)
         .json({ message: "Помилка при реєстрації користувача." });
     }
-    db.get(`SELECT * FROM users WHERE email = ?`, [email], (err, row) => {
-      // writeEntriesToDatabase(
-      //   { username, email, id: row.id },
-      //   req.headers.clienttime
-      // );
-    });
     const user = { id: this.lastID, username, email };
     const token = generateToken(user);
 
@@ -172,13 +201,9 @@ app.get("/users", (req, res) => {
   });
 });
 
-// Вхід користувача
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
-  // Функція для перевірки, чи є це email
-
-  // Формування SQL запиту залежно від того, що введено: email чи нікнейм
   const sql = validator.isEmail(username)
     ? `SELECT * FROM users WHERE email = ?`
     : `SELECT * FROM users WHERE username = ?`;
@@ -192,11 +217,6 @@ app.post("/login", (req, res) => {
     if (!isPasswordValid) {
       return res.status(400).json({ message: "Невірний логін або пароль." });
     }
-
-    // writeEntriesToDatabase(
-    //   { username: user.username, email: user.email, id: user.id },
-    //   req.headers.clienttime
-    // );
 
     const token = generateToken(user);
     res.json({
@@ -225,13 +245,84 @@ app.get("/entries", (req, res) => {
   );
 });
 
+app.post("/upload-file", async (req, res) => {
+  const files = req.body.file; // отримуємо масив файлів
+  const token =
+    req.headers.authorization && req.headers.authorization.split(" ")[1]; // отримуємо токен з заголовка Authorization
+  if (!token) {
+    return res.status(400).json({ message: "Токен не надано" });
+  }
+  try {
+    const decoded = await decodedToken(req); // декодуємо токен
+    if (!files || files.length === 0) {
+      return res.status(400).json({ message: "Файли не відправлено" });
+    }
+    if (!decoded) {
+      return res.status(400).json({ message: "Токен неправильний" });
+    }
+
+    files.forEach((file) => {
+      const filePath = path.join(
+        __dirname,
+        `user-files/${decoded.username}_${file.name.replace("/", "_")}.txt`
+      );
+      fs.writeFileSync(filePath, file.value);
+    });
+
+    return res.status(200).json({ message: "Файли успішно збережено!" });
+  } catch (error) {
+    console.error("Помилка при збереженні файлу:", error);
+    return res
+      .status(500)
+      .json({ message: "Виникла помилка при збереженні файлу" });
+  }
+});
+
+app.get("/get-uploaded-file", async (req, res) => {
+  try {
+    const token =
+      req.headers.authorization && req.headers.authorization.split(" ")[1];
+    if (!token) {
+      return res.status(400).json({ message: "Токен не надано" });
+    }
+    const decoded = await decodedToken(req);
+    if (!decoded) {
+      return res.status(400).json({ message: "Токен неправильний" });
+    }
+    console.log("username", "." + decoded.username + ".");
+    const allFiles = fs.readdirSync(`./user-files`);
+    const userFiles = allFiles
+      .filter((file) => file.startsWith(`${decoded.username}_`)) // Фільтрація за ім'ям користувача
+      .map((file) => {
+        const fileContent = fs.readFileSync(`./user-files/${file}`, "utf8");
+        const originalFileName = file
+          .slice(0, -4) // Видаляємо ".txt"
+          .split("_") // Розбиваємо за "_"
+          .slice(1) // Пропускаємо першу частину (ім'я користувача)
+          .join("/"); // Відновлюємо шлях через "/"
+        return { value: fileContent, name: originalFileName };
+      });
+
+    return res.status(200).json({ userFiles });
+  } catch (err) {
+    console.error("Помилка при отриманні файлу:", err.message);
+    return res
+      .status(500)
+      .json({ message: "Виникла помилка при отриманні файлу" });
+  }
+});
+
+
+
+
+
 // Listening
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 app.listen(port, () => {
   console.log(`Сервер працює на http://localhost:${port}`);
 });
 
-// Functions
+// Functionss
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const writeEntriesToDatabase = (decoded, ct) => {
   db.get(`SELECT * FROM users WHERE email = ?`, [decoded.email], (err, row) => {
@@ -283,8 +374,6 @@ const decodedToken = (req) => {
         console.log("JWT Error:", err); // Логування помилки
         return reject("Невірний токен.");
       }
-
-      // Повертаємо розшифрований токен
       resolve(decoded);
     });
   });
