@@ -19,7 +19,7 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(updatePages());
-  }, [localStorage.key]);
+  }, [sessionStorage.key]);
 
   useEffect(() => {
     if (isSelecting) {

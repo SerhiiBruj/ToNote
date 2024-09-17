@@ -246,6 +246,7 @@ app.get("/entries", (req, res) => {
 });
 
 app.post("/upload-file", async (req, res) => {
+  console.log("receiving");
   const files = req.body.file; // отримуємо масив файлів
   const token =
     req.headers.authorization && req.headers.authorization.split(" ")[1]; // отримуємо токен з заголовка Authorization
@@ -312,9 +313,53 @@ app.get("/get-uploaded-file", async (req, res) => {
   }
 });
 
+app.post("/delete-uploaded-file", async (req, res) => {
+  console.log(typeof req.body.filesToDelete, req.body.filesToDelete);
+  console.log(req.headers.authorization);
+  try {
+    const filesToDelete = req.body.filesToDelete; // Використовуємо req.body для POST-запиту
+    const token =
+      req.headers.authorization && req.headers.authorization.split(" ")[1];
 
+    if (!token) {
+      return res.status(400).json({ message: "Токен не надано" });
+    }
+    const decoded = await decodedToken(req);
+    console.log(decoded);
+    if (!decoded) {
+      return res.status(400).json({ message: "Токен неправильний" });
+    }
 
-
+    if (filesToDelete && filesToDelete.length > 0) {
+      // Перебираємо файли для видалення
+      for (let i = 0; i < filesToDelete.length; i++) {
+        const filePath = `./user-files/${decoded.username}_${filesToDelete[
+          i
+        ].replace("/", "_")}.txt`;
+        console.log(filePath);
+        if (fs.existsSync(filePath)) {
+          console.log("спроба видалити", filePath);
+          fs.unlink(filePath, (err) => {
+            if (!err) {
+              console.log("удало видалено файл " + filesToDelete[i]);
+            }
+            if (err) {
+              console.error("Помилка при видаленні файлу:", err);
+            }
+          });
+        }
+      }
+      return res.status(200).json({ message: "Файли успішно видалено!" });
+    } else {
+      return res.status(400).json({ message: "Файли для видалення не надано" });
+    }
+  } catch (err) {
+    console.error("Помилка при видаленні файлів:", err.message);
+    return res
+      .status(500)
+      .json({ message: "Виникла помилка при видаленні файлів" });
+  }
+});
 
 // Listening
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

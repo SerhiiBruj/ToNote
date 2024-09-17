@@ -15,7 +15,7 @@ export const pages = createSlice({
   },
   reducers: {
     updatePages: (state) => {
-      state.value =  Object.keys(window.localStorage).filter((item) =>
+      state.value =  Object.keys(window.sessionStorage).filter((item) =>
         listOfPossibleNames.includes(item.split("/")[0])
       )
     },

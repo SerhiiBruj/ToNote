@@ -17,6 +17,7 @@ import {
 
 import { updateShowExpo } from "../../../redux/showExpo";
 import { updateisTable } from "../../../redux/istable";
+import axios from "axios";
 let listOfFileTypes = ["dashboard", "note", "checklist", "todo", "table"];
 
 const UpperRightHomePgeNavbar = () => {
@@ -26,7 +27,7 @@ const UpperRightHomePgeNavbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [isHome, setIsHome] = useState(true);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (location.pathname.split("/")[3]) {
@@ -38,12 +39,34 @@ const UpperRightHomePgeNavbar = () => {
     }
   }, [location.pathname]);
 
+  let sendToServerToDelete = async () => {
+    console.log("response");
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/delete-uploaded-file",
+        {
+          filesToDelete: selected, // передача через параметри
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response);
+    } catch (er) {
+      console.log(er);
+    }
+  };
+
   const deleteFile = () => {
     if (isHome)
       if (isSelecting) {
         if (selected.length > 0) {
+          sendToServerToDelete();
+
           for (let file of selected) {
-            localStorage.removeItem(file);
+            sessionStorage.removeItem(file);
           }
           dispatch(updatePages());
           dispatch(stopSelection());
@@ -55,12 +78,15 @@ const UpperRightHomePgeNavbar = () => {
       } else {
         dispatch(startSelection());
       }
-    else if(listOfFileTypes.includes(location.pathname.split("/")[2])){
-      let key=[location.pathname.split("/")[2],location.pathname.split("/")[3]].join('/');
-      console.log(key)  
-      navigate('/Home')
-      localStorage.removeItem(key);
-      dispatch(updatePages())
+    else if (listOfFileTypes.includes(location.pathname.split("/")[2])) {
+      let key = [
+        location.pathname.split("/")[2],
+        location.pathname.split("/")[3],
+      ].join("/");
+      console.log(key);
+      navigate("/Home");
+      sessionStorage.removeItem(key);
+      dispatch(updatePages());
     }
   };
   const exportFile = () => {
@@ -105,7 +131,7 @@ const UpperRightHomePgeNavbar = () => {
       </div>
 
       <div className="upperRightRightsectionHomePageNavbar">
-        {location.pathname.split("/")[2] === "dashboard" && (
+        {location.pathname.split("/")[1] === "dashboard" && (
           <div>
             <button
               style={{

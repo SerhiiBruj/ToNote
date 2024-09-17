@@ -61,7 +61,7 @@ const FileAdd = () => {
       }
     })();
     const valueToStore = JSON.stringify(initialData);
-    localStorage.setItem(
+    sessionStorage.setItem(
       `${formData.fileType}/${formData.fileName}`,
       valueToStore
     );

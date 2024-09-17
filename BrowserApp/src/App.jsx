@@ -20,13 +20,34 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { doHaveData, setUserData } from "./redux/UserData.js";
 
-
 // eslint-disable-next-line react/prop-types
 const PrivateRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // Статус аутентифікації
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
 
+  const GCS = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/get-uploaded-file",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      for (let i = 0; i < response.data.userFiles.length; i++) {
+        sessionStorage.setItem(
+          response.data.userFiles[i].name,
+          response.data.userFiles[i].value
+        );
+      }
+      return response.data;
+    } catch (er) {
+      console.error(er);
+    }
+  };
   useEffect(() => {
     console.log();
     const verifyToken = async () => {
@@ -34,24 +55,28 @@ const PrivateRoute = ({ children }) => {
         setIsAuthenticated(false);
         return;
       }
-    
-      try {
-        const response = await axios.get("http://localhost:3000/authentification", {
-          headers: {
-            authorization: `Bearer ${token}`,
-            clientTime: new Date().getTime(),
-          },
-        });
 
-        console.log('Отримано захищені дані:', response.data); 
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/authentification",
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+              clientTime: new Date().getTime(),
+            },
+          }
+        );
+        GCS();
+
         setIsAuthenticated(true);
         dispatch(
           setUserData({
             userName: response.data.decoded.username,
             email: response.data.decoded.email,
-            imageUrl: response.data.imageUrl
+            imageUrl: response.data.imageUrl,
           })
         );
+
         dispatch(doHaveData());
       } catch (error) {
         setIsAuthenticated(false);
@@ -69,8 +94,6 @@ const PrivateRoute = ({ children }) => {
   }
   return children;
 };
-
-
 
 function App() {
   return (

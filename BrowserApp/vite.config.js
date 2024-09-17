@@ -8,6 +8,7 @@ export default defineConfig({
   },
   plugins: [react()],
   server: {
+    hmr: true,
     port: 5173,
   },
 });

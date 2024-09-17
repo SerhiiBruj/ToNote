@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
@@ -90,14 +90,19 @@ const Table = () => {
           style={{ display: "flex", flexDirection: "column" }}
         >
           {table.map((row, index) => (
-            <div key={index} className="tableRow" style={{ display: "flex" }}>
+            <div
+              key={`row-${1987}-${index}`}
+              className="tableRow"
+              style={{ display: "flex" }}
+            >
               {row.map((td, i) => {
+                const uniqueKey = `cell-${index}-${i}`;
                 if (index === 0 || i === 0) {
                   return (
-                    <>
+                    <React.Fragment key={`fragment-${index}-${i}`}>
                       {!i && index !== 0 ? (
                         <div
-                          key={i * Math.random()}
+                          key={`line-h-${i}-${index + 200}`}
                           className="line"
                           style={{
                             transform: ` scaleX(${
@@ -107,7 +112,7 @@ const Table = () => {
                         ></div>
                       ) : !index && i !== 0 ? (
                         <div
-                          key={index * Math.random()}
+                          key={`line-v-${i}-${index + 300}`}
                           className="line"
                           style={{
                             transform: ` scaleY(${table.length * 1.1}) `,
@@ -118,18 +123,24 @@ const Table = () => {
                         <textarea
                           className="texarea talbetextarea"
                           onChange={(e) => changeTd(e, index, i)}
-                          value={ !(index === 0 && i === 0)?td:typeName.split('/')[1]}
+                          value={
+                            !(index === 0 && i === 0)
+                              ? td
+                              : typeName.split("/")[1]
+                          }
                           name="head"
                           disabled={!isEditable || (index === 0 && i === 0)}
                         />
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 } else {
                   return (
                     <div
-                      onClick={() => isEditable && changeDone(index, i)}
-                      key={index * Math.random()}
+                      onClick={() => {
+                        if (isEditable) changeDone(index, i);
+                      }}
+                      key={uniqueKey}
                       className="tableCell"
                       style={{
                         cursor: isEditable ? "pointer" : "default",
@@ -143,14 +154,22 @@ const Table = () => {
               })}
             </div>
           ))}
-          <div onClick={isEditable && addRow}>
+          <div
+            onClick={() => {
+              isEditable && addRow();
+            }}
+          >
             <CrissCrossIcon
               size={0.5}
               color={isEditable ? "#7a7c7c" : "#484848"}
             />
           </div>
         </div>
-        <div onClick={isEditable && addColumn}>
+        <div
+          onClick={() => {
+            isEditable && addColumn();
+          }}
+        >
           <CrissCrossIcon
             size={0.5}
             color={isEditable ? "#7a7c7c" : "#484848 "}

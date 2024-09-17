@@ -43,7 +43,6 @@ const Profile = () => {
     // Виводимо новий стан editProfile у консоль
   };
 
-  console.log(userData);
 
   return (
     <div className="profile">

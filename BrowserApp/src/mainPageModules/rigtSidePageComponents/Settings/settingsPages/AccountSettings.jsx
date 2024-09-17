@@ -158,7 +158,7 @@ const AccountSettings = () => {
           }}
         >
           {lastTimeSeen.map((time, index) => (
-            <div key={time}>
+            <div key={index}>
               <span className="marker">{time}</span>
             </div>
           ))}

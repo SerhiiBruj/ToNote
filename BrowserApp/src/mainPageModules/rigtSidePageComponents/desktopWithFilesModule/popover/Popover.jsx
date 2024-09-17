@@ -31,8 +31,8 @@ const Popover = () => {
   const exportfiles = () => {
     if (isHome) {
       for (let i of selected) {
-        if (i.split("/")[0] === "note" && localStorage.getItem(i)) {
-          const text = JSON.parse(localStorage.getItem(i), null, 2);
+        if (i.split("/")[0] === "note" && sessionStorage.getItem(i)) {
+          const text = JSON.parse(sessionStorage.getItem(i), null, 2);
           const blob = new Blob([text], { type: "text/plain" });
           const url = URL.createObjectURL(blob);
           const link = document.createElement("a");
@@ -41,8 +41,8 @@ const Popover = () => {
           link.click();
           URL.revokeObjectURL(url);
         }
-        if (i.split("/")[0] === "todo" && localStorage.getItem(i)) {
-          const todos = JSON.parse(localStorage.getItem(i)).join("\n");
+        if (i.split("/")[0] === "todo" && sessionStorage.getItem(i)) {
+          const todos = JSON.parse(sessionStorage.getItem(i)).join("\n");
           const blob = new Blob([todos], {
             type: "text/plain",
           });
@@ -53,8 +53,8 @@ const Popover = () => {
           link.click();
           URL.revokeObjectURL(url);
         }
-        if (i.split("/")[0] === "checklist" && localStorage.getItem(i)) {
-          const checklists = JSON.parse(localStorage.getItem(i))
+        if (i.split("/")[0] === "checklist" && sessionStorage.getItem(i)) {
+          const checklists = JSON.parse(sessionStorage.getItem(i))
             .map(
               (checklist) => `${checklist.p}\n\t${checklist.desc.map(desc=>desc.value).join("\n\t")}`
             )
@@ -69,18 +69,18 @@ const Popover = () => {
           link.click();
           URL.revokeObjectURL(url);
         }
-        if (i.split("/")[0] === "table" && localStorage.getItem(i)) {
+        if (i.split("/")[0] === "table" && sessionStorage.getItem(i)) {
           const ws = XLSX.utils.aoa_to_sheet(
-            JSON.parse(localStorage.getItem(i))
+            JSON.parse(sessionStorage.getItem(i))
           );
           const wb = XLSX.utils.book_new();
           XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
           XLSX.writeFile(wb, `${i.split("/")[1]}.xlsx`);
         }
-        if (i.split("/")[0] === "dashboard" && localStorage.getItem(i)) {
+        if (i.split("/")[0] === "dashboard" && sessionStorage.getItem(i)) {
           const ws = XLSX.utils.aoa_to_sheet(
             JSON.parse(
-              localStorage.getItem(
+              sessionStorage.getItem(
                 `dashboard/${location.pathname.split("/")[3]}`
               )
             ).table.map((row) =>
@@ -100,7 +100,7 @@ const Popover = () => {
         case "note":
           {
             const text = JSON.parse(
-              localStorage.getItem(`note/${location.pathname.split("/")[3]}`),
+              sessionStorage.getItem(`note/${location.pathname.split("/")[3]}`),
               null,
               2
             );
@@ -116,7 +116,7 @@ const Popover = () => {
         case "checklist":
           {
             const checklists = JSON.parse(
-              localStorage.getItem(
+              sessionStorage.getItem(
                 `checklist/${location.pathname.split("/")[3]}`
               )
             )
@@ -137,7 +137,7 @@ const Popover = () => {
         case "todo":
           {
             const todos = JSON.parse(
-              localStorage.getItem(`todo/${location.pathname.split("/")[3]}`)
+              sessionStorage.getItem(`todo/${location.pathname.split("/")[3]}`)
             ).join("\n");
             const blob = new Blob([todos], { type: "text/plain" });
             const url = URL.createObjectURL(blob);
@@ -152,7 +152,7 @@ const Popover = () => {
           {
             const ws = XLSX.utils.aoa_to_sheet(
               JSON.parse(
-                localStorage.getItem(`table/${location.pathname.split("/")[3]}`)
+                sessionStorage.getItem(`table/${location.pathname.split("/")[3]}`)
               )
             );
             const wb = XLSX.utils.book_new();
@@ -164,7 +164,7 @@ const Popover = () => {
           {
             const ws = XLSX.utils.aoa_to_sheet(
               JSON.parse(
-                localStorage.getItem(
+                sessionStorage.getItem(
                   `dashboard/${location.pathname.split("/")[3]}`
                 )
               ).table.map((row) =>

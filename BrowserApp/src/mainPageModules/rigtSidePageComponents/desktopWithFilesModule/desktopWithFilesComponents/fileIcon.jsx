@@ -53,16 +53,16 @@ const FileIcon = (props) => {
         );
         return;
       }
-      if (Object.keys(localStorage).includes(newKey)) {
+      if (Object.keys(sessionStorage).includes(newKey)) {
         console.log(`Ключ "${newKey}" вже існує.`);
         return;
       }
 
-      const oldValue = localStorage.getItem(oldKey);
+      const oldValue = sessionStorage.getItem(oldKey);
       if (oldValue !== null) {
-        localStorage.setItem(newKey, oldValue);
-        localStorage.removeItem(oldKey);
-        dispatch(updatePages(Object.keys(localStorage)));
+        sessionStorage.setItem(newKey, oldValue);
+        sessionStorage.removeItem(oldKey);
+        dispatch(updatePages(Object.keys(sessionStorage)));
       } else {
         console.log(`Ключ "${oldKey}" не знайдено.`);
       }

@@ -1,15 +1,56 @@
 /* eslint-disable react/prop-types */
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const BackLeafIcon = (props) => {
   const navigate = useNavigate();
+  const pages = useSelector((state) => state.pages.value);
+  const location=useLocation( );
+
+  const PCS = async () => {
+    console.log("sending");
+    try {
+      let arrayOfFiles = [];
+
+      for (let i = 0; i < pages.length; i++) {
+        arrayOfFiles.push({
+          name: pages[i],
+          value: sessionStorage.getItem(pages[i]),
+        });
+      }
+      const token = localStorage.getItem("token");
+      console.log(arrayOfFiles);
+
+      const response = await axios.post(
+        "http://localhost:3000/upload-file",
+        { file: arrayOfFiles },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Використовуємо Bearer токен
+          },
+        }
+      );
+
+      // Перевіряємо статус відповіді
+      if (response.status !== 200) {
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error("Помилка під час завантаження файлів:", error);
+    }
+  };
   return (
     <svg
       onClick={() => {
+        if (list.some((item) => item === location.pathname.split("/")[2])) {
+          PCS();
+        }
         navigate("/Home");
       }}
       width={props.size * 155}
-      height={ props.size * 78}
+      height={props.size * 78}
       viewBox="0 0 155 78"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -27,3 +68,4 @@ const BackLeafIcon = (props) => {
 };
 
 export default BackLeafIcon;
+const list = ["dashboard", "note", "checklist", "todo", "table"];

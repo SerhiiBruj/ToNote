@@ -25,7 +25,7 @@ const CloudStorage = () => {
       console.log("received");
       console.log(response.data);
       for (let i = 0; i < response.data.userFiles.length; i++) {
-        localStorage.setItem(
+        sessionStorage.setItem(
           response.data.userFiles[i].name,
           response.data.userFiles[i].value
         );
@@ -44,7 +44,7 @@ const CloudStorage = () => {
       for (let i = 0; i < pages.length; i++) {
         arrayOfFiles.push({
           name: pages[i],
-          value: localStorage.getItem(pages[i]),
+          value: sessionStorage.getItem(pages[i]),
         });
       }
       const token = localStorage.getItem("token");
@@ -75,9 +75,9 @@ const CloudStorage = () => {
 
   function calculateLocalStorageUsage() {
     let total = 0;
-    for (let key in localStorage) {
-      if (Object.prototype.hasOwnProperty.call(localStorage, key)) {
-        total += (localStorage[key].length + key.length) * 2;
+    for (let key in sessionStorage) {
+      if (Object.prototype.hasOwnProperty.call(sessionStorage, key)) {
+        total += (sessionStorage[key].length + key.length) * 2;
       }
     }
     return total;

@@ -7,15 +7,19 @@ import { useLocation } from "react-router-dom";
 const SettingsPage = () => {
   const location = useLocation();
   const scrollRef = useRef(null);
-
   const scrollToSection = (sectionId) => {
     if (scrollRef.current) {
       const section = document.getElementById(sectionId);
       if (section) {
-        section.scrollIntoView({ behavior:'auto' });
+        // Прокрутка до початку елемента
+        section.scrollIntoView({ 
+          behavior: 'smooth', // можна змінити на 'auto' для миттєвої прокрутки
+          block: 'end'      // встановлює прокрутку так, щоб елемент починався на позиції 0
+        });
       }
     }
   };
+  
 
   useEffect(() => {
     const path = location.pathname.split('/').pop(); // Останній сегмент шляху
@@ -43,6 +47,8 @@ const SettingsPage = () => {
       className="Settings"
       ref={scrollRef}
     >
+
+      <h1 style={{ fontSize: 45 }}>Still in development</h1>
       <section id="account-settings">
         <AccountSettings />
       </section>
