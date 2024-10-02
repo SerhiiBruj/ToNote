@@ -13,7 +13,6 @@ const validator = require("validator");
 const fs = require("fs");
 app.use(bodyParser.json());
 app.use(cors());
-
 const db = new sqlite3.Database("./users.db", (err) => {
   if (err) {
     console.error("Не вдалося підключитися до бази даних:", err);
@@ -358,6 +357,63 @@ app.post("/delete-uploaded-file", async (req, res) => {
     return res
       .status(500)
       .json({ message: "Виникла помилка при видаленні файлів" });
+  }
+});
+
+app.post("/rename-uploaded-file", async (req, res) => {
+  try {
+    let { rnfile: fileToRename, newName } = req.body;
+    const token =
+      req.headers.authorization && req.headers.authorization.split(" ")[1];
+
+    // Перевірка наявності імен файлів і токена
+    if (!fileToRename || !newName) {
+      return res.status(400).json("Помилка: відсутні імена файлів");
+    }
+    if (!token) {
+      return res.status(400).json({ message: "Токен не надано" });
+    }
+
+    // Декодуємо токен
+    const decoded = await decodedToken(req);
+    if (!decoded) {
+      return res.status(400).json({ message: "Токен неправильний" });
+    }
+
+    // Створюємо шляхи до файлів
+    const filePath = `./user-files/${decoded.username}_${fileToRename.replace(
+      "/",
+      "_"
+    )}.txt`;
+    const newFilePath = `./user-files/${decoded.username}_${newName.replace(
+      "/",
+      "_"
+    )}.txt`;
+
+    console.log("Поточний файл:", filePath);
+    console.log("Новий файл:", newFilePath);
+
+    try {
+      if (fs.existsSync(filePath))
+        fs.rename(filePath, newFilePath, (er) => {
+          if (er) console.error(er);
+        });
+      console.log(`Файл успішно перейменовано з ${fileToRename} на ${newName}`);
+      return res.status(200).json({ message: "Файл успішно перейменовано" });
+    } catch (err) {
+      console.error("Помилка при перейменуванні файлу:", err);
+      return res
+        .status(500)
+        .json({
+          message: "Помилка при перейменуванні файлу",
+          error: err.message,
+        });
+    }
+  } catch (err) {
+    console.error("Помилка при обробці запиту:", err);
+    return res
+      .status(500)
+      .json({ message: "Внутрішня помилка сервера", error: err.message });
   }
 });
 

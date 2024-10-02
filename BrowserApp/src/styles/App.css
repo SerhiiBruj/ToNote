@@ -20,6 +20,15 @@
     transform: translateX(-50%);
   }
 }
+@keyframes fadeaway {
+  0% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
 .centerDiv {
   display: flex;
   align-items: center;
@@ -115,10 +124,12 @@
   overflow: hidden;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .profile .profileEmail {
-  font-size: 18px;
   line-height: 36px;
   text-align: center;
   margin: 0;
+}
+.homePageNavbarConteiner .leftHomePageNavbar .profile .profileEmail span {
+  font-size: 18px !important;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel {
   background-color: rgba(217, 217, 217, 0.5019607843);
@@ -141,6 +152,7 @@
   background-image: url(../assetModules/svgs/penAndLineSvg.svg);
   background-repeat: no-repeat;
   background-size: 170%;
+  scroll-snap-type: y mandatory;
   background-position: right;
   min-height: 200px;
 }
@@ -159,6 +171,7 @@
   height: fit-content;
   transition: all 0.5s ease;
   scroll-snap-type: y mandatory;
+  scroll-snap-align: start;
   scroll-behavior: smooth;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfFiles::-webkit-scrollbar,
@@ -467,9 +480,6 @@
 }
 .hoverSvg * {
   transition: 0.2s all ease;
-}
-.hoverSvg:hover {
-  fill: aliceblue;
 }
 .hoverSvg:hover *:not(.excluded) {
   border-color: #474747 !important;

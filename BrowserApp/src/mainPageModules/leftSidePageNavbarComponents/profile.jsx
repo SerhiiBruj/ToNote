@@ -1,6 +1,6 @@
 import EditProfile from "../../assetModules/svgs/editProfile";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import  { memo, useState } from "react";
 import unck from "../../assetModules/svgs/uncknown.svg";
 import axios from "axios";
 import CrissCrossIcon from "../../assetModules/svgs/crissCross";
@@ -18,10 +18,9 @@ const Profile = () => {
   };
 
   const changeEditProfile = () => {
-    // Перевірка умов перед виконанням POST запиту
     if (editProfile && changes && localStorage.getItem("token") && avatar) {
       const formData = new FormData();
-      formData.append("avatar", avatar); // Додаємо файл аватара до formData
+      formData.append("avatar", avatar);
 
       axios
         .post("http://localhost:3000/upload", formData, {
@@ -38,9 +37,7 @@ const Profile = () => {
           console.error("Помилка завантаження файлу:", err); // Виводимо помилку у консоль
         });
     }
-    // Перемикаємо режим редагування
     setEditProfile(!editProfile);
-    // Виводимо новий стан editProfile у консоль
   };
 
 
@@ -128,4 +125,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default memo(Profile);

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { doAnimate } from "../../../../redux/startAnimation";
@@ -7,6 +7,7 @@ import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
 import IsSelected from "../../../../assetModules/noSvg/isSelected";
 import { deSelect, select } from "../../../../redux/selectSlice";
 import { updatePages } from "../../../../redux/pagesSlice";
+import axios from "axios";
 
 const FileIcon = (props) => {
   const boolAnimate = useSelector((state) => state.startAnimation.value);
@@ -17,59 +18,91 @@ const FileIcon = (props) => {
   const navigate = useNavigate();
   const [name, setName] = useState(props.name);
 
+  // Оновлюємо стан, коли змінюється props.name
   useEffect(() => {
     setName(props.name);
   }, [props.name]);
 
-  const handleSelect = (e) => {
-    e.stopPropagation();
+  // Функція для вибору/зняття вибору файлів
+  const handleSelect = useCallback(
+    (e) => {
+      e.stopPropagation();
+      const fileKey = `${props.type}/${name}`;
+      if (!selected.includes(fileKey)) {
+        dispatch(select(fileKey));
+      } else {
+        dispatch(deSelect(fileKey));
+      }
+    },
+    [selected, dispatch, name, props.type]
+  );
 
-    if (!selected.includes(`${props.type}/${name}`)) {
-      dispatch(select(`${props.type}/${name}`));
-    } else {
-      dispatch(deSelect(`${props.type}/${name}`));
-    }
-  };
-
+  // Анімація при завантаженні компонента
   useEffect(() => {
-    if (boolAnimate) {
+    if (ref.current && boolAnimate) {
       ref.current.style.transition = "all ease 0.5s";
       ref.current.style.opacity = "0%";
       ref.current.style.transform = "scale(0)";
     }
   }, [boolAnimate]);
 
+  // Управління зміною імені файлу
   const handleChange = (e) => {
     setName(e.target.value);
   };
 
-  const renameLocalStorageKey = (oldKey, newKey) => {
-    console.log(oldKey, newKey);
-    if (typeof newKey === "string" && newKey.split("/")[1].trim() !== "") {
-      if (!newKey || newKey === oldKey) {
-        setName(oldKey.split("/")[1]); // Повернення до старого імені, якщо новий ключ порожній або такий самий
-        console.log(
-          "Новий ключ не може бути порожнім або таким самим, як старий ключ."
-        );
-        return;
-      }
-      if (Object.keys(sessionStorage).includes(newKey)) {
-        console.log(`Ключ "${newKey}" вже існує.`);
-        return;
-      }
-
-      const oldValue = sessionStorage.getItem(oldKey);
-      if (oldValue !== null) {
-        sessionStorage.setItem(newKey, oldValue);
-        sessionStorage.removeItem(oldKey);
-        dispatch(updatePages(Object.keys(sessionStorage)));
-      } else {
-        console.log(`Ключ "${oldKey}" не знайдено.`);
-      }
+  // Перейменування ключа в sessionStorage
+  const renameLocalStorageKey = async (oldKey, newKey) => {
+    if (typeof newKey !== "string" || !newKey.trim() || newKey === oldKey) {
+      setName(oldKey.split("/")[1]); // Повернення до старого імені
+      console.log("Новий ключ не може бути порожнім або таким самим.");
+      return;
     }
-    setName(props.name);
+    
+    if (Object.keys(sessionStorage).includes(newKey)) {
+      console.log(`Ключ "${newKey}" вже існує.`);
+      return;
+    }
+  
+    const oldValue = sessionStorage.getItem(oldKey);
+    if (oldValue !== null) {
+      sessionStorage.setItem(newKey, oldValue);
+      sessionStorage.removeItem(oldKey);
+  
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.log("Токен не знайдено, будь ласка, увійдіть у систему.");
+        return;
+      }
+  
+      try {
+        const res = await axios.post("http://localhost:3000/rename-uploaded-file", {
+          rnfile: oldKey,
+          newName: newKey
+        }, {
+          headers: {
+            authorization: `Bearer ${token}` // Передаємо токен в заголовках
+          }
+        });
+  
+        if (res.status === 200) {
+          console.log("Файл успішно перейменовано");
+          dispatch(updatePages(Object.keys(sessionStorage)));
+        } else {
+          console.log("Сталася помилка при перейменуванні файлу:", res.data);
+        }
+      } catch (error) {
+        console.error("Помилка при зверненні до сервера:", error);
+      }
+    } else {
+      console.log(`Ключ "${oldKey}" не знайдено.`);
+    }
+  
+    setName(props.name); // Оновлення імені назад, якщо новий ключ не підходить
   };
+  
 
+  // Функція для переходу на інший шлях із анімацією
   const gotodestination = useCallback(() => {
     if (ref.current) {
       ref.current.style.transition = "all ease 0.4s";
@@ -85,7 +118,7 @@ const FileIcon = (props) => {
         }, 100);
       }, 400);
     }
-  }, [dispatch, navigate, props.type, props.name]);
+  }, [navigate, props.name, props.type, dispatch]);
 
   return (
     <div
@@ -108,24 +141,22 @@ const FileIcon = (props) => {
       {!boolAnimate && (
         <>
           <div style={{ height: "70%", overflow: "hidden" }}>
-           
-              <input
-                style={{
-                  pointerEvents: isEditable ? "all" : "none",
-                  transition: "0.2s all ease",
-                  animation:
-                    props.name.length > 16 && !isEditable
-                      ? "scrollText 5s linear infinite"
-                      : "none",
-                }}
-                onChange={(e) => handleChange(e)}
-                className={`texarea fileIconName ${
-                  props.name.length > 16 && "scroll-container"
-                }`}
-                disabled={!isEditable}
-                value={!isEditable ? props.name  : name}
-              />
-            
+            <input
+              style={{
+                pointerEvents: isEditable ? "all" : "none",
+                transition: "0.2s all ease",
+                animation:
+                  props.name.length > 16 && !isEditable
+                    ? "scrollText 5s linear infinite"
+                    : "none",
+              }}
+              onChange={handleChange}
+              className={`texarea fileIconName ${
+                props.name.length > 16 && "scroll-container"
+              }`}
+              disabled={!isEditable}
+              value={!isEditable ? props.name : name}
+            />
             <span className="fileIconType">{props.type}</span>
           </div>
           <div
@@ -164,8 +195,8 @@ const FileIcon = (props) => {
 };
 
 FileIcon.propTypes = {
-  name: PropTypes.string,
-  type: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
-export default FileIcon;
+export default memo(FileIcon);

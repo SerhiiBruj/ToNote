@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { memo, useCallback, useEffect, useMemo } from "react";
 import BinIcon from "../../../../assetModules/svgs/bin";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
 import Circle from "../../../../assetModules/noSvg/circle";
@@ -97,4 +97,4 @@ const Todo = () => {
   );
 };
 
-export default Todo;
+export default memo(Todo);

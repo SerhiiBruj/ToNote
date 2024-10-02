@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import AddClocker from "./components/Addclocker";
 import { useLocation } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
@@ -6,19 +6,16 @@ import ClockOn from "./components/ClockOn";
 import CheckIn from "./components/CheckIn";
 import Counter from "./components/Counter";
 import Timer from "./components/Timer";
-import { useDispatch, useSelector } from "react-redux";
-import { updateisTable } from "../../../../redux/istable";
 
 const Dashboard = () => {
   const location = useLocation();
-  const dispatch = useDispatch();
   const ref = useRef();
+  const [ist, setist] = useState(false);
 
   const typeName = useMemo(() => {
     return location.pathname.split("/").slice(2).join("/");
   }, [location.pathname]);
 
-  const isTable = useSelector((state) => state.isTable.value);
 
   const [clockers, setClockers] = useLocalStorage(typeName, {
     templates: [],
@@ -26,13 +23,9 @@ const Dashboard = () => {
   });
 
   const tableToRender = useMemo(() => {
-    console.log(isTable);
+    console.log(ist);
     return [["", ...clockers.templates], ...clockers.table];
   }, [clockers.templates, clockers.table]);
-
-  useEffect(() => {
-    if (isTable) dispatch(updateisTable(false));
-  }, [location.pathname]);
 
   function getDatesArray(startDate) {
     const datesArray = [];
@@ -92,7 +85,24 @@ const Dashboard = () => {
 
   return (
     <>
-      {!isTable ? (
+      <div
+        style={{
+          position:'absolute',
+          width: "100%",
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+        }}
+      >
+        <button
+          onClick={() => setist(!ist)}
+          className="submit"
+          style={{ width: "fit-content", margin: 10 }}
+        >
+          showTable
+        </button>
+      </div>
+      {!ist ? (
         <div className="dashboard fileContainer">
           {clockers.templates.map((clocker, i) => {
             switch (clocker.type) {
@@ -201,6 +211,7 @@ const Dashboard = () => {
                             <p
                               style={{
                                 textAlign: " center",
+                                overflow:'scroll'
                               }}
                             >
                               {index === 0 ? td.fileName : td}
@@ -241,7 +252,7 @@ const Dashboard = () => {
     </>
   );
 };
-export default Dashboard;
+export default memo(Dashboard);
 
 let colors = [
   "#f44336",

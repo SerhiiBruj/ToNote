@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as XLSX from "xlsx";
 import { clearSelection, stopSelection } from "../../../../redux/selectSlice";
@@ -15,20 +15,21 @@ let listOfFileTypes = [
 
 const Popover = () => {
   const ref = useRef();
-  const showSomething = useSelector((state) => state.showExpo.value);
   const { selected } = useSelector((state) => state.select);
   const dispatch = useDispatch();
   const location = useLocation();
   const [isHome, setIsHome] = useState(true);
 
   useEffect(() => {
+    console.log("useef");
     if (location.pathname.split("/")[3]) {
       setIsHome(false);
     } else {
       setIsHome(true);
     }
   }, [location.pathname]);
-  const exportfiles = () => {
+
+  const exportfiles = useCallback(() => {
     if (isHome) {
       for (let i of selected) {
         if (i.split("/")[0] === "note" && sessionStorage.getItem(i)) {
@@ -56,7 +57,10 @@ const Popover = () => {
         if (i.split("/")[0] === "checklist" && sessionStorage.getItem(i)) {
           const checklists = JSON.parse(sessionStorage.getItem(i))
             .map(
-              (checklist) => `${checklist.p}\n\t${checklist.desc.map(desc=>desc.value).join("\n\t")}`
+              (checklist) =>
+                `${checklist.p}\n\t${checklist.desc
+                  .map((desc) => desc.value)
+                  .join("\n\t")}`
             )
             .join("\n\n");
           const blob = new Blob([checklists], {
@@ -122,7 +126,9 @@ const Popover = () => {
             )
               .map(
                 (checklist) =>
-                  `${checklist.p}\n\t${checklist.desc.map(desc=>desc.value).join("\n\t")}`
+                  `${checklist.p}\n\t${checklist.desc
+                    .map((desc) => desc.value)
+                    .join("\n\t")}`
               )
               .join("\n\n");
             const blob = new Blob([checklists], { type: "text/plain" });
@@ -152,7 +158,9 @@ const Popover = () => {
           {
             const ws = XLSX.utils.aoa_to_sheet(
               JSON.parse(
-                sessionStorage.getItem(`table/${location.pathname.split("/")[3]}`)
+                sessionStorage.getItem(
+                  `table/${location.pathname.split("/")[3]}`
+                )
               )
             );
             const wb = XLSX.utils.book_new();
@@ -186,7 +194,7 @@ const Popover = () => {
     dispatch(stopSelection());
     dispatch(clearSelection());
     dispatch(updateShowExpo(false));
-  };
+  }, [location.pathname, isHome]);
 
   return (
     <div
@@ -200,9 +208,8 @@ const Popover = () => {
         bottom: 0,
         borderTop: "solid #1e1e1e 5px",
         transition: "all 0.5s",
-        transform: showSomething ? "none" : "translateX(500vw)",
         borderTopLeftRadius: 50,
-        zIndex: 1000,
+        zIndex: 3,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -251,4 +258,4 @@ const Popover = () => {
   );
 };
 
-export default Popover;
+export default memo(Popover);

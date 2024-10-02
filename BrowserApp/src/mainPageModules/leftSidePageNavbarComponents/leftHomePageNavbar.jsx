@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Profile from "./profile";
 import Scrollpanel from "./Scrollpanel";
 
@@ -10,4 +11,4 @@ const LeftHomePageNavbar = () => {
   );
 };
 
-export default LeftHomePageNavbar;
+export default memo(LeftHomePageNavbar);

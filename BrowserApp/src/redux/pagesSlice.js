@@ -9,7 +9,7 @@ let listOfPossibleNames = [
 ];
 
 export const pages = createSlice({
-  name: "startAnimation",
+  name: "pages",
   initialState: {
     value: [],
   },

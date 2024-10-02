@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback, useMemo } from "react";
+import { useEffect, useRef, useCallback, useMemo, memo } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
@@ -19,7 +19,7 @@ const Note = () => {
       textarea.style.height = "auto";
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
-    console.log('note')
+    console.log("note");
   }, []);
 
   const handleTextChange = useCallback(
@@ -32,27 +32,34 @@ const Note = () => {
 
   return (
     <div
-      style={{ height: "90%"  }}
-      onClick={(e) => {e.stopPropagation();
-       
+      style={{ height: "90%" }}
+      onClick={(e) => {
+        e.stopPropagation();
       }}
-      
       className=" conteiner fileConteiner"
     >
-      <div className="contic" style={{ paddingTop: 20 ,width:'100%',height:'100%'}}>
-          <textarea
-          style={{width:'100%',height:'100% !important',minHeight: "90%",margin:0}}
-            disabled={!isEditable}
-            ref={textareaRef}
-            className="texarea"
-            placeholder="Type here..."
-            value={text}
-            onChange={(e) => handleTextChange(e)}
-            autoFocus
-          />
+      <div
+        className="contic"
+        style={{ paddingTop: 20, width: "100%", height: "100%" }}
+      >
+        <textarea
+          style={{
+            width: "100%",
+            height: "100% !important",
+            minHeight: "90%",
+            margin: 0,
+          }}
+          disabled={!isEditable}
+          ref={textareaRef}
+          className="texarea"
+          placeholder="Type here..."
+          value={text}
+          onChange={(e) => handleTextChange(e)}
+          autoFocus
+        />
       </div>
     </div>
   );
 };
 
-export default Note;
+export default memo(Note);

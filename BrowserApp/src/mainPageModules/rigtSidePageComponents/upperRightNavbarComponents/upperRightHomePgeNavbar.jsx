@@ -1,117 +1,100 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import LogoIcon from "../../../assetModules/svgs/logo";
 import ShareIcon from "../../../assetModules/svgs/share";
 import BinIcon from "../../../assetModules/svgs/bin";
 import PenIcon from "../../../assetModules/svgs/pen";
-import { useDispatch, useSelector } from "react-redux";
-import isEditable, { edit } from "../../../redux/isEditable";
 import BackLeafIcon from "../../../assetModules/svgs/backLeaf";
-import { useLocation, useNavigate } from "react-router-dom";
 import StartSelection from "../../../assetModules/noSvg/startSelections";
+
+import { edit } from "../../../redux/isEditable";
 import { updatePages } from "../../../redux/pagesSlice";
 import {
   clearSelection,
   startSelection,
   stopSelection,
 } from "../../../redux/selectSlice";
-
 import { updateShowExpo } from "../../../redux/showExpo";
-import { updateisTable } from "../../../redux/istable";
-import axios from "axios";
-let listOfFileTypes = ["dashboard", "note", "checklist", "todo", "table"];
+
+const listOfFileTypes = ["dashboard", "note", "checklist", "todo", "table"];
 
 const UpperRightHomePgeNavbar = () => {
   const { isSelecting, selected } = useSelector((state) => state.select);
-  const [page, setPage] = useState("");
   const showSomething = useSelector((state) => state.showExpo.value);
+  const isEditable = useSelector((state) => state.isEditable.value);
+
+  const [page, setPage] = useState("");
+  const [isHome, setIsHome] = useState(true);
+
   const dispatch = useDispatch();
   const location = useLocation();
-  const [isHome, setIsHome] = useState(true);
   const navigate = useNavigate();
 
+  // Memoized `page` and `isHome` calculation for optimization
   useEffect(() => {
-    if (location.pathname.split("/")[3]) {
-      setIsHome(false);
-      setPage(location.pathname.split("/")[3]);
-    } else {
-      setPage(location.pathname.split("/")[1]);
-      setIsHome(true);
-    }
+    const paths = location.pathname.split("/");
+    const pagePath = paths[3] ? paths[3] : paths[1];
+    setPage(pagePath);
+    setIsHome(!paths[3]);
   }, [location.pathname]);
 
-  let sendToServerToDelete = async () => {
-    console.log("response");
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/delete-uploaded-file",
-        {
-          filesToDelete: selected, // передача через параметри
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      console.log(response);
-    } catch (er) {
-      console.log(er);
-    }
-  };
-
-  const deleteFile = () => {
-    if (isHome)
-      if (isSelecting) {
-        if (selected.length > 0) {
-          sendToServerToDelete();
-
-          for (let file of selected) {
-            sessionStorage.removeItem(file);
+  const sendToServerToDelete = useCallback(
+    async (selectedFiles) => {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/delete-uploaded-file",
+          { filesToDelete: selectedFiles },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
           }
-          dispatch(updatePages());
-          dispatch(stopSelection());
-          dispatch(clearSelection());
-        } else {
-          dispatch(stopSelection());
-          dispatch(clearSelection());
-        }
-      } else {
-        dispatch(startSelection());
+        );
+        console.log(response);
+      } catch (error) {
+        console.error(error);
       }
-    else if (listOfFileTypes.includes(location.pathname.split("/")[2])) {
-      let key = [
-        location.pathname.split("/")[2],
-        location.pathname.split("/")[3],
-      ].join("/");
-      console.log(key);
-      navigate("/Home");
-      sessionStorage.removeItem(key);
-      dispatch(updatePages());
-    }
-  };
-  const exportFile = () => {
+    },
+    [selected]
+  );
+
+  const deleteFile = useCallback(() => {
     if (isHome) {
-      if (isSelecting) {
-        if (selected.length > 0) {
-          if (showSomething) {
-            dispatch(updateShowExpo(false));
-            dispatch(clearSelection());
-            dispatch(stopSelection());
-          } else {
-            dispatch(updateShowExpo(true));
-          }
-        } else {
-          dispatch(updateShowExpo(false));
-          dispatch(stopSelection());
-        }
+      if (isSelecting && selected.length > 0) {
+        sendToServerToDelete(selected);
+        selected.forEach((file) => sessionStorage.removeItem(file));
+        dispatch(updatePages());
+        dispatch(stopSelection());
+        dispatch(clearSelection());
       } else {
-        dispatch(startSelection());
+        dispatch(isSelecting ? clearSelection() : startSelection());
       }
     } else if (listOfFileTypes.includes(location.pathname.split("/")[2])) {
-      if (!showSomething) dispatch(updateShowExpo(true));
-      else dispatch(updateShowExpo(false));
+      const key = `${location.pathname.split("/")[2]}/${decodeURIComponent(
+        location.pathname.split("/")[3]
+      )}`;
+      sendToServerToDelete([key]);
+      sessionStorage.removeItem(key);
+      dispatch(updatePages());
+      navigate("/Home");
     }
-  };
+  }, [isHome, selected, location.pathname]);
+
+  const exportFile = useCallback(() => {
+    if (isHome && isSelecting && selected.length > 0) {
+      dispatch(updateShowExpo(!showSomething));
+      if (!showSomething) {
+        dispatch(clearSelection());
+        dispatch(stopSelection());
+      }
+    } else if (listOfFileTypes.includes(location.pathname.split("/")[2])) {
+      dispatch(updateShowExpo(!showSomething));
+    }
+  }, [isHome, selected, showSomething, location.pathname]);
+
   return (
     <div className="upperRightHomePageNavbar">
       <div
@@ -131,23 +114,6 @@ const UpperRightHomePgeNavbar = () => {
       </div>
 
       <div className="upperRightRightsectionHomePageNavbar">
-        {location.pathname.split("/")[1] === "dashboard" && (
-          <div>
-            <button
-              style={{
-                outline: "none",
-                border: "none",
-                background: "darkgray",
-                borderRadius: 15,
-                padding: 10,
-              }}
-              onClick={() => dispatch(updateisTable())}
-            >
-              Table
-            </button>
-          </div>
-        )}
-
         <div
           style={{
             transition: "all ease 0.2s",
@@ -158,7 +124,7 @@ const UpperRightHomePgeNavbar = () => {
           <StartSelection />
         </div>
         <div
-          className="peni "
+          className="peni"
           onClick={() => {
             dispatch(edit());
             if (isSelecting) {
@@ -178,14 +144,16 @@ const UpperRightHomePgeNavbar = () => {
             exportFile();
           }}
         >
-          <ShareIcon size={1} color={"#2e2e2e"} />
+          <ShareIcon size={1} color="#2e2e2e" />
         </div>
         <div style={{ marginTop: "4%" }}>
+          <Link to={"/About"}>
           <LogoIcon />
+          </Link>
         </div>
       </div>
     </div>
   );
 };
 
-export default UpperRightHomePgeNavbar;
+export default memo(UpperRightHomePgeNavbar);

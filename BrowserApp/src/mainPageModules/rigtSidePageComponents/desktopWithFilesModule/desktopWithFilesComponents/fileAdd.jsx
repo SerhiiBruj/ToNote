@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePages } from "../../../../redux/pagesSlice";
@@ -18,14 +18,14 @@ const FileAdd = () => {
     if (boolAnimate) ref.current.style.animation = " fade 0.6s ease-out";
   }, [boolAnimate]);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: sanitize(value),
     }));
-  };
-  const handleSubmit = (e) => {
+  },[])
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     if (formData.fileName.trim() === "") {
       alert("Please enter a file name");
@@ -40,7 +40,7 @@ const FileAdd = () => {
           return "";
         case "table":
           return [
-            ["", ""],
+            [formData.fileName, ""],
             ["", ""],
           ];
         case "checklist":
@@ -68,7 +68,7 @@ const FileAdd = () => {
     setIsAdding(false);
     setFormData({ fileName: "", fileType: "note" });
     dispatch(updatePages());
-  };
+  },[formData.fileName,formData.fileType])
 
   return (
     <div
@@ -139,7 +139,7 @@ const FileAdd = () => {
   );
 };
 
-export default FileAdd;
+export default memo(FileAdd);
 
 {
   /* <div className="dropdown">

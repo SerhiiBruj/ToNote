@@ -1,7 +1,7 @@
 import ListOfSettings from "./listOfSettings";
 import ListOfFiles from "./listOfFiles";
 import Ard from "../../assetModules/svgs/ard";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useSelector } from "react-redux";
 
 const Scrollpanel = () => {
@@ -38,4 +38,4 @@ const Scrollpanel = () => {
   );
 };
 
-export default Scrollpanel;
+export default memo(Scrollpanel);

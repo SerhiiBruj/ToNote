@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { memo } from "react";
 
 // eslint-disable-next-line react/prop-types
 const ListOfFiles = ({ allow }) => {
@@ -15,11 +16,7 @@ const ListOfFiles = ({ allow }) => {
             ? "scaleY(0)"
             : "scaleY(1)"
           : "scaleY(1)";
-        const borders = isAfterFourth
-          ? allow
-            ? "none"
-            :""
-          :"" ;
+        const borders = isAfterFourth ? (allow ? "none" : "") : "";
         return (
           <NavLink
             key={item}
@@ -49,4 +46,4 @@ const ListOfFiles = ({ allow }) => {
   );
 };
 
-export default ListOfFiles;
+export default memo(ListOfFiles);

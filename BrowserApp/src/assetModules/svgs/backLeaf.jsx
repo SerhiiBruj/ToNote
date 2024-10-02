@@ -43,6 +43,7 @@ const BackLeafIcon = (props) => {
   };
   return (
     <svg
+     className="hoverSvg"
       onClick={() => {
         if (list.some((item) => item === location.pathname.split("/")[2])) {
           PCS();

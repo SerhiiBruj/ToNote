@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { NavLink } from "react-router-dom";
 
 const ListOfSettings = () => {
@@ -30,7 +31,7 @@ const ListOfSettings = () => {
   );
 };
 
-export default ListOfSettings;
+export default memo( ListOfSettings);
 
 {
   /* <div className="listOfFiles">

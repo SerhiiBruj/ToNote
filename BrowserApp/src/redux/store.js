@@ -4,7 +4,6 @@ import startAnimation from "./startAnimation";
 import pageSlice from "./pagesSlice";
 import selectSlice from "./selectSlice";
 import showExpo from "./showExpo";
-import isTable from "./istable";
 import userData from "./UserData";
 
 const store = configureStore({
@@ -14,7 +13,6 @@ const store = configureStore({
     pages: pageSlice,
     select: selectSlice,
     showExpo: showExpo,
-    isTable: isTable,
     userData: userData,
   },
 });

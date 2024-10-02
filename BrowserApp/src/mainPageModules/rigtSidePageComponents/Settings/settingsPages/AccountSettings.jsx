@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -13,9 +13,9 @@ const AccountSettings = () => {
     newPassword: "",
   });
 
-  const handleChangePassword = (e) => {
+  const handleChangePassword = useCallback((e) => {
     setPasswords({ ...passwords, [e.target.name]: e.target.value });
-  };
+  },[]);
 
   useEffect(() => {
     if (lastTimeSeen[0] === "") {
@@ -79,7 +79,7 @@ const AccountSettings = () => {
               background: "lightgray",
               userSelect: "none",
               width: "fit-content",
-              webkitTextSecurity: isPasswordVisible ? "none" : "disc",
+              WebkitTextSecurity: isPasswordVisible ? "none" : "disc",
             }}
             className="submit inputpas"
             value={passwords.oldPassword}
@@ -95,7 +95,7 @@ const AccountSettings = () => {
             userSelect: "none",
             margin: "20px 0px 20px 0px",
             width: "fit-content",
-            webkitTextSecurity: isPasswordVisible ? "none" : "disc",
+            WebkitTextSecurity: isPasswordVisible ? "none" : "disc",
           }}
           className="submit inputpas"
           value={passwords.newPassword}

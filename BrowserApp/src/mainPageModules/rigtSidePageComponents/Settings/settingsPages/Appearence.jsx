@@ -4,10 +4,15 @@ const Appearence = () => {
   const [bg, setBg] = useState(
     localStorage.getItem("bg") ? localStorage.getItem("bg") : ""
   );
+  const [animations, setAnimations] = useState(true);
+  const [changes, setChanges] = useState(false);
   const saveChanges = () => {
     if (bg) {
       localStorage.setItem("bg", bg); // Збереження base64 рядка
       console.log("bg is uploaded");
+    }
+    if (changes) {
+      localStorage.setItem("animations", animations);
     }
 
     console.log("settings saved");
@@ -27,6 +32,21 @@ const Appearence = () => {
           </select>
         </label>
       </div>
+      <label htmlFor="select">
+        <span>Animations</span>
+        <br />
+        <select
+          style={{ marginTop: "20px" }}
+          className="submit"
+          onChange={(e) => {
+            setAnimations(e.target.value === "true");
+            setChanges(true);
+          }}
+        >
+          <option value="true">Animations</option>
+          <option value="false">No Animations</option>
+        </select>
+      </label>
 
       <div style={{ marginTop: "20px" }}>
         <strong>Background Image:</strong> <br />
@@ -57,6 +77,7 @@ const Appearence = () => {
                 };
                 reader.readAsDataURL(file); // Читання файлу як Data URL
               }
+              setChanges(true);
             }}
             type="file"
             id="choosebg"
@@ -90,8 +111,14 @@ const Appearence = () => {
       </div>
       <button
         className="submit"
-        onClick={saveChanges}
+        onClick={() => {
+          saveChanges();
+          setChanges(false);
+        }}
         style={{
+          background: changes ? "brown" : "gray",
+          cursor: "pointer",
+          transition: "all 0.5s ease",
           width: "fit-content",
           marginTop: "20px",
           padding: "10px 20px",

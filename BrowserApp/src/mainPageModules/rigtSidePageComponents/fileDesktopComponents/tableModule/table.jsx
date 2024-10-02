@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { memo, useCallback, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
@@ -7,7 +7,6 @@ import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
 
 const Table = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
-  const showExpo = useSelector((state) => state.showExpo.value);
   const location = useLocation();
   const typeName = useMemo(() => {
     return location.pathname.split("/").slice(2).join("/");
@@ -29,7 +28,7 @@ const Table = () => {
   const changeDone = useCallback(
     (index, i) => {
       const newTable = [...table];
-      newTable[index][i] = table[index][i] === false ? true : false;
+      newTable[index][i] = table[index][i] === false || table[index][i] === "" ? true : false;
       setTable(newTable);
     },
     [table, setTable]
@@ -82,7 +81,7 @@ const Table = () => {
         className="conteiner fileConteiner"
         style={{ display: "flex" }}
         onClick={(e) => {
-          if (showExpo || isEditable) e.stopPropagation();
+          if (isEditable) e.stopPropagation();
         }}
       >
         <div
@@ -123,11 +122,7 @@ const Table = () => {
                         <textarea
                           className="texarea talbetextarea"
                           onChange={(e) => changeTd(e, index, i)}
-                          value={
-                            !(index === 0 && i === 0)
-                              ? td
-                              : typeName.split("/")[1]
-                          }
+                          value={td}
                           name="head"
                           disabled={!isEditable || (index === 0 && i === 0)}
                         />
@@ -158,6 +153,7 @@ const Table = () => {
             onClick={() => {
               isEditable && addRow();
             }}
+            style={{ height: "fit-content", width: "fit-content" }}
           >
             <CrissCrossIcon
               size={0.5}
@@ -169,6 +165,7 @@ const Table = () => {
           onClick={() => {
             isEditable && addColumn();
           }}
+          style={{ height: "fit-content", width: "fit-content" }}
         >
           <CrissCrossIcon
             size={0.5}
@@ -180,4 +177,4 @@ const Table = () => {
   );
 };
 
-export default Table;
+export default memo(Table);

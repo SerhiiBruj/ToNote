@@ -1,15 +1,19 @@
 import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
-const BellsIcon = ({size}) => {
+const BellsIcon = ({ size }) => {
   const [reminder, setReminder] = useState(true);
 
   return (
     <svg
-      onClick={(e) => {e.stopPropagation(); setReminder(!reminder)}}
+      onClick={(e) => {
+        e.stopPropagation();
+        setReminder(!reminder);
+      }}
       width={`${47 * size}`}
       height={`${36 * size}`}
-      style={{cursor: 'pointer'}}
+      style={{ cursor: "pointer" }}
+      className="hoverSvg"
       viewBox="0 0 47 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -18,7 +22,8 @@ const BellsIcon = ({size}) => {
         d="M12.7155 11.915H17.2402C18.567 11.915 19.8207 12.4968 20.6561 13.518C21.6629 14.7488 23.0249 16.4439 24.2291 18.0452C25.4475 19.6654 26.4625 21.1359 26.8167 21.9392C27.0734 22.5213 27.352 23.6848 27.6229 25.147C27.8902 26.5902 28.1409 28.2702 28.3541 29.8479C28.7092 32.4756 26.6406 34.7828 23.9685 34.7828H5.75064C3.01373 34.7828 0.921284 32.366 1.35825 29.6789C1.61373 28.108 1.89973 26.4495 2.179 25.0358C2.46132 23.6066 2.72878 22.4709 2.94183 21.9169C3.07933 21.5593 3.4041 21.0076 3.87825 20.3148C4.34515 19.6327 4.93378 18.8467 5.57279 18.0304C6.85037 16.3984 8.31513 14.6636 9.37764 13.4296C10.2114 12.4612 11.4299 11.915 12.7155 11.915Z"
         fill={reminder ? "#065100" : "#6E0000"}
         stroke={reminder ? "#065100" : "#6E0000"}
-        style={{transition:'all ease 0.2s'}}
+        className="excluded"
+        style={{ transition: "all ease 0.2s" }}
       />
       <path
         fillRule="evenodd"
@@ -29,6 +34,7 @@ const BellsIcon = ({size}) => {
       <path
         d="M19.0454 6.22638C19.0454 9.32644 17.0577 11.4528 15.0341 11.4528C13.0104 11.4528 11.0227 9.32644 11.0227 6.22638C11.0227 3.12631 13.0104 1 15.0341 1C17.0577 1 19.0454 3.12631 19.0454 6.22638Z"
         stroke={reminder ? "#065100" : "#6E0000"}
+        className="excluded"
         strokeWidth="2"
       />
       <path

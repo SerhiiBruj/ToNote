@@ -2,12 +2,12 @@ import CloudStorage from "./settingsPages/CloudStorage";
 import Appearence from "./settingsPages/Appearence";
 import AccountSettings from "./settingsPages/AccountSettings";
 import TermsAndPolicy from "./settingsPages/TermsAndPolicy";
-import { useEffect, useRef } from "react";
+import {  memo, useCallback, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 const SettingsPage = () => {
   const location = useLocation();
   const scrollRef = useRef(null);
-  const scrollToSection = (sectionId) => {
+  const scrollToSection = useCallback((sectionId) => {
     if (scrollRef.current) {
       const section = document.getElementById(sectionId);
       if (section) {
@@ -18,7 +18,7 @@ const SettingsPage = () => {
         });
       }
     }
-  };
+  },[])
   
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const SettingsPage = () => {
   );
 };
 
-export default SettingsPage;
+export default  SettingsPage;
 
 // const AutocompleteInput = ({ suggestions }) => {
 //   const [inputValue, setInputValue] = useState("");

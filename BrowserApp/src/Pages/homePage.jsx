@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import LeftHomePageNavbar from "../mainPageModules/leftSidePageNavbarComponents/leftHomePageNavbar";
 import UpperRightHomePgeNavbar from "../mainPageModules/rigtSidePageComponents/upperRightNavbarComponents/upperRightHomePgeNavbar";
 import { Outlet, useLocation } from "react-router-dom";
@@ -18,10 +18,12 @@ const HomePage = () => {
   const showExpo = useSelector((state) => state.showExpo.value);
 
   useEffect(() => {
+    console.log("sessionStorage.keys");
     dispatch(updatePages());
-  }, [sessionStorage.key]);
+  }, [sessionStorage.key.length]);
 
   useEffect(() => {
+    console.log("path");
     if (isSelecting) {
       dispatch(stopSelection());
       dispatch(updateShowExpo(false));
@@ -60,10 +62,13 @@ const HomePage = () => {
                 : "none",
             }}
           >
-            <div className="scroll" style={{
-               background: localStorage.getItem("bg")&&'none',
-            }}>
-              <Popover />
+            <div
+              className="scroll"
+              style={{
+                background: localStorage.getItem("bg") && "none",
+              }}
+            >
+              {showExpo && <Popover />}
               <ErrorBoundary>
                 <Outlet />
               </ErrorBoundary>
@@ -75,4 +80,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default memo(HomePage);
