@@ -9,10 +9,10 @@ const Scrollpanel = () => {
 
   const [allow, setAllow] = useState(true);
   return (
-    <div className="scrollpanel" >
+    <div className="scrollpanel">
       <ListOfFiles allow={allow} />
       <div
-      className="innerdivider"
+        className="innerdivider"
         onClick={() => setAllow((prev) => !prev)}
         style={{
           height: pages.length > 4 ? 40 : 20,

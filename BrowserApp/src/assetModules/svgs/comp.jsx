@@ -2,8 +2,8 @@ const Comp = () => {
   return (
     <div>
       <svg
-        width="433"
-        height="281"
+        width="80vw"
+        style={{maxWidth:"400px"}}
         viewBox="0 0 433 281"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

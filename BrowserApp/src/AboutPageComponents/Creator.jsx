@@ -11,7 +11,7 @@ const Creator = () => {
         justifyContent: "space-between",
       }}
     >
-      <div style={{maxWidth:'30vw'}}>
+      <div className="maxwidth30vw">
         
       <BgBlocks
         num={6}

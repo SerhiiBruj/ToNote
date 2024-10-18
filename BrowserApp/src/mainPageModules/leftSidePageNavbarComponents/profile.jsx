@@ -4,6 +4,7 @@ import  { memo, useState } from "react";
 import unck from "../../assetModules/svgs/uncknown.svg";
 import axios from "axios";
 import CrissCrossIcon from "../../assetModules/svgs/crissCross";
+import mylocalip from "../../../../mylocalip";
 
 const Profile = () => {
   const [editProfile, setEditProfile] = useState(false);
@@ -23,14 +24,14 @@ const Profile = () => {
       formData.append("avatar", avatar);
 
       axios
-        .post("http://localhost:3000/upload", formData, {
+        .post("http://"+mylocalip+":3000/upload", formData, {
           headers: {
             "Content-Type": "multipart/form-data", // Вказуємо тип контенту
             Authorization: `Bearer ${localStorage.getItem("token")}`, // Додаємо токен для авторизації
           },
         })
         .then((res) => {
-          setAvatarpath(`http://localhost:3000/profile-image/${userData.userName}.png`);
+          setAvatarpath(`http://`+mylocalip+`:3000/profile-image/${userData.userName}.png`);
           console.log(res.data); // Виводимо відповідь сервера у консоль
         })
         .catch((err) => {

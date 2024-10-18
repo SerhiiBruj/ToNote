@@ -6,6 +6,7 @@ import Vite from "../assetModules/svgs/vite";
 import ReactIc from "../assetModules/svgs/react";
 import Redux from "../assetModules/svgs/reduxIcon";
 import Sass from "../assetModules/svgs/sass";
+import { Link } from "react-router-dom";
 
 const Technologies = () => {
   return (
@@ -18,20 +19,42 @@ const Technologies = () => {
         justifyContent: "space-around",
       }}
     >
-      <BgBlocks num={3} delay={1000} text={"Dive Deeper\nGet to know how these technologies come together to make ToNote your go-to productivity app."}>
-    
+      <BgBlocks
+        num={3}
+        delay={1000}
+        text={
+          "Dive Deeper:\nDiscover how these technologies work together to make ToNote your go-to productivity app!"
+        }
+      >
+        <div style={{ padding: 20 }}>
+          <Link
+            style={{
+              padding: 10,
+              textAlign: "center",
+              justifyContent: "center",
+              width: "fit-content",
+            }}
+            to={"/authentification"}
+            className="navbar__auth-link"
+          >
+            Start now
+          </Link>
+        </div>
       </BgBlocks>
+
       <BgBlocks
         num={5}
         delay={1200}
-        text={"ToNote is crafted using cutting-edge technologies to ensure a smooth and responsive experience."}
+        text={
+          "ToNote is crafted using cutting-edge technologies to ensure a smooth and responsive experience."
+        }
       >
         <ListOfTechs />
       </BgBlocks>
       <BgBlocks
         delay={1700}
         num={8}
-        text={`Desktop and mobile apps are being developed using React native`}
+        text={`Desktop and Mobile Apps are being Developed with React Native`}
       />
     </section>
   );

@@ -5,6 +5,14 @@
   height: 100vh;
   flex-direction: column;
   .authContteiner {
+    background: none !important;
+    justify-content: space-between !important;
+    width: 50vw;
+    min-width: 700px;
+    .submit {
+      width: fit-content;
+      background: rgba(85, 85, 85, 0.5);
+    }
     display: flex;
     align-items: center;
     justify-content: center;
@@ -15,6 +23,8 @@
     padding: 15px;
     border-radius: 50px;
     .logInCont {
+      width: 50%;
+
       background-color: gray;
       height: 100%;
       flex-direction: column;
@@ -43,7 +53,7 @@
       height: 60%;
       transition: all ease 0.5s;
       background-image: url(https://mir-s3-cdn-cf.behance.net/project_modules/1400/e55f7b55718523.599082e7ecb12.jpg);
-      background-color :  #646464;
+      background-color: #646464;
       background-attachment: fixed;
       background-repeat: no-repeat;
       background-size: cover;
@@ -51,16 +61,26 @@
       overflow: hidden;
       div {
         background: linear-gradient(
-            to right,
-            rgba(0, 0, 0, 0) 40%,          /* Прозорий до 40% */
-            rgb(128, 128, 128) 45%,         /* Сірий від 40% до 45% */
-            rgb(128, 128, 128) 55%,         /* Сірий від 45% до 55% */
-            rgba(0, 0, 0, 0) 60%,           /* Прозорий від 55% до 60% */
-            rgba(0, 0, 0, 0) 100%           /* Прозорий до кінця */
-          );
+          to right,
+          rgba(0, 0, 0, 0) 40%,
+          /* Прозорий до 40% */ rgb(128, 128, 128) 45%,
+          /* Сірий від 40% до 45% */ rgb(128, 128, 128) 55%,
+          /* Сірий від 45% до 55% */ rgba(0, 0, 0, 0) 60%,
+          /* Прозорий від 55% до 60% */ rgba(0, 0, 0, 0) 100%
+            /* Прозорий до кінця */
+        );
         background-size: 200% 100%;
         transform: translateX(-11px) translateY(-11px);
         padding: 10px;
+      }
+      width: 25%;
+      padding: 10px;
+      min-width: 340px;
+      div {
+        height: 100%;
+        width: 300%;
+        padding: 15px;
+        transition: all 0.5s ease;
       }
     }
   }
@@ -72,6 +92,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  div label {
+    display: flex;
+    flex-direction: column;
+  }
   input {
     background-color: #646464;
     outline: none;
@@ -86,16 +110,80 @@
     }
   }
 }
-.submit {
-    @include textformat(27px, 700);
-    background: rgba(217, 217, 217, 0.5);
-    border-radius: 20px;
-    outline: 0;
-    border-width: 0;
-    width: 40%;
-    height: 50px;
 
-    &:focus {
-      background: rgba(217, 217, 217, 0.5);
+.submit {
+  @include textformat(27px, 700);
+  background: rgba(217, 217, 217, 0.5);
+  border-radius: 20px;
+  outline: 0;
+  border-width: 0;
+  width: 40%;
+  height: 50px;
+
+  &:focus {
+    background: rgba(217, 217, 217, 0.5);
+  }
+}
+h1 {
+  font-size: 30px !important;
+}
+.switch {
+  width: fit-content;
+  background: rgba(85, 85, 85, 0.5);
+  background-color: transparent !important;
+  text-decoration: underline;
+}
+
+.aucont {
+  justify-content: space-between !important;
+  width: 50%;
+}
+
+@media (max-width: 768px) {
+  .loginCenterDiv {
+    align-items: flex-end;
+    transition: all 0.3s ease;
+    height: fit-content;
+    padding-bottom: 150px;
+
+    .authContteiner {
+      height: 70vh !important;
+      border-radius: 0% !important;
+      width: 100vw !important;
+      min-width: 200vw !important;
+      padding: 0px !important;
+      transition: all ease 1s;
+      justify-content: flex-start !important;
+      .aucont {
+        border-radius: 0% !important;
+        height: 100% !important;
+        padding: 0px;
+        width: 100vw !important;
+      }
+      .Curtain {
+        display: none !important;
+        border-radius: 0% !important;
+        height: 100vh;
+      }
     }
   }
+}
+
+// .Curtain{
+//   display: none;
+// }
+// .aucont{
+//   width: 100vw !important ;
+//   border-radius: 0% !important;
+
+// }
+// .aucont:nth-child(2){
+//   display: none !important;
+// }
+// .authContteiner {
+//   width: 100vw;
+//   flex-direction: column !important;
+//   .AuthForm .logInCont {
+//     width: 90vw;
+//   }
+// }

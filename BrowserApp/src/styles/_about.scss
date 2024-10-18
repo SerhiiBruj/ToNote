@@ -162,3 +162,136 @@
   animation: lags linear infinite 5s;
 }
 
+.container-of-blocks {
+  position: relative;
+}
+
+.bgtransblock {
+  background-color: #858585;
+  border-radius: 20px;
+  opacity: 0.3;
+  z-index: 0;
+  position: absolute;
+  height: random(400 - 200 + 1) + 200px; // Використовуйте JS для генерації випадкових значень
+  width: random(400 - 200 + 1) + 200px; // Використовуйте JS для генерації випадкових значень
+}
+
+.bgblockcontent {
+  height: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 20px;
+  z-index: 5;
+  padding-bottom: 30px;
+
+  // Встановлення ширини для текстового блоку
+  max-width: 470px; // Задайте ширину за замовчуванням
+  &.max-width {
+    max-width: ff; // Використовуйте змінну для ширини
+  }
+}
+
+.typing-animation {
+  color: #1e1e1e;
+  font-size: 25px;
+  padding: 50px;
+  text-align: left;
+  white-space: pre-wrap;
+  min-width: 21vw; // Можна також використовувати змінні
+  min-height: 10vh; // Можна також використовувати змінні
+}
+
+.maxwidth30vw {
+  max-width: 30vw;
+}
+
+#WhatIsIt {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 120px;
+}
+
+
+
+@media (max-width: 768px) {
+  .footerAbout {
+    flex-direction: column;
+    height: auto; // Змінюємо висоту для кращої адаптації
+    padding: 2vh 5vw;
+
+    &__left,
+    &__right {
+      width: 100%;
+      align-items: center;
+      h1 {
+        margin-bottom: 10px; // Додаємо відступ між заголовками
+      }
+    }
+  }
+
+  .navbar {
+    height: auto; // Додаємо автоматичну висоту
+    justify-content: space-around;
+    padding: 10px;
+
+    &__left,
+    &__right {
+      margin: 0; // Обнуляємо відступи
+    }
+    &__logo {
+      font-size: 25px;
+      width: fit-content;
+    }
+
+    &__link {
+      font-size: 18px; // Зменшуємо розмір шрифту
+      margin-left: 10px; // Зменшуємо відступ
+      display: none;
+    }
+
+    &__auth-link {
+      font-size: 20px; // Зменшуємо розмір шрифту
+      width: 150px;
+      padding: 5px; // Зменшуємо ширину
+    }
+  }
+
+  .bgblockcontent {
+    padding: 15px;
+  }
+  .typing-animation {
+    font-size: 18px;
+    padding: 15px;
+    max-height:fit-content;
+    height: fit-content;
+  }
+
+  #Creator,#Technologies,#WhatIsIt {
+    width: 90% !important;
+    flex-direction: column; 
+      .maxwidth30vw{
+    max-width: none;
+
+      }
+    .container-of-blocks {
+      margin-bottom: 10px; 
+
+      .bgtransblock {
+        
+        width: 90%; 
+        margin: 0 auto; 
+      }
+
+      .bgtransblock:nth-of-type(even) {
+        display: none; // Показуємо парні блоки на мобільних
+      }
+    }
+  }
+  .footerAbout{
+    padding-bottom: 150px;
+  }
+}

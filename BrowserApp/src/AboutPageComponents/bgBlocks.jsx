@@ -42,47 +42,27 @@ const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
       );
     });
   }, []);
+
   return (
-    <div className="container-of-blocks" style={{ position: "relative" }}>
-      {Array.from({ length: num }).map((_, i) => (
-        <div
-          ref={(el) => (blockRefs.current[i] = el)}
-          key={i}
-          className="bgtransblock"
-          style={{
-            backgroundColor: "#858585",
-            height: Math.floor(Math.random() * (400 - 200 + 1)) + 200,
-            width: Math.floor(Math.random() * (400 - 200 + 1)) + 200,
-            borderRadius: 20,
-            opacity: 0.3,
-            zIndex: 0,
+    <div className="container-of-blocks">
+      {Array.from({ length: num }).map((_, i) => {
+        const randomX =
+          (Math.random() * 100 + 50) * (Math.random() < 0.5 ? -1 : 1);
+        const randomY =
+          (Math.random() * 100 + 50) * (Math.random() < 0.5 ? -1 : 1);
+        return (
+          <div
+            ref={(el) => (blockRefs.current[i] = el)}
+            key={i}
+            className="bgtransblock"
+            style={{
+              transform: `translateX(${randomX}px) translateY(${randomY}px)`,
+            }}
+          ></div>
+        );
+      })}
 
-            position: "absolute",
-            transform: `translateX(${
-              (Math.random() * 100 + 50) * (Math.random() < 0.5 ? -1 : 1)
-            }px) translateY(${
-              (Math.random() * 100 + 50) * (Math.random() < 0.5 ? -1 : 1)
-            }px)`,
-          }}
-        ></div>
-      ))}
-
-      <div
-        className="bgblockcontent"
-        style={{
-          height: "auto",
-          position: "relative",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent:'space-around',
-          alignItems:'center',
-          maxWidth: !ff ? 470 : ff,
-          borderRadius: 20,
-          zIndex: 5,
-          paddingBottom:30,
-
-        }}
-      >
+      <div className="bgblockcontent" style={{ maxWidth: !ff ? 470 : ff }}>
         {!!text && <TypingAnimation delay={delay} text={text} />}
         {children}
       </div>
@@ -96,6 +76,7 @@ export default BgBlocks;
 const TypingAnimation = ({ delay, text, h = 10, w = 21 }) => {
   const [displayedText, setDisplayedText] = useState("");
   const ref = useRef(null);
+
   const renderText = (i, l) => {
     if (i < l) {
       setTimeout(() => {
@@ -106,12 +87,12 @@ const TypingAnimation = ({ delay, text, h = 10, w = 21 }) => {
       return 0;
     }
   };
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && displayedText === "") {
           setTimeout(() => {
-            // eslint-disable-next-line react/prop-types
             renderText(0, text.length);
           }, delay);
         }
@@ -129,21 +110,10 @@ const TypingAnimation = ({ delay, text, h = 10, w = 21 }) => {
         observer.unobserve(ref.current);
       }
     };
-  }, [displayedText]);
+  }, [displayedText, text]);
 
   return (
-    <span
-      ref={ref}
-      style={{
-        color: "#1e1e1e",
-        fontSize: 25,
-        padding: "50px 50px 0px 50px",
-        textAlign: "left",
-        whiteSpace: "pre-wrap",
-        minWidth: `${w}vw`,
-        minHeight: `${h}vh`,
-      }}
-    >
+    <span ref={ref} className="typing-animation">
       {displayedText}
     </span>
   );

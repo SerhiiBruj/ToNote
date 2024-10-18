@@ -12,6 +12,7 @@ import About from "./Pages/About.jsx";
 import WhatIsIt from "./AboutPageComponents/WhatIsIt.jsx";
 import Technologies from "./AboutPageComponents/Technologies.jsx";
 import Creator from "./AboutPageComponents/Creator.jsx";
+import mylocalip from "../../mylocalip.js";
 
 const DesktopWithFiles = lazy(() =>
   import(
@@ -88,7 +89,7 @@ const PrivateRoute = ({ children }) => {
         }
         try {
           const response = await axios.get(
-            "http://localhost:3000/authentification",
+            "http://"+mylocalip+":3000/authentification",
             {
               headers: {
                 authorization: `Bearer ${token}`,
@@ -269,7 +270,7 @@ export default App;
 const GCS = async (token) => {
   try {
     const response = await axios.get(
-      "http://localhost:3000/get-uploaded-file",
+      "http://"+mylocalip+":3000/get-uploaded-file",
       {
         headers: {
           Authorization: `Bearer ${token}`,

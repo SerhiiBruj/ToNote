@@ -24,6 +24,7 @@ const NavBarAbout = () => {
         >
           ToNote
         </a>
+
         <span
           onClick={() => {
             handleScroll("WhatIsIt");
@@ -72,9 +73,9 @@ const NavBarAbout = () => {
         >
           Creator
         </span>
-      </div>
+        </div>
       <div className="navbar__right">
-        <Link to={"/authentification"} className="navbar__auth-link">
+        <Link to={"/authentification"} className="navbar__auth-link" >
           Log In
           <span className="navbar__separator"></span>
           Register

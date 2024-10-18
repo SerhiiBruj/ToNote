@@ -2,6 +2,7 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import mylocalip from "../../../../../../mylocalip";
 
 const AccountSettings = () => {
   const [lastTimeSeen, setLasttimeSeen] = useState([""]);
@@ -22,7 +23,7 @@ const AccountSettings = () => {
       const getLastTimeSeen = async () => {
         try {
           console.log("reqForLastTimeSeenData");
-          const response = await axios.get("http://localhost:3000/entries", {
+          const response = await axios.get("http://"+mylocalip+":3000/entries", {
             headers: {
               userName: userData.userName,
             },

@@ -1,10 +1,11 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { isEmail } from "validator";
 import { useDispatch } from "react-redux";
 import { doHaveData, setUserData } from "../redux/UserData";
 import { updatePages } from "../redux/pagesSlice";
+import mylocalip from "../../../mylocalip";
 const Login = () => {
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const [username, setUsername] = useState("");
@@ -16,6 +17,9 @@ const Login = () => {
     !!localStorage.getItem("token") && localStorage.getItem("token");
   const dispatch = useDispatch();
 
+  const ref = useRef(null);
+
+
   useEffect(() => {
     if (!localStorage.getItem("beLocal")) {
       const verifyToken = async () => {
@@ -24,7 +28,7 @@ const Login = () => {
         }
         try {
           const response = await axios.get(
-            "http://localhost:3000/authentification",
+            "http://"+mylocalip+":3000/authentification",
             {
               headers: {
                 authorization: `Bearer ${token}`,
@@ -33,7 +37,7 @@ const Login = () => {
             }
           );
           if (response.status === 200) {
-              dispatch(updatePages());
+            dispatch(updatePages());
 
             dispatch(
               setUserData({
@@ -45,27 +49,25 @@ const Login = () => {
 
             dispatch(doHaveData());
           }
-          navigate("/Home")
+          navigate("/Home");
         } catch (error) {
-          console.error("fdsfds")
+          console.error("fdsfds");
         }
       };
       verifyToken();
     }
   }, []);
 
- 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-  
     try {
-      const response = await axios.post("http://localhost:3000/login", {
+      const response = await axios.post("http://"+mylocalip+":3000/login", {
         username,
         password,
-        headers:{
-          clientTime:new Date().getTime(),
-        }
+        headers: {
+          clientTime: new Date().getTime(),
+        },
       });
 
       const token = response.data.token;
@@ -92,13 +94,13 @@ const Login = () => {
         setError("Невірний емейл");
         throw error;
       }
-      const response = await axios.post("http://localhost:3000/register", {
+      const response = await axios.post("http://"+mylocalip+":3000/register", {
         username,
         email,
         password,
-        headers:{
-          clientTime:new Date().getTime(),
-        }
+        headers: {
+          clientTime: new Date().getTime(),
+        },
       });
       console.log(response.data);
       const token = response.data.token;
@@ -118,156 +120,130 @@ const Login = () => {
     setUsername("");
     setPassword("");
     setEmail("");
+
+    if (ref.current.offsetWidth === window.innerWidth * 2) {
+      console.log("object");
+      if (ref.current.style.transform === "translateX(100vw)")
+        ref.current.style.transform = "translateX(0)";
+      else ref.current.style.transform = "translateX(100vw)";
+    }
   };
 
   return (
     <div className="loginCenterDiv">
-      <div
-        className="authContteiner"
-        style={{ background: "none", justifyContent: "space-between", width: "50vw",minWidth:"700px" }}
-      >
-        <div className="logInCont" style={{ width: "50%" }}>
+      <div className="authContteiner" ref={ref}>
+        <div className="logInCont aucont">
           <form className="AuthForm" onSubmit={handleLogin}>
-            <h1
-              style={{
-                fontSize: 30,
-              }}
-            >
-              Log In
-            </h1>
+            <h1>Log In</h1>
             <div>
-              <label>Username/Email</label>
-              <input
-                type="text"
-                placeholder="example123"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
+              <label>
+                <span>Username/Email</span>
+                <input
+                  type="text"
+                  placeholder="example123"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </label>
             </div>
             <div>
-              <label>Password</label>
-              <input
-                type="password"
-                placeholder="************"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <label>
+                <span>Password</span>
+
+                <input
+                  type="password"
+                  placeholder="************"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </label>
             </div>
-            <button
-              className="submit"
-              style={{
-                width: "fit-content",
-                background: " rgba(85, 85, 85, 0.5)",
-              }}
-              type="submit"
-            >
+            <p style={{ color: "red", opacity: error && !isLoggingIn ? 1 : 0 }}>
+              {error}
+            </p>
+            <button className="submit" style={{}} type="submit">
               Log in
             </button>
           </form>
-          <button
-            className="submit"
-            style={{
-              width: "fit-content",
-              background: " rgba(85, 85, 85, 0.5)",
-              backgroundColor: "transparent",
-              textDecoration: "underline",
-            }}
-            onClick={switchSide}
-          >
+          <button className="submit switch" id="swtoReg" onClick={switchSide}>
             Registration
           </button>
-
-          {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
-        <div className="RegistrationCont">
+        <div className="RegistrationCont aucont">
           <form className="AuthForm" onSubmit={handleRegister}>
-            <h1
-              style={{
-                fontSize: 30,
-              }}
-            >
-              Registration
-            </h1>
+            <h1>Registration</h1>
             <div>
-              <label>Email</label>
-              <input
-                type="text"
-                placeholder="example@gmail.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <label>Username</label>
-              <input
-                type="text"
-                placeholder="example123"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
+              <label>
+                <span>Email </span>
+                <input
+                  type="text"
+                  placeholder="example@gmail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </label>
+
+              <label>
+                <span>Username</span>
+                <input
+                  type="text"
+                  placeholder="example123"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </label>
             </div>
             <div>
-              <label>Password</label>
-              <input
-                type="password"
-                placeholder="************"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <label>
+                <span>Password</span>
+                <input
+                  type="password"
+                  placeholder="************"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </label>
             </div>
-            <button
-              type="submit"
-              style={{
-                width: "fit-content",
-                background: " rgba(85, 85, 85, 0.5)",
-              }}
-              className="submit"
-            >
+            <p style={{ color: "red", opacity: error && isLoggingIn ? 1 : 0 }}>
+              {error}
+            </p>
+            <button type="submit" className="submit">
               Register
             </button>
           </form>
-          <button
-            className="submit"
-            style={{
-              width: "fit-content",
-              background: " rgba(85, 85, 85, 0.5)",
-              backgroundColor: "transparent",
-              textDecoration: "underline",
-            }}
-            onClick={switchSide}
-          >
+          <button className="submit switch" onClick={switchSide}>
             Log in
           </button>
-          {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
         <div
           className="Curtain"
           style={{
-            width: "25%",
-            minWidth: "340px",
             borderRadius: isLoggingIn ? "45px 0 0 45px" : "0 45px 45px 0",
             transform: isLoggingIn ? "translateX(0%)" : "translateX(100%)",
             backgroundPositionX: isLoggingIn ? "0%" : "100%",
-            padding: "10px",
           }}
         >
           <div
             style={{
-              height: "100%",
-              width: "300%",
               backgroundPosition: isLoggingIn ? "60% 0%" : "109% 0%",
-              transition: "background-position 0.5s ease",
-              padding: "15px",
             }}
           ></div>
         </div>
       </div>
       <h2
-      style={{
-        cursor:"pointer"
-      }}
-      onClick={()=>{
-        navigate("/Home")
-        localStorage.setItem("beLocal","1");
-      }} >
+        style={{
+          color: "gray",
+          paddingTop: 20,
+          
+          width: "100vw",
+          textAlign: "center",
+          cursor: "pointer",
+        }}
+        onClick={() => {
+          navigate("/Home");
+          localStorage.setItem("beLocal", "1");
+        }}
+      >
         Продовжити без акаунту
       </h2>
     </div>

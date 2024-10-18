@@ -1593,6 +1593,10 @@ input[type=checkbox]:checked + .checkbox-custom {
   flex-direction: column;
 }
 .loginCenterDiv .authContteiner {
+  background: none !important;
+  justify-content: space-between !important;
+  width: 50vw;
+  min-width: 700px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1603,7 +1607,13 @@ input[type=checkbox]:checked + .checkbox-custom {
   padding: 15px;
   border-radius: 50px;
 }
+.loginCenterDiv .authContteiner .submit {
+  width: -moz-fit-content;
+  width: fit-content;
+  background: rgba(85, 85, 85, 0.5);
+}
 .loginCenterDiv .authContteiner .logInCont {
+  width: 50%;
   background-color: gray;
   height: 100%;
   flex-direction: column;
@@ -1637,12 +1647,21 @@ input[type=checkbox]:checked + .checkbox-custom {
   background-size: cover;
   z-index: 5;
   overflow: hidden;
+  width: 25%;
+  padding: 10px;
+  min-width: 340px;
 }
 .loginCenterDiv .authContteiner .Curtain div {
   background: linear-gradient(to right, rgba(0, 0, 0, 0) 40%, rgb(128, 128, 128) 45%, rgb(128, 128, 128) 55%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%);
   background-size: 200% 100%;
   transform: translateX(-11px) translateY(-11px);
   padding: 10px;
+}
+.loginCenterDiv .authContteiner .Curtain div {
+  height: 100%;
+  width: 300%;
+  padding: 15px;
+  transition: all 0.5s ease;
 }
 
 .AuthForm {
@@ -1652,6 +1671,10 @@ input[type=checkbox]:checked + .checkbox-custom {
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+}
+.AuthForm div label {
+  display: flex;
+  flex-direction: column;
 }
 .AuthForm input {
   background-color: #646464;
@@ -1696,6 +1719,52 @@ input[type=checkbox]:checked + .checkbox-custom {
   background: rgba(217, 217, 217, 0.5);
 }
 
+h1 {
+  font-size: 30px !important;
+}
+
+.switch {
+  width: -moz-fit-content;
+  width: fit-content;
+  background: rgba(85, 85, 85, 0.5);
+  background-color: transparent !important;
+  text-decoration: underline;
+}
+
+.aucont {
+  justify-content: space-between !important;
+  width: 50%;
+}
+
+@media (max-width: 768px) {
+  .loginCenterDiv {
+    align-items: flex-end;
+    transition: all 0.3s ease;
+    height: -moz-fit-content;
+    height: fit-content;
+    padding-bottom: 150px;
+  }
+  .loginCenterDiv .authContteiner {
+    height: 70vh !important;
+    border-radius: 0% !important;
+    width: 100vw !important;
+    min-width: 200vw !important;
+    padding: 0px !important;
+    transition: all ease 1s;
+    justify-content: flex-start !important;
+  }
+  .loginCenterDiv .authContteiner .aucont {
+    border-radius: 0% !important;
+    height: 100% !important;
+    padding: 0px;
+    width: 100vw !important;
+  }
+  .loginCenterDiv .authContteiner .Curtain {
+    display: none !important;
+    border-radius: 0% !important;
+    height: 100vh;
+  }
+}
 .footerAbout {
   display: flex;
   width: 100vw;
@@ -1847,6 +1916,125 @@ input[type=checkbox]:checked + .checkbox-custom {
   animation: lags linear infinite 5s;
 }
 
+.container-of-blocks {
+  position: relative;
+}
+
+.bgtransblock {
+  background-color: #858585;
+  border-radius: 20px;
+  opacity: 0.3;
+  z-index: 0;
+  position: absolute;
+  height: 204px;
+  width: 348px;
+}
+
+.bgblockcontent {
+  height: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 20px;
+  z-index: 5;
+  padding-bottom: 30px;
+  max-width: 470px;
+}
+.bgblockcontent.max-width {
+  max-width: ff;
+}
+
+.typing-animation {
+  color: #1e1e1e;
+  font-size: 25px;
+  padding: 50px;
+  text-align: left;
+  white-space: pre-wrap;
+  min-width: 21vw;
+  min-height: 10vh;
+}
+
+.maxwidth30vw {
+  max-width: 30vw;
+}
+
+#WhatIsIt {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 120px;
+}
+
+@media (max-width: 768px) {
+  .footerAbout {
+    flex-direction: column;
+    height: auto;
+    padding: 2vh 5vw;
+  }
+  .footerAbout__left, .footerAbout__right {
+    width: 100%;
+    align-items: center;
+  }
+  .footerAbout__left h1, .footerAbout__right h1 {
+    margin-bottom: 10px;
+  }
+  .navbar {
+    height: auto;
+    justify-content: space-around;
+    padding: 10px;
+  }
+  .navbar__left, .navbar__right {
+    margin: 0;
+  }
+  .navbar__logo {
+    font-size: 25px;
+    width: -moz-fit-content;
+    width: fit-content;
+  }
+  .navbar__link {
+    font-size: 18px;
+    margin-left: 10px;
+    display: none;
+  }
+  .navbar__auth-link {
+    font-size: 20px;
+    width: 150px;
+    padding: 5px;
+  }
+  .bgblockcontent {
+    padding: 15px;
+  }
+  .typing-animation {
+    font-size: 18px;
+    padding: 15px;
+    max-height: -moz-fit-content;
+    max-height: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  #Creator, #Technologies, #WhatIsIt {
+    width: 90% !important;
+    flex-direction: column;
+  }
+  #Creator .maxwidth30vw, #Technologies .maxwidth30vw, #WhatIsIt .maxwidth30vw {
+    max-width: none;
+  }
+  #Creator .container-of-blocks, #Technologies .container-of-blocks, #WhatIsIt .container-of-blocks {
+    margin-bottom: 10px;
+  }
+  #Creator .container-of-blocks .bgtransblock, #Technologies .container-of-blocks .bgtransblock, #WhatIsIt .container-of-blocks .bgtransblock {
+    width: 90%;
+    margin: 0 auto;
+  }
+  #Creator .container-of-blocks .bgtransblock:nth-of-type(even), #Technologies .container-of-blocks .bgtransblock:nth-of-type(even), #WhatIsIt .container-of-blocks .bgtransblock:nth-of-type(even) {
+    display: none;
+  }
+  .footerAbout {
+    padding-bottom: 150px;
+  }
+}
 [lang=uk] p, font, span {
   font-family: "Kadwa";
   font-size: 20px;

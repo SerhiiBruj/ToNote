@@ -18,6 +18,7 @@ import {
   stopSelection,
 } from "../../../redux/selectSlice";
 import { updateShowExpo } from "../../../redux/showExpo";
+import mylocalip from "../../../../../mylocalip";
 
 const listOfFileTypes = ["dashboard", "note", "checklist", "todo", "table"];
 
@@ -44,7 +45,7 @@ const UpperRightHomePgeNavbar = () => {
     async (selectedFiles) => {
       try {
         const response = await axios.post(
-          "http://localhost:3000/delete-uploaded-file",
+          "http://"+mylocalip+":3000/delete-uploaded-file",
           { filesToDelete: selectedFiles },
           {
             headers: {

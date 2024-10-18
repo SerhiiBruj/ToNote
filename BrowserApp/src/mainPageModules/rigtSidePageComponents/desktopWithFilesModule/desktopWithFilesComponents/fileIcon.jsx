@@ -8,6 +8,7 @@ import IsSelected from "../../../../assetModules/noSvg/isSelected";
 import { deSelect, select } from "../../../../redux/selectSlice";
 import { updatePages } from "../../../../redux/pagesSlice";
 import axios from "axios";
+import mylocalip from "../../../../../../mylocalip";
 
 const FileIcon = (props) => {
   const boolAnimate = useSelector((state) => state.startAnimation.value);
@@ -79,7 +80,7 @@ const FileIcon = (props) => {
         if (!localStorage.getItem("beLocal")) {
           try {
             const res = await axios.post(
-              "http://localhost:3000/rename-uploaded-file",
+              "http://"+mylocalip+":3000/rename-uploaded-file",
               {
                 rnfile: oldKey,
                 newName: newKey,
