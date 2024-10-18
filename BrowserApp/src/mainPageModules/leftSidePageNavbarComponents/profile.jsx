@@ -18,7 +18,7 @@ const Profile = () => {
   };
 
   const changeEditProfile = () => {
-    if (editProfile && changes && localStorage.getItem("token") && avatar) {
+    if (editProfile && changes && localStorage.getItem("token") && avatar && localStorage.getItem("beLocal")) {
       const formData = new FormData();
       formData.append("avatar", avatar);
 

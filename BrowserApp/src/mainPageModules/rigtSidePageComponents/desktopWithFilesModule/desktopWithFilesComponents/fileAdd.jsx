@@ -2,20 +2,27 @@ import { memo, useCallback, useEffect, useRef, useState } from "react";
 import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePages } from "../../../../redux/pagesSlice";
+import CheckBox from "../../../../assetModules/noSvg/checkb";
 
-const sanitize = (input) => input.replace(/[/"]/g, "");
+const sanitize = (input) => input.replace(/[/"'\\%]/g, "");
 const FileAdd = () => {
+  const ref = useRef(null);
   const dispatch = useDispatch();
   const [isAdding, setIsAdding] = useState(false);
   const boolAnimate = useSelector((state) => state.startAnimation.value);
   const [formData, setFormData] = useState({
     fileName: "",
     fileType: "note",
+    local: false,
   });
 
-  const ref = useRef(null);
+
   useEffect(() => {
-    if (boolAnimate) ref.current.style.animation = " fade 0.6s ease-out";
+    if (ref.current && boolAnimate) {
+      ref.current.style.transition = "all ease 0.5s";
+      ref.current.style.opacity = "0%";
+      ref.current.style.transform = "scale(0)";
+    }
   }, [boolAnimate]);
 
   const handleChange = useCallback((e) => {
@@ -24,51 +31,67 @@ const FileAdd = () => {
       ...prevData,
       [name]: sanitize(value),
     }));
-  },[])
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
-    if (formData.fileName.trim() === "") {
-      alert("Please enter a file name");
-      return;
-    }
-    let currentDate = new Date();
-    const initialData = (() => {
-      switch (formData.fileType) {
-        case "todo":
-          return [];
-        case "note":
-          return "";
-        case "table":
-          return [
-            [formData.fileName, ""],
-            ["", ""],
-          ];
-        case "checklist":
-          return [];
-        case "dashboard":
-          return {
-            templates: [],
-            table: [
-              [
-                `${String(currentDate.getDate()).padStart(2, "0")}.${String(
-                  currentDate.getMonth() + 1
-                ).padStart(2, "0")}.${currentDate.getFullYear()}`,
-              ],
-            ],
-          };
-        default:
-          return null;
+  }, []);
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (formData.fileName.trim() === "") {
+        alert("Please enter a file name");
+        return;
       }
-    })();
-    const valueToStore = JSON.stringify(initialData);
-    sessionStorage.setItem(
-      `${formData.fileType}/${formData.fileName}`,
-      valueToStore
-    );
-    setIsAdding(false);
-    setFormData({ fileName: "", fileType: "note" });
-    dispatch(updatePages());
-  },[formData.fileName,formData.fileType])
+      let currentDate = new Date();
+      const initialData = (() => {
+        switch (formData.fileType) {
+          case "todo":
+            return [];
+          case "note":
+            return "";
+          case "table":
+            return [
+              [formData.fileName, ""],
+              ["", ""],
+            ];
+          case "checklist":
+            return [];
+          case "dashboard":
+            return {
+              templates: [],
+              table: [
+                [
+                  `${String(currentDate.getDate()).padStart(2, "0")}.${String(
+                    currentDate.getMonth() + 1
+                  ).padStart(2, "0")}.${currentDate.getFullYear()}`,
+                ],
+              ],
+            };
+          default:
+            return null;
+        }
+      })();
+      const valueToStore = JSON.stringify(initialData);
+      if (!localStorage.getItem("beLocal"))
+        if (formData.local === false)
+          sessionStorage.setItem(
+            `${formData.fileType}/${formData.fileName}`,
+            valueToStore
+          );
+        else
+          localStorage.setItem(
+            `${formData.fileType}/${formData.fileName}`,
+            valueToStore
+          );
+      else
+        localStorage.setItem(
+          `${formData.fileType}/${formData.fileName}`,
+          valueToStore
+        );
+      setIsAdding(false);
+      setFormData({ fileName: "", fileType: "note" });
+      dispatch(updatePages());
+    },
+    [formData.fileName, formData.fileType]
+  );
 
   return (
     <div
@@ -130,6 +153,36 @@ const FileAdd = () => {
             <option value="diary">diary</option>
           </select>
 
+          <label
+            htmlFor="fd"
+            className="fileIconName"
+            style={{
+              fontSize: 25,
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            Save Locally
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                width: 50,
+              }}
+              onClick={() => {
+                setFormData((prev) => ({
+                  ...prev,
+                  local: !formData.local,
+                }));
+              }}
+            >
+              <CheckBox size={10} checked={formData.local} />
+            </div>
+          </label>
+
           <button type="submit" className="submit">
             Create
           </button>
@@ -140,38 +193,3 @@ const FileAdd = () => {
 };
 
 export default memo(FileAdd);
-
-{
-  /* <div className="dropdown">
-            <button
-              className="btn btn-secondary dropdown-toggle fileType"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <span>{formData.fileType}</span>
-            </button>
-            <ul className="dropdown-menu dropdown-menu-dark">
-              <li>
-                <a className="dropdown-item active" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Separated link
-                </a>
-              </li>
-            </ul>
-          </div> */
-}

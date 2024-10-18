@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useMemo, memo } from "react";
+import { useCallback, useEffect, useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -33,7 +33,6 @@ const UpperRightHomePgeNavbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Memoized `page` and `isHome` calculation for optimization
   useEffect(() => {
     const paths = location.pathname.split("/");
     const pagePath = paths[3] ? paths[3] : paths[1];
@@ -64,8 +63,11 @@ const UpperRightHomePgeNavbar = () => {
   const deleteFile = useCallback(() => {
     if (isHome) {
       if (isSelecting && selected.length > 0) {
-        sendToServerToDelete(selected);
-        selected.forEach((file) => sessionStorage.removeItem(file));
+        if (!localStorage.getItem("beLocal")) sendToServerToDelete(selected);
+        selected.forEach((file) => {
+          if (sessionStorage.getItem(file)) sessionStorage.removeItem(file);
+          else localStorage.removeItem(file);
+        });
         dispatch(updatePages());
         dispatch(stopSelection());
         dispatch(clearSelection());
@@ -84,16 +86,23 @@ const UpperRightHomePgeNavbar = () => {
   }, [isHome, selected, location.pathname]);
 
   const exportFile = useCallback(() => {
-    if (isHome && isSelecting && selected.length > 0) {
-      dispatch(updateShowExpo(!showSomething));
-      if (!showSomething) {
-        dispatch(clearSelection());
+    if (isHome) {
+      if (isSelecting && selected.length > 0) {
+        dispatch(updateShowExpo(!showSomething));
+        if (showSomething) {
+          dispatch(clearSelection());
+          dispatch(stopSelection());
+        }
+      }
+      else if(selected.length===0 && isSelecting)
         dispatch(stopSelection());
+      else {
+        dispatch(startSelection());
       }
     } else if (listOfFileTypes.includes(location.pathname.split("/")[2])) {
       dispatch(updateShowExpo(!showSomething));
     }
-  }, [isHome, selected, showSomething, location.pathname]);
+  }, [isHome, selected,isSelecting, showSomething, location.pathname]);
 
   return (
     <div className="upperRightHomePageNavbar">
@@ -148,7 +157,7 @@ const UpperRightHomePgeNavbar = () => {
         </div>
         <div style={{ marginTop: "4%" }}>
           <Link to={"/About"}>
-          <LogoIcon />
+            <LogoIcon />
           </Link>
         </div>
       </div>

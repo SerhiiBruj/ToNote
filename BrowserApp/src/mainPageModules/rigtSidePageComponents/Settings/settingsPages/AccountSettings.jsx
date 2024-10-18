@@ -9,16 +9,16 @@ const AccountSettings = () => {
   const userData = useSelector((state) => state.userData);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [passwords, setPasswords] = useState({
-    oldPassword: "",
-    newPassword: "",
+    oldPassword: "fdsfs",
+    newPassword: "fdsfd",
   });
 
   const handleChangePassword = useCallback((e) => {
     setPasswords({ ...passwords, [e.target.name]: e.target.value });
-  },[]);
+  }, []);
 
   useEffect(() => {
-    if (lastTimeSeen[0] === "") {
+    if (lastTimeSeen[0] === "" && !localStorage.getItem("beLocal")) {
       const getLastTimeSeen = async () => {
         try {
           console.log("reqForLastTimeSeenData");
@@ -52,65 +52,47 @@ const AccountSettings = () => {
   const navigate = useNavigate();
   return (
     <div className="settingsSection">
-      <h1 style={{ fontSize: "40px" }}>Account Settings</h1>
+      <h1>Account Settings</h1>
       <p>
         Email: <strong>{userData?.email}</strong>
       </p>
       <p>
         Username: <strong>{userData?.userName}</strong>
       </p>
-      <label
-        style={{
-          display: "flex",
-          alignItems: "flex-start",
-          flexDirection: "column",
-        }}
-      >
+      <label>
         <strong>Change password</strong>
-        <div
-          className="passwordChange"
-          style={{ marginTop: "20px", display: "flex", alignItems: "center" }}
-        >
+        <div id="passwordChange">
           <input
             type="text"
             placeholder="Old password"
             name="oldPassword"
             style={{
-              background: "lightgray",
-              userSelect: "none",
-              width: "fit-content",
+           
               WebkitTextSecurity: isPasswordVisible ? "none" : "disc",
             }}
-            className="submit inputpas"
+            className="submit inputpas "
             value={passwords.oldPassword}
             onChange={(e) => handleChangePassword(e)}
           />
-        </div>
         <input
           type="text"
           placeholder="New password"
           name="newPassword"
           style={{
-            background: "lightgray",
-            userSelect: "none",
-            margin: "20px 0px 20px 0px",
-            width: "fit-content",
             WebkitTextSecurity: isPasswordVisible ? "none" : "disc",
           }}
           className="submit inputpas"
           value={passwords.newPassword}
           onChange={(e) => handleChangePassword(e)}
         />
+        </div>
+
       </label>
 
       {(passwords.newPassword || passwords.oldPassword) && (
         <span
-          style={{
-            cursor: "pointer",
-            textDecoration: "underline",
-            width: "fit-content",
-            userSelect: "none",
-          }}
+          className="hideshow"
+        
           onClick={() => setIsPasswordVisible(!isPasswordVisible)}
         >
           {isPasswordVisible ? "Hide it" : "Make it visible"}
@@ -120,11 +102,8 @@ const AccountSettings = () => {
       {passwords.newPassword && passwords.oldPassword && (
         <button
           className="submit"
-          style={{
-            marginTop: "20px",
-            cursor: "pointer",
-            width: "fit-content",
-          }}
+          id="changepass"
+        
         >
           Change
         </button>
@@ -134,27 +113,18 @@ const AccountSettings = () => {
         <strong>Last time seen:</strong> {lastTimeSeen[0]}
         <br />
         <b
-          style={{
-            cursor: "pointer",
-            lineHeight: "50px",
-            textDecoration: "underline",
-          }}
+        id="showlogins"
+         
           onClick={() => SetIsSeeinglastseens(!isSeeinglastseens)}
         >
           {!isSeeinglastseens ? "Show  more attendance dates" : "Hide"}
         </b>
         <div
+        id="logshidsh"
           style={{
             transform: !isSeeinglastseens ? "scaleY(0)" : "scaleY(1)",
             height: !isSeeinglastseens ? "0" : "auto",
-            transition: "all ease 0.1s",
             opacity: !isSeeinglastseens ? "0" : "1",
-            transformOrigin: "top",
-            background: "#d3d3d31a",
-            width: "fit-content",
-            padding: "10px",
-            borderRadius: "20px",
-            outline: "1px solid gray",
           }}
         >
           {lastTimeSeen.map((time, index) => (
@@ -166,16 +136,11 @@ const AccountSettings = () => {
       </div>
       <br />
       <button
-        style={{
-          marginTop: "20px",
-          padding: "10px 20px",
-          width: "fit-content",
-        }}
         onClick={() => {
           localStorage.removeItem("token");
           navigate("/authentification");
         }}
-        className="submit"
+        className="submit logout"
       >
         Log out
       </button>

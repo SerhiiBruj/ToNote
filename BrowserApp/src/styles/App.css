@@ -4,7 +4,6 @@
   text-wrap: nowrap !important;
   width: -moz-fit-content !important;
   width: fit-content !important;
-  /* Project */
   line-height: 50px;
   white-space: nowrap; /* Не дозволяє тексту переходити на новий рядок */
   display: inline-block; /* Не дозволяє займати всю ширину */
@@ -29,6 +28,28 @@
     transform: scale(0);
   }
 }
+.checkBox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #565656;
+  border-radius: 4px;
+  accent-color: rgb(60, 60, 60);
+  color: #123123;
+  margin-left: 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+input[type=checkbox]:checked + .checkbox-custom {
+  background-color: grey; /* Сіра середина для активного чекбокса */
+  box-shadow: inset 0 0 0 5px black; /* Чорний круг всередині */
+}
+
+.checkbox-label {
+  font-size: 16px;
+}
+
 .centerDiv {
   display: flex;
   align-items: center;
@@ -87,6 +108,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  align-items: flex-start;
 }
 .homePageNavbarConteiner .leftHomePageNavbar {
   width: 15%;
@@ -100,7 +122,7 @@
 }
 .homePageNavbarConteiner .leftHomePageNavbar .profile {
   width: 100%;
-  background-color: rgba(217, 217, 217, 0.5019607843);
+  background-color: rgb(124, 124, 124);
   padding-top: 30px;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .profile .profileImgConteiner {
@@ -232,7 +254,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: rgba(217, 217, 217, 0.5019607843);
+  background-color: rgb(124, 124, 124);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -275,7 +297,6 @@
   border-radius: 20px;
   padding: 10px;
   transition: 0.4s all ease;
-  animation: appear 0.6s ease-out;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .fileIconConteiner:hover {
   transform: scale(1.1);
@@ -302,7 +323,6 @@
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile {
   background: #868686;
-  animation: appear 0.6s ease-out;
   cursor: pointer;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile .upperside {
@@ -407,7 +427,7 @@
      -moz-user-select: none;
           user-select: none;
   height: 10%;
-  background-color: rgba(217, 217, 217, 0.5019607843);
+  background-color: rgb(124, 124, 124);
   width: 100%;
 }
 .homePageNavbarConteiner .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar {
@@ -455,26 +475,6 @@
   cursor: pointer;
 }
 
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: scale(0);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-@keyframes fade {
-  from {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0);
-  }
-}
 .hoverSvg {
   cursor: pointer;
 }
@@ -486,6 +486,122 @@
   fill: #474747 !important;
 }
 
+@media (max-width: 480px) {
+  .leftHomePageNavbar {
+    width: 100vw;
+    padding: 10px;
+    transform: translateX(-100vw);
+  }
+  .leftHomePageNavbar .profile {
+    padding-top: 10px;
+  }
+  .leftHomePageNavbar .profile .profileImgConteiner {
+    padding: 5px;
+  }
+  .leftHomePageNavbar .profile .profileImgConteiner .profileImg {
+    height: 100px;
+    width: 100px;
+    min-width: 100px;
+    min-height: 100px;
+  }
+  .leftHomePageNavbar .profile .profileEmail span {
+    font-size: 16px !important;
+  }
+  .leftHomePageNavbar .scrollpanel {
+    border-top: solid 5px #b1b1b1;
+    height: auto;
+    overflow-y: auto;
+  }
+  .leftHomePageNavbar .scrollpanel .listOfFiles {
+    background-size: 120%;
+  }
+  .leftHomePageNavbar .scrollpanel .listOfSettings {
+    background-size: 100% 100%;
+  }
+  .leftHomePageNavbar .scrollpanel .FileInNavbar {
+    height: auto;
+    padding: 5% 10%;
+  }
+  .leftHomePageNavbar .scrollpanel .FileInNavbar .textInFileInNavbar {
+    font-family: "Kadwa";
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 40px;
+    color: #424242;
+  }
+}
+@media (max-width: 480px) {
+  .leftHomePageNavbar {
+    position: absolute;
+  }
+  .leftHomePageNavbar .profileImg {
+    height: 80px;
+    width: 80px;
+  }
+  .leftHomePageNavbar .profileEmail span {
+    font-size: 14px !important;
+  }
+  .leftHomePageNavbar .FileInNavbar {
+    padding: 5% 5%;
+  }
+  .leftHomePageNavbar .FileInNavbar .textInFileInNavbar {
+    font-family: "Kadwa";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 35px;
+    color: #424242;
+  }
+  .rightHomePage {
+    width: 100% !important;
+  }
+  .rightHomePage .desktopWithFilesbgbg .scroll {
+    width: 100% !important;
+    border-radius: 0px !important;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles {
+    grid-template-columns: 1fr;
+    gap: 20px !important;
+    padding: 20px !important;
+    width: 100% !important;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteiner {
+    width: 40% !important;
+    height: 110px !important;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .addFile .upperside div {
+    transform: scale(0.5) translate(0px) !important;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconName {
+    font-family: "Kadwa";
+    font-size: 80%;
+    font-weight: 600;
+    line-height: 18px;
+    color: #424242;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconType {
+    font-family: "Kadwa";
+    font-size: 70%;
+    font-weight: 600;
+    line-height: 7px;
+    color: #424242;
+  }
+  .rightHomePage .upperRightHomePageNavbar {
+    height: 6%;
+    padding: 5px;
+  }
+  .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar {
+    width: 0vw;
+    transform: scale(0);
+  }
+}
+@keyframes appear {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 .ContainerOfNavbar {
   background-color: #313131;
   height: 100%;
@@ -1332,6 +1448,12 @@
     width: 100%;
   }
 }
+.marker::before {
+  content: "✔ ";
+  color: gray;
+  font-weight: bold;
+}
+
 .Settings {
   padding: 20px;
   scroll-snap-type: none;
@@ -1356,35 +1478,106 @@
   padding-bottom: 50px;
   padding-left: 50px;
 }
-
-.marker::before {
-  content: "✔ "; /* Ви можете використовувати будь-який символ або навіть юнікод */
-  color: gray; /* Колір маркера */
-  font-weight: bold;
+.Settings .settingsSection h1 {
+  font-size: 40px;
 }
-
-.passwordChange input[type=password] {
-  -webkit-text-security: disc; /* Змінює символи на кружечки */
-  font-size: 20px; /* Змінює розмір зірочок або кружечків */
-  color: red; /* Змінює колір символів у Safari */
+.Settings .settingsSection label {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
 }
-.passwordChange input[type=password] .password-input::-moz-placeholder {
-  color: red; /* Стиль для тексту-підказки */
+.Settings .settingsSection label div {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
-.passwordChange input[type=password] .password-input::placeholder {
-  color: red; /* Стиль для тексту-підказки */
+.Settings .settingsSection label div .inputpas {
+  background: lightgray;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  margin: 20px 0px 20px 0px;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 20px;
+  color: #424242 !important;
 }
-
-.inputpas {
-  /* Змінює символи на кружечки */
-  font-size: 20px; /* Змінює розмір зірочок або кружечків */
-  color: #424242 !important; /* Змінює колір символів у Safari */
+.Settings .settingsSection .hideshow {
+  cursor: pointer;
+  width: -moz-fit-content;
+  width: fit-content;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  text-decoration: underline;
 }
-.inputpas .password-input::-moz-placeholder {
-  color: red; /* Стиль для тексту-підказки */
+.Settings .settingsSection #changepass {
+  margin-top: 20px;
+  cursor: pointer;
+  width: -moz-fit-content;
+  width: fit-content;
 }
-.inputpas .password-input::placeholder {
-  color: red; /* Стиль для тексту-підказки */
+.Settings .settingsSection #showlogins {
+  cursor: pointer;
+  line-height: 50px;
+  text-decoration: underline;
+}
+.Settings .settingsSection #logshidsh {
+  transition: all ease 0.1s;
+  transform-origin: top;
+  background: rgba(211, 211, 211, 0.1019607843);
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 10px;
+  border-radius: 20px;
+  outline: 1px solid gray;
+}
+.Settings .settingsSection .logout {
+  margin-top: 20px;
+  padding: 10px 20px;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.Settings .settingsSection .labels {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 0px;
+  justify-content: flex-start;
+}
+.Settings .settingsSection .chbg {
+  cursor: pointer;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 0px 10px 0px 10px;
+  display: flex;
+  align-items: center;
+  background: gray;
+  flex-direction: column;
+  justify-content: center;
+}
+.Settings .settingsSection #progress {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  background: gray;
+  width: 40%;
+  padding: 10px;
+}
+.Settings .settingsSection h2 {
+  font-size: 30px;
+}
+.Settings .settingsSection .h3sinCloudSec {
+  font-size: 25px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.Settings .settingsSection .accept {
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 10px 20px;
+  margin-top: 20px;
 }
 
 .fileConteiner {
@@ -1437,7 +1630,7 @@
   position: absolute;
   height: 60%;
   transition: all ease 0.5s;
-  background-image: url(../assetModules/bg.png.jpg);
+  background-image: url(https://mir-s3-cdn-cf.behance.net/project_modules/1400/e55f7b55718523.599082e7ecb12.jpg);
   background-color: #646464;
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -1501,4 +1694,171 @@
 }
 .submit:focus {
   background: rgba(217, 217, 217, 0.5);
+}
+
+.footerAbout {
+  display: flex;
+  width: 100vw;
+  align-items: center;
+  justify-content: space-around;
+  height: 300px;
+  background-color: #101010;
+  position: relative;
+  bottom: 0;
+  margin-top: auto;
+}
+
+.navbar {
+  z-index: 6;
+  background: gray;
+  transition: all ease 1s;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
+.navbar:hover {
+  background: rgb(138, 138, 138);
+  transform: scale(1.01);
+}
+.navbar__left {
+  padding-left: 50px;
+}
+.navbar__logo {
+  color: #1e1e1e;
+  font-size: 35px;
+  display: inline-block;
+  width: 150px;
+}
+.navbar__link {
+  color: #1e1e1e;
+  font-size: 22px;
+  text-decoration: none;
+  margin-left: 30px;
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+}
+.navbar__link::after {
+  content: "";
+  width: 100%;
+  height: 4px;
+  background-color: #101010;
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  border-radius: 50px;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: center;
+}
+.navbar__link:hover::after {
+  transform: scaleX(1);
+}
+.navbar__right {
+  display: flex;
+  margin-right: 50px;
+}
+.navbar__auth-link {
+  color: gray;
+  overflow: hidden;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  text-decoration: none;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  width: 200px;
+  transition: all ease 1s;
+  font-size: 25px;
+}
+.navbar__auth-link:hover {
+  transform: scale(1.03);
+}
+.navbar__separator {
+  background: gray;
+  transition: all ease 1s;
+  width: 8px;
+  height: 100px;
+  transform: rotate(25deg);
+  display: inline-block;
+}
+.navbar__auth-link:hover .navbar__separator {
+  transform: scaleX(1.3) rotate(25deg);
+}
+
+.footerAbout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 150px;
+  width: 90vw;
+  padding: 3vh 10vw;
+}
+.footerAbout * {
+  color: rgb(169, 169, 169);
+}
+.footerAbout__left {
+  width: 20vw;
+}
+.footerAbout__left h1 {
+  margin: 0;
+}
+.footerAbout__right {
+  display: flex;
+  flex-direction: column;
+}
+.footerAbout__right h1 {
+  margin-right: 20px;
+}
+.footerAbout__right__info {
+  display: flex;
+  align-items: center;
+}
+.footerAbout__right__info h2 {
+  margin: 0;
+}
+.footerAbout__right__info__avatar {
+  height: 15vh;
+  width: 15vh;
+  background-size: cover;
+  border-radius: 50%;
+  background-image: url("https://avatars.githubusercontent.com/u/147769151?v=4&size=64");
+  margin-left: 10px;
+}
+
+.bgblockcontent {
+  background-color: rgba(133, 133, 133, 0.631372549);
+  transition: all ease 0.5s;
+}
+.bgblockcontent:hover {
+  background-color: rgba(133, 133, 133, 0.9019607843);
+}
+
+.svgChangebg {
+  fill: #454545;
+  transition: all ease-out 0.8s;
+  animation: lags linear infinite 5s;
+}
+
+[lang=uk] p, font, span {
+  font-family: "Kadwa";
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  color: hsl(0, 0%, 20%);
+}
+
+[lang=ru] font {
+  color: rgb(4, 0, 255);
+}
+
+[lang=ru] font:nth-child(2n) {
+  color: rgb(218, 247, 0);
 }/*# sourceMappingURL=App.css.map */

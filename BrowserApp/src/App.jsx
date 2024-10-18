@@ -9,6 +9,9 @@ import { doHaveData, setUserData } from "./redux/UserData.js";
 import { updatePages } from "./redux/pagesSlice.js";
 import axios from "axios";
 import About from "./Pages/About.jsx";
+import WhatIsIt from "./AboutPageComponents/WhatIsIt.jsx";
+import Technologies from "./AboutPageComponents/Technologies.jsx";
+import Creator from "./AboutPageComponents/Creator.jsx";
 
 const DesktopWithFiles = lazy(() =>
   import(
@@ -69,57 +72,57 @@ const TermsAndPolicy = lazy(() =>
   )
 );
 
-// eslint-disable-next-line react/prop-types
 const PrivateRoute = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null); // Статус аутентифікації
+  const [isAuthenticated, setIsAuthenticated] = useState(null); 
   const token =
     !!localStorage.getItem("token") && localStorage.getItem("token");
   const dispatch = useDispatch();
   const pages = useSelector((state) => state.pages.value);
 
   useEffect(() => {
-    const verifyToken = async () => {
-      if (!token) {
-        setIsAuthenticated(false);
-        return;
-      }
-
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/authentification",
-          {
-            headers: {
-              authorization: `Bearer ${token}`,
-              clientTime: new Date().getTime(),
-            },
-          }
-        );
-        if (response.status === 200) {
-          if (pages.length < 1 && (await GCS(token))) {
-            dispatch(updatePages());
-          }
-
-          setIsAuthenticated(true);
-          dispatch(
-            setUserData({
-              userName: response.data.decoded.username,
-              email: response.data.decoded.email,
-              imageUrl: response.data.imageUrl,
-            })
-          );
-
-          dispatch(doHaveData());
+    if (!localStorage.getItem("beLocal")) {
+      const verifyToken = async () => {
+        if (!token) {
+          setIsAuthenticated(false);
+          return;
         }
-      } catch (error) {
-        setIsAuthenticated(false);
-      }
-    };
+        try {
+          const response = await axios.get(
+            "http://localhost:3000/authentification",
+            {
+              headers: {
+                authorization: `Bearer ${token}`,
+                clientTime: new Date().getTime(),
+              },
+            }
+          );
+          if (response.status === 200) {
+            if (pages.length < 1 && (await GCS(token))) {
+              dispatch(updatePages());
+            }
 
-    verifyToken();
-  }, [token, pages.length, dispatch]);
+            setIsAuthenticated(true);
+            dispatch(
+              setUserData({
+                userName: response.data.decoded.username,
+                email: response.data.decoded.email,
+                imageUrl: response.data.imageUrl,
+              })
+            );
 
+            dispatch(doHaveData());
+          }
+        } catch (error) {
+          setIsAuthenticated(false);
+        }
+      };
+      verifyToken();
+    }
+  }, []);
+  if(localStorage.getItem("beLocal"))
+    return children
   if (isAuthenticated === null) {
-    return <Loading/>
+    return <Loading />;
   }
   if (!isAuthenticated) {
     return <Navigate to="/authentification" />;
@@ -143,10 +146,10 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/Home" />} />
-      <Route path="/About" element={<About/>}>
-      <Route path="Technologies"></Route>
-      <Route path="WhatIsIt"></Route>
-      <Route path="Creator"></Route>
+      <Route path="/About" element={<About />}>
+        <Route path="Technologies" element={<Technologies/>}></Route>
+        <Route path="WhatIsIt" element={<WhatIsIt/>}></Route>
+        <Route path="Creator" element={<Creator/>}></Route>
       </Route>
       <Route
         path="/Home"
@@ -232,7 +235,6 @@ function App() {
             path="Appearance"
             element={
               <Suspense fallback={<Loading />}>
-
                 <Appearence />
               </Suspense>
             }
@@ -321,8 +323,6 @@ const Loading = () => {
   );
 };
 
-
-
 // const NotificationComponent = () => {
 //   const [permission, setPermission] = useState(null);
 
@@ -373,4 +373,3 @@ const Loading = () => {
 //     </div>
 //   );
 // };
-

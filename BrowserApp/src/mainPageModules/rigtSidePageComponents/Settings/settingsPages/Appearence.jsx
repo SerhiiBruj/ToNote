@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Appearence = () => {
+const Appearance = () => {
   const [bg, setBg] = useState(
     localStorage.getItem("bg") ? localStorage.getItem("bg") : ""
   );
@@ -19,24 +19,21 @@ const Appearence = () => {
   };
   return (
     <div className="settingsSection">
-      <h1 style={{ fontSize: "40px" }}>Account Settings</h1>
-      <div></div>
-      <div style={{ marginTop: "20px" }}>
-        <label>
+      <h1 >Appearance</h1>
+      
+      <div>
+        <label className="labels">
           <strong>Font Size:</strong>
-          <br />
-          <select className="submit" style={{ width: "fit-content" }}>
+          <select className="submit" >
             <option value="medium">Medium</option>
             <option value="small">Small</option>
             <option value="large">Large</option>
           </select>
         </label>
       </div>
-      <label htmlFor="select">
+      <label className="labels" htmlFor="select" >
         <span>Animations</span>
-        <br />
         <select
-          style={{ marginTop: "20px" }}
           className="submit"
           onChange={(e) => {
             setAnimations(e.target.value === "true");
@@ -51,20 +48,12 @@ const Appearence = () => {
       <div style={{ marginTop: "20px" }}>
         <strong>Background Image:</strong> <br />
         <div
-          className="submit"
+          className="submit chbg"
+
           onClick={() => {
             document.getElementById("choosebg").click();
           }}
-          style={{
-            cursor: "pointer",
-            width: "fit-content",
-            padding: "0px 10px 0px 10px",
-            display: "flex",
-            alignItems: "center",
-            background: "gray",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
+        
         >
           Choose your background
           <input
@@ -100,7 +89,7 @@ const Appearence = () => {
         )}
       </div>
       <div style={{ marginTop: "20px" }}>
-        <label>
+        <label className="labels">
           <strong>Language:</strong>
           <br />
           <select className="submit" style={{ width: "fit-content" }}>
@@ -130,4 +119,4 @@ const Appearence = () => {
   );
 };
 
-export default Appearence;
+export default Appearance;

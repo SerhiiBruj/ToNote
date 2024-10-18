@@ -1,9 +1,10 @@
-import { useState } from "react";
+import {  useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { isEmail } from "validator";
 import { useDispatch } from "react-redux";
 import { doHaveData, setUserData } from "../redux/UserData";
+import { updatePages } from "../redux/pagesSlice";
 const Login = () => {
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const [username, setUsername] = useState("");
@@ -11,10 +12,53 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const token =
+    !!localStorage.getItem("token") && localStorage.getItem("token");
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!localStorage.getItem("beLocal")) {
+      const verifyToken = async () => {
+        if (!token) {
+          return;
+        }
+        try {
+          const response = await axios.get(
+            "http://localhost:3000/authentification",
+            {
+              headers: {
+                authorization: `Bearer ${token}`,
+                clientTime: new Date().getTime(),
+              },
+            }
+          );
+          if (response.status === 200) {
+              dispatch(updatePages());
+
+            dispatch(
+              setUserData({
+                userName: response.data.decoded.username,
+                email: response.data.decoded.email,
+                imageUrl: response.data.imageUrl,
+              })
+            );
+
+            dispatch(doHaveData());
+          }
+          navigate("/Home")
+        } catch (error) {
+          console.error("fdsfds")
+        }
+      };
+      verifyToken();
+    }
+  }, []);
+
+ 
   const handleLogin = async (e) => {
     e.preventDefault();
 
+  
     try {
       const response = await axios.post("http://localhost:3000/login", {
         username,
@@ -24,11 +68,11 @@ const Login = () => {
         }
       });
 
-      // Отримання токену
       const token = response.data.token;
 
-      // Збереження токену в localStorage
       localStorage.setItem("token", token);
+      localStorage.removeItem("beLocal");
+
       dispatch(
         setUserData({
           userName: response.data.username,
@@ -216,6 +260,16 @@ const Login = () => {
           ></div>
         </div>
       </div>
+      <h2
+      style={{
+        cursor:"pointer"
+      }}
+      onClick={()=>{
+        navigate("/Home")
+        localStorage.setItem("beLocal","1");
+      }} >
+        Продовжити без акаунту
+      </h2>
     </div>
   );
 };

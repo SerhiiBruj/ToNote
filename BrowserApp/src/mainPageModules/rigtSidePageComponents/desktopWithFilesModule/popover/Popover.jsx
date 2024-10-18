@@ -21,7 +21,7 @@ const Popover = () => {
   const [isHome, setIsHome] = useState(true);
 
   useEffect(() => {
-    console.log("useef");
+    console.log(selected);
     if (location.pathname.split("/")[3]) {
       setIsHome(false);
     } else {
@@ -31,158 +31,48 @@ const Popover = () => {
 
   const exportfiles = useCallback(() => {
     if (isHome) {
+      console.log("fdfdsfds", selected);
       for (let i of selected) {
-        if (i.split("/")[0] === "note" && sessionStorage.getItem(i)) {
-          const text = JSON.parse(sessionStorage.getItem(i), null, 2);
-          const blob = new Blob([text], { type: "text/plain" });
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = `${i.split("/")[1]}.txt`;
-          link.click();
-          URL.revokeObjectURL(url);
+        const type = i.split("/")[0];
+        switch (type) {
+          case "note":
+            expNote(i);
+            break;
+          case "todo":
+            expTodo(i);
+            break;
+          case "checklist":
+            expCheckList(i);
+            break;
+          case "table":
+            expTable(i);
+            break;
+          case "dashboard":
+            expDashboard(i);
+            break;
+          default:
+            console.log(`Unknown type: ${type}`);
         }
-        if (i.split("/")[0] === "todo" && sessionStorage.getItem(i)) {
-          const todos = JSON.parse(sessionStorage.getItem(i)).join("\n");
-          const blob = new Blob([todos], {
-            type: "text/plain",
-          });
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = `${i.split("/")[1]}.txt`;
-          link.click();
-          URL.revokeObjectURL(url);
-        }
-        if (i.split("/")[0] === "checklist" && sessionStorage.getItem(i)) {
-          const checklists = JSON.parse(sessionStorage.getItem(i))
-            .map(
-              (checklist) =>
-                `${checklist.p}\n\t${checklist.desc
-                  .map((desc) => desc.value)
-                  .join("\n\t")}`
-            )
-            .join("\n\n");
-          const blob = new Blob([checklists], {
-            type: "text/plain",
-          });
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = `${i.split("/")[1]}.txt`;
-          link.click();
-          URL.revokeObjectURL(url);
-        }
-        if (i.split("/")[0] === "table" && sessionStorage.getItem(i)) {
-          const ws = XLSX.utils.aoa_to_sheet(
-            JSON.parse(sessionStorage.getItem(i))
-          );
-          const wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-          XLSX.writeFile(wb, `${i.split("/")[1]}.xlsx`);
-        }
-        if (i.split("/")[0] === "dashboard" && sessionStorage.getItem(i)) {
-          const ws = XLSX.utils.aoa_to_sheet(
-            JSON.parse(
-              sessionStorage.getItem(
-                `dashboard/${location.pathname.split("/")[3]}`
-              )
-            ).table.map((row) =>
-              row.map((td) => (Array.isArray(td) ? td.join(", ") : td))
-            )
-          );
-          const wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-          XLSX.writeFile(wb, `${i.split("/")[1]}.xlsx`);
-        }
-        console.log(i);
       }
     } else if (listOfFileTypes.includes(location.pathname.split("/")[2])) {
       dispatch(updateShowExpo(true));
 
       switch (location.pathname.split("/")[2]) {
         case "note":
-          {
-            const text = JSON.parse(
-              sessionStorage.getItem(`note/${location.pathname.split("/")[3]}`),
-              null,
-              2
-            );
-            const blob = new Blob([text], { type: "text/plain" });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = `${location.pathname.split("/")[3]}.txt`;
-            link.click();
-            URL.revokeObjectURL(url);
-          }
+          expNote(`note/${location.pathname.split("/")[3]}`);
           break;
         case "checklist":
-          {
-            const checklists = JSON.parse(
-              sessionStorage.getItem(
-                `checklist/${location.pathname.split("/")[3]}`
-              )
-            )
-              .map(
-                (checklist) =>
-                  `${checklist.p}\n\t${checklist.desc
-                    .map((desc) => desc.value)
-                    .join("\n\t")}`
-              )
-              .join("\n\n");
-            const blob = new Blob([checklists], { type: "text/plain" });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = `${location.pathname.split("/")[3]}.txt`;
-            link.click();
-            URL.revokeObjectURL(url);
-          }
+          expCheckList(`checklist/${location.pathname.split("/")[3]}`);
           break;
         case "todo":
-          {
-            const todos = JSON.parse(
-              sessionStorage.getItem(`todo/${location.pathname.split("/")[3]}`)
-            ).join("\n");
-            const blob = new Blob([todos], { type: "text/plain" });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = `${location.pathname.split("/")[3]}.txt`;
-            link.click();
-            URL.revokeObjectURL(url);
-          }
+          expTodo(`todo/${location.pathname.split("/")[3]}`);
           break;
         case "table":
-          {
-            const ws = XLSX.utils.aoa_to_sheet(
-              JSON.parse(
-                sessionStorage.getItem(
-                  `table/${location.pathname.split("/")[3]}`
-                )
-              )
-            );
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-            XLSX.writeFile(wb, `${location.pathname.split("/")[3]}.xlsx`);
-          }
+          expTable(`table/${location.pathname.split("/")[3]}`);
+
           break;
         case "dashboard":
-          {
-            const ws = XLSX.utils.aoa_to_sheet(
-              JSON.parse(
-                sessionStorage.getItem(
-                  `dashboard/${location.pathname.split("/")[3]}`
-                )
-              ).table.map((row) =>
-                row.map((td) => (Array.isArray(td) ? td.join(", ") : td))
-              )
-            );
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-            XLSX.writeFile(wb, `${location.pathname.split("/")[3]}.xlsx`);
-          }
+          expDashboard(`dashboard/${location.pathname.split("/")[3]}`);
           break;
         default:
           {
@@ -197,65 +87,148 @@ const Popover = () => {
   }, [location.pathname, isHome]);
 
   return (
-    <div
+<div
+  style={{
+    width: "25%",
+    padding: 10,
+    height: "30%",
+    background: "#7c7c7c",
+    right: 0,
+    bottom: 0,
+    borderTop: "solid #1e1e1e 5px",
+    transition: "all 0.5s",
+    borderTopLeftRadius: 50,
+    zIndex: 3,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    position: "fixed", 
+    gap: 10,
+  }}
+  ref={ref}
+>
+  <p
+    style={{
+      wordWrap: "break-word", 
+      textAlign: "center",
+      fontSize: 25,
+    }}
+  >
+    For now we have only two options to share your files
+  </p>
+  <div className="flex" style={{ display: "flex", gap: 10 }}>
+    <button
+      className="button"
+      onClick={exportfiles}
       style={{
-        position: "absolute",
-        width: "25%",
+        outline: "none",
+        border: "none",
+        background: "lightgray",
+        borderRadius: 15,
         padding: 10,
-        height: "25%",
-        background: "#7c7c7c",
-        right: 0,
-        bottom: 0,
-        borderTop: "solid #1e1e1e 5px",
-        transition: "all 0.5s",
-        borderTopLeftRadius: 50,
-        zIndex: 3,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        gap: 10,
       }}
-      ref={ref}
     >
-      <p
-        style={{
-          textWrap: "balance",
-          textAlign: "center",
-          fontSize: 25,
-        }}
-      >
-        For now we have ony two options to share your files
-      </p>
-      <div className="flex" style={{ display: "flex", gap: 10 }}>
-        <button
-          className="button"
-          onClick={exportfiles}
-          style={{
-            outline: "none",
-            border: "none",
-            background: "lightgray",
-            borderRadius: 15,
-            padding: 10,
-          }}
-        >
-          Download
-        </button>
-        <button
-          style={{
-            outline: "none",
-            border: "none",
-            background: "lightgray",
-            borderRadius: 15,
-            padding: 10,
-          }}
-          className="button"
-        >
-          Via link
-        </button>
-      </div>
-    </div>
+      Download
+    </button>
+    <button
+      style={{
+        outline: "none",
+        border: "none",
+        background: "lightgray",
+        borderRadius: 15,
+        padding: 10,
+      }}
+      className="button"
+    >
+      Via link
+    </button>
+  </div>
+</div>
+
   );
 };
 
 export default memo(Popover);
+
+const createAndDownloadFile = (content, fileName, fileType) => {
+  const blob = new Blob([content], { type: fileType });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  link.click();
+  URL.revokeObjectURL(url);
+};
+
+const expNote = (typename) => {
+  let text = sessionStorage.getItem(typename) || localStorage.getItem(typename);
+  text = JSON.parse(text);
+  createAndDownloadFile(text, `${typename.split("/")[1]}.txt`, "text/plain");
+};
+
+const expTodo = (typename) => {
+  let todos =
+    sessionStorage.getItem(typename) || localStorage.getItem(typename);
+  todos = JSON.parse(todos).join("\n");
+  createAndDownloadFile(todos, `${typename.split("/")[1]}.txt`, "text/plain");
+};
+
+const expCheckList = (typename) => {
+  const checklists = JSON.parse(
+    sessionStorage.getItem(typename) || localStorage.getItem(typename)
+  )
+    .map(
+      (checklist) =>
+        `${checklist.p}\n\t${checklist.desc
+          .map((desc) => desc.value)
+          .join("\n\t")}`
+    )
+    .join("\n\n");
+  createAndDownloadFile(
+    checklists,
+    `${typename.split("/")[1]}.txt`,
+    "text/plain"
+  );
+};
+
+const expTable = (typename) => {
+  const tableData = JSON.parse(
+    sessionStorage.getItem(typename) || localStorage.getItem(typename)
+  );
+  const ws = XLSX.utils.aoa_to_sheet(tableData);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+  XLSX.writeFile(wb, `${typename.split("/")[1]}.xlsx`);
+};
+
+const expDashboard = (typename) => {
+  let clockers =
+    sessionStorage.getItem(typename) || localStorage.getItem(typename);
+  if (!clockers) {
+    console.error(`No data found for ${typename}`);
+    return;
+  }
+  try {
+    clockers = JSON.parse(clockers);
+    console.log("Parsed clockers data:", clockers);
+
+    const table = [
+      [
+        "",
+        ...clockers.templates.map((temp) => temp.fileName + " " + temp.type),
+      ],
+      ...clockers.table,
+    ];
+
+    console.log("Generated table data:", table);
+
+    const ws = XLSX.utils.aoa_to_sheet(table);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    XLSX.writeFile(wb, `${typename.split("/")[1]}.xlsx`);
+  } catch (err) {
+    console.error("Error while processing dashboard export:", err);
+  }
+};

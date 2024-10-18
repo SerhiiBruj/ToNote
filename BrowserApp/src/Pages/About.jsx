@@ -1,179 +1,69 @@
-import { Link, NavLink } from "react-router-dom";
-import BgBlocks from "../AboutPageComponents/bgBlocks";
-import Comp from "../assetModules/svgs/comp";
+import {  useLocation } from "react-router-dom";
+
+import { useCallback, useEffect, useRef } from "react";
+import NavBar from "../AboutPageComponents/navBar";
+import WhatIsIt from "../AboutPageComponents/WhatIsIt";
+import Technologies from "../AboutPageComponents/Technologies";
+import Creator from "../AboutPageComponents/Creator";
+import Footer from "../AboutPageComponents/footer";
 
 const About = () => {
+  let location = useLocation();
+  let scrollRef = useRef(null);
+  const scrollToSection = useCallback((sectionId) => {
+    if (scrollRef.current) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        // Прокрутка до початку елемента
+        section.scrollIntoView({ 
+          behavior: 'smooth', // можна змінити на 'auto' для миттєвої прокрутки
+          block: 'end'      // встановлює прокрутку так, щоб елемент починався на позиції 0
+        });
+      }
+    }
+  },[])
+  
+  useEffect(() => {
+    const path = location.pathname.split('/').pop(); 
+    switch (path) {
+      case 'WhatIsIt':
+        scrollToSection('WhatIsIt');
+        break;
+      case 'Technologies':
+        scrollToSection('Technologies');
+        break;
+      case 'Creator':
+        scrollToSection('Creator');
+        break;
+      default:
+        break;
+    }
+  }, [location]);
+
   return (
     <div
+    ref={scrollRef}
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         overflowY: "scroll",
         height: "100vh",
+        justifyContent:'space-between'
       }}
     >
-      <div
-        style={{
-          zIndex: 6,
-          background: "gray",
-          height: 80,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0px 50px 0px 20px",
-          position: "fixed",
+      <NavBar/>
+      <WhatIsIt/>
+      <Technologies/>
+      <Creator/>
+      <div style={{
+        marginTop:200
+      }}>
 
-          width: "100%",
-          top: 0,
-          paddingRight: 50,
-        }}
-      >
-        <div style={{ paddingLeft: "50px" }}>
-          <a
-            href="https://github.com/SerhiiBruj/ToNote"
-            style={{
-              color: "#1e1e1e",
-              fontSize: 35,
-              display: "inline-block",
-              width: 150,
-            }}
-          >
-            ToNote
-          </a>
-          <NavLink
-            to={"WhatIsIt"}
-            style={{
-              color: "#1e1e1e",
-              fontSize: 22,
-              textDecoration: "none",
-              paddingLeft: 30,
-            }}
-          >
-            What is it
-          </NavLink>
-          <NavLink
-            to={"Technologies"}
-            style={{
-              color: "#1e1e1e",
-              fontSize: 22,
-              textDecoration: "none",
-              paddingLeft: 30,
-            }}
-          >
-            Technologies
-          </NavLink>
-          <NavLink
-            to={"Creator"}
-            style={{
-              color: "#1e1e1e",
-              fontSize: 22,
-              textDecoration: "none",
-              paddingLeft: 30,
-            }}
-          >
-            Creator
-          </NavLink>
-        </div>
-        <div style={{ display: "flex", marginRight: 50 }}>
-          <Link
-            to={"/authentification"}
-            style={{
-              color: "gray",
-              overflow: "hidden",
-              backgroundColor: "#1e1e1e",
-              borderRadius: 10,
-              textDecoration: "none",
-              padding: 10,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              height: "30px",
-              width: 180,
-              fontSize: 25,
-            }}
-          >
-            Log In
-            <span
-              style={{
-                background: "gray",
-                width: "8px",
-                height: "100px",
-                transform: "rotate(25deg)",
-                display: "inline-block",
-              }}
-            ></span>
-            Register
-          </Link>
-        </div>
-      </div>
-
-      <div
-        style={{
-          width: "80%",
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: 120,
-        }}
-      >
-        <BgBlocks num={3} text={
-          "ToNote is a productivity app designed to help users stay organized and efficient. It offers tools for managing notes, diaries, tables, checklists, and to-do lists, making it easier to track progress and stay on top of tasks."
-        } >
-        </BgBlocks>
-        <BgBlocks
-          num={2}
-          text={
-            "Desktop, and mobile versions are comming soon"
-          }
-          
-        >
-          <Comp/>
-
-        </BgBlocks>
-      </div>
-
-      <div
-        style={{
-          marginTop: 120,
-          width: "80%",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <BgBlocks
-          num={5}
-          text={
-            "ToNote is a productivity app designed to help users stay organized and efficient. It offers tools for managing notes, diaries, tables, checklists, and to-do lists, making it easier to track progress and stay on top of tasks."
-          }
-        />
-        <BgBlocks
-          num={1}
-          text={
-            "ToNote is a productivity app designed to help users stay organized and efficient. It offers tools for managing notes, diaries, tables, checklists, and to-do lists, making it easier to track progress and stay on top of tasks."
-          }
-        />
-      </div>
-      <div
-        style={{
-          marginTop: 120,
-          width: "80%",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <BgBlocks
-          num={3}
-          text={
-            "ToNote is a productivity app designed to help users stay organized and efficient. It offers tools for managing notes, diaries, tables, checklists, and to-do lists, making it easier to track progress and stay on top of tasks."
-          }
-        />
+      <Footer/>
       </div>
     </div>
   );
 };
 
 export default About;
-
-
-
-let str =" Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam fugit ea minus rem eligendi alias accusantium unde animi praesentium neque quis, natus iusto quasi corporis ipsa eveniet placeat voluptate quidem."

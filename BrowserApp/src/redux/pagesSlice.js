@@ -15,11 +15,13 @@ export const pages = createSlice({
   },
   reducers: {
     updatePages: (state) => {
-      state.value =  Object.keys(window.sessionStorage).filter((item) =>
+      state.value = [...Object.keys(window.sessionStorage).filter((item) =>
         listOfPossibleNames.includes(item.split("/")[0])
-      )
+      ), ...Object.keys(window.localStorage).filter((item) =>
+        listOfPossibleNames.includes(item.split("/")[0])
+      )]
     },
   },
 });
-export const {updatePages} = pages.actions
+export const { updatePages } = pages.actions
 export default pages.reducer;

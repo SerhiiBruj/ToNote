@@ -37,7 +37,6 @@ $textlightcolor: #bfbfbf;
   overflow: visible !important;
   text-wrap: nowrap !important;
   width: fit-content !important;
-  /* Project */
   line-height: 50px;
   white-space: nowrap; /* Не дозволяє тексту переходити на новий рядок */
   display: inline-block; /* Не дозволяє займати всю ширину */
@@ -62,4 +61,36 @@ $textlightcolor: #bfbfbf;
     opacity: 0;
     transform: scale(0);
   }
+}
+
+
+
+
+ 
+
+.checkBox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #565656;
+    border-radius: 4px;
+    accent-color: rgb(60, 60, 60);
+    color: #123123;
+    margin-left: 10px;
+  border-radius: 50%; 
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+
+
+
+
+
+input[type="checkbox"]:checked + .checkbox-custom {
+  background-color: grey; /* Сіра середина для активного чекбокса */
+  box-shadow: inset 0 0 0 5px black; /* Чорний круг всередині */
+}
+
+.checkbox-label {
+  font-size: 16px;
 }

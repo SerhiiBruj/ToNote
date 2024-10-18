@@ -18,12 +18,10 @@ const FileIcon = (props) => {
   const navigate = useNavigate();
   const [name, setName] = useState(props.name);
 
-  // Оновлюємо стан, коли змінюється props.name
   useEffect(() => {
     setName(props.name);
   }, [props.name]);
 
-  // Функція для вибору/зняття вибору файлів
   const handleSelect = useCallback(
     (e) => {
       e.stopPropagation();
@@ -37,7 +35,6 @@ const FileIcon = (props) => {
     [selected, dispatch, name, props.type]
   );
 
-  // Анімація при завантаженні компонента
   useEffect(() => {
     if (ref.current && boolAnimate) {
       ref.current.style.transition = "all ease 0.5s";
@@ -46,63 +43,79 @@ const FileIcon = (props) => {
     }
   }, [boolAnimate]);
 
-  // Управління зміною імені файлу
   const handleChange = (e) => {
     setName(e.target.value);
   };
 
-  // Перейменування ключа в sessionStorage
   const renameLocalStorageKey = async (oldKey, newKey) => {
     if (typeof newKey !== "string" || !newKey.trim() || newKey === oldKey) {
-      setName(oldKey.split("/")[1]); // Повернення до старого імені
+      setName(oldKey.split("/")[1]);
       console.log("Новий ключ не може бути порожнім або таким самим.");
       return;
     }
-    
+
     if (Object.keys(sessionStorage).includes(newKey)) {
       console.log(`Ключ "${newKey}" вже існує.`);
       return;
     }
-  
-    const oldValue = sessionStorage.getItem(oldKey);
+
+    let oldValue =
+      sessionStorage.getItem(oldKey) || localStorage.getItem(oldKey);
     if (oldValue !== null) {
+      if (localStorage.getItem(oldKey)) {
+        localStorage.setItem(newKey, oldValue);
+        localStorage.removeItem(oldKey);
+        dispatch(updatePages(Object.keys(sessionStorage)));
+      }
+      if (sessionStorage.getItem(oldKey)) {
+        sessionStorage.setItem(newKey, oldValue);
+        sessionStorage.removeItem(oldKey);
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.log("Токен не знайдено, будь ласка, увійдіть у систему.");
+          return;
+        }
+        if (!localStorage.getItem("beLocal")) {
+          try {
+            const res = await axios.post(
+              "http://localhost:3000/rename-uploaded-file",
+              {
+                rnfile: oldKey,
+                newName: newKey,
+              },
+              {
+                headers: {
+                  authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+            if (res.status === 200) {
+              console.log("Файл успішно перейменовано");
+              dispatch(updatePages(Object.keys(sessionStorage)));
+            } else {
+              console.log(
+                "Сталася помилка при перейменуванні файлу:",
+                res.data
+              );
+            }
+          } catch (error) {
+            console.error("Помилка при зверненні до сервера:", error);
+          }
+        }
+      }
+    } else if (localStorage.getItem(oldKey)) {
+      oldValue = localStorage.getItem(oldKey);
       sessionStorage.setItem(newKey, oldValue);
       sessionStorage.removeItem(oldKey);
-  
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.log("Токен не знайдено, будь ласка, увійдіть у систему.");
-        return;
-      }
-  
-      try {
-        const res = await axios.post("http://localhost:3000/rename-uploaded-file", {
-          rnfile: oldKey,
-          newName: newKey
-        }, {
-          headers: {
-            authorization: `Bearer ${token}` // Передаємо токен в заголовках
-          }
-        });
-  
-        if (res.status === 200) {
-          console.log("Файл успішно перейменовано");
-          dispatch(updatePages(Object.keys(sessionStorage)));
-        } else {
-          console.log("Сталася помилка при перейменуванні файлу:", res.data);
-        }
-      } catch (error) {
-        console.error("Помилка при зверненні до сервера:", error);
-      }
     } else {
       console.log(`Ключ "${oldKey}" не знайдено.`);
     }
-  
-    setName(props.name); // Оновлення імені назад, якщо новий ключ не підходить
-  };
-  
 
-  // Функція для переходу на інший шлях із анімацією
+    setName(props.name);
+  };
+
   const gotodestination = useCallback(() => {
     if (ref.current) {
       ref.current.style.transition = "all ease 0.4s";

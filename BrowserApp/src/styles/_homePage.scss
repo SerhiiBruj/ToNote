@@ -10,6 +10,7 @@
 .homePageNavbarConteiner {
   @include flex(row);
   overflow: hidden;
+  align-items: flex-start;
 
   .leftHomePageNavbar {
     width: 15%;
@@ -20,7 +21,7 @@
 
     .profile {
       width: 100%;
-      background-color: $gray;
+      background-color: rgb(124 124 124);;
       padding-top: 30px;
 
       .profileImgConteiner {
@@ -133,7 +134,7 @@
       width: 100%;
       height: 100%;
       @include flex(row);
-      background-color: $gray;
+      background-color: rgb(124 124 124);;
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
@@ -168,7 +169,6 @@
             border-radius: 20px;
             padding: 10px;
             transition: 0.4s all ease;
-            animation: appear 0.6s ease-out;
 
             &:hover {
               transform: scale(1.1);
@@ -192,7 +192,6 @@
 
           .addFile {
             background: $AddFilebg;
-            animation: appear 0.6s ease-out;
             cursor: pointer;
 
             .upperside {
@@ -270,7 +269,7 @@
       @include flex(row, space-between);
       user-select: none;
       height: 10%;
-      background-color: $gray;
+      background-color: rgb(124 124 124);
       width: 100%;
 
       .upperRightRightsectionHomePageNavbar {
@@ -309,27 +308,6 @@
   cursor: pointer;
 }
 
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: scale(0);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes fade {
-  from {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0);
-  }
-}
 
 .hoverSvg {
   cursor: pointer;
@@ -345,3 +323,132 @@
     }
   }
 }
+
+
+@media (max-width: 480px) {
+  .leftHomePageNavbar {
+    width: 100vw;
+    padding: 10px;
+    transform: translateX(-100vw);
+
+    .profile {
+      padding-top: 10px; // Зменшити відступ зверху
+
+      .profileImgConteiner {
+        padding: 5px; // Зменшити padding для профілю
+        .profileImg {
+          height: 100px; // Зменшити розмір зображення профілю для мобільних
+          width: 100px;
+          min-width: 100px;
+          min-height: 100px;
+        }
+      }
+      .profileEmail {
+        span {
+          font-size: 16px !important; // Зменшити розмір шрифту
+        }
+      }
+    }
+
+    .scrollpanel {
+      border-top: solid 5px $lighterdarkgray; // Зменшити розмір рамки
+      height: auto; // Автоматична висота
+      overflow-y: auto; // Налаштувати прокручування для зменшених екранів
+      .listOfFiles {
+        background-size: 120%; // Зменшити розмір фону для мобільних
+      }
+      .listOfSettings {
+        background-size: 100% 100%; // Також зменшити фон
+      }
+
+      .FileInNavbar {
+        height: auto; // Автоматична висота
+        padding: 5% 10%; // Відступи
+        .textInFileInNavbar {
+          @include textformat(18px, 600, 40px); // Зменшити розмір тексту
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .leftHomePageNavbar {
+    position: absolute;
+    .profileImg {
+      height: 80px; // Ще більше зменшити розмір профілю для маленьких екранів
+      width: 80px;
+    }
+    .profileEmail {
+      span {
+        font-size: 14px !important; // Зменшити розмір шрифту ще більше
+      }
+    }
+
+    .FileInNavbar {
+      padding: 5% 5%; // Зменшити відступи
+      .textInFileInNavbar {
+        @include textformat(16px, 600, 35px); // Ще більше зменшити текст
+      }
+    }
+  }
+  .rightHomePage {
+    width: 100% !important;
+    .desktopWithFilesbgbg {
+.scroll {
+  width: 100% !important;
+  border-radius: 0px !important;
+}
+      .desktopWithFiles {
+        grid-template-columns: 1fr; 
+        gap: 20px !important; 
+        padding: 20px !important; 
+        width: 100% !important; 
+
+        .fileIconConteiner {
+          width: 40% !important;
+          height: 110px !important;
+        }
+        .addFile{
+          .upperside{
+             div{
+              transform: scale(0.5) translate(0px) !important ;
+              
+             }
+          }
+        }
+        .fileIconName {
+          @include textformat(80%, 600, 18px); // Зменшити розмір шрифту
+        }
+
+        .fileIconType {
+          @include textformat(70%, 600, 7px); // Ще більше зменшити шрифт
+        }
+      }
+    }
+
+    .upperRightHomePageNavbar {
+      height: 6%; 
+      padding: 5px;
+      .upperRightRightsectionHomePageNavbar{
+        width: 0vw;
+        transform: scale(0);
+      }
+    }
+  }
+}
+
+
+
+
+@keyframes appear {
+  0%{
+    transform: scale(0);
+  }
+  100%{
+    transform: scale(1);
+  }
+  
+}
+
+

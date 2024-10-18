@@ -97,11 +97,8 @@ const CloudStorage = () => {
       <h1 style={{ fontSize: "40px" }}>Storage</h1>
 
       <div
+        id="progress"
         style={{
-          userSelect: "none",
-          background: "gray",
-          width: "40%",
-          padding: "10px",
           boxShadow: `inset white ${
             calculateLocalStorageUsage() / ((1024 * 1024 * 2) / 100)
           }px 0px 0px 0px`,
@@ -113,23 +110,21 @@ const CloudStorage = () => {
         </span>
       </div>
 
-      <h1 style={{ fontSize: "30px" }}>
+      <h2 style={{}}>
         You also can use a cloud storage and use it via different devices.
-      </h1>
-      <span
-        style={{ fontSize: "25px", cursor: "pointer", textDecoration: "underline" }}
-        onClick={PCS}
+      </h2>
+      <h3
+        className="h3sinCloudSec"
+        onClick={localStorage.getItem("beLocal") && PCS}
       >
-       Send your files to Cloud Storage
-      </span>
-      <br />
-      <br />
-      <span
-        style={{ fontSize: "25px", cursor: "pointer", textDecoration: "underline" }}
-        onClick={GCS}
+        Send your files to Cloud Storage
+      </h3>
+      <h3
+        className="h3sinCloudSec"
+        onClick={localStorage.getItem("beLocal") && GCS}
       >
         Get your files from the Cloud Storage
-      </span>
+      </h3>
     </div>
   );
 };

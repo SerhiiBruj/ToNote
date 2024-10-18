@@ -1,52 +1,115 @@
+.marker::before {
+  content: "✔ ";
+  color: gray;
+  font-weight: bold;
+}
 .Settings {
   padding: 20px;
-  scroll-snap-type:none;
-  
+  scroll-snap-type: none;
 }
 .Settings {
   * {
     @include textformat(25px, 700, normal, $textlightcolor !important);
   }
-  .hr{
+  .hr {
     border: 0;
     height: 5px;
-transform: scaleX(2);
+    transform: scaleX(2);
     background-color: $textlightcolor;
     opacity: 50%;
   }
-  .settingsSection{
+  .settingsSection {
     padding-top: 50px;
-    padding-bottom:50px ;
+    padding-bottom: 50px;
     padding-left: 50px;
-  }
+    h1 {
+      font-size: 40px;
+    }
+    label {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+      div {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        .inputpas {
+          background: lightgray;
+          user-select: none;
+          margin: 20px 0px 20px 0px;
+          width: fit-content;
+          font-size: 20px;
+          color: #424242 !important;
+        }
+      }
+    }
+    .hideshow {
+      cursor: pointer;
+      width: fit-content;
+      user-select: none;
+      text-decoration: underline;
+    }
+    #changepass {
+      margin-top: 20px;
+      cursor: pointer;
+      width: fit-content;
+    }
+    #showlogins {
+      cursor: pointer;
+      line-height: 50px;
+      text-decoration: underline;
+    }
+    #logshidsh {
+      transition: all ease 0.1s;
+      transform-origin: top;
+      background: #d3d3d31a;
+      width: fit-content;
+      padding: 10px;
+      border-radius: 20px;
+      outline: 1px solid gray;
+    }
+    .logout {
+      margin-top: 20px;
+      padding: 10px 20px;
+      width: fit-content;
+    }
 
-
-}
-
-
-.marker::before {
-  content: "✔ "; /* Ви можете використовувати будь-який символ або навіть юнікод */
-  color: gray; /* Колір маркера */
-  font-weight: bold;
-}
-
-.passwordChange {
-  input[type="password"] {
-    -webkit-text-security: disc; /* Змінює символи на кружечки */
-    font-size: 20px; /* Змінює розмір зірочок або кружечків */
-    color: red; /* Змінює колір символів у Safari */
-    .password-input::placeholder {
-      color: red; /* Стиль для тексту-підказки */
+    .labels {
+      display: flex;
+      flex-direction: column;
+      padding: 15px 0px;
+      justify-content: flex-start;
+    }
+    .chbg {
+      cursor: pointer;
+      width: fit-content;
+      padding: 0px 10px 0px 10px;
+      display: flex;
+      align-items: center;
+      background: gray;
+      flex-direction: column;
+      justify-content: center;
+    }
+    #progress {
+      user-select: none;
+      background: gray;
+      width: 40%;
+      padding: 10px;
+    }
+    h2{
+      font-size: 30px;
+    }
+    .h3sinCloudSec{
+      font-size: 25px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .accept{
+      width: fit-content;
+      padding: 10px 20px;
+      margin-top: 20px;
     }
   }
 }
-
-.inputpas {
-   /* Змінює символи на кружечки */
-  font-size: 20px; /* Змінює розмір зірочок або кружечків */
-  color: #424242 !important; /* Змінює колір символів у Safari */
-  .password-input::placeholder {
-    color: red; /* Стиль для тексту-підказки */
-  }
-}
-

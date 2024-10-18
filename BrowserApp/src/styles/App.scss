@@ -11,6 +11,23 @@
 @import "./Settings";
 @import "./important";
 @import "./Autorisation";
+@import "./about";
 
 
 
+
+
+
+  
+  [lang="uk"] p ,font, span {
+    @include textformat(20px, 700, 30px, hsl(0, 0%, 20%));
+  }
+
+  [lang="ru"]  font{
+    color: rgb(4, 0, 255);
+
+  }
+  [lang="ru"]  font:nth-child(2n) {
+    color: rgb(218, 247, 0);
+  }
+  
