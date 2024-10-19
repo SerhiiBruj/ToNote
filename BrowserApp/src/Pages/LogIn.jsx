@@ -16,7 +16,7 @@ const Login = () => {
   const token =
     !!localStorage.getItem("token") && localStorage.getItem("token");
   const dispatch = useDispatch();
-  const [refHeight, setRefHeight] = useState([0,0]);
+  const [refHeight, setRefDimensions] = useState([0,0]);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -128,10 +128,12 @@ const Login = () => {
     }
   };
   useEffect(() => {
+    // Check if the element exists
     if (ref.current) {
-      setRefHeight([ref.current.offsetHeight,ref.current.offsetWidth]);
+      // Set the dimensions
+      setRefDimensions([ref.current.offsetHeight, ref.current.offsetWidth]);
     }
-  }, [ref.current.offsetWidth]);
+  }, []); 
   return (
     <div className="loginCenterDiv">
       <div className="authContteiner" ref={ref}>
