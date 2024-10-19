@@ -21,7 +21,7 @@
 
     .profile {
       width: 100%;
-      background-color: rgb(124 124 124);;
+      background-color: rgb(124 124 124);
       padding-top: 30px;
 
       .profileImgConteiner {
@@ -134,7 +134,7 @@
       width: 100%;
       height: 100%;
       @include flex(row);
-      background-color: rgb(124 124 124);;
+      background-color: rgb(124 124 124);
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
@@ -308,7 +308,6 @@
   cursor: pointer;
 }
 
-
 .hoverSvg {
   cursor: pointer;
 
@@ -323,7 +322,6 @@
     }
   }
 }
-
 
 @media (max-width: 480px) {
   .leftHomePageNavbar {
@@ -395,26 +393,25 @@
   .rightHomePage {
     width: 100% !important;
     .desktopWithFilesbgbg {
-.scroll {
-  width: 100% !important;
-  border-radius: 0px !important;
-}
+      .scroll {
+        width: 100% !important;
+        border-radius: 0px !important;
+      }
       .desktopWithFiles {
-        grid-template-columns: 1fr; 
-        gap: 20px !important; 
-        padding: 20px !important; 
-        width: 100% !important; 
+        grid-template-columns: 1fr;
+        gap: 20px !important;
+        padding: 20px !important;
+        width: 100% !important;
 
         .fileIconConteiner {
           width: 40% !important;
           height: 110px !important;
         }
-        .addFile{
-          .upperside{
-             div{
+        .addFile {
+          .upperside {
+            div {
               transform: scale(0.5) translate(0px) !important ;
-              
-             }
+            }
           }
         }
         .fileIconName {
@@ -428,27 +425,27 @@
     }
 
     .upperRightHomePageNavbar {
-      height: 6%; 
+      height: 50px !important ;
       padding: 5px;
-      .upperRightRightsectionHomePageNavbar{
-        width: 0vw;
-        transform: scale(0);
+      width: 100%;
+      .upperRightRightsectionHomePageNavbar {
+        gap: 10px !important;
+        width: 100vw !important;
+        .peni svg,div svg {
+          transform: scale(0.5);
+        }
+        div {
+        }
       }
     }
   }
 }
 
-
-
-
 @keyframes appear {
-  0%{
+  0% {
     transform: scale(0);
   }
-  100%{
+  100% {
     transform: scale(1);
   }
-  
 }
-
-

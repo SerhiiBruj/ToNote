@@ -586,12 +586,16 @@ input[type=checkbox]:checked + .checkbox-custom {
     color: #424242;
   }
   .rightHomePage .upperRightHomePageNavbar {
-    height: 6%;
+    height: 50px !important;
     padding: 5px;
+    width: 100%;
   }
   .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar {
-    width: 0vw;
-    transform: scale(0);
+    gap: 10px !important;
+    width: 100vw !important;
+  }
+  .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar .peni svg, .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar div svg {
+    transform: scale(0.5);
   }
 }
 @keyframes appear {
@@ -1602,7 +1606,8 @@ input[type=checkbox]:checked + .checkbox-custom {
   justify-content: center;
   flex-direction: row;
   width: 50%;
-  height: 60%;
+  min-height: -moz-fit-content;
+  min-height: fit-content;
   background-color: #646464;
   padding: 15px;
   border-radius: 50px;
@@ -1638,7 +1643,6 @@ input[type=checkbox]:checked + .checkbox-custom {
 .loginCenterDiv .authContteiner .Curtain {
   width: 25%;
   position: absolute;
-  height: 60%;
   transition: all ease 0.5s;
   background-image: url(https://mir-s3-cdn-cf.behance.net/project_modules/1400/e55f7b55718523.599082e7ecb12.jpg);
   background-color: #646464;
@@ -1648,14 +1652,12 @@ input[type=checkbox]:checked + .checkbox-custom {
   z-index: 5;
   overflow: hidden;
   width: 25%;
-  padding: 10px;
   min-width: 340px;
 }
 .loginCenterDiv .authContteiner .Curtain div {
   background: linear-gradient(to right, rgba(0, 0, 0, 0) 40%, rgb(128, 128, 128) 45%, rgb(128, 128, 128) 55%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%);
   background-size: 200% 100%;
   transform: translateX(-11px) translateY(-11px);
-  padding: 10px;
 }
 .loginCenterDiv .authContteiner .Curtain div {
   height: 100%;
@@ -1926,8 +1928,8 @@ h1 {
   opacity: 0.3;
   z-index: 0;
   position: absolute;
-  height: 204px;
-  width: 348px;
+  height: 389px;
+  width: 283px;
 }
 
 .bgblockcontent {

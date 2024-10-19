@@ -16,9 +16,8 @@ const Login = () => {
   const token =
     !!localStorage.getItem("token") && localStorage.getItem("token");
   const dispatch = useDispatch();
-
+  const [refHeight, setRefHeight] = useState([0,0]);
   const ref = useRef(null);
-
 
   useEffect(() => {
     if (!localStorage.getItem("beLocal")) {
@@ -57,7 +56,7 @@ const Login = () => {
       verifyToken();
     }
   }, []);
-
+ 
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -128,7 +127,11 @@ const Login = () => {
       else ref.current.style.transform = "translateX(100vw)";
     }
   };
-
+  useEffect(() => {
+    if (ref.current) {
+      setRefHeight([ref.current.offsetHeight,ref.current.offsetWidth]);
+    }
+  }, [ref.current.offsetWidth]);
   return (
     <div className="loginCenterDiv">
       <div className="authContteiner" ref={ref}>
@@ -218,6 +221,8 @@ const Login = () => {
         <div
           className="Curtain"
           style={{
+            height:refHeight[0] -9,
+            width:refHeight[1]/2,
             borderRadius: isLoggingIn ? "45px 0 0 45px" : "0 45px 45px 0",
             transform: isLoggingIn ? "translateX(0%)" : "translateX(100%)",
             backgroundPositionX: isLoggingIn ? "0%" : "100%",
@@ -227,7 +232,9 @@ const Login = () => {
             style={{
               backgroundPosition: isLoggingIn ? "60% 0%" : "109% 0%",
             }}
-          ></div>
+          >
+            
+          </div>
         </div>
       </div>
       <h2

@@ -18,13 +18,12 @@
     justify-content: center;
     flex-direction: row;
     width: 50%;
-    height: 60%;
+    min-height: fit-content;
     background-color: #646464;
     padding: 15px;
     border-radius: 50px;
     .logInCont {
       width: 50%;
-
       background-color: gray;
       height: 100%;
       flex-direction: column;
@@ -50,7 +49,6 @@
     .Curtain {
       width: 25%;
       position: absolute;
-      height: 60%;
       transition: all ease 0.5s;
       background-image: url(https://mir-s3-cdn-cf.behance.net/project_modules/1400/e55f7b55718523.599082e7ecb12.jpg);
       background-color: #646464;
@@ -71,10 +69,8 @@
         );
         background-size: 200% 100%;
         transform: translateX(-11px) translateY(-11px);
-        padding: 10px;
       }
       width: 25%;
-      padding: 10px;
       min-width: 340px;
       div {
         height: 100%;
