@@ -1,7 +1,8 @@
 import { useEffect, useRef, useCallback, useMemo, memo } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
+import { edit } from "../../../../redux/isEditable";
 
 const Note = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
@@ -11,6 +12,8 @@ const Note = () => {
     return location.pathname.split("/").slice(2).join("/");
   }, [location.pathname]);
   const [text, setText] = useLocalStorage(typeName, "");
+
+ 
 
   useEffect(() => {
     location.pathname.split("/")[1] === "Home" ? "flex" : "none";

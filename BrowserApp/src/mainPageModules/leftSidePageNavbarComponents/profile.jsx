@@ -14,7 +14,7 @@ const Profile = () => {
   const [avatarpath, setAvatarpath] = useState('');
 
   const handleFileChange = (e) => {
-    setAvatar(e.target.files[0]); // Зберігаємо файл у стані
+    setAvatar(e.target.files[0]);
     setChanges(true);
   };
 
@@ -26,8 +26,8 @@ const Profile = () => {
       axios
         .post("http://"+mylocalip+":3000/upload", formData, {
           headers: {
-            "Content-Type": "multipart/form-data", // Вказуємо тип контенту
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Додаємо токен для авторизації
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`, 
           },
         })
         .then((res) => {
@@ -125,5 +125,7 @@ const Profile = () => {
     </div>
   );
 };
-
-export default memo(Profile);
+const areEqual = (prevProps, nextProps) => {
+  return prevProps.userData === nextProps.userData && prevProps.avatarpath === nextProps.avatarpath;
+};
+export default memo(Profile, areEqual);

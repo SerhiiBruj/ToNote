@@ -2,10 +2,10 @@
 
 const Circle = (props) => (
   <div
+    className="circle"
     style={{
       backgroundColor: props.color,
-      height: props.size,
-      width: props.size,
+     
       borderRadius: "50%",
       position: 'relative',
       top: 0

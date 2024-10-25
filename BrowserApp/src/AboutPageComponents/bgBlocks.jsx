@@ -11,7 +11,9 @@ function* pRV() {
 // eslint-disable-next-line react/prop-types
 const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
   const blockRefs = useRef([]);
-
+  useEffect(()=>{
+    console.log("BgBlocks was updated")
+  },[])
   useEffect(() => {
     blockRefs.current.forEach((block) => {
       const tb = [pRV().next().value, pRV().next().value];
@@ -62,7 +64,13 @@ const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
         );
       })}
 
-      <div className="bgblockcontent" style={{ maxWidth: !ff ? 470 : ff }}>
+      <div
+        className="bgblockcontent"
+        style={{ maxWidth: !ff ? 470 : ff, textAlign: "flex-start" }}
+      >
+        <span style={{height:0,opacity:0,minHeight:"0px",paddingBottom:0,paddingTop:0}}  className="typing-animation">
+          {text}
+        </span>
         {!!text && <TypingAnimation delay={delay} text={text} />}
         {children}
       </div>
@@ -73,9 +81,13 @@ const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
 export default BgBlocks;
 
 // eslint-disable-next-line react/prop-types
-const TypingAnimation = ({ delay, text, h = 10, w = 21 }) => {
+const TypingAnimation = ({ delay, text,  }) => {
   const [displayedText, setDisplayedText] = useState("");
   const ref = useRef(null);
+
+  useEffect(()=>{
+    console.log("TypingAnimation was updated")
+  },[])
 
   const renderText = (i, l) => {
     if (i < l) {
@@ -113,7 +125,7 @@ const TypingAnimation = ({ delay, text, h = 10, w = 21 }) => {
   }, [displayedText, text]);
 
   return (
-    <span ref={ref} className="typing-animation">
+    <span ref={ref} className="typing-animation" style={{textAlign:"left"}}>
       {displayedText}
     </span>
   );

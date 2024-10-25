@@ -16,7 +16,6 @@ const FileAdd = () => {
     local: false,
   });
 
-
   useEffect(() => {
     if (ref.current && boolAnimate) {
       ref.current.style.transition = "all ease 0.5s";
@@ -70,27 +69,18 @@ const FileAdd = () => {
         }
       })();
       const valueToStore = JSON.stringify(initialData);
-      if (!localStorage.getItem("beLocal"))
-        if (formData.local === false)
-          sessionStorage.setItem(
-            `${formData.fileType}/${formData.fileName}`,
-            valueToStore
-          );
-        else
-          localStorage.setItem(
-            `${formData.fileType}/${formData.fileName}`,
-            valueToStore
-          );
-      else
-        localStorage.setItem(
-          `${formData.fileType}/${formData.fileName}`,
-          valueToStore
-        );
+      const storageKey = `${formData.fileType}/${formData.fileName}`;
+
+      if (localStorage.getItem("beLocal") !==null||formData.local) {
+        localStorage.setItem(storageKey, valueToStore);
+      } else {
+        sessionStorage.setItem(storageKey, valueToStore);
+      }
       setIsAdding(false);
       setFormData({ fileName: "", fileType: "note" });
       dispatch(updatePages());
     },
-    [formData.fileName, formData.fileType]
+    [formData.fileName, formData.fileType,formData.local]
   );
 
   return (
@@ -173,10 +163,10 @@ const FileAdd = () => {
                 width: 50,
               }}
               onClick={() => {
-                setFormData((prev) => ({
-                  ...prev,
+                setFormData({
+                  ...formData,
                   local: !formData.local,
-                }));
+                });
               }}
             >
               <CheckBox size={10} checked={formData.local} />

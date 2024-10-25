@@ -9,46 +9,92 @@
     outline: none;
     background-color: transparent;
     display: block;
-    width: 90%;
-    height: 100%;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
-.li * {
-    color: #bfbfbf;
-    transition: all ease 0.5s;
-    font-size: 25px;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
-.li {
+    margin: 1em 0;
+  }
+  
+  .li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     height: 80px;
     padding: 10px;
     color: #bfbfbf;
+    transition: all ease 0.5s;
+    
+    * {
+      font-size: 25px;
+      margin: 1em 0;
+    }
+  }
+  
+  .divindiv {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-.divindiv {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.divdiv{
+  }
+  
+  .divdiv {
     display: flex;
     align-items: center;
-    width: 50%;
-}
-.circle {
+    width: 80%; // Змінено на 80%, щоб відповідати inline стилю в компоненті
+  }
+  
+  .circle {
     width: 30px;
     height: 30px;
     background-color: #bfbfbf;
     border-radius: 50%;
-}
-.span{
+  }
+  
+  .span {
     margin-left: 20px;
-}
+  }
+  
+  @media (max-width: 480px) {
+    .todoListCont{
+        padding: 0px;
+    }
+    .todo {
+        color: #bfbfbf;
+        transition: all ease 1s;
+        padding: 20px;
+        font-size: 25px;
+        width: 90%;
+        height: 100%;
+        resize: none;
+        outline: none;
+        background-color: transparent;
+        display: block;
+        margin: 1em 0;
+      }
+      
+      .li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 80px;
+        padding: 0px;
+        color: #bfbfbf;
+        transition: all ease 0.5s;
+        
+        * {
+          font-size: 25px;
+          margin: 1em 0;
+        }
+        .circle {
+            width: 15px;
+            height: 15px;
+          }
+        
+          .span {
+            margin-left: 0;
+          }
+          .texarea{
+            min-width: 80%;
+            font-size: 15px;
+          }
+      }
+      
+   
+  }
+  

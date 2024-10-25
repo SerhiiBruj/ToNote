@@ -13,8 +13,8 @@ const useLocalStorage = (key, initialValue) => {
       if (sessionItem) {
         return JSON.parse(sessionItem);
       }
-      setIs(true);
       const localItem = window.localStorage.getItem(keyy);
+      if (localItem) setIs(true)
       return localItem ? JSON.parse(localItem) : initialValue;
     } catch (error) {
       console.error("Помилка парсингу:", error);

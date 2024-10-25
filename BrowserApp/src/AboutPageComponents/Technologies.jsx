@@ -71,18 +71,19 @@ const ListOfTechs = () => {
         justifyContent: "space-around",
       }}
     >
-      <ul style={{ width: "40%", paddingLeft: 10 }}>
-        <caption
+      
+        
+      <ul style={{ width: "40%", paddingLeft: 10 ,listStyleType:"none"}}>
+      <li
           style={{
             color: "#1e1e1e",
             fontSize: 28,
-
-            textAlign: "left",
             textWrap: "nowrap",
+            paddingBottom:20
           }}
         >
           Front-end
-        </caption>
+        </li>
         <li
           style={{
             display: "flex",
@@ -167,18 +168,17 @@ const ListOfTechs = () => {
           <Sass />
         </li>
       </ul>
-      <ul style={{ width: "40%", paddingLeft: 10 }}>
-        <caption
+      <ul style={{ width: "40%", paddingLeft: 10,listStyleType:"none" }}>
+        <li
           style={{
             color: "#1e1e1e",
             fontSize: 28,
-
-            textAlign: "left",
             textWrap: "nowrap",
+            paddingBottom:20
           }}
         >
           Back-end
-        </caption>
+        </li>
         <li
           style={{
             display: "flex",

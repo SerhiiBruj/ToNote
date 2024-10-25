@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useMemo, memo } from "react";
 import BinIcon from "../../../../assetModules/svgs/bin";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 import DoneIcon from "../../../../assetModules/svgs/doneIcon";
@@ -11,11 +11,14 @@ const urlRegex = /(https?:\/\/[^\s]+)/g;
 
 const ChecklistModule = () => {
   const location = useLocation();
-  
-  const typeName = useMemo(() => location.pathname.split("/").slice(2).join("/"), [location.pathname]);
-  
+
+  const typeName = useMemo(
+    () => location.pathname.split("/").slice(2).join("/"),
+    [location.pathname]
+  );
+
   const [data, setData] = useLocalStorage(typeName, []);
-  
+
   const isEditable = useSelector((state) => state.isEditable.value);
   const showExpo = useSelector((state) => state.showExpo.value);
 
@@ -60,64 +63,79 @@ const ChecklistModule = () => {
   }, [isEditable]);
 
   // Використання useCallback для запобігання перерендеру
-  const updateData = useCallback((newData) => {
-    setData(newData);
-  }, [setData]);
+  const updateData = useCallback(
+    (newData) => {
+      setData(newData);
+    },
+    [setData]
+  );
 
-  const handleDelete = useCallback((index) => {
-    const newData = data.filter((_, i) => i !== index);
-    updateData(newData);
-  }, [data, updateData]);
+  const handleDelete = useCallback(
+    (index) => {
+      const newData = data.filter((_, i) => i !== index);
+      updateData(newData);
+    },
+    [data, updateData]
+  );
 
-  const handleChangeDesc = useCallback((e, index, i) => {
-    const newData = data.map((item, idx) => {
-      if (idx === index) {
-        return {
-          ...item,
-          desc: item.desc.map((desc, descIdx) =>
-            descIdx === i ? { ...desc, value: e.target.value } : desc
-          ),
-        };
+  const handleChangeDesc = useCallback(
+    (e, index, i) => {
+      const newData = data.map((item, idx) => {
+        if (idx === index) {
+          return {
+            ...item,
+            desc: item.desc.map((desc, descIdx) =>
+              descIdx === i ? { ...desc, value: e.target.value } : desc
+            ),
+          };
+        }
+        return item;
+      });
+
+      // Перевірка, чи є порожні значення, перед додаванням
+      if (!newData[index].desc.some((li) => li.value.trim() === "")) {
+        newData[index].desc.push({ value: "", done: false });
       }
-      return item;
-    });
 
-    // Перевірка, чи є порожні значення, перед додаванням
-    if (!newData[index].desc.some((li) => li.value.trim() === "")) {
-      newData[index].desc.push({ value: "", done: false });
-    }
+      updateData(newData);
+    },
+    [data, updateData]
+  );
 
-    updateData(newData);
-  }, [data, updateData]);
+  const handleToggleDone = useCallback(
+    (index, i) => {
+      const newData = data.map((item, idx) => {
+        if (idx === index) {
+          return {
+            ...item,
+            desc: item.desc.map((desc, descIdx) =>
+              descIdx === i ? { ...desc, done: !desc.done } : desc
+            ),
+          };
+        }
+        return item;
+      });
 
-  const handleToggleDone = useCallback((index, i) => {
-    const newData = data.map((item, idx) => {
-      if (idx === index) {
-        return {
-          ...item,
-          desc: item.desc.map((desc, descIdx) =>
-            descIdx === i ? { ...desc, done: !desc.done } : desc
-          ),
-        };
+      updateData(newData);
+    },
+    [data, updateData]
+  );
+
+  const handleChangeP = useCallback(
+    (e, index) => {
+      const newData = data.map((item, idx) =>
+        idx === index ? { ...item, p: e.target.value } : item
+      );
+
+      // Додавання нового поля, якщо всі заголовки заповнені
+      if (!newData.some((li) => li.p.trim() === "")) {
+        newData.push({ p: "", desc: [{ value: "", done: false }] });
       }
-      return item;
-    });
 
-    updateData(newData);
-  }, [data, updateData]);
-
-  const handleChangeP = useCallback((e, index) => {
-    const newData = data.map((item, idx) =>
-      idx === index ? { ...item, p: e.target.value } : item
-    );
-
-    // Додавання нового поля, якщо всі заголовки заповнені
-    if (!newData.some((li) => li.p.trim() === "")) {
-      newData.push({ p: "", desc: [{ value: "", done: false }] });
-    }
-
-    updateData(newData);
-  }, [data, updateData]);
+      updateData(newData);
+    },
+    [data, updateData]
+  );
 
   // Мемоізація функції рендерингу тексту з посиланнями
   const renderTextWithLinks = useCallback((text) => {
@@ -139,13 +157,21 @@ const ChecklistModule = () => {
   }, []);
 
   return (
-    <div className="checkList conteiner fileConteiner" onClick={(e) => (showExpo || isEditable) && e.stopPropagation()}>
+    <div
+      className="checkList conteiner fileConteiner"
+      onClick={(e) => (showExpo || isEditable) && e.stopPropagation()}
+    >
       {data.map((checklist, index) => (
         <ul key={index} className="checkLisList">
-          <div className="spbtw" style={{ borderBottom: !checklist.p && "5px solid gray" }}>
+          <div
+            className="spbtw"
+            style={{ borderBottom: !checklist.p && "5px solid gray" }}
+          >
             <textarea
               onChange={(e) => handleChangeP(e, index)}
-              className={`caption texarea ${checklist.p ? "with-after" : "noafter"}`}
+              className={`caption texarea ${
+                checklist.p ? "with-after" : "noafter"
+              }`}
               placeholder="Type in"
               disabled={!isEditable}
               value={checklist.p}
@@ -159,10 +185,27 @@ const ChecklistModule = () => {
             </div>
           </div>
           {checklist.desc.map((li, idx) => (
-            <li key={idx} className={`${li.done ? "doned checkLi" : "checkLi"}`} style={{ paddingTop: 20 }}>
+            <li
+              key={idx}
+              className={`${li.done ? "doned checkLi" : "checkLi"}`}
+              style={{ paddingTop: 20 }}
+            >
               {isEditable ? (
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
-                  <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      width: "100%",
+                    }}
+                  >
                     <div style={{ transform: "translate(-20px)" }}>
                       <Circle size={20} color={"#bfbfbf"} />
                     </div>
@@ -171,25 +214,72 @@ const ChecklistModule = () => {
                       disabled={!isEditable}
                       onChange={(e) => handleChangeDesc(e, index, idx)}
                       className="texarea checkLi"
-                      style={{ borderBottom: !li.value && "5px solid gray",height:'auto', padding: 5, minHeight: 30, margin: 0, width: "100%" }}
+                      style={{
+                        borderBottom: !li.value && "5px solid gray",
+                        height: "auto",
+                        padding: 5,
+                        minHeight: 30,
+                        margin: 0,
+                        width: "100%",
+                      }}
                     />
                   </div>
-                  <div onClick={() => handleToggleDone(index, idx)} style={{ opacity: li.done ? 1 : 0.5 }}>
+                  <div
+                    onClick={() => handleToggleDone(index, idx)}
+                    style={{ opacity: li.done ? 1 : 0.5 }}
+                  >
                     <DoneIcon />
                   </div>
                 </div>
               ) : (
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: "column" }}>
-                  <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div style={{ display: "flex", alignItems: "center", width: "80%" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    flexDirection: "column",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        width: "80%",
+                      }}
+                    >
                       <div style={{ transform: "translate(-20px)" }}>
                         <Circle size={20} color={"#bfbfbf"} />
                       </div>
-                      <div className="texarea checkLi" style={{ padding: 5, minHeight: 30, margin: 0, width: "90%", maxWidth: "90%", overflowWrap: "anywhere" }}>
+                      <div
+                        className="texarea checkLi"
+                        style={{
+                          padding: 5,
+                          minHeight: 30,
+                          margin: 0,
+                          width: "90%",
+                          maxWidth: "90%",
+                          overflowWrap: "anywhere",
+                        }}
+                      >
                         {renderTextWithLinks(li.value)}
                       </div>
                     </div>
-                    <div className="hoverSvg" onClick={() => handleToggleDone(index, idx)} style={{ transition: "0.5s all ease", opacity: li.done ? 1 : 0.5 }}>
+                    <div
+                      className="hoverSvg"
+                      onClick={() => handleToggleDone(index, idx)}
+                      style={{
+                        transition: "0.5s all ease",
+                        opacity: li.done ? 1 : 0.5,
+                      }}
+                    >
                       <DoneIcon />
                     </div>
                   </div>
@@ -197,7 +287,17 @@ const ChecklistModule = () => {
               )}
             </li>
           ))}
-          <hr style={{ marginTop: 50, border: 0, width:"100%", height: 5, backgroundColor: '#bfbfbf', opacity: '50%' }} className="hr" />
+          <hr
+            style={{
+              marginTop: 50,
+              border: 0,
+              width: "100%",
+              height: 5,
+              backgroundColor: "#bfbfbf",
+              opacity: "50%",
+            }}
+            className="hr"
+          />
         </ul>
       ))}
     </div>

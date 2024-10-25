@@ -1,0 +1,154 @@
+@media (max-width: 900px) {
+  #shdots {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  .inst {
+    display: none;
+  }
+
+  .upperRightRightsectionHomePageNavbar {
+    width: 20vw;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .leftHomePageNavbar {
+    width: 100vw;
+    padding: 10px;
+    transform: translateX(-100vw);
+
+    .profile {
+      padding-top: 10px;
+
+      .profileImgConteiner {
+        padding: 5px;
+        .profileImg {
+          height: 100px;
+          width: 100px;
+          min-width: 100px;
+          min-height: 100px;
+        }
+      }
+      .profileEmail {
+        span {
+          font-size: 16px !important; // Зменшити розмір шрифту
+        }
+      }
+    }
+
+    .scrollpanel {
+      border-top: solid 5px $lighterdarkgray; // Зменшити розмір рамки
+      height: auto; // Автоматична висота
+      overflow-y: auto; // Налаштувати прокручування для зменшених екранів
+      .listOfFiles {
+        background-size: 120%; // Зменшити розмір фону для мобільних
+      }
+      .listOfSettings {
+        background-size: 100% 100%; // Також зменшити фон
+      }
+
+      .FileInNavbar {
+        height: auto;
+        padding: 5% 10%; // Відступи
+        .textInFileInNavbar {
+          @include textformat(18px, 600, 40px); // Зменшити розмір тексту
+        }
+      }
+    }
+  }
+  .leftHomePageNavbar {
+    position: absolute;
+    .profileImg {
+      height: 80px; // Ще більше зменшити розмір профілю для маленьких екранів
+      width: 80px;
+    }
+    .profileEmail {
+      span {
+        font-size: 14px !important; // Зменшити розмір шрифту ще більше
+      }
+    }
+
+    .FileInNavbar {
+      padding: 5% 5%; // Зменшити відступи
+      .textInFileInNavbar {
+        @include textformat(16px, 600, 35px); // Ще більше зменшити текст
+      }
+    }
+  }
+  .rightHomePage {
+    width: 100% !important;
+    .desktopWithFilesbgbg {
+      .scroll {
+        width: 100% !important;
+        border-radius: 0px !important;
+      }
+      .desktopWithFiles {
+        grid-template-columns: 1fr;
+        gap: 20px !important;
+        padding: 20px !important;
+        width: 100% !important;
+
+        .fileIconConteiner {
+          width: 40% !important;
+          height: 110px !important;
+        }
+        .addFile {
+          .upperside {
+            div {
+              transform: scale(0.5) translate(0px) !important ;
+            }
+          }
+        }
+        .fileIconName {
+          @include textformat(80%, 600, 18px); // Зменшити розмір шрифту
+        }
+
+        .fileIconType {
+          @include textformat(70%, 600, 7px); // Ще більше зменшити шрифт
+        }
+      }
+    }
+
+    .upperRightHomePageNavbar {
+      height: 50px !important ;
+      padding: 5px;
+      width: 100%;
+      .upperRightRightsectionHomePageNavbar {
+        gap: 10px !important;
+        width: 40vw !important;
+        height: 100%;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        justify-content: flex-end !important;
+
+        #showhideCont{
+          flex-direction: column;
+          
+        }
+        #logosvg {
+          transform: scale(0.8);
+        }
+        .backLeaf {
+          max-width: 10vw;
+        }
+        * {
+          padding: 0px;
+        }
+        .peni svg,
+        div svg {
+          transform: scale(0.5);
+        }
+      }
+    }
+  }
+  .desktopWithFiles {
+    border-top-left-radius: 0px;
+    
+  }
+
+}

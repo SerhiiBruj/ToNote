@@ -80,7 +80,7 @@ const FileIcon = (props) => {
         if (!localStorage.getItem("beLocal")) {
           try {
             const res = await axios.post(
-              "http://"+mylocalip+":3000/rename-uploaded-file",
+              "http://" + mylocalip + ":3000/rename-uploaded-file",
               {
                 rnfile: oldKey,
                 newName: newKey,
@@ -155,13 +155,14 @@ const FileIcon = (props) => {
       {!boolAnimate && (
         <>
           <div style={{ height: "70%", overflow: "hidden" }}>
+            
             <input
               style={{
                 pointerEvents: isEditable ? "all" : "none",
                 transition: "0.2s all ease",
                 animation:
                   props.name.length > 16 && !isEditable
-                    ? "scrollText 5s linear infinite"
+                    ? "scrollText 6s linear infinite"
                     : "none",
               }}
               onChange={handleChange}

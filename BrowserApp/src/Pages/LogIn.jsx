@@ -16,7 +16,7 @@ const Login = () => {
   const token =
     !!localStorage.getItem("token") && localStorage.getItem("token");
   const dispatch = useDispatch();
-  const [refHeight, setRefDimensions] = useState([0,0]);
+  const [refHeight, setRefDimensions] = useState([0, 0]);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const Login = () => {
         }
         try {
           const response = await axios.get(
-            "http://"+mylocalip+":3000/authentification",
+            "http://" + mylocalip + ":3000/authentification",
             {
               headers: {
                 authorization: `Bearer ${token}`,
@@ -56,12 +56,12 @@ const Login = () => {
       verifyToken();
     }
   }, []);
- 
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://"+mylocalip+":3000/login", {
+      const response = await axios.post("http://" + mylocalip + ":3000/login", {
         username,
         password,
         headers: {
@@ -81,7 +81,7 @@ const Login = () => {
         })
       );
       dispatch(doHaveData());
-      navigate("/");
+      navigate("/Home");
     } catch (err) {
       setError("Невірний логін або пароль");
     }
@@ -93,14 +93,17 @@ const Login = () => {
         setError("Невірний емейл");
         throw error;
       }
-      const response = await axios.post("http://"+mylocalip+":3000/register", {
-        username,
-        email,
-        password,
-        headers: {
-          clientTime: new Date().getTime(),
-        },
-      });
+      const response = await axios.post(
+        "http://" + mylocalip + ":3000/register",
+        {
+          username,
+          email,
+          password,
+          headers: {
+            clientTime: new Date().getTime(),
+          },
+        }
+      );
       console.log(response.data);
       const token = response.data.token;
       localStorage.setItem("token", token);
@@ -128,14 +131,13 @@ const Login = () => {
     }
   };
   useEffect(() => {
-    // Check if the element exists
     if (ref.current) {
-      // Set the dimensions
       setRefDimensions([ref.current.offsetHeight, ref.current.offsetWidth]);
     }
-  }, []); 
+  }, []);
   return (
     <div className="loginCenterDiv">
+      <h1>Бек-енд ще не захощено тому скористуйтеся кнопкою знизу</h1>
       <div className="authContteiner" ref={ref}>
         <div className="logInCont aucont">
           <form className="AuthForm" onSubmit={handleLogin}>
@@ -164,9 +166,9 @@ const Login = () => {
               </label>
             </div>
             <p style={{ color: "red", opacity: error && !isLoggingIn ? 1 : 0 }}>
-              {error}
+            Невірний логін або пароль
             </p>
-            <button className="submit" style={{}} type="submit">
+            <button className="submit" type="submit">
               Log in
             </button>
           </form>
@@ -210,7 +212,7 @@ const Login = () => {
               </label>
             </div>
             <p style={{ color: "red", opacity: error && isLoggingIn ? 1 : 0 }}>
-              {error}
+            Невірний логін або пароль
             </p>
             <button type="submit" className="submit">
               Register
@@ -223,8 +225,8 @@ const Login = () => {
         <div
           className="Curtain"
           style={{
-            height:refHeight[0] -9,
-            width:refHeight[1]/2,
+            height: refHeight[0] - 9,
+            width: refHeight[1] / 2,
             borderRadius: isLoggingIn ? "45px 0 0 45px" : "0 45px 45px 0",
             transform: isLoggingIn ? "translateX(0%)" : "translateX(100%)",
             backgroundPositionX: isLoggingIn ? "0%" : "100%",
@@ -234,16 +236,14 @@ const Login = () => {
             style={{
               backgroundPosition: isLoggingIn ? "60% 0%" : "109% 0%",
             }}
-          >
-            
-          </div>
+          ></div>
         </div>
       </div>
       <h2
         style={{
           color: "gray",
           paddingTop: 20,
-          
+
           width: "100vw",
           textAlign: "center",
           cursor: "pointer",

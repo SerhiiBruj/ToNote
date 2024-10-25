@@ -1,81 +1,26 @@
-import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const NavBarAbout = () => {
-
-  const location = useLocation();
-  const handleScroll = (id) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView();
-    }
-  };
-
-  useEffect(()=>{
-    handleScroll(location.pathname.split('/')[-1])
-  },[location.pathname])
-
   return (
     <div id="AboutNav" className="navbar">
       <div className="navbar__left">
-        <a
-          href="https://github.com/SerhiiBruj/ToNote"
-          className="navbar__logo"
-        >
+        <a href="https://github.com/SerhiiBruj/ToNote" className="navbar__logo">
           ToNote
         </a>
 
-        <span
-          onClick={() => {
-            handleScroll("WhatIsIt");
-            window.history.pushState(
-              {},
-              "",
-              `${window.location.hash.replace(
-                /\/Technologies|\/Creator|\/WhatIsIt/g,
-                ""
-              )}/WhatIsIt`
-            );
-          }}
-          className="navbar__link"
-        >
+        <NavLink className="navbar__link" to={"WhatIsIt"}>
           What is it
-        </span>
-        <span
-          onClick={() => {
-            handleScroll("Technologies");
-            window.history.pushState(
-              {},
-              "",
-              `${window.location.hash.replace(
-                /\/Technologies|\/Creator|\/WhatIsIt/g,
-                ""
-              )}/Technologies`
-            );
-          }}
-          className="navbar__link"
-        >
+        </NavLink>
+        <NavLink className="navbar__link" to={"Technologies"}>
           Technologies
-        </span>
-        <span
-          onClick={() => {
-            handleScroll("Creator");
-            window.history.pushState(
-              {},
-              "",
-              `${window.location.hash.replace(
-                /\/Technologies|\/Creator|\/WhatIsIt/g,
-                ""
-              )}/Creator`
-            );
-          }}
-          className="navbar__link"
-        >
+        </NavLink>
+        <NavLink className="navbar__link" to={"Creator"}>
           Creator
-        </span>
-        </div>
+        </NavLink>
+      </div>
+
       <div className="navbar__right">
-        <Link to={"/authentification"} className="navbar__auth-link" >
+        <Link to={"/authentification"} className="navbar__auth-link">
           Log In
           <span className="navbar__separator"></span>
           Register

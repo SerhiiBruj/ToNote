@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { lazy, Suspense, useEffect, useState } from "react";
 import HomePage from "./Pages/homePage.jsx";
 import NotFoundPage from "./Pages/notFoundPage.jsx";
-import Login from "./Pages/LogIn.jsx";
+const Login = lazy(() => import("./Pages/LogIn.jsx"));
 import { useDispatch, useSelector } from "react-redux";
 import { doHaveData, setUserData } from "./redux/UserData.js";
 import { updatePages } from "./redux/pagesSlice.js";
@@ -13,7 +13,7 @@ import WhatIsIt from "./AboutPageComponents/WhatIsIt.jsx";
 import Technologies from "./AboutPageComponents/Technologies.jsx";
 import Creator from "./AboutPageComponents/Creator.jsx";
 import mylocalip from "../../mylocalip.js";
-
+import PropTypes from 'prop-types';
 const DesktopWithFiles = lazy(() =>
   import(
     "./mainPageModules/rigtSidePageComponents/desktopWithFilesModule/desktopWithFiles.jsx"
@@ -74,7 +74,7 @@ const TermsAndPolicy = lazy(() =>
 );
 
 const PrivateRoute = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null); 
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const token =
     !!localStorage.getItem("token") && localStorage.getItem("token");
   const dispatch = useDispatch();
@@ -89,7 +89,7 @@ const PrivateRoute = ({ children }) => {
         }
         try {
           const response = await axios.get(
-            "http://"+mylocalip+":3000/authentification",
+            "http://" + mylocalip + ":3000/authentification",
             {
               headers: {
                 authorization: `Bearer ${token}`,
@@ -120,8 +120,7 @@ const PrivateRoute = ({ children }) => {
       verifyToken();
     }
   }, []);
-  if(localStorage.getItem("beLocal"))
-    return children
+  if (localStorage.getItem("beLocal")) return children;
   if (isAuthenticated === null) {
     return <Loading />;
   }
@@ -130,27 +129,30 @@ const PrivateRoute = ({ children }) => {
   }
   return children;
 };
+PrivateRoute.propTypes = {
+  children: PropTypes.node
+};
 
 function App() {
-  useEffect(() => {
-    if (localStorage.getItem("animations")) {
-      if (!JSON.parse(localStorage.getItem("animations"))) {
-        const style = document.createElement("style");
-        style.innerHTML = `* {
-          transition: none !important;
-        }`;
-        document.head.appendChild(style);
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("animations")) {
+  //     if (!JSON.parse(localStorage.getItem("animations"))) {
+  //       const style = document.createElement("style");
+  //       style.innerHTML = `* {
+  //         transition: none !important;
+  //       }`;
+  //       document.head.appendChild(style);
+  //     }
+  //   }
+  // }, []);
 
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/Home" />} />
+      <Route path="/" element={<Navigate to="/About" />} />
       <Route path="/About" element={<About />}>
-        <Route path="Technologies" element={<Technologies/>}></Route>
-        <Route path="WhatIsIt" element={<WhatIsIt/>}></Route>
-        <Route path="Creator" element={<Creator/>}></Route>
+        <Route path="Technologies" element={<Technologies />}></Route>
+        <Route path="WhatIsIt" element={<WhatIsIt />}></Route>
+        <Route path="Creator" element={<Creator />}></Route>
       </Route>
       <Route
         path="/Home"
@@ -258,7 +260,14 @@ function App() {
           />
         </Route>
       </Route>
-      <Route path="/authentification" element={<Login />} />
+      <Route
+        path="/authentification"
+        element={
+          <Suspense>
+            <Login />
+          </Suspense>
+        }
+      />
       <Route path="*" element={<Navigate to="/404" />} />
       <Route path="/404" element={<NotFoundPage />} />
     </Routes>
@@ -270,7 +279,7 @@ export default App;
 const GCS = async (token) => {
   try {
     const response = await axios.get(
-      "http://"+mylocalip+":3000/get-uploaded-file",
+      "http://" + mylocalip + ":3000/get-uploaded-file",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -323,6 +332,8 @@ const Loading = () => {
     </div>
   );
 };
+
+
 
 // const NotificationComponent = () => {
 //   const [permission, setPermission] = useState(null);

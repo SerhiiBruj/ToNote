@@ -63,7 +63,7 @@ const Todo = () => {
         if (showExpo || isEditable) e.stopPropagation();
       }}
     >
-      <ol>
+      <ol className="todoListCont">
         {data.map((todo, index) => (
           <li className="li" key={index}>
             <div
@@ -74,6 +74,7 @@ const Todo = () => {
             >
               <Circle size={30} color={"#bfbfbf"} />
               <textarea
+              onTouchStart={(e)=>e.stopPropagation()}
                 className="texarea"
                 disabled={!isEditable}
                 value={todo}
@@ -84,10 +85,10 @@ const Todo = () => {
             </div>
             <div className="divindiv">
               <div>
-                <BellsIcon size={1.5} />
+                <BellsIcon size={window.innerWidth>480? 1.5:0.8} />
               </div>
               <div onClick={() => handleDelete(index)}>
-                <BinIcon size={1} color={"#bfbfbf"} />
+                <BinIcon size={window.innerWidth>480? 1:0.5} color={"#bfbfbf"} />
               </div>
             </div>
           </li>

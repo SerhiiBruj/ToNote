@@ -245,38 +245,60 @@ app.get("/entries", (req, res) => {
 });
 
 app.post("/upload-file", async (req, res) => {
-  console.log("receiving");
-  const files = req.body.file; // отримуємо масив файлів
-  const token =
-    req.headers.authorization && req.headers.authorization.split(" ")[1]; // отримуємо токен з заголовка Authorization
+  console.log("Receiving files...");
+  const files = req.body.file;
+  console.log("Files received:", files);
+
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1];
+  console.log("Token received:", token);
+
   if (!token) {
+    console.log("Token missing.");
     return res.status(400).json({ message: "Токен не надано" });
   }
+
   try {
-    const decoded = await decodedToken(req); // декодуємо токен
+    const decoded = await decodedToken(req);
+    console.log("Decoded token:", decoded);
+
+    if (!decoded) {
+      console.log("Invalid token.");
+      return res.status(401).json({ message: "Неправильний токен" });
+    }
+
     if (!files || files.length === 0) {
+      console.log("No files to upload.");
       return res.status(400).json({ message: "Файли не відправлено" });
     }
-    if (!decoded) {
-      return res.status(400).json({ message: "Токен неправильний" });
+
+    const userDir = path.join(__dirname, "user-files");
+    if (!fs.existsSync(userDir)) {
+      console.log("Creating user-files directory...");
+      fs.mkdirSync(userDir, { recursive: true });
     }
 
     files.forEach((file) => {
-      const filePath = path.join(
-        __dirname,
-        `user-files/${decoded.username}_${file.name.replace("/", "_")}.txt`
-      );
-      fs.writeFileSync(filePath, file.value);
+      const sanitizedFileName = file.name.replace(/(\/)/g, "_")
+      const filePath = path.join(userDir, `${decoded.username}_${sanitizedFileName}.txt`);
+      console.log("Saving file to:", filePath);
+
+      try {
+        fs.writeFileSync(filePath,  JSON.stringify(file.value));
+        console.log(`File ${file.name} saved successfully.`);
+      } catch (fileError) {
+        console.error(`Error saving file ${file.name}:`, fileError);
+        return res.status(500).json({ message: `Помилка при збереженні файлу ${file.name}` });
+      }
     });
 
     return res.status(200).json({ message: "Файли успішно збережено!" });
   } catch (error) {
-    console.error("Помилка при збереженні файлу:", error);
-    return res
-      .status(500)
-      .json({ message: "Виникла помилка при збереженні файлу" });
+    console.error("Error during request processing:", error);
+    return res.status(500).json({ message: "Виникла помилка при збереженні файлів" });
   }
 });
+
 
 app.get("/get-uploaded-file", async (req, res) => {
   try {
@@ -300,7 +322,7 @@ app.get("/get-uploaded-file", async (req, res) => {
           .split("_") // Розбиваємо за "_"
           .slice(1) // Пропускаємо першу частину (ім'я користувача)
           .join("/"); // Відновлюємо шлях через "/"
-        return { value: fileContent, name: originalFileName };
+        return { value: JSON.parse(fileContent), name: originalFileName };
       });
 
     return res.status(200).json({ userFiles });

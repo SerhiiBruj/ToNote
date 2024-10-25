@@ -36,12 +36,12 @@ $textlightcolor: #bfbfbf;
 .scroll-container {
   overflow: visible !important;
   text-wrap: nowrap !important;
-  width: fit-content !important;
+  min-width: fit-content !important;
   line-height: 50px;
   white-space: nowrap; /* Не дозволяє тексту переходити на новий рядок */
   display: inline-block; /* Не дозволяє займати всю ширину */
   white-space: nowrap; /* Не дозволяє тексту переходити на новий рядок */
-  width: fit-content; /* Можна задати конкретну ширину, якщо потрібно */
+  width: auto !important; /* Можна задати конкретну ширину, якщо потрібно */
 }
 
 @keyframes scrollText {

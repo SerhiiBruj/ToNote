@@ -27,12 +27,11 @@ const BackLeafIcon = (props) => {
         { file: arrayOfFiles },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Використовуємо Bearer токен
+            Authorization: `Bearer ${token}`, 
           },
         }
       );
 
-      // Перевіряємо статус відповіді
       if (response.status !== 200) {
         return false;
       }
@@ -50,8 +49,8 @@ const BackLeafIcon = (props) => {
         }
         navigate("/Home");
       }}
-      width={props.size * 155}
-      height={props.size * 78}
+      width={props.size }
+      height={props.size }
       viewBox="0 0 155 78"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

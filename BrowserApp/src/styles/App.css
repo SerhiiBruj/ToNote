@@ -2,13 +2,13 @@
 .scroll-container {
   overflow: visible !important;
   text-wrap: nowrap !important;
-  width: -moz-fit-content !important;
-  width: fit-content !important;
+  min-width: -moz-fit-content !important;
+  min-width: fit-content !important;
   line-height: 50px;
   white-space: nowrap; /* Не дозволяє тексту переходити на новий рядок */
   display: inline-block; /* Не дозволяє займати всю ширину */
   white-space: nowrap; /* Не дозволяє тексту переходити на новий рядок */
-  width: fit-content; /* Можна задати конкретну ширину, якщо потрібно */
+  width: auto !important; /* Можна задати конкретну ширину, якщо потрібно */
 }
 
 @keyframes scrollText {
@@ -450,6 +450,10 @@ input[type=checkbox]:checked + .checkbox-custom {
   align-items: center;
 }
 
+#shdots {
+  display: none;
+}
+
 .Name {
   font-size: 30px;
   text-decoration: none;
@@ -486,118 +490,10 @@ input[type=checkbox]:checked + .checkbox-custom {
   fill: #474747 !important;
 }
 
-@media (max-width: 480px) {
-  .leftHomePageNavbar {
-    width: 100vw;
-    padding: 10px;
-    transform: translateX(-100vw);
-  }
-  .leftHomePageNavbar .profile {
-    padding-top: 10px;
-  }
-  .leftHomePageNavbar .profile .profileImgConteiner {
-    padding: 5px;
-  }
-  .leftHomePageNavbar .profile .profileImgConteiner .profileImg {
-    height: 100px;
-    width: 100px;
-    min-width: 100px;
-    min-height: 100px;
-  }
-  .leftHomePageNavbar .profile .profileEmail span {
-    font-size: 16px !important;
-  }
-  .leftHomePageNavbar .scrollpanel {
-    border-top: solid 5px #b1b1b1;
-    height: auto;
-    overflow-y: auto;
-  }
-  .leftHomePageNavbar .scrollpanel .listOfFiles {
-    background-size: 120%;
-  }
-  .leftHomePageNavbar .scrollpanel .listOfSettings {
-    background-size: 100% 100%;
-  }
-  .leftHomePageNavbar .scrollpanel .FileInNavbar {
-    height: auto;
-    padding: 5% 10%;
-  }
-  .leftHomePageNavbar .scrollpanel .FileInNavbar .textInFileInNavbar {
-    font-family: "Kadwa";
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 40px;
-    color: #424242;
-  }
+.dots {
+  background-color: #1e1e1e;
 }
-@media (max-width: 480px) {
-  .leftHomePageNavbar {
-    position: absolute;
-  }
-  .leftHomePageNavbar .profileImg {
-    height: 80px;
-    width: 80px;
-  }
-  .leftHomePageNavbar .profileEmail span {
-    font-size: 14px !important;
-  }
-  .leftHomePageNavbar .FileInNavbar {
-    padding: 5% 5%;
-  }
-  .leftHomePageNavbar .FileInNavbar .textInFileInNavbar {
-    font-family: "Kadwa";
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 35px;
-    color: #424242;
-  }
-  .rightHomePage {
-    width: 100% !important;
-  }
-  .rightHomePage .desktopWithFilesbgbg .scroll {
-    width: 100% !important;
-    border-radius: 0px !important;
-  }
-  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles {
-    grid-template-columns: 1fr;
-    gap: 20px !important;
-    padding: 20px !important;
-    width: 100% !important;
-  }
-  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteiner {
-    width: 40% !important;
-    height: 110px !important;
-  }
-  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .addFile .upperside div {
-    transform: scale(0.5) translate(0px) !important;
-  }
-  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconName {
-    font-family: "Kadwa";
-    font-size: 80%;
-    font-weight: 600;
-    line-height: 18px;
-    color: #424242;
-  }
-  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconType {
-    font-family: "Kadwa";
-    font-size: 70%;
-    font-weight: 600;
-    line-height: 7px;
-    color: #424242;
-  }
-  .rightHomePage .upperRightHomePageNavbar {
-    height: 50px !important;
-    padding: 5px;
-    width: 100%;
-  }
-  .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar {
-    gap: 10px !important;
-    width: 100vw !important;
-  }
-  .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar .peni svg, .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar div svg {
-    transform: scale(0.5);
-  }
-}
+
 @keyframes appear {
   0% {
     transform: scale(0);
@@ -713,31 +609,21 @@ input[type=checkbox]:checked + .checkbox-custom {
   outline: none;
   background-color: transparent;
   display: block;
-  width: 90%;
-  height: 100%;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-}
-
-.li * {
-  color: #bfbfbf;
-  transition: all ease 0.5s;
-  font-size: 25px;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
+  margin: 1em 0;
 }
 
 .li {
-  height: 80px;
-  padding: 10px;
-  color: #bfbfbf;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 80px;
+  padding: 10px;
+  color: #bfbfbf;
+  transition: all ease 0.5s;
+}
+.li * {
+  font-size: 25px;
+  margin: 1em 0;
 }
 
 .divindiv {
@@ -749,7 +635,7 @@ input[type=checkbox]:checked + .checkbox-custom {
 .divdiv {
   display: flex;
   align-items: center;
-  width: 50%;
+  width: 80%;
 }
 
 .circle {
@@ -763,6 +649,48 @@ input[type=checkbox]:checked + .checkbox-custom {
   margin-left: 20px;
 }
 
+@media (max-width: 480px) {
+  .todoListCont {
+    padding: 0px;
+  }
+  .todo {
+    color: #bfbfbf;
+    transition: all ease 1s;
+    padding: 20px;
+    font-size: 25px;
+    width: 90%;
+    height: 100%;
+    resize: none;
+    outline: none;
+    background-color: transparent;
+    display: block;
+    margin: 1em 0;
+  }
+  .li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    padding: 0px;
+    color: #bfbfbf;
+    transition: all ease 0.5s;
+  }
+  .li * {
+    font-size: 25px;
+    margin: 1em 0;
+  }
+  .li .circle {
+    width: 15px;
+    height: 15px;
+  }
+  .li .span {
+    margin-left: 0;
+  }
+  .li .texarea {
+    min-width: 80%;
+    font-size: 15px;
+  }
+}
 .checkList {
   padding: 50px;
   color: #bfbfbf;
@@ -1928,8 +1856,8 @@ h1 {
   opacity: 0.3;
   z-index: 0;
   position: absolute;
-  height: 389px;
-  width: 283px;
+  height: 365px;
+  width: 292px;
 }
 
 .bgblockcontent {
@@ -2035,6 +1963,152 @@ h1 {
   }
   .footerAbout {
     padding-bottom: 150px;
+  }
+}
+@media (max-width: 900px) {
+  #shdots {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  .inst {
+    display: none;
+  }
+  .upperRightRightsectionHomePageNavbar {
+    width: 20vw;
+    justify-content: flex-end;
+  }
+}
+@media (max-width: 480px) {
+  .leftHomePageNavbar {
+    width: 100vw;
+    padding: 10px;
+    transform: translateX(-100vw);
+  }
+  .leftHomePageNavbar .profile {
+    padding-top: 10px;
+  }
+  .leftHomePageNavbar .profile .profileImgConteiner {
+    padding: 5px;
+  }
+  .leftHomePageNavbar .profile .profileImgConteiner .profileImg {
+    height: 100px;
+    width: 100px;
+    min-width: 100px;
+    min-height: 100px;
+  }
+  .leftHomePageNavbar .profile .profileEmail span {
+    font-size: 16px !important;
+  }
+  .leftHomePageNavbar .scrollpanel {
+    border-top: solid 5px #b1b1b1;
+    height: auto;
+    overflow-y: auto;
+  }
+  .leftHomePageNavbar .scrollpanel .listOfFiles {
+    background-size: 120%;
+  }
+  .leftHomePageNavbar .scrollpanel .listOfSettings {
+    background-size: 100% 100%;
+  }
+  .leftHomePageNavbar .scrollpanel .FileInNavbar {
+    height: auto;
+    padding: 5% 10%;
+  }
+  .leftHomePageNavbar .scrollpanel .FileInNavbar .textInFileInNavbar {
+    font-family: "Kadwa";
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 40px;
+    color: #424242;
+  }
+  .leftHomePageNavbar {
+    position: absolute;
+  }
+  .leftHomePageNavbar .profileImg {
+    height: 80px;
+    width: 80px;
+  }
+  .leftHomePageNavbar .profileEmail span {
+    font-size: 14px !important;
+  }
+  .leftHomePageNavbar .FileInNavbar {
+    padding: 5% 5%;
+  }
+  .leftHomePageNavbar .FileInNavbar .textInFileInNavbar {
+    font-family: "Kadwa";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 35px;
+    color: #424242;
+  }
+  .rightHomePage {
+    width: 100% !important;
+  }
+  .rightHomePage .desktopWithFilesbgbg .scroll {
+    width: 100% !important;
+    border-radius: 0px !important;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles {
+    grid-template-columns: 1fr;
+    gap: 20px !important;
+    padding: 20px !important;
+    width: 100% !important;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteiner {
+    width: 40% !important;
+    height: 110px !important;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .addFile .upperside div {
+    transform: scale(0.5) translate(0px) !important;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconName {
+    font-family: "Kadwa";
+    font-size: 80%;
+    font-weight: 600;
+    line-height: 18px;
+    color: #424242;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconType {
+    font-family: "Kadwa";
+    font-size: 70%;
+    font-weight: 600;
+    line-height: 7px;
+    color: #424242;
+  }
+  .rightHomePage .upperRightHomePageNavbar {
+    height: 50px !important;
+    padding: 5px;
+    width: 100%;
+  }
+  .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar {
+    gap: 10px !important;
+    width: 40vw !important;
+    height: 100%;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    justify-content: flex-end !important;
+  }
+  .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar #showhideCont {
+    flex-direction: column;
+  }
+  .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar #logosvg {
+    transform: scale(0.8);
+  }
+  .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar .backLeaf {
+    max-width: 10vw;
+  }
+  .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar * {
+    padding: 0px;
+  }
+  .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar .peni svg,
+  .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar div svg {
+    transform: scale(0.5);
+  }
+  .desktopWithFiles {
+    border-top-left-radius: 0px;
   }
 }
 [lang=uk] p, font, span {

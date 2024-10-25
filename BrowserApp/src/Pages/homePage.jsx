@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updatePages } from "../redux/pagesSlice";
 import { clearSelection, stopSelection } from "../redux/selectSlice";
 import { updateShowExpo } from "../redux/showExpo";
-import { editPayload } from "../redux/isEditable";
+import { edit, editPayload } from "../redux/isEditable";
 import Popover from "../mainPageModules/rigtSidePageComponents/desktopWithFilesModule/popover/Popover";
 import ErrorBoundary from "../testingComp/ErrorBoundary";
 
@@ -64,11 +64,19 @@ const HomePage = () => {
           >
             <div
               className="scroll"
+              onTouchStart={() => {
+                if (
+                  ["checklist", "todo", "note", "table"].includes(
+                    location.pathname.split("/")[2]
+                  )
+                )
+                  dispatch(edit());
+              }}
               style={{
                 background: localStorage.getItem("bg") && "none",
               }}
             >
-              {showExpo && <Popover />}
+           
               <ErrorBoundary>
                 <Outlet />
               </ErrorBoundary>
@@ -76,6 +84,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      {showExpo && <Popover />}
     </div>
   );
 };

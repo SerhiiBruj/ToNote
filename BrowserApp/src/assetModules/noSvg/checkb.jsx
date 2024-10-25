@@ -1,7 +1,10 @@
 // eslint-disable-next-line react/prop-types
 const CheckBox = ({size, checked }) => {
     return (
-      <div className="selcirc" style={{
+      <div
+      
+
+      className="selcirc" style={{
         height:`${size}px !important `,
         width:`${size}px !important `,
       }}>

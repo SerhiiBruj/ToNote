@@ -29,7 +29,23 @@ const UpperRightHomePgeNavbar = () => {
 
   const [page, setPage] = useState("");
   const [isHome, setIsHome] = useState(true);
+  const [showMenu, setShMe] = useState(true);
+  const [width, setWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    // Функція, що буде оновлювати ширину
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    // Додаємо слухача події resize
+    window.addEventListener("resize", handleResize);
+
+    // Очищаємо слухача при демонтовані компонента
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -45,7 +61,7 @@ const UpperRightHomePgeNavbar = () => {
     async (selectedFiles) => {
       try {
         const response = await axios.post(
-          "http://"+mylocalip+":3000/delete-uploaded-file",
+          "http://" + mylocalip + ":3000/delete-uploaded-file",
           { filesToDelete: selectedFiles },
           {
             headers: {
@@ -94,8 +110,7 @@ const UpperRightHomePgeNavbar = () => {
           dispatch(clearSelection());
           dispatch(stopSelection());
         }
-      }
-      else if(selected.length===0 && isSelecting)
+      } else if (selected.length === 0 && isSelecting)
         dispatch(stopSelection());
       else {
         dispatch(startSelection());
@@ -103,18 +118,19 @@ const UpperRightHomePgeNavbar = () => {
     } else if (listOfFileTypes.includes(location.pathname.split("/")[2])) {
       dispatch(updateShowExpo(!showSomething));
     }
-  }, [isHome, selected,isSelecting, showSomething, location.pathname]);
+  }, [isHome, selected, isSelecting, showSomething, location.pathname]);
 
   return (
     <div className="upperRightHomePageNavbar">
       <div
+        className="backLeaf"
         style={{
           transition: "all ease 0.5s",
           opacity: !isHome ? "1" : "0",
           transform: !isHome ? "scale(1)" : "scale(0)",
         }}
       >
-        <BackLeafIcon size={0.8} color={"#2e2e2e"} />
+        <BackLeafIcon size={"35%"} color={"#2e2e2e"} />
       </div>
 
       <div>
@@ -123,43 +139,112 @@ const UpperRightHomePgeNavbar = () => {
         </h1>
       </div>
 
-      <div className="upperRightRightsectionHomePageNavbar">
+      <div
+        style={{ width: "fit-content" }}
+        className="upperRightRightsectionHomePageNavbar"
+      >
+        <div
+          className="upperRightRightsectionHomePageNavbar"
+          style={{ width: "fit-content" }}
+          id="showhideCont"
+        >
+          <div
+            id="shdots"
+            onClick={() => {
+              setShMe(!showMenu);
+              console.log(showMenu);
+            }}
+          >
+            <div
+              className="dots"
+              style={{
+                height: "1vw",
+                width: "1vw",
+                borderRadius: 60,
+                margin: "0.2vw",
+              }}
+            ></div>
+            <div
+              className="dots"
+              style={{
+                margin: "0.2vw",
+                height: "1vw",
+                width: "1vw",
+                borderRadius: 60,
+              }}
+            ></div>
+            <div
+              className="dots"
+              style={{
+                margin: "0.2vw",
+                height: "1vw",
+                width: "1vw",
+                borderRadius: 60,
+              }}
+            ></div>
+          </div>
+          <div
+            className="inst"
+            style={{
+              transition: "all ease 0.2s",
+              transform: isHome ? "none" : "scale(0)",
+              opacity: isHome ? 1 : 0,
+              display: showMenu && width < 480 ? "none" : "flex",
+            }}
+          >
+            <StartSelection />
+          </div>
+          <div
+            className="peni inst "
+            style={{
+              display: showMenu && width < 480 ? "none" : "flex",
+            }}
+            onClick={() => {
+              dispatch(edit());
+              if (isSelecting) {
+                dispatch(stopSelection());
+                dispatch(clearSelection());
+              }
+            }}
+          >
+            <PenIcon size={0.9} color="#2e2e2e" roll={isEditable} />
+          </div>
+          <div
+            style={{
+              display: showMenu && width < 480 ? "none" : "flex",
+            }}
+            onClick={deleteFile}
+            className="inst"
+          >
+            <BinIcon size={1} color="#2e2e2e" />
+          </div>
+          <div
+            style={{
+              display: showMenu && width < 480 ? "none" : "flex",
+            }}
+            className="inst"
+            onClick={(e) => {
+              e.stopPropagation();
+              exportFile();
+            }}
+          >
+            <ShareIcon size={1} color="#2e2e2e" />
+          </div>
+        </div>
+
         <div
           style={{
-            transition: "all ease 0.2s",
-            transform: isHome ? "none" : "scale(0)",
-            opacity: isHome ? 1 : 0,
+            height: "100%",
+            marginTop: "0%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
-        >
-          <StartSelection />
-        </div>
-        <div
-          className="peni"
           onClick={() => {
-            dispatch(edit());
-            if (isSelecting) {
-              dispatch(stopSelection());
-              dispatch(clearSelection());
-            }
+            navigate("/About");
           }}
         >
-          <PenIcon size={0.9} color="#2e2e2e" roll={isEditable} />
-        </div>
-        <div onClick={deleteFile}>
-          <BinIcon size={1} color="#2e2e2e" />
-        </div>
-        <div
-          onClick={(e) => {
-            e.stopPropagation();
-            exportFile();
-          }}
-        >
-          <ShareIcon size={1} color="#2e2e2e" />
-        </div>
-        <div style={{ marginTop: "4%" }}>
-          <Link to={"/About"}>
-            <LogoIcon />
-          </Link>
+          <LogoIcon />
         </div>
       </div>
     </div>
