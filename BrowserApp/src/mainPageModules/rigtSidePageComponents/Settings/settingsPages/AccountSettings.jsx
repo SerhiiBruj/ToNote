@@ -139,6 +139,7 @@ const AccountSettings = () => {
       <button
         onClick={() => {
           localStorage.removeItem("token");
+          sessionStorage.clear();
           navigate("/authentification");
         }}
         className="submit logout"

@@ -9,35 +9,39 @@ import mylocalip from "../../../../mylocalip";
 const Profile = () => {
   const [editProfile, setEditProfile] = useState(false);
   const userData = useSelector((state) => state.userData);
-  const [changes, setChanges] = useState(false);
   const [avatar, setAvatar] = useState(null);
-  const [avatarpath, setAvatarpath] = useState('');
+  const [avatarpath, setAvatarpath] = useState("");
 
   const handleFileChange = (e) => {
     setAvatar(e.target.files[0]);
-    setChanges(true);
   };
 
   const changeEditProfile = () => {
-    if (editProfile && changes && localStorage.getItem("token") && avatar && localStorage.getItem("beLocal")) {
+    const token = localStorage.getItem("token");
+    const beLocal = localStorage.getItem("beLocal");
+    console.log(!!avatar)
+
+    if (editProfile  && token && avatar && !beLocal) {
       const formData = new FormData();
       formData.append("avatar", avatar);
 
       axios
-        .post("http://"+mylocalip+":3000/upload", formData, {
+        .post(`http://${mylocalip}:3000/upload`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("token")}`, 
+            Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          setAvatarpath(`http://`+mylocalip+`:3000/profile-image/${userData.userName}.png`);
-          console.log(res.data); // Виводимо відповідь сервера у консоль
+          const timestamp = new Date().getTime();
+          setAvatarpath(`http://${mylocalip}:3000/profile-image/${userData.userName.replace(/ /g,"%20")}.png?${timestamp}`);
+          console.log(res.data);
         })
         .catch((err) => {
-          console.error("Помилка завантаження файлу:", err); // Виводимо помилку у консоль
+          console.error("Помилка завантаження файлу:", err); 
         });
     }
+
     setEditProfile(!editProfile);
   };
 

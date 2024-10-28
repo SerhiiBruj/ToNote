@@ -13,7 +13,7 @@ import WhatIsIt from "./AboutPageComponents/WhatIsIt.jsx";
 import Technologies from "./AboutPageComponents/Technologies.jsx";
 import Creator from "./AboutPageComponents/Creator.jsx";
 import mylocalip from "../../mylocalip.js";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 const DesktopWithFiles = lazy(() =>
   import(
     "./mainPageModules/rigtSidePageComponents/desktopWithFilesModule/desktopWithFiles.jsx"
@@ -49,9 +49,8 @@ const ChecklistModule = lazy(() =>
     "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/сheckListModule/checklist.jsx"
   )
 );
-const SettingsPage = lazy(() =>
-  import("./mainPageModules/rigtSidePageComponents/Settings/SettingsPage.jsx")
-);
+import SettingsPage from "./mainPageModules/rigtSidePageComponents/Settings/SettingsPage.jsx";
+
 const CloudStorage = lazy(() =>
   import(
     "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/CloudStorage.jsx"
@@ -62,11 +61,8 @@ const Appearence = lazy(() =>
     "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/Appearence.jsx"
   )
 );
-const AccountSettings = lazy(() =>
-  import(
-    "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/AccountSettings.jsx"
-  )
-);
+import AccountSettings from "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/AccountSettings.jsx";
+
 const TermsAndPolicy = lazy(() =>
   import(
     "./mainPageModules/rigtSidePageComponents/Settings/settingsPages/TermsAndPolicy.jsx"
@@ -107,7 +103,7 @@ const PrivateRoute = ({ children }) => {
               setUserData({
                 userName: response.data.decoded.username,
                 email: response.data.decoded.email,
-                imageUrl: response.data.imageUrl,
+                imageUrl: response.data.imageUrl.replace(" ", "%20"),
               })
             );
 
@@ -130,7 +126,7 @@ const PrivateRoute = ({ children }) => {
   return children;
 };
 PrivateRoute.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 function App() {
@@ -332,8 +328,6 @@ const Loading = () => {
     </div>
   );
 };
-
-
 
 // const NotificationComponent = () => {
 //   const [permission, setPermission] = useState(null);

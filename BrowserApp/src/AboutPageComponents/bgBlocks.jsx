@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useRef } from "react";
 
 function* pRV() {
   while (true) {
@@ -11,9 +12,9 @@ function* pRV() {
 // eslint-disable-next-line react/prop-types
 const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
   const blockRefs = useRef([]);
-  useEffect(()=>{
-    console.log("BgBlocks was updated")
-  },[])
+  useEffect(() => {
+    console.log("BgBlocks was updated");
+  }, []);
   useEffect(() => {
     blockRefs.current.forEach((block) => {
       const tb = [pRV().next().value, pRV().next().value];
@@ -68,7 +69,16 @@ const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
         className="bgblockcontent"
         style={{ maxWidth: !ff ? 470 : ff, textAlign: "flex-start" }}
       >
-        <span style={{height:0,opacity:0,minHeight:"0px",paddingBottom:0,paddingTop:0}}  className="typing-animation">
+        <span
+          style={{
+            height: 0,
+            opacity: 0,
+            minHeight: "0px",
+            paddingBottom: 0,
+            paddingTop: 0,
+          }}
+          className="typing-animation"
+        >
           {text}
         </span>
         {!!text && <TypingAnimation delay={delay} text={text} />}
@@ -81,52 +91,49 @@ const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
 export default BgBlocks;
 
 // eslint-disable-next-line react/prop-types
-const TypingAnimation = ({ delay, text,  }) => {
-  const [displayedText, setDisplayedText] = useState("");
+const TypingAnimation = ({ delay, text }) => {
   const ref = useRef(null);
 
-  useEffect(()=>{
-    console.log("TypingAnimation was updated")
-  },[])
-
-  const renderText = (i, l) => {
-    if (i < l) {
-      setTimeout(() => {
-        setDisplayedText((prev) => prev + text[i]);
-        renderText(i + 1, l);
-      }, 50);
-    } else {
-      return 0;
-    }
-  };
-
   useEffect(() => {
+    let i = 0;
+    let intervalId;
+
+    const renderText = () => {
+      intervalId = setInterval(() => {
+        if (i < text.length && ref.current) {
+          console.log('object')
+          ref.current.insertAdjacentText("beforeend", text[i]);
+          i++;
+        } else {
+          clearInterval(intervalId);
+        }
+      }, 50);
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && displayedText === "") {
+        if (entry.isIntersecting && !intervalId) {
           setTimeout(() => {
-            renderText(0, text.length);
+            renderText();
           }, delay);
         }
       },
-      {
-        threshold: 0.1,
-      }
+      { threshold: 0.1 }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+    if (ref.current) observer.observe(ref.current);
+
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
+      if (intervalId) clearInterval(intervalId);
+      if (ref.current) observer.unobserve(ref.current);
     };
-  }, [displayedText, text]);
+  }, [text, delay]);
 
   return (
-    <span ref={ref} className="typing-animation" style={{textAlign:"left"}}>
-      {displayedText}
-    </span>
+    <span
+      ref={ref}
+      className="typing-animation"
+      style={{ textAlign: "left" }}
+    ></span>
   );
 };

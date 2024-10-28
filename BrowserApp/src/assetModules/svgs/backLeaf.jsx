@@ -1,24 +1,19 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
-import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const BackLeafIcon = (props) => {
   const navigate = useNavigate();
-  const pages = useSelector((state) => state.pages.value);
-  const location=useLocation( );
+  const location = useLocation();
 
   const PCS = async () => {
     console.log("sending");
     try {
-      let arrayOfFiles = [];
+      let arrayOfFiles = Object.keys(sessionStorage).map((name) => ({
+        name: name,
+        value: sessionStorage.getItem(name),
+      }));
 
-      for (let i = 0; i < pages.length; i++) {
-        arrayOfFiles.push({
-          name: pages[i],
-          value: sessionStorage.getItem(pages[i]),
-        });
-      }
       const token = localStorage.getItem("token");
       console.log(arrayOfFiles);
 
@@ -27,7 +22,7 @@ const BackLeafIcon = (props) => {
         { file: arrayOfFiles },
         {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -42,15 +37,15 @@ const BackLeafIcon = (props) => {
   };
   return (
     <svg
-     className="hoverSvg"
+      className="hoverSvg"
       onClick={() => {
         if (list.some((item) => item === location.pathname.split("/")[2])) {
           PCS();
         }
         navigate("/Home");
       }}
-      width={props.size }
-      height={props.size }
+      width={props.size}
+      height={props.size}
       viewBox="0 0 155 78"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

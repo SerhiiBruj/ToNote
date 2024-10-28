@@ -4,18 +4,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 const useLocalStorage = (key, initialValue) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const keyy = decodeURIComponent(key.replace(/(%20)/g, " "));
-  const [isLocalItem, setIs] = useState(false);
+  const keyDecoded = decodeURIComponent(key.replace(/(%20)/g, " "));
 
   const [storedValue, setStoredValue] = useState(() => {
     try {
-      const sessionItem = window.sessionStorage.getItem(keyy);
-      if (sessionItem) {
-        return JSON.parse(sessionItem);
-      }
-      const localItem = window.localStorage.getItem(keyy);
-      if (localItem) setIs(true)
-      return localItem ? JSON.parse(localItem) : initialValue;
+      const localItem = window.localStorage.getItem(keyDecoded);
+      if (localItem) return JSON.parse(localItem); // Повертаємо дані з localStorage, якщо є
+
+      const sessionItem = window.sessionStorage.getItem(keyDecoded);
+      return sessionItem ? JSON.parse(sessionItem) : initialValue; // Повертаємо дані з sessionStorage, якщо є
     } catch (error) {
       console.error("Помилка парсингу:", error);
       return initialValue;
@@ -24,11 +21,11 @@ const useLocalStorage = (key, initialValue) => {
 
   useEffect(() => {
     try {
-      const sessionItem = window.sessionStorage.getItem(keyy);
+      const sessionItem = window.sessionStorage.getItem(keyDecoded);
       if (sessionItem) {
         setStoredValue(JSON.parse(sessionItem));
       } else {
-        const localItem = window.localStorage.getItem(keyy);
+        const localItem = window.localStorage.getItem(keyDecoded);
         if (localItem) {
           setStoredValue(JSON.parse(localItem));
         } else {
@@ -44,9 +41,17 @@ const useLocalStorage = (key, initialValue) => {
   const setValue = (value) => {
     try {
       setStoredValue(value);
-      isLocalItem ?
-        window.localStorage.setItem(keyy, JSON.stringify(value))
-        : window.sessionStorage.setItem(keyy, JSON.stringify(value))
+
+      // Якщо дані вже є в localStorage, оновлюємо його
+      const existsInLocalStorage = window.localStorage.getItem(keyDecoded) !== null;
+
+      // Якщо дані не існують у localStorage, зберігаємо їх у sessionStorage
+      if (!existsInLocalStorage) {
+        window.sessionStorage.setItem(keyDecoded, JSON.stringify(value));
+      } else {
+        // В іншому випадку, зберігаємо в localStorage
+        window.localStorage.setItem(keyDecoded, JSON.stringify(value));
+      }
     } catch (error) {
       console.error("Помилка при збереженні даних:", error);
     }

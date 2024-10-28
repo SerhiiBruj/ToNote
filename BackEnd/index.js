@@ -47,6 +47,8 @@ const storage = multer.diskStorage({
   },
 });
 
+
+
 // Ініціалізація Multer з параметрами storage
 const upload = multer({
   storage: storage,
@@ -88,7 +90,7 @@ const testToken = async (req) => {
 // Маршрут для завантаження файлів
 app.post("/upload", upload.single("avatar"), (req, res) => {
   try {
-    console.log(req.file); // Виводимо інформацію про файл у консоль
+    console.log(req.file); 
     res.status(200).json({
       message: "Зображення успішно завантажено",
       file: req.file,
@@ -98,6 +100,7 @@ app.post("/upload", upload.single("avatar"), (req, res) => {
     res.status(500).send("Помилка завантаження файлу");
   }
 });
+
 
 app.use(
   "/profile-image",

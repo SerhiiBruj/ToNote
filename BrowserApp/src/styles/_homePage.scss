@@ -53,7 +53,6 @@
       border-top: solid 10px $lighterdarkgray;
       width: 100%;
       flex: 1;
-      position: sticky;
       overflow-x: hidden;
       overflow-y: scroll;
       .innerdivider {
@@ -69,7 +68,6 @@
         background-image: url(../assetModules/svgs/penAndLineSvg.svg);
         background-repeat: no-repeat;
         background-size: 170%;
-        scroll-snap-type: y mandatory;
         background-position: right;
         min-height: 200px;
       }

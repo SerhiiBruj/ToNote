@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import LogoIcon from "../../../assetModules/svgs/logo";

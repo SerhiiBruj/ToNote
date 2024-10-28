@@ -44,6 +44,19 @@ const FileAdd = () => {
         switch (formData.fileType) {
           case "todo":
             return [];
+          case "diary":
+            return [
+              {
+                date: `${String(currentDate.getDate()).padStart(
+                  2,
+                  "0"
+                )}.${String(currentDate.getMonth() + 1).padStart(
+                  2,
+                  "0"
+                )}.${currentDate.getFullYear()}`,
+                value: "",
+              },
+            ];
           case "note":
             return "";
           case "table":
@@ -71,7 +84,7 @@ const FileAdd = () => {
       const valueToStore = JSON.stringify(initialData);
       const storageKey = `${formData.fileType}/${formData.fileName}`;
 
-      if (localStorage.getItem("beLocal") !==null||formData.local) {
+      if (localStorage.getItem("beLocal") !== null || formData.local) {
         localStorage.setItem(storageKey, valueToStore);
       } else {
         sessionStorage.setItem(storageKey, valueToStore);
@@ -80,7 +93,7 @@ const FileAdd = () => {
       setFormData({ fileName: "", fileType: "note" });
       dispatch(updatePages());
     },
-    [formData.fileName, formData.fileType,formData.local]
+    [formData.fileName, formData.fileType, formData.local]
   );
 
   return (
