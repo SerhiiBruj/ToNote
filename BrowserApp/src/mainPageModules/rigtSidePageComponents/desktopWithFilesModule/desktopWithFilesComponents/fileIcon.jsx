@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { doAnimate } from "../../../../redux/startAnimation";
@@ -36,7 +36,7 @@ const FileIcon = (props) => {
     [selected, dispatch, name, props.type]
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (ref.current && boolAnimate) {
       ref.current.style.transition = "all ease 0.5s";
       ref.current.style.opacity = "0%";

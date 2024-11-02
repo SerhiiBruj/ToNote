@@ -1,12 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef } from "react";
 
-function* pRV() {
-  while (true) {
-    yield Math.floor(
-      (Math.random() * 100 + 100) * (Math.random() < 0.4 ? -1 : 1)
-    );
-  }
+function pRV() {
+  return Math.floor(
+    (Math.random() * 250) * (Math.random() < 0.4 ? -1 : 1)
+  );
 }
 
 // eslint-disable-next-line react/prop-types
@@ -17,20 +15,20 @@ const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
   }, []);
   useEffect(() => {
     blockRefs.current.forEach((block) => {
-      const tb = [pRV().next().value, pRV().next().value];
-      block?.animate(
+      const tb = [pRV(), pRV()];
+      block.animate(
         [
           {
             transform: `translate(${tb[0]}px, ${tb[1]}px)`,
           },
           {
-            transform: `translate(${pRV().next().value}px, ${
-              pRV().next().value
+            transform: `translate(${pRV()}px, ${
+              pRV()
             }px)`,
           },
           {
-            transform: `translate(${pRV().next().value}px, ${
-              pRV().next().value
+            transform: `translate(${pRV()}px, ${
+              pRV()
             }px)`,
           },
           {
@@ -101,7 +99,7 @@ const TypingAnimation = ({ delay, text }) => {
     const renderText = () => {
       intervalId = setInterval(() => {
         if (i < text.length && ref.current) {
-          console.log('object')
+          console.log("object");
           ref.current.insertAdjacentText("beforeend", text[i]);
           i++;
         } else {

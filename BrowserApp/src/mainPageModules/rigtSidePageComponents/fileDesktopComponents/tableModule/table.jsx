@@ -1,16 +1,16 @@
-import React, { memo, useCallback, useEffect, useMemo } from "react";
+import React, { memo, useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 import DoneIcon from "../../../../assetModules/svgs/doneIcon";
 import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
 
 const Table = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
-  const location = useLocation();
-  const typeName = useMemo(() => {
-    return location.pathname.split("/").slice(2).join("/");
-  }, [location.pathname]);
+  const { name } = useParams();
+
+  const typeName = "table/" + name;
+
   const [table, setTable] = useLocalStorage(typeName, [
     ["", ""],
     ["", ""],
@@ -28,7 +28,8 @@ const Table = () => {
   const changeDone = useCallback(
     (index, i) => {
       const newTable = [...table];
-      newTable[index][i] = table[index][i] === false || table[index][i] === "" ? true : false;
+      newTable[index][i] =
+        table[index][i] === false || table[index][i] === "" ? true : false;
       setTable(newTable);
     },
     [table, setTable]

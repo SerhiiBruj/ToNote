@@ -2,7 +2,6 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 const CloudStorage = () => {
-  let testname = "checklist/Python"; // Переконайтеся, що це не undefined або null
   const pages = useSelector((state) => state.pages.value);
 
   const GCS = async () => {
@@ -13,12 +12,9 @@ const CloudStorage = () => {
         "http://localhost:3000/get-uploaded-file",
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Використовуємо Bearer токен
+            Authorization: `Bearer ${token}`, 
           },
-          params: {
-            // Передача параметрів через URL
-            fileName: testname,
-          },
+          
         }
       );
 

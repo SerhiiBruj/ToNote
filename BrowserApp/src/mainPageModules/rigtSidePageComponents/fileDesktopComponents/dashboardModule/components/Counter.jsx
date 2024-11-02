@@ -55,9 +55,7 @@ const Counter = ({ i, clockers, setClockers }) => {
     });
   };
   const handleClickDerease = () => {
-    if (
-      (clockers.table[clockers.table.length - 1][i]  > 0)
-    ) {
+    if (clockers.table[clockers.table.length - 1][i] > 0) {
       const newTable = [...clockers.table];
       newTable[newTable.length - 1][i] = newTable[newTable.length - 1][i] - 1;
 
@@ -106,7 +104,7 @@ const Counter = ({ i, clockers, setClockers }) => {
                   alignItems: "center",
                 }}
               >
-                <Arrow size={0.5} /> <br />
+                <Arrow size={"2.5vw"} /> <br />
               </span>
               {counter}
               <br />
@@ -120,7 +118,7 @@ const Counter = ({ i, clockers, setClockers }) => {
                   alignItems: "center",
                 }}
               >
-                <Arrow size={0.5} />
+                <Arrow size={"2.5vw"} />
               </span>
             </div>
           </div>
@@ -208,7 +206,7 @@ const Diagram = ({ table, i, bestResults }) => {
                   el.value < colors.length
                     ? colors[el.value]
                     : colors[el.value % colors.length],
-                    transition: "all 0.1s",
+                transition: "all 0.1s",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",

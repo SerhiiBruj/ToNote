@@ -1854,8 +1854,8 @@ h1 {
   opacity: 0.3;
   z-index: 0;
   position: absolute;
-  height: 318px;
-  width: 217px;
+  height: 305px;
+  width: 239px;
 }
 
 .bgblockcontent {
@@ -1974,6 +1974,7 @@ h1 {
   padding-left: 1%;
   width: 98%;
   display: flex;
+  background-color: rgb(49, 49, 49);
   align-items: center;
   justify-content: space-between;
 }
@@ -1982,6 +1983,11 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: opacity ease 0.5s;
+}
+.arrow-container:hover {
+  opacity: 0.8;
 }
 
 .arrow-rotated {
@@ -1989,6 +1995,7 @@ h1 {
 }
 
 .diary-date {
+  color: lightgray;
   font-size: 1.2em;
   font-weight: bold;
 }
@@ -2008,6 +2015,45 @@ h1 {
   font-size: 1em;
   border: none;
   outline: none;
+  color: #bfbfbf;
+  padding: 20px;
+  font-size: 25px;
+  resize: none;
+  outline: none;
+  background-color: transparent;
+  display: block;
+  width: 90%;
+  height: 100%;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  unicode-bidi: isolate;
+  white-space: pre-wrap;
+  outline: none;
+  border-width: 0px;
+}
+.diary-textarea::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+.diary-textarea:focus {
+  border: 0px;
+  outline: none;
+  resize: none;
+  border: 0px;
+}
+.diary-textarea:active {
+  border: 0px;
+  outline: none;
+  resize: none;
+  border: 0px;
+}
+.diary-textarea:disabled {
+  border: 0px;
+  outline: none;
+  resize: none;
+  border: 0px;
 }
 
 @media (max-width: 900px) {

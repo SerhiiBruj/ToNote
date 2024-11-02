@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useLayoutEffect, useRef, useState } from "react";
 import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePages } from "../../../../redux/pagesSlice";
@@ -16,7 +16,7 @@ const FileAdd = () => {
     local: false,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (ref.current && boolAnimate) {
       ref.current.style.transition = "all ease 0.5s";
       ref.current.style.opacity = "0%";

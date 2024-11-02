@@ -1,6 +1,6 @@
 import "./styles/App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { lazy, Suspense, useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import HomePage from "./Pages/homePage.jsx";
 import NotFoundPage from "./Pages/notFoundPage.jsx";
 const Login = lazy(() => import("./Pages/LogIn.jsx"));
@@ -130,18 +130,6 @@ PrivateRoute.propTypes = {
 };
 
 function App() {
-  // useEffect(() => {
-  //   if (localStorage.getItem("animations")) {
-  //     if (!JSON.parse(localStorage.getItem("animations"))) {
-  //       const style = document.createElement("style");
-  //       style.innerHTML = `* {
-  //         transition: none !important;
-  //       }`;
-  //       document.head.appendChild(style);
-  //     }
-  //   }
-  // }, []);
-
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/About" />} />
@@ -166,6 +154,7 @@ function App() {
             </Suspense>
           }
         />
+        {/* <Route path="ss" element={<LifecycleExample />}></Route> */}
         <Route
           path="note/:name"
           element={
@@ -259,7 +248,7 @@ function App() {
       <Route
         path="/authentification"
         element={
-          <Suspense>
+          <Suspense fallback={<Loading />}>
             <Login />
           </Suspense>
         }
@@ -329,53 +318,59 @@ const Loading = () => {
   );
 };
 
-// const NotificationComponent = () => {
-//   const [permission, setPermission] = useState(null);
 
-//   // Функція для запиту дозволу на показ сповіщень
-//   const requestNotificationPermission = () => {
-//     if ('Notification' in window) {
-//       Notification.requestPermission().then(permission => {
-//         setPermission(permission);
-//       });
-//     } else {
-//       console.log('Ваш браузер не підтримує сповіщення');
+
+
+
+// class LifecycleExample extends React.Component {
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             count: 0,
+//         };
+//         console.log('Constructor: Initializing state');
 //     }
-//   };
 
-//   // Функція для створення сповіщення
-//   const showNotification = () => {
-//     if (permission === 'granted') {
-//       new Notification('Заплановане сповіщення!', {
-//         body: 'Це сповіщення було заплановане.',
-//       });
+//     static getDerivedStateFromProps(nextProps, prevState) {
+//         console.log('Derived State: Getting derived state from props');
+//         return null; // або оновлений стан
 //     }
-//   };
 
-//   // Функція для планування сповіщення
-//   const scheduleNotification = (delayInSeconds) => {
-//     const delayInMilliseconds = delayInSeconds * 1000;
-//     setTimeout(() => {
-//       showNotification();
-//     }, delayInMilliseconds);
-//   };
+//     componentDidMount() {
+//         console.log('Component Did Mount: Component is mounted');
+//         // Можна виконати асинхронні запити
+//     }
 
-//   // Викликаємо функцію планування, наприклад, через 10 секунд після завантаження компоненту
-//   useEffect(() => {
-//     requestNotificationPermission();
-//     scheduleNotification(10); // Сповіщення через 10 секунд
-//   }, []);
+//     shouldComponentUpdate(nextProps, nextState) {
+//         console.log('Should Component Update: Deciding whether to update');
+//         return true; // або false
+//     }
 
-//   return (
-//     <div>
-//       <h1>Заплановане сповіщення у браузері</h1>
-//       {permission === 'granted' ? (
-//         <p>Дозвіл на сповіщення надано</p>
-//       ) : permission === 'denied' ? (
-//         <p>Сповіщення заблоковані</p>
-//       ) : (
-//         <p>Запит на дозвіл для сповіщень</p>
-//       )}
-//     </div>
-//   );
-// };
+//     getSnapshotBeforeUpdate(prevProps, prevState) {
+//         console.log('Get Snapshot Before Update: Capturing snapshot');
+//         return null; // або дані для componentDidUpdate
+//     }
+
+//     componentDidUpdate(prevProps, prevState, snapshot) {
+//         console.log('Component Did Update: Component has updated');
+//     }
+
+//     componentWillUnmount() {
+//         console.log('Component Will Unmount: Cleaning up resources');
+//     }
+
+//     increment = () => {
+//         this.setState({ count: this.state.count + 1 });
+//     };
+
+//     render() {
+//         console.log('Render: Rendering component');
+//         return (
+//             <div>
+//                 <h1>Count: {this.state.count}</h1>
+//                 <button onClick={this.increment}>Increment</button>
+//             </div>
+//         );
+//     }
+// }
+

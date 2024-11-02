@@ -70,6 +70,20 @@ const Login = () => {
       });
 
       const token = response.data.token;
+      const res = await axios.get(
+        "http://" + mylocalip + ":3000/authentification",
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+            clientTime: new Date().getTime(),
+          },
+        }
+      );
+      if (res.status === 200) {
+        if (await GCS(token)) {
+          dispatch(updatePages());
+        }
+      }
 
       localStorage.setItem("token", token);
       localStorage.removeItem("beLocal");
@@ -89,7 +103,7 @@ const Login = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      if (!isEmail(email) || username.length < 6 || password.length < 6) {
+      if (!isEmail(email) || username.length < 6 || password.length > 6) {
         setError("Невірний емейл");
         throw error;
       }
@@ -166,7 +180,7 @@ const Login = () => {
               </label>
             </div>
             <p style={{ color: "red", opacity: error && !isLoggingIn ? 1 : 0 }}>
-            Невірний логін або пароль
+              Невірний логін або пароль
             </p>
             <button className="submit" type="submit">
               Log in
@@ -196,7 +210,9 @@ const Login = () => {
                   type="text"
                   placeholder="example123"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) =>
+                    setUsername(e.target.value.replace(/[\s/_]/gi, ""))
+                  }
                 />
               </label>
             </div>
@@ -212,7 +228,7 @@ const Login = () => {
               </label>
             </div>
             <p style={{ color: "red", opacity: error && isLoggingIn ? 1 : 0 }}>
-            Невірний логін або пароль
+              Невірний логін або пароль
             </p>
             <button type="submit" className="submit">
               Register
@@ -260,3 +276,28 @@ const Login = () => {
 };
 
 export default Login;
+
+
+const GCS = async (token) => {
+  try {
+    const response = await axios.get(
+      "http://" + mylocalip + ":3000/get-uploaded-file",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    for (let i = 0; i < response.data.userFiles.length; i++) {
+      sessionStorage.setItem(
+        response.data.userFiles[i].name,
+        response.data.userFiles[i].value
+      );
+    }
+    return true;
+  } catch (er) {
+    console.error(er);
+    return false;
+  }
+};

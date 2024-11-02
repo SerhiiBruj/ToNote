@@ -9,6 +9,7 @@
   padding-left: 1%;
   width: 98%;
   display: flex;
+  background-color: rgb(49, 49, 49);
   align-items: center;
   justify-content: space-between;
 }
@@ -17,6 +18,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: opacity ease 0.5s;
+  &:hover{
+    opacity: 0.8;
+  }
 }
 
 .arrow-rotated {
@@ -24,6 +30,7 @@
 }
 
 .diary-date {
+  color: lightgray;
   font-size: 1.2em;
   font-weight: bold;
 }
@@ -43,4 +50,43 @@
   font-size: 1em;
   border: none;
   outline: none;
+  color: #bfbfbf;
+  padding: 20px;
+  font-size: 25px;
+  resize: none;
+  outline: none;
+  background-color: transparent;
+  display: block;
+  width: 90%;
+  height: 100%;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  unicode-bidi: isolate;
+  white-space: pre-wrap;
+  outline: none;
+  &::-webkit-scrollbar {
+      width: 0px;
+      height: 0px;
+  }
+  border-width: 0px;
+  &:focus{
+      border: 0px;
+      outline: none;
+      resize: none;
+      border: 0px;
+  }
+  &:active{
+      border: 0px;
+      outline: none;
+      resize: none;
+      border: 0px;
+  }
+  &:disabled{
+      border: 0px;
+      outline: none;
+      resize: none;
+      border: 0px;
+  }
 }

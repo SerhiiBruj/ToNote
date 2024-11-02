@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useMemo, memo } from "react";
 import BinIcon from "../../../../assetModules/svgs/bin";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 import DoneIcon from "../../../../assetModules/svgs/doneIcon";

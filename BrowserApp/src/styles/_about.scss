@@ -150,6 +150,7 @@
 .bgblockcontent {
   background-color: #858585a1;
   transition: all ease 0.5s;
+  user-select: none;
 
   &:hover {
     background-color: #858585e6;
@@ -171,9 +172,10 @@
   border-radius: 20px;
   opacity: 0.3;
   z-index: 0;
+  user-select: none;
   position: absolute;
-  height: random(400 - 200 + 1) + 200px; // Використовуйте JS для генерації випадкових значень
-  width: random(400 - 200 + 1) + 200px; // Використовуйте JS для генерації випадкових значень
+  height: random(400 - 200 + 1) + 200px;
+  width: random(400 - 200 + 1) + 200px;
 }
 
 .bgblockcontent {
@@ -214,8 +216,6 @@
   justify-content: space-between;
   padding-top: 120px;
 }
-
-
 
 @media (max-width: 768px) {
   .footerAbout {
@@ -266,24 +266,24 @@
   .typing-animation {
     font-size: 18px;
     padding: 15px;
-    max-height:fit-content;
+    max-height: fit-content;
     height: fit-content;
   }
 
-  #Creator,#Technologies,#WhatIsIt {
+  #Creator,
+  #Technologies,
+  #WhatIsIt {
     width: 90% !important;
-    flex-direction: column; 
-      .maxwidth30vw{
-    max-width: none;
-
-      }
+    flex-direction: column;
+    .maxwidth30vw {
+      max-width: none;
+    }
     .container-of-blocks {
-      margin-bottom: 10px; 
+      margin-bottom: 10px;
 
       .bgtransblock {
-        
-        width: 90%; 
-        margin: 0 auto; 
+        width: 90%;
+        margin: 0 auto;
       }
 
       .bgtransblock:nth-of-type(even) {
@@ -291,7 +291,7 @@
       }
     }
   }
-  .footerAbout{
+  .footerAbout {
     padding-bottom: 150px;
   }
 }

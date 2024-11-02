@@ -1,6 +1,6 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import AddClocker from "./components/Addclocker";
-import { useLocation } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 import ClockOn from "./components/ClockOn";
 import CheckIn from "./components/CheckIn";
@@ -8,14 +8,11 @@ import Counter from "./components/Counter";
 import Timer from "./components/Timer";
 
 const Dashboard = () => {
-  const location = useLocation();
+  const {name}=useParams();
   const ref = useRef();
   const [ist, setist] = useState(false);
 
-  const typeName = useMemo(() => {
-    return location.pathname.split("/").slice(2).join("/");
-  }, [location.pathname]);
-
+  const typeName = "dashboard/"+name
 
   const [clockers, setClockers] = useLocalStorage(typeName, {
     templates: [],
@@ -87,9 +84,10 @@ const Dashboard = () => {
     <>
       <div
         style={{
-          position:'absolute',
+          position:'fixed',
           width: "100%",
           display: "flex",
+          top:"0px",
           justifyContent: "flex-end",
           alignItems: "center",
         }}

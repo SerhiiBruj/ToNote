@@ -1,17 +1,14 @@
-import { useEffect, useRef, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 import Arrow from "../../../../assetModules/svgs/arrow";
 
 const Diary = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
   const textareaRef = useRef(null);
-  const location = useLocation();
-
-  const typeName = useMemo(() => {
-    return location.pathname.split("/").slice(2).join("/");
-  }, [location.pathname]);
+  const { name } = useParams();
+  const typeName = `diary/` + name;
 
   const getCurrentDate = () => {
     const date = new Date();
@@ -72,7 +69,7 @@ const Diary = () => {
     >
       <div className="diary-header">
         <div
-          style={{ visibility: page === 0 ?"hidden":"visible" }}
+          style={{ visibility: page === 0 ? "hidden" : "visible" }}
           onClick={() => changepage(false)}
           className="arrow-container"
         >
@@ -80,8 +77,10 @@ const Diary = () => {
         </div>
         <span className="diary-date">{text[page]?.date}</span>
         <div
-          style={{ visibility: page === text.length-1 && !isEditable ?"hidden":"visible"  }}
-
+          style={{
+            visibility:
+              page === text.length - 1 && !isEditable ? "hidden" : "visible",
+          }}
           onClick={() => changepage(true)}
           className="arrow-container arrow-rotated"
         >
@@ -94,6 +93,7 @@ const Diary = () => {
           disabled={!isEditable}
           ref={textareaRef}
           className="diary-textarea"
+          placeholder="Type in"
           value={text[page]?.value || ""}
           onChange={handleTextChange}
           autoFocus

@@ -8,12 +8,12 @@ import userData from "./UserData";
 
 const store = configureStore({
   reducer: {
-    startAnimation: startAnimation,
-    isEditable: isEditable,
+    startAnimation,
+    isEditable,
     pages: pageSlice,
     select: selectSlice,
-    showExpo: showExpo,
-    userData: userData,
+    showExpo,
+    userData,
   },
 });
 

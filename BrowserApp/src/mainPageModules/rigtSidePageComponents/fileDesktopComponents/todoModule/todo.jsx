@@ -1,19 +1,17 @@
-import { memo, useCallback, useEffect, useMemo } from "react";
+import { memo, useCallback, useEffect } from "react";
 import BinIcon from "../../../../assetModules/svgs/bin";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
 import Circle from "../../../../assetModules/noSvg/circle";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 
 const Todo = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
   const showExpo = useSelector((state) => state.showExpo.value);
-  const location = useLocation();
-  const typeName = useMemo(
-    () => location.pathname.split("/").slice(2).join("/"),
-    [location.pathname]
-  );
+  const { name } = useParams();
+
+  const typeName = "todo/"+name
 
   const [data, setData] = useLocalStorage(typeName, [""]);
 

@@ -1,16 +1,13 @@
-import { useEffect, useRef, useCallback, useMemo, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useEffect, useRef, useCallback, memo } from "react";
+import { useSelector } from "react-redux";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
-import { edit } from "../../../../redux/isEditable";
+import { useParams } from "react-router-dom";
 
 const Note = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
   const textareaRef = useRef(null);
-  const location = useLocation();
-  const typeName = useMemo(() => {
-    return location.pathname.split("/").slice(2).join("/");
-  }, [location.pathname]);
+  const { name } = useParams();
+  const typeName =  "note/"+name
   const [text, setText] = useLocalStorage(typeName, "");
 
  

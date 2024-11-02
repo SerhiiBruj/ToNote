@@ -7,7 +7,7 @@ const WhatIsIt = () => {
     id="WhatIsIt"
    
     >
-      <BgBlocks ff={480} num={12} delay={0} text={"ToNote is a productivity app designed to help users stay organized and efficient. \n\nIt offers tools for managing notes, diaries, tables, checklists, and to-do lists, making it easier to track progress and stay on top organized"}>
+      <BgBlocks ff={480} num={12} delay={0} text={"ToNote is a productivity app designed to help users stay organized and efficient. \n\nIt offers tools for managing notes, dashboards, diaries, tables, checklists, and to-do lists, making it easier to track progress and stay on top organized"}>
         
          
       </BgBlocks>
