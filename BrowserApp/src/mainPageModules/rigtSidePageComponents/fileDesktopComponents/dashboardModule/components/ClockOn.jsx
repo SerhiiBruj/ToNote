@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {  useCallback, useEffect, useMemo, useState } from "react";
 import BellsIcon from "../../../../../assetModules/svgs/bellsIcon";
 const timeToMilliseconds = (time) => {
   if (!time || typeof time !== 'string') {
-    return 0; // Return 0 or any default value if time is null, undefined, or not a string
+    return 0; 
   }
   
   const [hours, minutes] = time.split(":").map((val) => Number(val));
@@ -37,13 +37,18 @@ const ClockOn = ({ i, clockers, setClockers }) => {
       let count = 0; 
       let total = 0; 
   
+      // Проходимо по рядках таблиці, починаючи з останнього
       for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
         if (Array.isArray(clockers.table[j][i])) {
+          // Підсумовуємо тривалість для кожного елемента масиву
           for (let k = 0; k < clockers.table[j][i].length; k++) {
-            total += calculateDuration(clockers.table[j][i]); console.log(total/(60 * 60 * 1000))          }
+            const duration = calculateDuration([clockers.table[j][i][k]]);
+            total += duration;
+          }
+          count++;
         }
-        count += 1;
       }
+
       if (count > 0) {
         const averageDuration = total / count;
         const hours = Math.floor(averageDuration / (60 * 60 * 1000));

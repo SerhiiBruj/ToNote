@@ -1,0 +1,41 @@
+@media (max-width: 768px) {
+  .loginCenterDiv {
+    align-items: flex-end;
+    transition: all 0.3s ease;
+    height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: none;
+    .excuseText {
+      text-align: center;
+      font-size: 20px;
+    }
+    .aucont{
+        justify-content: space-around;
+    }
+    .authContteiner {
+
+      height: 78dvh !important;
+      border-radius: 0% !important;
+      width: 100vw !important;
+      min-width: 200vw !important;
+      padding: 0px !important;
+      transition: all ease 1s;
+      justify-content: flex-start !important;
+      .aucont {
+        border-radius: 0% !important;
+        height: 100% !important;
+        padding: 0px;
+        width: 100vw !important;
+        *{
+            font-size: 3vh;
+        }
+      }
+      .Curtain {
+        display: none !important;
+        border-radius: 0% !important;
+        height: 100vh;
+      }
+    }
+  }
+}

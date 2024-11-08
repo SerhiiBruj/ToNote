@@ -89,6 +89,7 @@
       }
       .desktopWithFiles {
         grid-template-columns: 1fr;
+        border-top-left-radius: 0px !important;
         gap: 20px !important;
         padding: 20px !important;
         width: 100% !important;

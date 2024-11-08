@@ -1,41 +1,33 @@
+import  {  useState, useEffect, memo } from "react";
 import FileIcon from "./desktopWithFilesComponents/fileIcon";
 import FileAdd from "./desktopWithFilesComponents/fileAdd";
-import { useDispatch, useSelector } from "react-redux";
-import { memo, useEffect } from "react";
-import { donotanimate } from "../../../redux/startAnimation";
-import { edit } from "../../../redux/isEditable";
-const DesktopWithFiles = () => {
-  const pages = useSelector((state) => state.pages.value);
-  const boolAnimate = useSelector((state) => state.startAnimation.value);
-  const dispatch = useDispatch();
+import { useSelector } from "react-redux";
 
+
+
+const DesktopWithFiles = () => {
+  const [boolAnimate, setBoolAnimate] = useState(false);
+
+  const pages = useSelector((state) => state.pages.value);
   useEffect(() => {
-    console.log("useef");
-    if (boolAnimate)
+    console.log("useEffect");
+
+    if (boolAnimate) {
       setTimeout(() => {
-        dispatch(donotanimate());
+        setBoolAnimate(false); 
       }, 500);
-  }, [boolAnimate]);
+    }
+  }, [boolAnimate, setBoolAnimate]);
 
   return (
-    <>
-      <div style={{ width: "100%", display: "flex" }}>
-        <div
-       
-          className="desktopWithFiles"
-          style={{ height: "fit-content", background: "none" }}
-        >
-          {pages.map((page, index) => (
-            <FileIcon
-              key={index}
-              name={page.split("/")[1]}
-              type={page.split("/")[0]}
-            />
-          ))}
-          <FileAdd />
-        </div>
+    <div style={{ width: "100%", display: "flex" }}>
+      <div className="desktopWithFiles" style={{ height: "fit-content", background: "none" }}>
+        {pages.map((page, index) => (
+          <FileIcon setBoolAnimate={setBoolAnimate} boolAnimate={boolAnimate} key={index} name={page.split("/")[1]} type={page.split("/")[0]} />
+        ))}
+        <FileAdd setBoolAnimate={setBoolAnimate} boolAnimate={boolAnimate}  />
       </div>
-    </>
+    </div>
   );
 };
 

@@ -5,10 +5,16 @@ export const userData = createSlice({
     initialState: {
         hasUserData: false,
         userName: "",
-        email:'',
-        imageUrl:null,
+        email: '',
+        imageUrl: null,
     },
     reducers: {
+        clearUseData: (state) => {
+            state.userName = "";
+            state.email = '';
+            state.imageUrl = '';
+            state.hasUserData = false;
+        },
         doHaveData: state => {
             state.hasUserData = true;
         },
@@ -16,8 +22,9 @@ export const userData = createSlice({
             state.userName = action.payload.userName;
             state.email = action.payload.email;
             state.imageUrl = action.payload.imageUrl;
-          }
+        }
+       
     },
 })
-export const { doHaveData, setUserData } = userData.actions
+export const { doHaveData, setUserData,clearUseData } = userData.actions
 export default userData.reducer

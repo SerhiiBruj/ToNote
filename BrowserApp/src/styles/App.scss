@@ -12,13 +12,17 @@
 @import "./important";
 @import "./Autorisation";
 @import "./about";
-@import "./logIn";
 @import "./diary";
 @import "./optimizedhomePage";
+@import "./AuthorizationOptimized";
 
 
-
-
+html, body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: none;
+}
 
   
   [lang="uk"] p ,font, span {

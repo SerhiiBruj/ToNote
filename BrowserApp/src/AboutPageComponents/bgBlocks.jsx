@@ -15,11 +15,12 @@ const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
   }, []);
   useEffect(() => {
     blockRefs.current.forEach((block) => {
-      const tb = [pRV(), pRV()];
+      const t = pRV()
+      const b =pRV()
       block.animate(
         [
           {
-            transform: `translate(${tb[0]}px, ${tb[1]}px)`,
+            transform: `translate(${t}px, ${b }px)`,
           },
           {
             transform: `translate(${pRV()}px, ${
@@ -32,7 +33,7 @@ const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
             }px)`,
           },
           {
-            transform: `translate(${tb[0]}px, ${tb[1]}px)`,
+            transform: `translate(${t}px, ${b }px)`,
           },
         ],
         {

@@ -1,15 +1,17 @@
 import { memo, useCallback, useLayoutEffect, useRef, useState } from "react";
 import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updatePages } from "../../../../redux/pagesSlice";
 import CheckBox from "../../../../assetModules/noSvg/checkb";
 
 const sanitize = (input) => input.replace(/[/"'\\%]/g, "");
-const FileAdd = () => {
+const FileAdd = (props) => {
+  
+  // eslint-disable-next-line react/prop-types
+  const { boolAnimate,  } = props;
   const ref = useRef(null);
   const dispatch = useDispatch();
   const [isAdding, setIsAdding] = useState(false);
-  const boolAnimate = useSelector((state) => state.startAnimation.value);
   const [formData, setFormData] = useState({
     fileName: "",
     fileType: "note",

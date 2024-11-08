@@ -1,6 +1,6 @@
 import "./styles/App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import HomePage from "./Pages/homePage.jsx";
 import NotFoundPage from "./Pages/notFoundPage.jsx";
 const Login = lazy(() => import("./Pages/LogIn.jsx"));
@@ -71,21 +71,32 @@ const TermsAndPolicy = lazy(() =>
 
 const PrivateRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-  const token =
-    !!localStorage.getItem("token") && localStorage.getItem("token");
   const dispatch = useDispatch();
   const pages = useSelector((state) => state.pages.value);
+  const hasUserData = useSelector((state) => state.userData.hasUserData);
+  let sesLogged = sessionStorage.getItem("isLogged");
+  const token = localStorage.getItem("token") || null;
+  const beLocal = localStorage.getItem("beLocal");
 
   useEffect(() => {
-    if (!localStorage.getItem("beLocal")) {
-      const verifyToken = async () => {
-        if (!token) {
-          setIsAuthenticated(false);
-          return;
-        }
+    const verifyToken = async () => {
+      if (!token) {
+        setIsAuthenticated(false);
+        return;
+      }
+      if (sesLogged) {
+        setIsAuthenticated(true);
+        dispatch(
+          setUserData({
+            userName: sesLogged.split(" ")[0],
+            email: sesLogged.split(" ")[1],
+            imageUrl: sesLogged.split(" ")[2],
+          })
+        );
+      } else {
         try {
           const response = await axios.get(
-            "http://" + mylocalip + ":3000/authentification",
+            `http://${mylocalip}:3000/authentification`,
             {
               headers: {
                 authorization: `Bearer ${token}`,
@@ -93,10 +104,10 @@ const PrivateRoute = ({ children }) => {
               },
             }
           );
+
           if (response.status === 200) {
-            if (pages.length < 1 && (await GCS(token))) {
-              dispatch(updatePages());
-            }
+            await GCS(token);
+            dispatch(updatePages());
 
             setIsAuthenticated(true);
             dispatch(
@@ -106,25 +117,37 @@ const PrivateRoute = ({ children }) => {
                 imageUrl: response.data.imageUrl.replace(" ", "%20"),
               })
             );
+            sessionStorage.setItem(
+              "isLogged",
+              response.data.decoded.username +
+                " " +
+                response.data.decoded.email +
+                " " +
+                response.data.imageUrl.replace(" ", "%20")
+            );
 
             dispatch(doHaveData());
           }
         } catch (error) {
           setIsAuthenticated(false);
         }
-      };
+      }
+    };
+    if (hasUserData) {
+      setIsAuthenticated(true);
+    } else if (!beLocal) {
       verifyToken();
+    } else if (beLocal) {
+      setIsAuthenticated(true);
     }
-  }, []);
-  if (localStorage.getItem("beLocal")) return children;
-  if (isAuthenticated === null) {
-    return <Loading />;
-  }
-  if (!isAuthenticated) {
-    return <Navigate to="/authentification" />;
-  }
+  }, [token, hasUserData, beLocal, pages, dispatch]);
+
+  if (beLocal) return children;
+  if (isAuthenticated === null) return <Loading />;
+  if (!isAuthenticated) return <Navigate to="/authentification" />;
   return children;
 };
+
 PrivateRoute.propTypes = {
   children: PropTypes.node,
 };
@@ -150,11 +173,10 @@ function App() {
           index
           element={
             <Suspense fallback={<Loading />}>
-              <DesktopWithFiles />
+                <DesktopWithFiles />
             </Suspense>
           }
         />
-        {/* <Route path="ss" element={<LifecycleExample />}></Route> */}
         <Route
           path="note/:name"
           element={
@@ -317,60 +339,3 @@ const Loading = () => {
     </div>
   );
 };
-
-
-
-
-
-// class LifecycleExample extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             count: 0,
-//         };
-//         console.log('Constructor: Initializing state');
-//     }
-
-//     static getDerivedStateFromProps(nextProps, prevState) {
-//         console.log('Derived State: Getting derived state from props');
-//         return null; // або оновлений стан
-//     }
-
-//     componentDidMount() {
-//         console.log('Component Did Mount: Component is mounted');
-//         // Можна виконати асинхронні запити
-//     }
-
-//     shouldComponentUpdate(nextProps, nextState) {
-//         console.log('Should Component Update: Deciding whether to update');
-//         return true; // або false
-//     }
-
-//     getSnapshotBeforeUpdate(prevProps, prevState) {
-//         console.log('Get Snapshot Before Update: Capturing snapshot');
-//         return null; // або дані для componentDidUpdate
-//     }
-
-//     componentDidUpdate(prevProps, prevState, snapshot) {
-//         console.log('Component Did Update: Component has updated');
-//     }
-
-//     componentWillUnmount() {
-//         console.log('Component Will Unmount: Cleaning up resources');
-//     }
-
-//     increment = () => {
-//         this.setState({ count: this.state.count + 1 });
-//     };
-
-//     render() {
-//         console.log('Render: Rendering component');
-//         return (
-//             <div>
-//                 <h1>Count: {this.state.count}</h1>
-//                 <button onClick={this.increment}>Increment</button>
-//             </div>
-//         );
-//     }
-// }
-

@@ -9,26 +9,27 @@
     justify-content: space-between !important;
     width: 50vw;
     min-width: 700px;
-    .submit {
-      width: fit-content;
-      background: rgba(85, 85, 85, 0.5);
-    }
+    min-height: 70vh;
+    height: 70vh;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    width: 50%;
     min-height: fit-content;
     background-color: #646464;
     padding: 15px;
     border-radius: 50px;
+    .submit {
+      width: fit-content;
+      background: rgba(85, 85, 85, 0.5);
+    }
+   
     .logInCont {
       width: 50%;
       background-color: gray;
       height: 100%;
       flex-direction: column;
       display: flex;
-      padding: 10px;
       align-items: center;
       justify-content: space-around;
       border-top-left-radius: 45px;
@@ -36,7 +37,6 @@
     }
     .RegistrationCont {
       background-color: gray;
-      padding: 10px;
       height: 100%;
       display: flex;
       align-items: center;
@@ -47,7 +47,12 @@
       border-bottom-right-radius: 45px;
     }
     .Curtain {
-      width: 25%;
+      width: 50vw;
+      min-width: 700px;
+      min-height: 70vh;
+      max-height: 70vh;
+      max-width: 700px;
+      height: 70vh;
       position: absolute;
       transition: all ease 0.5s;
       background-image: url(https://mir-s3-cdn-cf.behance.net/project_modules/1400/e55f7b55718523.599082e7ecb12.jpg);
@@ -87,7 +92,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   div label {
     display: flex;
     flex-direction: column;
@@ -120,8 +125,9 @@
     background: rgba(217, 217, 217, 0.5);
   }
 }
-h1 {
-  font-size: 30px !important;
+.excuseText {
+  font-size: 30px;
+  color: aliceblue;
 }
 .switch {
   width: fit-content;
@@ -131,55 +137,6 @@ h1 {
 }
 
 .aucont {
-  justify-content: space-between !important;
+  justify-content: space-between;
   width: 50%;
 }
-
-@media (max-width: 768px) {
-  .loginCenterDiv {
-    align-items: flex-end;
-    transition: all 0.3s ease;
-    height: fit-content;
-    padding-bottom: 150px;
-
-    .authContteiner {
-      height: 70vh !important;
-      border-radius: 0% !important;
-      width: 100vw !important;
-      min-width: 200vw !important;
-      padding: 0px !important;
-      transition: all ease 1s;
-      justify-content: flex-start !important;
-      .aucont {
-        border-radius: 0% !important;
-        height: 100% !important;
-        padding: 0px;
-        width: 100vw !important;
-      }
-      .Curtain {
-        display: none !important;
-        border-radius: 0% !important;
-        height: 100vh;
-      }
-    }
-  }
-}
-
-// .Curtain{
-//   display: none;
-// }
-// .aucont{
-//   width: 100vw !important ;
-//   border-radius: 0% !important;
-
-// }
-// .aucont:nth-child(2){
-//   display: none !important;
-// }
-// .authContteiner {
-//   width: 100vw;
-//   flex-direction: column !important;
-//   .AuthForm .logInCont {
-//     width: 90vw;
-//   }
-// }

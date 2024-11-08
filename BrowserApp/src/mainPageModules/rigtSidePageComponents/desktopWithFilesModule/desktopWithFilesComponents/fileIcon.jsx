@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
-import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { memo, useCallback,  useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { doAnimate } from "../../../../redux/startAnimation";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
 import IsSelected from "../../../../assetModules/noSvg/isSelected";
 import { deSelect, select } from "../../../../redux/selectSlice";
@@ -11,7 +10,8 @@ import axios from "axios";
 import mylocalip from "../../../../../../mylocalip";
 
 const FileIcon = (props) => {
-  const boolAnimate = useSelector((state) => state.startAnimation.value);
+  // eslint-disable-next-line react/prop-types
+  const { boolAnimate, setBoolAnimate } = props;
   const isEditable = useSelector((state) => state.isEditable.value);
   const { isSelecting, selected } = useSelector((state) => state.select);
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const FileIcon = (props) => {
         dispatch(deSelect(fileKey));
       }
     },
-    [selected, dispatch, name, props.type]
+    [name, props.type]
   );
 
   useLayoutEffect(() => {
@@ -54,69 +54,69 @@ const FileIcon = (props) => {
       console.log("Новий ключ не може бути порожнім або таким самим.");
       return;
     }
-
+  
     if (Object.keys(sessionStorage).includes(newKey)) {
       console.log(`Ключ "${newKey}" вже існує.`);
       return;
     }
-
+  
     let oldValue =
       sessionStorage.getItem(oldKey) || localStorage.getItem(oldKey);
     if (oldValue !== null) {
-      if (localStorage.getItem(oldKey)) {
-        localStorage.setItem(newKey, oldValue);
-        localStorage.removeItem(oldKey);
-        dispatch(updatePages(Object.keys(sessionStorage)));
-      }
-      if (sessionStorage.getItem(oldKey)) {
-        sessionStorage.setItem(newKey, oldValue);
-        sessionStorage.removeItem(oldKey);
-
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.log("Токен не знайдено, будь ласка, увійдіть у систему.");
-          return;
+      try {
+        if (localStorage.getItem(oldKey)) {
+          localStorage.setItem(newKey, oldValue);
+          localStorage.removeItem(oldKey);
+          dispatch(updatePages(Object.keys(sessionStorage)));
         }
-        if (!localStorage.getItem("beLocal")) {
-          try {
-            const res = await axios.post(
-              "http://" + mylocalip + ":3000/rename-uploaded-file",
-              {
-                rnfile: oldKey,
-                newName: newKey,
-              },
-              {
-                headers: {
-                  authorization: `Bearer ${token}`,
+        if (sessionStorage.getItem(oldKey)) {
+          sessionStorage.setItem(newKey, oldValue);
+          sessionStorage.removeItem(oldKey);
+  
+          const token = localStorage.getItem("token");
+          if (!token) {
+            console.log("Токен не знайдено, будь ласка, увійдіть у систему.");
+            return;
+          }
+          if (!localStorage.getItem("beLocal")) {
+            try {
+              const res = await axios.post(
+                "http://" + mylocalip + ":3000/rename-uploaded-file",
+                {
+                  rnfile: oldKey,
+                  newName: newKey,
                 },
-              }
-            );
-
-            if (res.status === 200) {
-              console.log("Файл успішно перейменовано");
-              dispatch(updatePages(Object.keys(sessionStorage)));
-            } else {
-              console.log(
-                "Сталася помилка при перейменуванні файлу:",
-                res.data
+                {
+                  headers: {
+                    authorization: `Bearer ${token}`,
+                  },
+                }
               );
+  
+              if (res.status === 200) {
+                console.log("Файл успішно перейменовано");
+                dispatch(updatePages(Object.keys(sessionStorage)));
+              } else {
+                console.log(
+                  "Сталася помилка при перейменуванні файлу:",
+                  res.data
+                );
+              }
+            } catch (error) {
+              console.error("Помилка при зверненні до сервера:", error);
+              alert("Сталася помилка при зверненні до сервера.");
             }
-          } catch (error) {
-            console.error("Помилка при зверненні до сервера:", error);
           }
         }
+      } catch (error) {
+        console.error("Помилка при перейменуванні файлу:", error);
+        alert("Не вдалося перейменувати файл.");
       }
-    } else if (localStorage.getItem(oldKey)) {
-      oldValue = localStorage.getItem(oldKey);
-      sessionStorage.setItem(newKey, oldValue);
-      sessionStorage.removeItem(oldKey);
     } else {
       console.log(`Ключ "${oldKey}" не знайдено.`);
     }
-
-    setName(props.name);
   };
-
+  
   const gotodestination = useCallback(() => {
     if (ref.current) {
       ref.current.style.transition = "all ease 0.4s";
@@ -125,7 +125,7 @@ const FileIcon = (props) => {
         ref.current.style.backgroundColor = "#1e1e1e";
         ref.current.style.transform = "scale(0)";
         setTimeout(() => {
-          dispatch(doAnimate());
+          setBoolAnimate(true)
           setTimeout(() => {
             navigate(`${props.type}/${props.name}`);
           }, 300);
@@ -138,6 +138,8 @@ const FileIcon = (props) => {
     <div
       ref={ref}
       className="fileIconConteiner"
+      role="button"
+      tabIndex={0} 
       onClick={(e) => {
         e.stopPropagation();
         !isSelecting && !isEditable

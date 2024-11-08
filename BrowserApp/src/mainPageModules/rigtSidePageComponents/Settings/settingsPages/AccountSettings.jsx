@@ -1,13 +1,15 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import mylocalip from "../../../../../../mylocalip";
+import { clearUseData } from "../../../../redux/UserData";
 
 const AccountSettings = () => {
   const [lastTimeSeen, setLasttimeSeen] = useState([""]);
   const [isSeeinglastseens, SetIsSeeinglastseens] = useState(false);
   const userData = useSelector((state) => state.userData);
+  const dispatch = useDispatch()
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [passwords, setPasswords] = useState({
     oldPassword: "fdsfs",
@@ -141,6 +143,7 @@ const AccountSettings = () => {
           localStorage.removeItem("token");
           sessionStorage.clear();
           navigate("/authentification");
+          dispatch(clearUseData())
         }}
         className="submit logout"
       >
