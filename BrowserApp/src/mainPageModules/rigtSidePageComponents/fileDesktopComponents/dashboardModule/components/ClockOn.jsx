@@ -103,7 +103,6 @@ const ClockOn = ({ i, clockers, setClockers }) => {
           newClockers.table[newClockers.table.length - 1][i].length - 1
         ]?.e
       ) {
-        // Якщо останній запис ще не завершено, оновлюємо його
         newClockers.table[newClockers.table.length - 1][i][
           newClockers.table[newClockers.table.length - 1][i].length - 1
         ] = {

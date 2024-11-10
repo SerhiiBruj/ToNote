@@ -4,11 +4,13 @@
     "start": "concurrently \"npm run backend\" \"npm run browserapp\"",
     "expo": "concurrently \"npm run backend\" \"npm run mobile\"",
     "backend": "cd backend && nodemon index.js",
-    "mobile": "cd mobile && npm run start",
+    "mobile": "cd mobileapp && npm  start",
     "browserapp": "cd browserapp && npm run host"
   },
   "devDependencies": {
     "concurrently": "^9.0.1",
     "nodemon": "^3.1.7"
+  },
+  "dependencies": {
   }
 }
