@@ -6,14 +6,19 @@ import CustomHeader from '../homePageComp/header';
 import DiaryIcon from '../homePageComp/DiaryIcon';
 import ListOfFiles from '../homePageComp/ListOfFiles';
 import { StackNavigationProp } from '@react-navigation/stack'; 
+import useUserFile from '../mobX/useUserFile';
 
 const db = SQLite.openDatabaseSync("db");
 export default function Home({navigation}:{navigation:StackNavigationProp<any,any>}) {
+
+  useEffect(()=>{
+    useUserFile.updateFiles()
+  },[])
   return (
     <View
       style={styles.container}>
       <ListOfFiles navigation={navigation}/>
-      <DiaryIcon />
+      <DiaryIcon  navigation={navigation} />
       <StatusBar style={"inverted"} />
     </View>
   );

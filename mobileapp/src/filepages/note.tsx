@@ -1,51 +1,83 @@
-import React, { useState, useRef } from 'react';
-import { TextInput, Pressable, View, StyleSheet, Text } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { TextInput, View, StyleSheet, TouchableWithoutFeedback, Keyboard, Text } from 'react-native';
+import useUserFile from '../mobX/useUserFile';
+import { useRoute } from '@react-navigation/native';
+import { observer } from 'mobx-react-lite'; ''
+import editable from '../mobX/Editable';
 
-const DOUBLE_PRESS_DELAY = 300; // Максимальний інтервал між натисканнями для подвійного кліку (в мс)
+const Note = observer(() => {
+    const route:any = useRoute();
+    const { name, id } = route.params;
+    const inputRef = useRef<TextInput>(null);
+    const [text, setText] = useState('');
+    const [debounce, setDebounce] = useState<NodeJS.Timeout | null>(null)
 
-const Note = () => {
-    const [text, setText] = useState<string>('');
-    const [isEditable, setIsEditable] = useState<boolean>(true);
-    const [dblpress, setDblpress] = useState<NodeJS.Timeout | null>(null);
-    const textareaRef = useRef<TextInput | null>(null);
-    const handleTextChange = (newText: string) => {
-        setText(newText);
-    };
 
-  
+    useEffect(() => {
+        useUserFile.GetFile(name, 1, id);
+        setText(useUserFile.fileData?.text || '');
+    }, [name, id]);
+
+    useEffect(() => {
+        if (text !== useUserFile.fileData?.text && text !== "") {
+            if (debounce !== null)
+                clearTimeout(debounce)
+            console.log("deb")
+            let d = setTimeout(() => {
+                useUserFile.EditFile(name, 1, id, text);
+            }, 1000);
+            setDebounce(d)
+        }
+
+    }, [text, name, id]);
+
+
+    useEffect(() => {
+
+        if (inputRef.current && editable.value) {
+            inputRef.current.focus();
+        }
+        else {
+            Keyboard.dismiss()
+        }
+    }, [editable.value]);
+
 
     return (
-        <Pressable  style={styles.container}>
-            <TextInput
-                ref={textareaRef}
-                editable={isEditable}
-                style={[styles.textarea, !isEditable && styles.textareaDisabled]}
-                value={text}
-                onChangeText={handleTextChange}
-                placeholder="Type here..."
-                multiline
-            />
-        </Pressable>
+        <TouchableWithoutFeedback>
+            <View style={styles.container}>
+                <TextInput
+                    ref={inputRef}
+                    onChange={(e) => setText(e.nativeEvent.text)}
+                    placeholder='Click on pen above to start editing'
+                    placeholderTextColor="#a9a9a9"
+                    style={styles.textarea}
+                    value={text}
+                    editable={editable.value}
+                    multiline
+                />
+            </View>
+        </TouchableWithoutFeedback>
     );
-};
+});
+let a = "fsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfsfsfdsfdsfsfdsjfndsfndsufnsudfs"
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 20,
         paddingHorizontal: 16,
         backgroundColor: '#1e1e1e',
     },
     textarea: {
         color: '#bfbfbf',
         width: '100%',
-        minHeight: '90%',
-        height: 200,
-        padding: 20,
-        fontSize: 25,
+        padding: 10,
+        flex:1,
+        paddingTop: 30,
+        fontSize: 15,
         fontFamily: 'Kadwa',
         fontWeight: '700',
-        lineHeight: 30,
+        lineHeight: 22,
         textAlignVertical: 'top',
     },
     textareaDisabled: {

@@ -3,6 +3,7 @@ import { Button, Image, TouchableOpacity, View, StyleSheet, Text } from 'react-n
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useRoute } from '@react-navigation/native';
 import { AutoSizeText, ResizeTextMode } from 'react-native-auto-size-text';
+import editable from "../mobX/Editable";
 
 interface FileHeaderProps {
     navigation: StackNavigationProp<any, any>;
@@ -18,16 +19,19 @@ const FileHeader = ({ navigation }: FileHeaderProps) => {
                     style={styles.backleaf}
                 />
             </TouchableOpacity>
-         <AutoSizeText
-      style={styles.itemName}
-      fontSizePresets={[22, 18, 16, 12, 11, 10, 8]} 
-      numberOfLines={1}
-      mode={ResizeTextMode.preset_font_sizes} 
-    >
-      {route.params.name}
-    </AutoSizeText>
+            <AutoSizeText
+                style={styles.itemName}
+                fontSizePresets={[22, 18, 16, 12, 11, 10, 8]}
+                numberOfLines={1}
+                mode={ResizeTextMode.preset_font_sizes}
+            >
+                {route.params.name}
+            </AutoSizeText>
             <View style={styles.cont}>
-                <TouchableOpacity onPress={() => console.log("edit")}>
+                <TouchableOpacity onPress={() => {
+                    console.log("edit", editable.value);
+                    editable.setValue(!editable.value); // Оновлюємо стан через MobX store
+                }}>
                     <Image
                         source={require("../../assets/pen.png")}
                         style={styles.pen}
@@ -58,7 +62,7 @@ const styles = StyleSheet.create({
     itemName: {
         color: "#A6A6A6",
         fontSize: 20,
-        lineHeight: 30,
+        lineHeight: 20,
         width: "50%",
         textAlign: "center",
         height: 20,
@@ -73,10 +77,10 @@ const styles = StyleSheet.create({
         height: 40,
     },
     cont: {
-        flexDirection: 'row', 
-        gap:10,
+        flexDirection: 'row',
+        gap: 10,
         justifyContent: 'space-between',
-        alignItems: 'center', 
+        alignItems: 'center',
     },
 
 });

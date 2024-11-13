@@ -1,17 +1,20 @@
+import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { Text, StyleSheet, View, Pressable, TouchableOpacity } from 'react-native';
 
 const sampleText = "20.12.2024 \n it will be the last day"
 
-const DiaryIcon = () => {
+const DiaryIcon = ({navigation}:{navigation:StackNavigationProp<any,any>}) => {
   return (
     <View style={styles.diaryConteiner}>
       <Text style={styles.diaryText}>Diary</Text>
-      <View style={styles.diary}>
+      <TouchableOpacity
+      onPress={()=>{navigation.navigate("diary",{ id:1, name:"MAINDIARY"})}}
+      style={styles.diary}>
         <Text style={styles.innerText}>
           {sampleText}
         </Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
