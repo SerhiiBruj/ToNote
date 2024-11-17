@@ -14,10 +14,9 @@ const About = () => {
     if (scrollRef.current) {
       const section = document.getElementById(sectionId);
       if (section) {
-        // Прокрутка до початку елемента
         section.scrollIntoView({
-          behavior: "smooth", // можна змінити на 'auto' для миттєвої прокрутки
-          block: "end", // встановлює прокрутку так, щоб елемент починався на позиції 0
+          behavior: "smooth",
+          block: "end", 
         });
       }
     }

@@ -1,63 +1,47 @@
-import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
-const useLocalStorage = (key, initialValue) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const keyDecoded = decodeURIComponent(key.replace(/(%20)/g, " "));
-
-  const [storedValue, setStoredValue] = useState(() => {
+const useLocalStorage = (key) => {
+  const navigate = useNavigate()
+  const isLocal = useMemo(() => {
+    if (localStorage.getItem(key)) return true;
+    else if (sessionStorage.getItem(key)) return false
+    else navigate("404")
+  }, [navigate])
+  const [fileValue, setFileValue] = useState(() => {
     try {
-      const localItem = window.localStorage.getItem(keyDecoded);
-      if (localItem) return JSON.parse(localItem); // Повертаємо дані з localStorage, якщо є
-
-      const sessionItem = window.sessionStorage.getItem(keyDecoded);
-      return sessionItem ? JSON.parse(sessionItem) : initialValue; // Повертаємо дані з sessionStorage, якщо є
-    } catch (error) {
-      console.error("Помилка парсингу:", error);
-      return initialValue;
+      if (isLocal) return JSON.parse(localStorage.getItem(key));
+      else return JSON.parse(sessionStorage.getItem(key))
+    } catch (er) {
+      console.error(er);
+      navigate("404")
     }
-  });
+  })
 
   useEffect(() => {
-    try {
-      const sessionItem = window.sessionStorage.getItem(keyDecoded);
-      if (sessionItem) {
-        setStoredValue(JSON.parse(sessionItem));
-      } else {
-        const localItem = window.localStorage.getItem(keyDecoded);
-        if (localItem) {
-          setStoredValue(JSON.parse(localItem));
-        } else {
-          navigate("/404");
-        }
-      }
-    } catch (error) {
-      console.error("Помилка при отриманні даних:", error);
-      setStoredValue(initialValue);
+    if (isLocal) setFileValue(JSON.parse(localStorage.getItem(key)))
+    else if (!isLocal) setFileValue(JSON.parse(sessionStorage.getItem(key)))
+    else navigate('/404')
+
+    return () => {
+
     }
-  }, [location.pathname]);
+  }, [navigate])
 
   const setValue = (value) => {
-    try {
-      setStoredValue(value);
-
-      // Якщо дані вже є в localStorage, оновлюємо його
-      const existsInLocalStorage = window.localStorage.getItem(keyDecoded) !== null;
-
-      // Якщо дані не існують у localStorage, зберігаємо їх у sessionStorage
-      if (!existsInLocalStorage) {
-        window.sessionStorage.setItem(keyDecoded, JSON.stringify(value));
+    setFileValue(value);
+    if (debounce) clearTimeout(debounce);
+    var debounce = setTimeout(() => {
+      if (isLocal) {
+        window.localStorage.setItem(key, JSON.stringify(value));
       } else {
-        // В іншому випадку, зберігаємо в localStorage
-        window.localStorage.setItem(keyDecoded, JSON.stringify(value));
+        window.sessionStorage.setItem(key, JSON.stringify(value));
       }
-    } catch (error) {
-      console.error("Помилка при збереженні даних:", error);
-    }
-  };
+    }, 1000)
 
-  return [storedValue, setValue];
+  }
+
+  return [fileValue, setValue]
 };
 
 export default useLocalStorage;

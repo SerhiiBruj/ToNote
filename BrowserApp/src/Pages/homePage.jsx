@@ -11,6 +11,7 @@ import Popover from "../mainPageModules/rigtSidePageComponents/desktopWithFilesM
 import ErrorBoundary from "../testingComp/ErrorBoundary";
 
 const HomePage = () => {
+  console.log("about")
   const location = useLocation();
   const dispatch = useDispatch();
   const { isSelecting } = useSelector((state) => state.select);
@@ -60,6 +61,7 @@ const HomePage = () => {
               backgroundImage: localStorage.getItem("bg")
                 ? `url(${localStorage.getItem("bg")})`
                 : "none",
+                
             }}
           >
             <div

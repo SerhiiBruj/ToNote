@@ -1,6 +1,6 @@
 import EditProfile from "../../assetModules/svgs/editProfile";
 import { useSelector } from "react-redux";
-import  { memo, useState } from "react";
+import { memo, useState } from "react";
 import unck from "../../assetModules/svgs/uncknown.svg";
 import axios from "axios";
 import CrissCrossIcon from "../../assetModules/svgs/crissCross";
@@ -11,7 +11,6 @@ const Profile = () => {
   const userData = useSelector((state) => state.userData);
   const [avatar, setAvatar] = useState(null);
   const [avatarpath, setAvatarpath] = useState("");
-
   const handleFileChange = (e) => {
     setAvatar(e.target.files[0]);
   };
@@ -19,9 +18,9 @@ const Profile = () => {
   const changeEditProfile = () => {
     const token = localStorage.getItem("token");
     const beLocal = localStorage.getItem("beLocal");
-    console.log(!!avatar)
+    console.log(!!avatar);
 
-    if (editProfile  && token && avatar && !beLocal) {
+    if (editProfile && token && avatar && !beLocal) {
       const formData = new FormData();
       formData.append("avatar", avatar);
 
@@ -34,17 +33,21 @@ const Profile = () => {
         })
         .then((res) => {
           const timestamp = new Date().getTime();
-          setAvatarpath(`http://${mylocalip}:3000/profile-image/${userData.userName.replace(/ /g,"%20")}.png?${timestamp}`);
+          setAvatarpath(
+            `http://${mylocalip}:3000/profile-image/${userData.userName.replace(
+              / /g,
+              "%20"
+            )}.png?${timestamp}`
+          );
           console.log(res.data);
         })
         .catch((err) => {
-          console.error("Помилка завантаження файлу:", err); 
+          console.error("Помилка завантаження файлу:", err);
         });
     }
 
     setEditProfile(!editProfile);
   };
-
 
   return (
     <div className="profile">
@@ -52,21 +55,24 @@ const Profile = () => {
         <div
           className="profileImg"
           style={{
-            backgroundSize: userData.imageUrl === null 
-            ? (avatarpath ? "cover" : "70%") 
-            : "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundImage: userData.imageUrl !== null 
-            ? `url(${userData.imageUrl})` 
-            : avatarpath !== "" 
-              ? `url(${avatarpath})` 
-              : `url(${unck})`,
-          backgroundPositionY: (userData.imageUrl === null && !avatarpath) 
-            ? "bottom" 
-            : "center",
-          backgroundPositionX: "center",
-          transform: "translateX(15px)"
-        }}
+            backgroundSize:
+              userData.imageUrl === undefined
+                ? avatarpath
+                  ? "cover"
+                  : "70%"
+                : "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundImage:
+              userData.imageUrl !== undefined
+                ? `url(${userData.imageUrl})`
+                : avatarpath !== ""
+                ? `url(${avatarpath})`
+                : `url(${unck})`,
+            backgroundPositionY:
+              userData.imageUrl === undefined && !avatarpath ? "bottom" : "center",
+            backgroundPositionX: "center",
+            transform: "translateX(15px)",
+          }}
         >
           {editProfile && (
             <input
@@ -130,6 +136,9 @@ const Profile = () => {
   );
 };
 const areEqual = (prevProps, nextProps) => {
-  return prevProps.userData === nextProps.userData && prevProps.avatarpath === nextProps.avatarpath;
+  return (
+    prevProps.userData === nextProps.userData &&
+    prevProps.avatarpath === nextProps.avatarpath
+  );
 };
 export default memo(Profile, areEqual);

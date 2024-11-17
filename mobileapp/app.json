@@ -5,6 +5,7 @@
     ],
     "name": "mobileapp",
     "slug": "mobileapp",
+    "newArchEnabled": true,
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,7 +28,8 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-sqlite"
     ]
   }
 }

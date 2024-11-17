@@ -8,8 +8,6 @@ interface UserFile {
     fileName: string;
     type: number;
 }
-
-
 interface Todo {
     id: number;
     todoFileId: number;

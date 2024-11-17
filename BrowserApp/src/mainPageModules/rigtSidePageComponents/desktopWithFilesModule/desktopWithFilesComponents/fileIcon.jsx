@@ -33,7 +33,7 @@ const FileIcon = (props) => {
         dispatch(deSelect(fileKey));
       }
     },
-    [name, props.type]
+    [name, props.type,selected]
   );
 
   useLayoutEffect(() => {

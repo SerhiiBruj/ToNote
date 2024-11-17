@@ -43,10 +43,17 @@ export default function App() {
   const [db, setDb] = useState<SQLite.SQLiteDatabase | null>(null);
   useEffect(() => {
     const database = SQLite.openDatabaseSync("db");
-    
+
     const openDatabase = async () => {
       // await getFonts();
       try {
+        database.execSync("DROP TABLE IF EXISTS userFiles");
+        database.execSync("DROP TABLE IF EXISTS todos");
+        database.execSync("DROP TABLE IF EXISTS checklists");
+        database.execSync("DROP TABLE IF EXISTS checklistItems");
+        database.execSync("DROP TABLE IF EXISTS notes");
+        database.execSync("DROP TABLE IF EXISTS diaries");
+        database.execSync("DROP TABLE IF EXISTS sheets");
 
 
         database.execSync(`
@@ -54,34 +61,38 @@ export default function App() {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             fileName VARCHAR(255) UNIQUE,
             type TINYINT
-          );
+            );
           CREATE TABLE IF NOT EXISTS todos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             todoFileId INTEGER,
             text TEXT,
             FOREIGN KEY (todoFileId) REFERENCES userFiles(id)
-          );
-          CREATE TABLE IF NOT EXISTS checklists (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            todoFileId INTEGER,
-            caption VARCHAR(255),
+            );
+            CREATE TABLE IF NOT EXISTS checklists (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              todoFileId INTEGER,
+              caption VARCHAR(255),
             FOREIGN KEY (todoFileId) REFERENCES userFiles(id)
-          );
-          CREATE TABLE IF NOT EXISTS checklistItems (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            checklistId INTEGER,
-            statement TEXT,
-            done BOOLEAN,
-            FOREIGN KEY (checklistId) REFERENCES checklists(id)
-          );
-          CREATE TABLE IF NOT EXISTS sheets (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            userFileId INTEGER,
-            text TEXT,
-            date DATE,
-            FOREIGN KEY (userFileId) REFERENCES userFiles(id)
-          );
-        `);
+            );
+            CREATE TABLE IF NOT EXISTS checklistItems (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              checklistId INTEGER,
+              statement TEXT,
+              done BOOLEAN,
+              FOREIGN KEY (checklistId) REFERENCES checklists(id)
+              );
+              CREATE TABLE IF NOT EXISTS sheets (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                userFileId INTEGER,
+                text TEXT,
+                date DATE,
+                FOREIGN KEY (userFileId) REFERENCES userFiles(id)
+                );
+                `);
+
+        database.execSync(`INSERT INTO userFiles (fileName, type) VALUES ("MAINDIARY", 6)`);
+
+
         console.log('Database initialized successfully');
       } catch (error) {
         console.error('Error initializing database:', error);

@@ -7,6 +7,7 @@ import ReactIc from "../assetModules/svgs/react";
 import Redux from "../assetModules/svgs/reduxIcon";
 import Sass from "../assetModules/svgs/sass";
 import { Link } from "react-router-dom";
+import Ts from "../assetModules/svgs/ts";
 
 const Technologies = () => {
   return (
@@ -137,6 +138,26 @@ const ListOfTechs = () => {
               color: "#1e1e1e",
               fontSize: 25,
               paddingTop: 10,
+              textAlign: "left",
+              textWrap: "pretty",
+            }}
+          >
+            TypeScript
+          </span>
+          <Ts />
+        </li>
+        <li
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <span
+            style={{
+              color: "#1e1e1e",
+              fontSize: 25,
+              paddingTop: 10,
 
               textAlign: "left",
               textWrap: "pretty",
@@ -146,6 +167,7 @@ const ListOfTechs = () => {
           </span>
           <Redux />
         </li>
+     
         <li
           style={{
             display: "flex",

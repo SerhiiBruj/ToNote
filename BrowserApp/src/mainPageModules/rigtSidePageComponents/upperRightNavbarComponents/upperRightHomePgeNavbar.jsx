@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import LogoIcon from "../../../assetModules/svgs/logo";
@@ -31,24 +31,36 @@ const UpperRightHomePgeNavbar = () => {
   const [isHome, setIsHome] = useState(true);
   const [showMenu, setShMe] = useState(true);
   const [width, setWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    // Функція, що буде оновлювати ширину
-    const handleResize = () => {
-      setWidth(window.innerWidth);
-    };
-
-    // Додаємо слухача події resize
-    window.addEventListener("resize", handleResize);
-
-    // Очищаємо слухача при демонтовані компонента
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+
+    const handleEdit = (event) => {
+      if (event.ctrlKey && event.key.toLowerCase() === "e") {
+        event.preventDefault();
+        dispatch(edit());
+        if (isSelecting) {
+          dispatch(stopSelection());
+          dispatch(clearSelection());
+        }
+      }
+    };
+    window.addEventListener("keydown", handleEdit);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("keydown", handleEdit);
+    };
+  }, []);
+
+ 
 
   useEffect(() => {
     const paths = location.pathname.split("/");
@@ -191,6 +203,7 @@ const UpperRightHomePgeNavbar = () => {
               opacity: isHome ? 1 : 0,
               display: showMenu && width < 480 ? "none" : "flex",
             }}
+            title="Select"
           >
             <StartSelection />
           </div>
@@ -199,6 +212,7 @@ const UpperRightHomePgeNavbar = () => {
             style={{
               display: showMenu && width < 480 ? "none" : "flex",
             }}
+            tabIndex="0"
             onClick={() => {
               dispatch(edit());
               if (isSelecting) {
@@ -206,6 +220,8 @@ const UpperRightHomePgeNavbar = () => {
                 dispatch(clearSelection());
               }
             }}
+            accessKey="w"
+            title="Edit"
           >
             <PenIcon size={0.9} color="#2e2e2e" roll={isEditable} />
           </div>
@@ -215,6 +231,8 @@ const UpperRightHomePgeNavbar = () => {
             }}
             onClick={deleteFile}
             className="inst"
+            title="Delete"
+            tabIndex="0"
           >
             <BinIcon size={1} color="#2e2e2e" />
           </div>
@@ -227,6 +245,8 @@ const UpperRightHomePgeNavbar = () => {
               e.stopPropagation();
               exportFile();
             }}
+            title="Share"
+            tabIndex="0"
           >
             <ShareIcon size={1} color="#2e2e2e" />
           </div>
@@ -243,6 +263,7 @@ const UpperRightHomePgeNavbar = () => {
           onClick={() => {
             navigate("/About");
           }}
+          title="Go to about page"
         >
           <LogoIcon />
         </div>

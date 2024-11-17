@@ -2,38 +2,35 @@
 import { useEffect, useRef } from "react";
 
 function pRV() {
-  return Math.floor(
-    (Math.random() * 250) * (Math.random() < 0.4 ? -1 : 1)
-  );
+  return Math.floor(Math.random() * 250 * (Math.random() < 0.4 ? -1 : 1));
 }
 
 // eslint-disable-next-line react/prop-types
 const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
+  console.log("about");
+  const ref = useRef(null);
+
   const blockRefs = useRef([]);
   useEffect(() => {
     console.log("BgBlocks was updated");
   }, []);
   useEffect(() => {
     blockRefs.current.forEach((block) => {
-      const t = pRV()
-      const b =pRV()
+      const t = pRV();
+      const b = pRV();
       block.animate(
         [
           {
-            transform: `translate(${t}px, ${b }px)`,
+            transform: `translate(${t}px, ${b}px)`,
           },
           {
-            transform: `translate(${pRV()}px, ${
-              pRV()
-            }px)`,
+            transform: `translate(${pRV()}px, ${pRV()}px)`,
           },
           {
-            transform: `translate(${pRV()}px, ${
-              pRV()
-            }px)`,
+            transform: `translate(${pRV()}px, ${pRV()}px)`,
           },
           {
-            transform: `translate(${t}px, ${b }px)`,
+            transform: `translate(${t}px, ${b}px)`,
           },
         ],
         {
@@ -66,9 +63,14 @@ const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
 
       <div
         className="bgblockcontent"
-        style={{ maxWidth: !ff ? 470 : ff, textAlign: "flex-start" }}
+        style={{
+          maxWidth: !ff ? 470 : ff,
+          textAlign: "flex-start",
+          zIndex: 5,
+        }}
       >
         <span
+          ref={ref}
           style={{
             height: 0,
             opacity: 0,
@@ -80,8 +82,38 @@ const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
         >
           {text}
         </span>
-        {!!text && <TypingAnimation delay={delay} text={text} />}
-        {children}
+        <div style={{ display: "flex" }}>
+          <div
+            style={{
+              width: 0,
+              overflow: "hidden",
+              opacity: 0,
+              paddingBottom: 0,
+              paddingTop: 0,
+            }}
+          >
+            <span
+              className="typing-animation"
+              style={{
+                opacity: 0,
+                display: "block",
+                minHeight: "0px",
+                paddingLeft: 0,
+                paddingRight: 0,
+                minWidth: ref.current && ref.current.width,
+              }}
+            >
+              {text}
+            </span>
+          </div>
+          <div
+            className="bgblockcontent"
+            style={{ flexDirection: "column", padding: 0 }}
+          >
+            {!!text && <TypingAnimation delay={delay} text={text} />}
+            {children}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -91,6 +123,8 @@ export default BgBlocks;
 
 // eslint-disable-next-line react/prop-types
 const TypingAnimation = ({ delay, text }) => {
+  console.log("TypingAnimation");
+
   const ref = useRef(null);
 
   useEffect(() => {
@@ -132,7 +166,7 @@ const TypingAnimation = ({ delay, text }) => {
     <span
       ref={ref}
       className="typing-animation"
-      style={{ textAlign: "left" }}
+      style={{ textAlign: "left", verticalAlign: "" }}
     ></span>
   );
 };

@@ -11,15 +11,16 @@ const ListOfSettings = () => {
   
 
   return (
-    <div className="listOfSettings">
+    <div className="listOfSettings"   >
       {Settings.map((set, index) => (
-        <div key={index}>
+        <div key={index}    >
           <NavLink
           
             className={({ isActive }) =>
               `${isActive ? "activeNav" : "inactiveNav"} navLink`
             }
             to={`Settings/${set.replace(/( )/g, "_")}`}
+           
           >
             <div key={index} className="FileInNavbar" >
               <p className="textInFileInNavbar">{set}</p>

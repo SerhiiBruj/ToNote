@@ -1,6 +1,8 @@
-import React from 'react'
-import { StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native';
+import React, { useRef, useState } from 'react'
+import { Animated, Image, Pressable, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
+import Ionicons from '@expo/vector-icons/Ionicons';
 interface FileIconProps {
   item: {
     fileName: string;
@@ -19,6 +21,17 @@ type 6 = diary
 */
 
 const FileIcon = ({ item, navigation }: FileIconProps) => {
+  const [show, setShow] = useState(false);
+  const [height, setHeight] = useState(new Animated.Value(50));
+  const widthAnim = useRef(new Animated.Value(0.1)).current;
+  const handleChangeWidth = () => {
+    setShow(!show)
+    Animated.timing(widthAnim, {
+      toValue: show ? 0.1 : 0.8,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+  };
   return (
     <TouchableOpacity
       style={styles.fileItem}
@@ -41,15 +54,45 @@ const FileIcon = ({ item, navigation }: FileIconProps) => {
                 : item.type === 5 ? "dashboard"
                   : "diary"}</Text>
       </View>
-      <View style={{ alignItems: "flex-end" }}>
-        <TouchableOpacity>
-          <MaterialIcons name="delete" size={30} color="#323232" />
+      <Pressable style={{ alignItems: "flex-end" }}>
+        <Animated.View style={[
+          styles.optionsCont,
+          {
+            width: widthAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: ["10%", "100%"],
+            }),
+          },
+        ]}>
+          <TouchableOpacity style={{ alignSelf: "flex-end", }} >
+            <MaterialIcons name="delete" size={30} color="#323232" />
+          </TouchableOpacity>
+          <TouchableOpacity style={{ alignSelf: "flex-end", }} >
+            <Ionicons name="pencil-outline" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity style={{ alignSelf: "flex-end", }} >
+            <Image
+              style={{ height: 20, width: 20 }}
+              source={require("../../assets/exportalbl.png")} />
+          </TouchableOpacity>
+        </Animated.View>
+        <TouchableOpacity style={{ alignSelf: "flex-end", position: "absolute", backgroundColor: "red", padding: 5 }} onPress={handleChangeWidth} >
+          <SimpleLineIcons name="options-vertical" size={20} color="black" />
         </TouchableOpacity>
-      </View>
+      </Pressable>
     </TouchableOpacity>
   )
 }
 const styles = StyleSheet.create({
+  optionsCont: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    overflow: "hidden",
+    justifyContent: "space-around",
+    backgroundColor: "red",
+    borderRadius: 10
+  },
   fileItem: {
     padding: 10,
     height: 130,
