@@ -174,7 +174,7 @@ input[type=checkbox]:checked + .checkbox-custom {
   background-repeat: no-repeat;
   background-size: 170%;
   background-position: right;
-  min-height: 200px;
+  min-height: 200p;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .scrollpanel .listOfSettings {
   background-image: url(../assetModules/svgs/gearSvg.svg);
@@ -1574,7 +1574,7 @@ input[type=checkbox]:checked + .checkbox-custom {
   height: 70vh;
   position: absolute;
   transition: all ease 0.5s;
-  background-image: url(https://mir-s3-cdn-cf.behance.net/project_modules/1400/e55f7b55718523.599082e7ecb12.jpg);
+  background-image: url(https://cdn.pixabay.com/photo/2020/07/06/01/33/forest-5375005_1280.jpg);
   background-color: #646464;
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -1585,7 +1585,7 @@ input[type=checkbox]:checked + .checkbox-custom {
   min-width: 340px;
 }
 .loginCenterDiv .authContteiner .Curtain div {
-  background: linear-gradient(to right, rgba(0, 0, 0, 0) 40%, rgb(128, 128, 128) 45%, rgb(128, 128, 128) 55%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0) 34%, rgb(128, 128, 128) 45%, rgb(128, 128, 128) 55%, rgba(0, 0, 0, 0) 70%);
   background-size: 200% 100%;
   transform: translateX(-11px) translateY(-11px);
 }
@@ -1603,6 +1603,9 @@ input[type=checkbox]:checked + .checkbox-custom {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+}
+.AuthForm h1 {
+  font-size: 30px;
 }
 .AuthForm div label {
   display: flex;
@@ -1653,7 +1656,7 @@ input[type=checkbox]:checked + .checkbox-custom {
 
 .excuseText {
   font-size: 30px;
-  color: aliceblue;
+  color: rgb(148, 148, 148);
 }
 
 .switch {
@@ -1836,8 +1839,8 @@ input[type=checkbox]:checked + .checkbox-custom {
      -moz-user-select: none;
           user-select: none;
   position: absolute;
-  height: 284px;
-  width: 272px;
+  height: 264px;
+  width: 312px;
 }
 
 .bgblockcontent {

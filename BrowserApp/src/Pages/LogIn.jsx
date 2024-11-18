@@ -56,11 +56,9 @@ const Login = () => {
     }
   }, []);
 
-
-
   const switchSide = () => {
     setIsLoggingIn(!isLoggingIn);
- 
+
     setUsername("");
     setPassword("");
     setEmail("");
@@ -76,7 +74,8 @@ const Login = () => {
   return (
     <div className="loginCenterDiv">
       <h1 className="excuseText">
-        Бек-енд ще не захощено тому скористуйтеся кнопкою знизу
+        The back-end hasn&apos;t been hosted yet, so please press the button below
+        the form
       </h1>
       <div className="authContteiner" ref={ref}>
         <LogIn
@@ -103,7 +102,6 @@ const Login = () => {
         style={{
           color: "gray",
           paddingTop: 20,
-
           width: "100vw",
           textAlign: "center",
           cursor: "pointer",
@@ -113,7 +111,7 @@ const Login = () => {
           localStorage.setItem("beLocal", "1");
         }}
       >
-        Продовжити без акаунту
+        Continue without account
       </h2>
     </div>
   );
@@ -135,7 +133,7 @@ const Register = (props) => {
   const dispatch = useDispatch();
 
   const [error, setError] = useState("");
-  
+
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
@@ -216,16 +214,10 @@ const Register = (props) => {
 };
 
 const LogIn = (props) => {
-  const {
-    setUsername,
-    username,
-    setPassword,
-    password,
-    switchSide,
-    navigate,
-  } = props;
+  const { setUsername, username, setPassword, password, switchSide, navigate } =
+    props;
   const dispatch = useDispatch();
-const [, setError ]=useState(null)
+  const [, setError] = useState(null);
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -314,7 +306,7 @@ const Curtain = ({ isLoggingIn }) => {
       className="Curtain"
       style={{
         borderRadius: isLoggingIn ? "45px 0 0 45px" : "0 45px 45px 0",
-        transform: isLoggingIn ? "translateX(0%)" : "translateX(106%)",
+        transform: isLoggingIn ? "translateX(-5%)" : "translateX(106%)",
         backgroundPositionX: isLoggingIn ? "0%" : "100%",
       }}
     >

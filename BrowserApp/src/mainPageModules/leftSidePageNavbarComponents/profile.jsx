@@ -78,6 +78,7 @@ const Profile = () => {
             <input
               type="file"
               name="avatar"
+              accept=".jpg,.png"
               onChange={handleFileChange}
               style={{
                 opacity: "0",
@@ -123,13 +124,13 @@ const Profile = () => {
           paddingBottom: "5px",
         }}
       >
-        {userData.hasUserData ? (
+        {userData.hasUserData || sessionStorage.getItem("isLogged") ? (
           <span>
             {userData.userName} <br />
             {userData.email}
           </span>
         ) : (
-          "uncknown@zmil.com"
+          "unknown@zmil.com"
         )}
       </p>
     </div>

@@ -1,0 +1,14 @@
+{
+  "name": "ToNote WebApp",
+  "short_name": "ToNote",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "rgb(30 30 30);",
+  "theme_color": "rgb(124, 124, 124)",
+  "icons": [
+    {
+      "src": "./src/assetModules/svgs/spiral.svg",
+      "type": "image/svg+xml"
+    }
+  ]
+}

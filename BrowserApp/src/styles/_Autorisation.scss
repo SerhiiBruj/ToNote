@@ -23,7 +23,7 @@
       width: fit-content;
       background: rgba(85, 85, 85, 0.5);
     }
-   
+
     .logInCont {
       width: 50%;
       background-color: gray;
@@ -55,7 +55,7 @@
       height: 70vh;
       position: absolute;
       transition: all ease 0.5s;
-      background-image: url(https://mir-s3-cdn-cf.behance.net/project_modules/1400/e55f7b55718523.599082e7ecb12.jpg);
+      background-image: url(https://cdn.pixabay.com/photo/2020/07/06/01/33/forest-5375005_1280.jpg);
       background-color: #646464;
       background-attachment: fixed;
       background-repeat: no-repeat;
@@ -65,12 +65,10 @@
       div {
         background: linear-gradient(
           to right,
-          rgba(0, 0, 0, 0) 40%,
-          /* Прозорий до 40% */ rgb(128, 128, 128) 45%,
-          /* Сірий від 40% до 45% */ rgb(128, 128, 128) 55%,
-          /* Сірий від 45% до 55% */ rgba(0, 0, 0, 0) 60%,
-          /* Прозорий від 55% до 60% */ rgba(0, 0, 0, 0) 100%
-            /* Прозорий до кінця */
+          rgba(0, 0, 0, 0) 34%,
+          rgb(128, 128, 128) 45%,
+          rgb(128, 128, 128) 55%,
+          rgba(0, 0, 0, 0) 70%,
         );
         background-size: 200% 100%;
         transform: translateX(-11px) translateY(-11px);
@@ -93,6 +91,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+
+  h1{
+    font-size: 30px;
+  }
   div label {
     display: flex;
     flex-direction: column;
@@ -127,7 +129,7 @@
 }
 .excuseText {
   font-size: 30px;
-  color: aliceblue;
+  color: rgb(148, 148, 148);
 }
 .switch {
   width: fit-content;

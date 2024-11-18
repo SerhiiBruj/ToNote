@@ -43,6 +43,7 @@ const UpperRightHomePgeNavbar = () => {
     window.addEventListener("resize", handleResize);
 
     const handleEdit = (event) => {
+      console.log("object")
       if (event.ctrlKey && event.key.toLowerCase() === "e") {
         event.preventDefault();
         dispatch(edit());

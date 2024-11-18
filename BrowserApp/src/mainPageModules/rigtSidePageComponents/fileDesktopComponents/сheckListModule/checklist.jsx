@@ -172,7 +172,7 @@ const ChecklistModule = () => {
                   <div style={{ transform: "translate(-20px)" }}>
                     <Circle size={20} color={"#bfbfbf"} />
                   </div>
-                  <textarea
+                  <input
                     value={li.value}
                     disabled={!isEditable}
                     onChange={(e) => handleChangeDesc(e, index, idx)}
@@ -184,6 +184,9 @@ const ChecklistModule = () => {
                       minHeight: 30,
                       margin: 0,
                       width: "100%",
+                      display: "flex",
+                      justifyContent:"center", 
+                      alignItems: "center",  
                     }}
                   />
                 </div>

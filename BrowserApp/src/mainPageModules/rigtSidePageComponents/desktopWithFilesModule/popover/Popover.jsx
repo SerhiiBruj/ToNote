@@ -152,13 +152,22 @@ const Popover = () => {
 export default memo(Popover);
 
 const createAndDownloadFile = (content, fileName, fileType) => {
-  const blob = new Blob([content], { type: fileType });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = fileName;
-  link.click();
-  URL.revokeObjectURL(url);
+  if(content){
+    try{
+      const blob = new Blob([content], { type: fileType });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+    catch(er){
+      console.error("there was a problem downloading the file")
+    }
+  }
+
+
 };
 
 const expNote = (typename) => {
