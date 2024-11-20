@@ -52,33 +52,33 @@ const Profile = () => {
   return (
     <div className="profile">
       <div className="profileImgConteiner">
-        <div
-          className="profileImg"
-          style={{
-            backgroundSize: userData.imageUrl
-              ? "cover"
-              : avatarpath
-              ? "cover"
-              : "70%",
-            backgroundRepeat: "no-repeat",
-            backgroundImage: (() => {
-              if (userData.imageUrl) {
-                const sessionUrl = sessionStorage
-                  .getItem("isLogged")
-                  ?.split(" ")[2];
-                return `url(${sessionUrl || userData.imageUrl})`;
-              }
-              return avatarpath ? `url(${avatarpath})` : `url(${unck})`;
-            })(),
-            backgroundPositionY: userData.imageUrl
-              ? "center"
-              : avatarpath
-              ? "center"
-              : "bottom",
-            backgroundPositionX: "center",
-            transform: "translateX(15px)",
-          }}
-        >
+      <div
+  className="profileImg"
+  style={{
+    backgroundSize: 
+      userData.imageUrl 
+      ? "cover" 
+      : avatarpath 
+        ? "cover" 
+        : "70%",
+    backgroundRepeat: "no-repeat",
+    backgroundImage: (() => {
+      if (userData.imageUrl) {
+        const sessionUrl = sessionStorage.getItem("isLogged")?.split(" ")[2];
+        return `url(${sessionUrl || userData.imageUrl})`;
+      }
+      return avatarpath ? `url(${avatarpath})` : `url(${unck})`;
+    })(),
+    backgroundPositionY: 
+      userData.imageUrl 
+      ? "center" 
+      : avatarpath 
+        ? "center" 
+        : "100%",
+    backgroundPositionX: "center",
+    transform: "translateX(15px)",
+  }}
+>
           {editProfile && (
             <input
               type="file"
@@ -110,7 +110,7 @@ const Profile = () => {
               alignItems: "center",
             }}
           >
-            <CrissCrossIcon color="white" size={1} />
+            <CrissCrossIcon color="white" size={0.09} />
           </div>
         </div>
         <div

@@ -165,6 +165,19 @@
       height: 50px !important ;
       padding: 5px;
       width: 100%;
+      .nameCont{
+
+        max-width: 75%;
+        font-size: 20px;
+
+        .Name{
+          overflow: hidden;
+          flex: 1;
+          font-size: 20px;
+        }
+
+      }
+
       .upperRightRightsectionHomePageNavbar {
         gap: 10px !important;
         width: 40vw !important;
@@ -195,6 +208,8 @@
   }
   .desktopWithFiles {
     border-top-left-radius: 0px;
+    padding-left: 10%;
+    padding-right: 10%;
     
   }
 

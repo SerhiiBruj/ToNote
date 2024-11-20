@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import CrissCrossIcon from "../../../../../assetModules/svgs/crissCross";
+import useWindowWidth from "../../../../../hooks/useWindowWidth";
 
 const AddClocker = ({ clockers, setClockers }) => {
   const [isAdding, setIsAdding] = useState(false);
@@ -9,7 +10,7 @@ const AddClocker = ({ clockers, setClockers }) => {
     type: "counter", 
     goal: "",
   });
-
+  let ww= useWindowWidth()
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -24,7 +25,7 @@ const AddClocker = ({ clockers, setClockers }) => {
 
     const newTemplate = {
       fileName: formData.fileName,
-      type: formData.type || "counter", // Ensure type defaults to "counter"
+      type: formData.type || "counter", 
       goal: formData.goal,
       dateOfStart: new Date().toLocaleDateString("uk-UA", {
         day: "2-digit",
@@ -57,7 +58,7 @@ const AddClocker = ({ clockers, setClockers }) => {
   const resetForm = () => {
     setFormData({
       fileName: "",
-      type: "counter", // Reset to "counter" instead of "note"
+      type: "counter", 
       goal: "",
     });
     setIsAdding(false);
@@ -68,10 +69,10 @@ const AddClocker = ({ clockers, setClockers }) => {
       onClick={() => {
         if (!isAdding) setIsAdding(true);
       }}
-      className="fileIconConteiner addFile"
+      className={ww<500?"fileIconConteinerOptim addFile":"fileIconConteiner addFile"}
       style={{
-        height: isAdding && 500,
-        width: isAdding && 400,
+        height: isAdding && (ww >500 ? "400px":"50% "),
+        width: isAdding && (ww >500?  "250px":"80%"),
       }}
     >
       <div className="upperside" style={{}}>
@@ -96,7 +97,7 @@ const AddClocker = ({ clockers, setClockers }) => {
               : "rotate(0deg)  translateY(15px) scale(1.1)",
           }}
         >
-          <CrissCrossIcon color={"#D9D9D9"} size={!isAdding ? 1.5 : 0.8} />
+          <CrissCrossIcon color={"#D9D9D9"} size={!isAdding ? 0.09 : 0.055} />
         </div>
       </div>
 

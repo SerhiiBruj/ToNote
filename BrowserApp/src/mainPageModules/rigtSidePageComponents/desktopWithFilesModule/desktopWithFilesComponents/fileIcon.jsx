@@ -1,5 +1,12 @@
 import PropTypes from "prop-types";
-import { memo, useCallback,  useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
@@ -18,7 +25,7 @@ const FileIcon = (props) => {
   const ref = useRef();
   const navigate = useNavigate();
   const [name, setName] = useState(props.name);
-  const ww = useWindowWidth()
+  const ww = useWindowWidth();
 
   useEffect(() => {
     setName(props.name);
@@ -34,7 +41,7 @@ const FileIcon = (props) => {
         dispatch(deSelect(fileKey));
       }
     },
-    [name, props.type,selected]
+    [name, props.type, selected]
   );
 
   useLayoutEffect(() => {
@@ -55,12 +62,12 @@ const FileIcon = (props) => {
       console.log("Новий ключ не може бути порожнім або таким самим.");
       return;
     }
-  
+
     if (Object.keys(sessionStorage).includes(newKey)) {
       console.log(`Ключ "${newKey}" вже існує.`);
       return;
     }
-  
+
     let oldValue =
       sessionStorage.getItem(oldKey) || localStorage.getItem(oldKey);
     if (oldValue !== null) {
@@ -73,7 +80,7 @@ const FileIcon = (props) => {
         if (sessionStorage.getItem(oldKey)) {
           sessionStorage.setItem(newKey, oldValue);
           sessionStorage.removeItem(oldKey);
-  
+
           const token = localStorage.getItem("token");
           if (!token) {
             console.log("Токен не знайдено, будь ласка, увійдіть у систему.");
@@ -93,7 +100,7 @@ const FileIcon = (props) => {
                   },
                 }
               );
-  
+
               if (res.status === 200) {
                 console.log("Файл успішно перейменовано");
                 dispatch(updatePages(Object.keys(sessionStorage)));
@@ -117,7 +124,7 @@ const FileIcon = (props) => {
       console.log(`Ключ "${oldKey}" не знайдено.`);
     }
   };
-  
+
   const gotodestination = useCallback(() => {
     if (ref.current) {
       ref.current.style.transition = "all ease 0.4s";
@@ -126,7 +133,7 @@ const FileIcon = (props) => {
         ref.current.style.backgroundColor = "#1e1e1e";
         ref.current.style.transform = "scale(0)";
         setTimeout(() => {
-          setBoolAnimate(true)
+          setBoolAnimate(true);
           setTimeout(() => {
             navigate(`${props.type}/${props.name}`);
           }, 300);
@@ -138,9 +145,9 @@ const FileIcon = (props) => {
   return (
     <div
       ref={ref}
-      className={ww<500? " fileIconConteinerOptim ":"fileIconConteiner"}
+      className={ww < 500 ? " fileIconConteinerOptim " : "fileIconConteiner"}
       role="button"
-      tabIndex={0} 
+      tabIndex={0}
       onClick={(e) => {
         e.stopPropagation();
         !isSelecting && !isEditable
@@ -158,7 +165,6 @@ const FileIcon = (props) => {
       {!boolAnimate && (
         <>
           <div style={{ height: "70%", overflow: "hidden" }}>
-            
             <input
               style={{
                 pointerEvents: isEditable ? "all" : "none",

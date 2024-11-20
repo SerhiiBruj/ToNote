@@ -292,6 +292,8 @@ input[type=checkbox]:checked + .checkbox-custom {
   height: 9vw;
   width: 10vw;
   background-color: rgb(217, 217, 217);
+  min-height: 150px;
+  min-width: 180px;
   border-radius: 20px;
   padding: 10px;
   transition: 0.4s all ease;
@@ -957,7 +959,6 @@ input[type=checkbox]:checked + .checkbox-custom {
      -moz-user-select: none;
           user-select: none;
   height: 170px;
-  width: 200px;
   background-color: #d9d9d9;
   border-radius: 20px;
   padding: 10px;
@@ -990,9 +991,36 @@ input[type=checkbox]:checked + .checkbox-custom {
 
 .addFile {
   width: 250px;
+  min-height: 200px;
   background: #868686;
   animation: appear 0.6s ease-out;
+  border-radius: 20px;
   cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  height: 9vw;
+  width: 10vw;
+  background-color: #d9d9d9;
+  min-height: 150px;
+  min-width: 180px;
+  border-radius: 20px;
+  padding: 10px;
+  transition: 0.4s all ease;
+}
+.addFile input {
+  width: 100% !important;
+  transform: scale(0.8);
+  transform-origin: left;
+}
+.addFile select {
+  width: 100% !important;
+  transform: scale(0.8);
+  transform-origin: left;
+}
+.addFile .fileIconName {
+  transform-origin: left;
+  transform: scale(0.8);
 }
 .addFile .upperside {
   display: flex;
@@ -1276,7 +1304,6 @@ input[type=checkbox]:checked + .checkbox-custom {
     transform: scale(1.04);
   }
   .addFile {
-    width: 250px;
     background: #868686;
     animation: appear 0.6s ease-out;
     cursor: pointer;
@@ -1839,8 +1866,8 @@ input[type=checkbox]:checked + .checkbox-custom {
      -moz-user-select: none;
           user-select: none;
   position: absolute;
-  height: 369px;
-  width: 359px;
+  height: 241px;
+  width: 357px;
 }
 
 .bgblockcontent {
@@ -2218,6 +2245,15 @@ input[type=checkbox]:checked + .checkbox-custom {
     padding: 5px;
     width: 100%;
   }
+  .rightHomePage .upperRightHomePageNavbar .nameCont {
+    max-width: 75%;
+    font-size: 20px;
+  }
+  .rightHomePage .upperRightHomePageNavbar .nameCont .Name {
+    overflow: hidden;
+    flex: 1;
+    font-size: 20px;
+  }
   .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar {
     gap: 10px !important;
     width: 40vw !important;
@@ -2244,6 +2280,8 @@ input[type=checkbox]:checked + .checkbox-custom {
   }
   .desktopWithFiles {
     border-top-left-radius: 0px;
+    padding-left: 10%;
+    padding-right: 10%;
   }
 }
 @media (max-width: 768px) {
