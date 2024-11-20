@@ -323,7 +323,7 @@ input[type=checkbox]:checked + .checkbox-custom {
   transform: scale(1.04);
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile {
-  background: #868686;
+  background: #868686 !important;
   cursor: pointer;
 }
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile .upperside {
@@ -960,7 +960,6 @@ input[type=checkbox]:checked + .checkbox-custom {
      -moz-user-select: none;
           user-select: none;
   height: 170px;
-  background-color: #d9d9d9;
   border-radius: 20px;
   padding: 10px;
   transition: 0.4s all ease;
@@ -1243,7 +1242,6 @@ input[type=checkbox]:checked + .checkbox-custom {
             user-select: none;
     height: 176px;
     width: 220px;
-    background-color: #d9d9d9;
     border-radius: 20px;
     padding: 10px;
     transition: 0.4s all ease;
@@ -1867,8 +1865,8 @@ input[type=checkbox]:checked + .checkbox-custom {
      -moz-user-select: none;
           user-select: none;
   position: absolute;
-  height: 222px;
-  width: 388px;
+  height: 252px;
+  width: 331px;
 }
 
 .bgblockcontent {

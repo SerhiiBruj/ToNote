@@ -3,12 +3,10 @@ import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
 import { useDispatch } from "react-redux";
 import { updatePages } from "../../../../redux/pagesSlice";
 import CheckBox from "../../../../assetModules/noSvg/checkb";
-import useWindowWidth from "../../../../hooks/useWindowWidth";
 
 const sanitize = (input) => input.replace(/[/"'\\%]/g, "");
 
 const FileAdd = (props) => {
-  const ww = useWindowWidth()
   
   // eslint-disable-next-line react/prop-types
   const { boolAnimate,  } = props;
@@ -105,10 +103,11 @@ const FileAdd = (props) => {
     <div
       onClick={() => setIsAdding(true)}
       ref={ref}
-      className={ww<500? "fileIconConteinerOptim addFile":"fileIconConteiner addFile"}
+      className={window.innerWidth<500? "fileIconConteinerOptim addFile":"fileIconConteiner addFile"}
       style={{
-        height: isAdding && (ww >500 ? 350:"58dvw "),
-        width: isAdding && (ww >500?  300:"47dvw"),
+        backgroundColor:"#868686",
+        height: isAdding && (window.innerWidth>500 ? 350:"58dvw "),
+        width: isAdding && (window.innerWidth>500?  300:"47dvw"),
       }}
     >
       <div className="upperside">

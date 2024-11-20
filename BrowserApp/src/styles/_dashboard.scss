@@ -157,7 +157,6 @@ $coolcolor: #1e4f39;
 .fileIconConteiner {
   user-select: none;
   height: 170px;
-  background-color: $fileIconbg;
   border-radius: 20px;
   padding: 10px;
   transition: 0.4s all ease;
@@ -406,7 +405,6 @@ $coolcolor: #1e4f39;
 
     height: calc(160 * 1.1px);
     width: calc(200 * 1.1px);
-    background-color: $fileIconbg;
     border-radius: 20px;
     padding: 10px;
     transition: 0.4s all ease;

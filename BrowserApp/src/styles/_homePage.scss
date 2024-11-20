@@ -28,7 +28,6 @@
         @include flex(center, center, flex-end);
         padding: 10px;
         .profileImg {
-
           background-image: url(../assetModules/svgs/uncknown.svg);
           @include flex(column, flex-end);
           border-radius: 50%;
@@ -193,7 +192,7 @@
           }
 
           .addFile {
-            background: $AddFilebg;
+            background: $AddFilebg !important;
             cursor: pointer;
 
             .upperside {

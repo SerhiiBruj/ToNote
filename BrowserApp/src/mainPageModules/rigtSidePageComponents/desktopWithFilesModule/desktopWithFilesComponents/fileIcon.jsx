@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import {
-  memo,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -15,7 +14,6 @@ import { deSelect, select } from "../../../../redux/selectSlice";
 import { updatePages } from "../../../../redux/pagesSlice";
 import axios from "axios";
 import mylocalip from "../../../../../../mylocalip";
-import useWindowWidth from "../../../../hooks/useWindowWidth";
 const FileIcon = (props) => {
   // eslint-disable-next-line react/prop-types
   const { boolAnimate, setBoolAnimate } = props;
@@ -25,7 +23,6 @@ const FileIcon = (props) => {
   const ref = useRef();
   const navigate = useNavigate();
   const [name, setName] = useState(props.name);
-  const ww = useWindowWidth();
 
   useEffect(() => {
     setName(props.name);
@@ -49,6 +46,9 @@ const FileIcon = (props) => {
       ref.current.style.transition = "all ease 0.5s";
       ref.current.style.opacity = "0%";
       ref.current.style.transform = "scale(0)";
+    }else{
+      ref.current.style.opacity = "100%";
+      ref.current.style.transform = "scale(1)";  
     }
   }, [boolAnimate]);
 
@@ -145,7 +145,7 @@ const FileIcon = (props) => {
   return (
     <div
       ref={ref}
-      className={ww < 500 ? " fileIconConteinerOptim " : "fileIconConteiner"}
+      className={window.innerWidth < 500 ? " fileIconConteinerOptim " : "fileIconConteiner"}
       role="button"
       tabIndex={0}
       onClick={(e) => {
@@ -217,10 +217,9 @@ const FileIcon = (props) => {
     </div>
   );
 };
-
 FileIcon.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
 };
 
-export default memo(FileIcon);
+export default FileIcon;

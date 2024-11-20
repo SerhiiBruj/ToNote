@@ -19,7 +19,6 @@ import {
 } from "../../../redux/selectSlice";
 import { updateShowExpo } from "../../../redux/showExpo";
 import mylocalip from "../../../../../mylocalip";
-import useWindowWidth from "../../../hooks/useWindowWidth";
 
 const listOfFileTypes = ["dashboard", "note", "checklist", "todo", "table"];
 
@@ -27,7 +26,6 @@ const UpperRightHomePgeNavbar = () => {
   const { isSelecting, selected } = useSelector((state) => state.select);
   const showSomething = useSelector((state) => state.showExpo.value);
   const isEditable = useSelector((state) => state.isEditable.value);
-  const ww = useWindowWidth()
 
   const [page, setPage] = useState("");
   const [isHome, setIsHome] = useState(true);
@@ -143,10 +141,10 @@ const UpperRightHomePgeNavbar = () => {
           transition: "all ease 0.5s",
           opacity: !isHome ? "1" : "0",
           transform: !isHome ? "scale(1)" : "scale(0)",
-          width:ww>500 ? "20%": "25%"
+          width:window.innerWidth>500 ? "20%": "25%"
         }}
       >
-        <BackLeafIcon size={ww>500?"30%":"20vw"} color={"#2e2e2e"} />
+        <BackLeafIcon size={window.innerWidth>500?"30%":"20vw"} color={"#2e2e2e"} />
       </div>
 
       <div className="nameCont">
