@@ -13,9 +13,9 @@
 @import "./Autorisation";
 @import "./about";
 @import "./diary";
-@import "./optimizedhomePage";
-@import "./AuthorizationOptimized";
 
+@import "./_homePageoptimized";
+@import "./AuthorizationOptimized";
 
 html, body {
   height: 100%;
@@ -23,7 +23,6 @@ html, body {
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: none;
 }
-
   
   [lang="uk"] p ,font, span {
     @include textformat(20px, 700, 30px, hsl(0, 0%, 20%));

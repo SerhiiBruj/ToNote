@@ -8,7 +8,7 @@ import { deSelect, select } from "../../../../redux/selectSlice";
 import { updatePages } from "../../../../redux/pagesSlice";
 import axios from "axios";
 import mylocalip from "../../../../../../mylocalip";
-
+import useWindowWidth from "../../../../hooks/useWindowWidth";
 const FileIcon = (props) => {
   // eslint-disable-next-line react/prop-types
   const { boolAnimate, setBoolAnimate } = props;
@@ -18,6 +18,7 @@ const FileIcon = (props) => {
   const ref = useRef();
   const navigate = useNavigate();
   const [name, setName] = useState(props.name);
+  const ww = useWindowWidth()
 
   useEffect(() => {
     setName(props.name);
@@ -137,7 +138,7 @@ const FileIcon = (props) => {
   return (
     <div
       ref={ref}
-      className="fileIconConteiner"
+      className={ww<500? " fileIconConteinerOptim ":"fileIconConteiner"}
       role="button"
       tabIndex={0} 
       onClick={(e) => {

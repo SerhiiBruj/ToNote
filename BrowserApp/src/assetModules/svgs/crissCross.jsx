@@ -3,8 +3,8 @@
 const CrissCrossIcon = (props) => {
   return (
     <svg
-      width={`${100 * props.size}`}
-      height={`${91 * props.size}`}
+      width={`${100 * props.size}vw`}
+      height={`${91 * props.size}vw`}
       viewBox="0 0 100 91"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

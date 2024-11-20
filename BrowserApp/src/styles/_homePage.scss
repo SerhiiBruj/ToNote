@@ -28,6 +28,10 @@
         @include flex(center, center, flex-end);
         padding: 10px;
         .profileImg {
+
+          // background-image: url(../assetModules/svgs/uncknown.svg);
+          // background-position-y:bottom; 
+          // background-size: 70%;
           @include flex(column, flex-end);
           border-radius: 50%;
           height: 170px;
@@ -161,8 +165,8 @@
 
           .fileIconConteiner {
             user-select: none;
-            height: 170px;
-            width: 200px;
+            height: 9vw;
+            width: 10vw;
             background-color: $fileIconbg;
             border-radius: 20px;
             padding: 10px;

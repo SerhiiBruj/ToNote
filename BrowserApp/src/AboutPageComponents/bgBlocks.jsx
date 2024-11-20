@@ -67,6 +67,8 @@ const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
           maxWidth: !ff ? 470 : ff,
           textAlign: "flex-start",
           zIndex: 5,
+          flexDirection: "column",
+          padding: 0,
         }}
       >
         <span
@@ -82,39 +84,9 @@ const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
         >
           {text}
         </span>
-        <div style={{ display: "flex" }}>
-          <div
-            style={{
-              width: 0,
-              overflow: "hidden",
-              opacity: 0,
-              paddingBottom: 0,
-              paddingTop: 0,
-            }}
-          >
-            <span
-              className="typing-animation"
-              style={{
-                opacity: 0,
-                display: "block",
-                minHeight: "0px",
-                paddingLeft: 0,
-                paddingRight: 0,
-                minWidth: ref.current && ref.current.width,
-              }}
-            >
-              {text}
-            </span>
-          </div>
-          <div
-            className="bgblockcontent"
-            style={{ flexDirection: "column", padding: 0 }}
-          >
             {!!text && <TypingAnimation delay={delay} text={text} />}
             {children}
           </div>
-        </div>
-      </div>
     </div>
   );
 };

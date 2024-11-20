@@ -55,21 +55,26 @@ const Profile = () => {
         <div
           className="profileImg"
           style={{
-            backgroundSize:
-              userData.imageUrl === undefined
-                ? avatarpath
-                  ? "cover"
-                  : "70%"
-                : "cover",
+            backgroundSize: userData.imageUrl
+              ? "cover"
+              : avatarpath
+              ? "cover"
+              : "70%",
             backgroundRepeat: "no-repeat",
-            backgroundImage:
-              userData.imageUrl !== undefined
-                ? `url(${userData.imageUrl})`
-                : avatarpath !== ""
-                ? `url(${avatarpath})`
-                : `url(${unck})`,
-            backgroundPositionY:
-              userData.imageUrl === undefined && !avatarpath ? "bottom" : "center",
+            backgroundImage: (() => {
+              if (userData.imageUrl) {
+                const sessionUrl = sessionStorage
+                  .getItem("isLogged")
+                  ?.split(" ")[2];
+                return `url(${sessionUrl || userData.imageUrl})`;
+              }
+              return avatarpath ? `url(${avatarpath})` : `url(${unck})`;
+            })(),
+            backgroundPositionY: userData.imageUrl
+              ? "center"
+              : avatarpath
+              ? "center"
+              : "bottom",
             backgroundPositionX: "center",
             transform: "translateX(15px)",
           }}

@@ -289,8 +289,8 @@ input[type=checkbox]:checked + .checkbox-custom {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  height: 170px;
-  width: 200px;
+  height: 9vw;
+  width: 10vw;
   background-color: rgb(217, 217, 217);
   border-radius: 20px;
   padding: 10px;
@@ -1839,8 +1839,8 @@ input[type=checkbox]:checked + .checkbox-custom {
      -moz-user-select: none;
           user-select: none;
   position: absolute;
-  height: 264px;
-  width: 312px;
+  height: 369px;
+  width: 359px;
 }
 
 .bgblockcontent {
@@ -2053,14 +2053,14 @@ input[type=checkbox]:checked + .checkbox-custom {
 
 @media (max-width: 900px) {
   #shdots {
-    display: flex;
+    display: none;
     justify-content: space-around;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
   }
   .inst {
-    display: none;
+    display: none !important;
   }
   .upperRightRightsectionHomePageNavbar {
     width: 20vw;
@@ -2145,8 +2145,56 @@ input[type=checkbox]:checked + .checkbox-custom {
     width: 100% !important;
   }
   .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteiner {
-    width: 40% !important;
-    height: 110px !important;
+    width: 39dvw;
+    height: 30dvw;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteinerOptim {
+    width: 38dvw;
+    height: 30dvw;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+    padding: 10px;
+    transition: 0.4s all ease;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteinerOptim:hover {
+    transform: scale(1.1);
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteinerOptim .fileIconName {
+    font-family: "Kadwa";
+    font-size: 130%;
+    font-weight: 700;
+    line-height: 30px;
+    color: hsl(0, 0%, 20%);
+    height: 8vw;
+    padding: 0;
+    margin: 0;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteinerOptim .fileIconType {
+    font-family: "Kadwa";
+    font-size: 100%;
+    font-weight: 700;
+    line-height: 10px;
+    color: #424242;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteinerOptim:hover {
+    transform: scale(1.04);
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .addFile input {
+    width: 100% !important;
+    transform: scale(0.8);
+    transform-origin: left;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .addFile select {
+    width: 100% !important;
+    transform: scale(0.8);
+    transform-origin: left;
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .addFile .fileIconName {
+    transform-origin: left;
+    transform: scale(0.8);
   }
   .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .addFile .upperside div {
     transform: scale(0.5) translate(0px) !important;
@@ -2155,14 +2203,14 @@ input[type=checkbox]:checked + .checkbox-custom {
     font-family: "Kadwa";
     font-size: 80%;
     font-weight: 600;
-    line-height: 18px;
+    line-height: 15px;
     color: #424242;
   }
   .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconType {
     font-family: "Kadwa";
     font-size: 70%;
     font-weight: 600;
-    line-height: 7px;
+    line-height: 15px;
     color: #424242;
   }
   .rightHomePage .upperRightHomePageNavbar {
