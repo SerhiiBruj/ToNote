@@ -133,6 +133,7 @@ input[type=checkbox]:checked + .checkbox-custom {
   padding: 10px;
 }
 .homePageNavbarConteiner .leftHomePageNavbar .profile .profileImgConteiner .profileImg {
+  background-image: url(../assetModules/svgs/uncknown.svg);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -1866,8 +1867,8 @@ input[type=checkbox]:checked + .checkbox-custom {
      -moz-user-select: none;
           user-select: none;
   position: absolute;
-  height: 241px;
-  width: 357px;
+  height: 222px;
+  width: 388px;
 }
 
 .bgblockcontent {

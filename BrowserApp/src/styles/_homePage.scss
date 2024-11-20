@@ -29,9 +29,7 @@
         padding: 10px;
         .profileImg {
 
-          // background-image: url(../assetModules/svgs/uncknown.svg);
-          // background-position-y:bottom; 
-          // background-size: 70%;
+          background-image: url(../assetModules/svgs/uncknown.svg);
           @include flex(column, flex-end);
           border-radius: 50%;
           height: 170px;

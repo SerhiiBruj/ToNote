@@ -1,7 +1,7 @@
 import EditProfile from "../../assetModules/svgs/editProfile";
 import { useSelector } from "react-redux";
 import { memo, useState } from "react";
-import unck from "../../assetModules/svgs/uncknown.svg";
+// import unck from "../../assetModules/svgs/uncknown.svg";
 import axios from "axios";
 import CrissCrossIcon from "../../assetModules/svgs/crissCross";
 import mylocalip from "../../../../mylocalip";
@@ -67,14 +67,14 @@ const Profile = () => {
         const sessionUrl = sessionStorage.getItem("isLogged")?.split(" ")[2];
         return `url(${sessionUrl || userData.imageUrl})`;
       }
-      return avatarpath ? `url(${avatarpath})` : `url(${unck})`;
+      return avatarpath ? `url(${avatarpath})` : undefined;
     })(),
     backgroundPositionY: 
       userData.imageUrl 
       ? "center" 
       : avatarpath 
         ? "center" 
-        : "100%",
+        : "102%",
     backgroundPositionX: "center",
     transform: "translateX(15px)",
   }}

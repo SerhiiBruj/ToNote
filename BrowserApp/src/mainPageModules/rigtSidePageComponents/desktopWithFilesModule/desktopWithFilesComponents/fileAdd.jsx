@@ -107,8 +107,8 @@ const FileAdd = (props) => {
       ref={ref}
       className={ww<500? "fileIconConteinerOptim addFile":"fileIconConteiner addFile"}
       style={{
-        height: isAdding && (ww >500 ? "24dvw ":"58dvw "),
-        width: isAdding && (ww >500?  "22dvw ":"47dvw"),
+        height: isAdding && (ww >500 ? 350:"58dvw "),
+        width: isAdding && (ww >500?  300:"47dvw"),
       }}
     >
       <div className="upperside">
