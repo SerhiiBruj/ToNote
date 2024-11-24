@@ -11,9 +11,8 @@ const Todo = () => {
   const showExpo = useSelector((state) => state.showExpo.value);
   const { name } = useParams();
 
-  const typeName = "todo/"+name
 
-  const [data, setData] = useLocalStorage(typeName, [""]);
+  const [data, setData] = useLocalStorage("todo/", [""]);
 
   useEffect(() => {
     if (isEditable) {
@@ -32,7 +31,7 @@ const Todo = () => {
       const newData = data.filter((_, i) => i !== index);
       setData(newData);
     },
-    [data, setData, typeName]
+    [data, setData, name]
   );
 
   const handleTextChange = useCallback(
@@ -51,7 +50,7 @@ const Todo = () => {
         });
       }
     },
-    [data, setData, typeName]
+    [data, setData, name]
   );
 
   return (

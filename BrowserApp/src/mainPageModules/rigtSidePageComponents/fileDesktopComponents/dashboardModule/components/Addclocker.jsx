@@ -6,7 +6,7 @@ const AddClocker = ({ clockers, setClockers }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [formData, setFormData] = useState({
     fileName: "",
-    type: "counter", 
+    type: "counter",
     goal: "",
   });
   const handleChange = (e) => {
@@ -23,7 +23,7 @@ const AddClocker = ({ clockers, setClockers }) => {
 
     const newTemplate = {
       fileName: formData.fileName,
-      type: formData.type || "counter", 
+      type: formData.type || "counter",
       goal: formData.goal,
       dateOfStart: new Date().toLocaleDateString("uk-UA", {
         day: "2-digit",
@@ -56,7 +56,7 @@ const AddClocker = ({ clockers, setClockers }) => {
   const resetForm = () => {
     setFormData({
       fileName: "",
-      type: "counter", 
+      type: "counter",
       goal: "",
     });
     setIsAdding(false);
@@ -67,14 +67,21 @@ const AddClocker = ({ clockers, setClockers }) => {
       onClick={() => {
         if (!isAdding) setIsAdding(true);
       }}
-      className={window.innerWidth<500?"fileIconConteinerOptim addFile":"fileIconConteiner addFile"}
+      className={
+        window.innerWidth < 500
+          ? "fileIconConteinerOptim addFile"
+          : "fileIconConteiner addFile"
+      }
       style={{
-        backgroundColor:"rgb(134, 134, 134)",
-        height: isAdding && (window.innerWidth>500? "400px":"50% "),
-        width: isAdding && (window.innerWidth>500?  "250px":"80%"),
+        backgroundColor: "rgb(134, 134, 134)",
+        height: isAdding && (window.innerWidth > 500 ? 350 : "60dvw "),
+        width: isAdding && (window.innerWidth > 500 ? 300 : "50dvw"),
       }}
     >
-      <div className="upperside" style={{}}>
+      <div
+        className="upperside"
+        style={{ height: isAdding && "20%", transition: "all ease 1s" }}
+      >
         <span className="fileIconName">Add</span>
 
         <div
@@ -92,8 +99,12 @@ const AddClocker = ({ clockers, setClockers }) => {
             alignItems: "center",
             paddingRight: 20,
             transform: isAdding
-              ? "rotate(45deg)"
-              : "rotate(0deg)  translateY(15px) scale(1.1)",
+              ? `rotate(45deg)  ` +
+                (window.innerWidth < 500
+                  ? "scale(0.3)  translateY(-40px) translateX(66%) "
+                  : "scale(0.5)")
+              : "rotate(0deg) translateY(15px) translateX(-5%) " +
+                (window.innerWidth < 500 ? "scale(0.7) translateX(10%)" : ""),
           }}
         >
           <CrissCrossIcon color={"#D9D9D9"} size={!isAdding ? 0.07 : 0.03} />

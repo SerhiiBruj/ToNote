@@ -1,7 +1,7 @@
-import { useEffect, useCallback, memo,  } from "react";
+import { useCallback, memo, useInsertionEffect } from "react";
 import BinIcon from "../../../../assetModules/svgs/bin";
 import BellsIcon from "../../../../assetModules/svgs/bellsIcon";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 import DoneIcon from "../../../../assetModules/svgs/doneIcon";
@@ -9,7 +9,7 @@ import Circle from "../../../../assetModules/noSvg/circle";
 
 const ChecklistModule = () => {
   const { name } = useParams();
-  const [checklists, setChecklists] = useLocalStorage(`checklist/${name}`, []);
+  const [checklists, setChecklists] = useLocalStorage(`checklist/`, []);
   const isEditable = useSelector((state) => state.isEditable.value);
   const navivgate = useNavigate();
 
@@ -54,11 +54,9 @@ const ChecklistModule = () => {
     }
   };
 
-
-  useEffect(() => {
-   addRemoveLists();
+  useInsertionEffect(() => {
+    addRemoveLists();
   }, [isEditable]);
-
 
   const handleDelete = useCallback(
     (index) => {
@@ -185,8 +183,8 @@ const ChecklistModule = () => {
                       margin: 0,
                       width: "100%",
                       display: "flex",
-                      justifyContent:"center", 
-                      alignItems: "center",  
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   />
                 </div>

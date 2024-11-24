@@ -1404,6 +1404,47 @@ input[type=checkbox]:checked + .checkbox-custom {
     width: 100%;
   }
 }
+@media screen and (max-width: 500px) {
+  .setTableDashBoard {
+    position: static !important;
+  }
+  .setTableDashBoard .submit {
+    font-size: 20px;
+    padding: 10px;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  .dashboard {
+    padding: 5px;
+    padding-top: 20px;
+    overflow-y: auto !important;
+    padding-right: 5px;
+  }
+  .dashboard .submit {
+    font-size: 20px !important;
+  }
+  .dashboard .clockonConteiner {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner {
+    width: 100%;
+    padding: 10px;
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner .clockOn {
+    height: 150px;
+    width: 150px;
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner .clockOn span svg {
+    height: 10vw;
+    width: 10vw;
+  }
+  .dashboard .clockonConteiner .clockonConteinerInner .schedule {
+    min-height: 200px;
+    height: auto;
+  }
+}
 .marker::before {
   content: "✔ ";
   color: gray;
@@ -1865,8 +1906,8 @@ input[type=checkbox]:checked + .checkbox-custom {
      -moz-user-select: none;
           user-select: none;
   position: absolute;
-  height: 252px;
-  width: 331px;
+  height: 280px;
+  width: 306px;
 }
 
 .bgblockcontent {
@@ -1959,6 +2000,11 @@ input[type=checkbox]:checked + .checkbox-custom {
     width: 90% !important;
     flex-direction: column;
   }
+  #Creator .liTech,
+  #Technologies .liTech,
+  #WhatIsIt .liTech {
+    font-size: 18px;
+  }
   #Creator .maxwidth30vw,
   #Technologies .maxwidth30vw,
   #WhatIsIt .maxwidth30vw {
@@ -1974,6 +2020,8 @@ input[type=checkbox]:checked + .checkbox-custom {
   #WhatIsIt .container-of-blocks .bgtransblock {
     width: 90%;
     margin: 0 auto;
+    font-weight: 700;
+    font-family: "Kadwa";
   }
   #Creator .container-of-blocks .bgtransblock:nth-of-type(even),
   #Technologies .container-of-blocks .bgtransblock:nth-of-type(even),
@@ -2167,12 +2215,15 @@ input[type=checkbox]:checked + .checkbox-custom {
     grid-template-columns: 1fr;
     border-top-left-radius: 0px !important;
     gap: 20px !important;
-    padding: 20px !important;
+    padding: 4vw !important;
     width: 100% !important;
   }
   .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteiner {
-    width: 39dvw;
-    height: 30dvw;
+    width: 39dvw !important;
+    height: 30dvw !important;
+    min-height: 50px !important;
+    min-width: 50px !important;
+    color: hsl(0, 0%, 20%);
   }
   .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteinerOptim {
     width: 38dvw;
@@ -2198,6 +2249,9 @@ input[type=checkbox]:checked + .checkbox-custom {
     padding: 0;
     margin: 0;
   }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteinerOptim .fileIconName:disabled {
+    color: hsl(0, 0%, 20%);
+  }
   .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteinerOptim .fileIconType {
     font-family: "Kadwa";
     font-size: 100%;
@@ -2207,6 +2261,9 @@ input[type=checkbox]:checked + .checkbox-custom {
   }
   .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconConteinerOptim:hover {
     transform: scale(1.04);
+  }
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .addFile {
+    min-height: 50px !important;
   }
   .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .addFile input {
     width: 100% !important;
@@ -2222,8 +2279,8 @@ input[type=checkbox]:checked + .checkbox-custom {
     transform-origin: left;
     transform: scale(0.8);
   }
-  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .addFile .upperside div {
-    transform: scale(0.5) translate(0px) !important;
+  .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .addFile .submit {
+    font-size: 20px !important;
   }
   .rightHomePage .desktopWithFilesbgbg .desktopWithFiles .fileIconName {
     font-family: "Kadwa";
@@ -2265,7 +2322,7 @@ input[type=checkbox]:checked + .checkbox-custom {
     flex-direction: column;
   }
   .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar #logosvg {
-    transform: scale(0.8);
+    transform: scale(0.7);
   }
   .rightHomePage .upperRightHomePageNavbar .upperRightRightsectionHomePageNavbar .backLeaf {
     max-width: 10vw;
@@ -2279,10 +2336,33 @@ input[type=checkbox]:checked + .checkbox-custom {
   }
   .desktopWithFiles {
     border-top-left-radius: 0px;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 2% !important;
+    padding-right: 2% !important;
   }
 }
+.shwoMenuLines {
+  width: 100%;
+  height: 20px !important;
+  background-color: black;
+  border-radius: 3px;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 0.5;
+  max-height: 100%;
+  max-width: 15%;
+  cursor: pointer;
+}
+
+.menuContainer:hover .shwoMenuLines {
+  opacity: 0.2;
+}
+
 @media (max-width: 768px) {
   .loginCenterDiv {
     align-items: flex-end;
@@ -2323,14 +2403,17 @@ input[type=checkbox]:checked + .checkbox-custom {
     height: 100vh;
   }
 }
-html, body {
+html,
+body {
   height: 100%;
   overflow: hidden;
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: none;
 }
 
-[lang=uk] p, font, span {
+[lang=uk] p,
+font,
+span {
   font-family: "Kadwa";
   font-size: 20px;
   font-weight: 700;

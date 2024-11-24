@@ -7,9 +7,8 @@ import CheckBox from "../../../../assetModules/noSvg/checkb";
 const sanitize = (input) => input.replace(/[/"'\\%]/g, "");
 
 const FileAdd = (props) => {
-  
   // eslint-disable-next-line react/prop-types
-  const { boolAnimate,  } = props;
+  const { boolAnimate } = props;
   const ref = useRef(null);
   const dispatch = useDispatch();
   const [isAdding, setIsAdding] = useState(false);
@@ -103,14 +102,21 @@ const FileAdd = (props) => {
     <div
       onClick={() => setIsAdding(true)}
       ref={ref}
-      className={window.innerWidth<500? "fileIconConteinerOptim addFile":"fileIconConteiner addFile"}
+      className={
+        window.innerWidth < 500
+          ? "fileIconConteinerOptim addFile"
+          : "fileIconConteiner addFile"
+      }
       style={{
-        backgroundColor:"#868686",
-        height: isAdding && (window.innerWidth>500 ? 350:"58dvw "),
-        width: isAdding && (window.innerWidth>500?  300:"47dvw"),
+        backgroundColor: "#868686",
+        height: isAdding && (window.innerWidth > 500 ? 350 : "60dvw "),
+        width: isAdding && (window.innerWidth > 500 ? 300 : "50dvw"),
       }}
     >
-      <div className="upperside">
+      <div
+        className="upperside"
+        style={{ height: isAdding && "20%", transition: "all ease 1s" }}
+      >
         <span className="fileIconName">Add</span>
         <div
           onBlur={() => setIsAdding(false)}
@@ -128,9 +134,11 @@ const FileAdd = (props) => {
             transition: "all 0.6s ease",
             alignItems: "center",
             paddingRight: 20,
+            transformOrigin: "center",
             transform: isAdding
-              ? "rotate(45deg)"
-              : "rotate(0deg) translateY(15px)  translateX(-20px)",
+              ? `rotate(45deg)  ` +(window.innerWidth < 500 ? "scale(0.3)  translateY(-40px) translateX(66%) " : "scale(0.5)")
+              : 'rotate(0deg) translateY(15px) translateX(-5%) ' + (window.innerWidth < 500 ? "scale(0.7) translateX(10%)" : "")
+
           }}
         >
           <CrissCrossIcon color={"#D9D9D9"} size={!isAdding ? 0.08 : 0.056} />

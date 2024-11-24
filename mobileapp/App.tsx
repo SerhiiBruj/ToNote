@@ -22,6 +22,15 @@ type 5 = dashboard
 type 6 = diary 
 */
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// const getFonts = () =>
+//   Font.loadAsync({
+//     "Kadwa": require("./fonts/Kadwa-Regular.ttf"),
+//   });
+
 type RootStackParamList = {
   Home: undefined;
   note: { name: string; id: number; type: number };
@@ -33,10 +42,7 @@ type RootStackParamList = {
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-// const getFonts = () =>
-//   Font.loadAsync({
-//     "Kadwa": require("./fonts/Kadwa-Regular.ttf"),
-//   });
+
 
 
 export default function App() {
@@ -47,13 +53,13 @@ export default function App() {
     const openDatabase = async () => {
       // await getFonts();
       try {
-        database.execSync("DROP TABLE IF EXISTS userFiles");
-        database.execSync("DROP TABLE IF EXISTS todos");
-        database.execSync("DROP TABLE IF EXISTS checklists");
-        database.execSync("DROP TABLE IF EXISTS checklistItems");
-        database.execSync("DROP TABLE IF EXISTS notes");
-        database.execSync("DROP TABLE IF EXISTS diaries");
-        database.execSync("DROP TABLE IF EXISTS sheets");
+        // database.execSync("DROP TABLE IF EXISTS userFiles");
+        // database.execSync("DROP TABLE IF EXISTS todos");
+        // database.execSync("DROP TABLE IF EXISTS checklists");
+        // database.execSync("DROP TABLE IF EXISTS checklistItems");
+        // database.execSync("DROP TABLE IF EXISTS notes");
+        // database.execSync("DROP TABLE IF EXISTS diaries");
+        // database.execSync("DROP TABLE IF EXISTS sheets");
 
 
         database.execSync(`
@@ -134,7 +140,6 @@ const LoadingScreen = () => {
 
 
 
-// Очищаємо базу даних перед ініціалізацією
 // database.execSync("DROP TABLE IF EXISTS userFiles");
 // database.execSync("DROP TABLE IF EXISTS todos");
 // database.execSync("DROP TABLE IF EXISTS checklists");

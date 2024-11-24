@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import LeftHomePageNavbar from "../mainPageModules/leftSidePageNavbarComponents/leftHomePageNavbar";
 import UpperRightHomePgeNavbar from "../mainPageModules/rigtSidePageComponents/upperRightNavbarComponents/upperRightHomePgeNavbar";
 import { Outlet, useLocation } from "react-router-dom";
@@ -11,12 +11,14 @@ import Popover from "../mainPageModules/rigtSidePageComponents/desktopWithFilesM
 import ErrorBoundary from "../testingComp/ErrorBoundary";
 
 const HomePage = () => {
-  console.log("about")
   const location = useLocation();
   const dispatch = useDispatch();
   const { isSelecting } = useSelector((state) => state.select);
   const isEditable = useSelector((state) => state.isEditable.value);
   const showExpo = useSelector((state) => state.showExpo.value);
+  const [showMenu, setShowMenu] = useState(false);
+
+  const setshowMenuMomorized = useCallback((state)=>setShowMenu(state),[])
 
   useEffect(() => {
     console.log("sessionStorage.keys");
@@ -50,9 +52,9 @@ const HomePage = () => {
         if (showExpo) dispatch(updateShowExpo(false));
       }}
     >
-      <LeftHomePageNavbar />
+      <LeftHomePageNavbar showMenu={showMenu} setShowMenu={setshowMenuMomorized} />
       <div className="rightHomePage">
-        <UpperRightHomePgeNavbar />
+        <UpperRightHomePgeNavbar setShowMenu={setshowMenuMomorized} />
         <div className="desktopWithFilesbgbg">
           <div
             className="scroll gfgdf"
@@ -61,14 +63,13 @@ const HomePage = () => {
               backgroundImage: localStorage.getItem("bg")
                 ? `url(${localStorage.getItem("bg")})`
                 : "none",
-                
             }}
           >
             <div
               className="scroll"
               onTouchStart={() => {
                 if (
-                  ["checklist", "todo", "note", "table"].includes(
+                  ["checklist", "todo", "note", "table","diary"].includes(
                     location.pathname.split("/")[2]
                   )
                 )
@@ -78,7 +79,6 @@ const HomePage = () => {
                 background: localStorage.getItem("bg") && "none",
               }}
             >
-           
               <ErrorBoundary>
                 <Outlet />
               </ErrorBoundary>

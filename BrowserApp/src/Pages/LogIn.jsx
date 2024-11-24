@@ -212,7 +212,6 @@ const Register = (props) => {
     </div>
   );
 };
-
 const LogIn = (props) => {
   const { setUsername, username, setPassword, password, switchSide, navigate } =
     props;

@@ -17,7 +17,7 @@ const DesktopWithFiles = () => {
         setBoolAnimate(false); 
       }, 500);
     }
-  }, [boolAnimate, setBoolAnimate]);
+  }, [boolAnimate]);
 
   return (
     <div style={{ width: "100%", display: "flex" }}>

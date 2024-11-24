@@ -18,7 +18,6 @@
 }
 
 @media (max-width: 480px) {
-  
   .leftHomePageNavbar {
     width: 100vw;
     padding: 10px;
@@ -83,6 +82,7 @@
     }
   }
   .rightHomePage {
+   
     width: 100% !important;
     .desktopWithFilesbgbg {
       .scroll {
@@ -93,16 +93,19 @@
         grid-template-columns: 1fr;
         border-top-left-radius: 0px !important;
         gap: 20px !important;
-        padding: 20px !important;
+        padding: 4vw !important;
         width: 100% !important;
 
         .fileIconConteiner {
-          width: 39dvw ;
-          height: 30dvw ;
+          width: 39dvw !important;
+          height: 30dvw !important;
+          min-height: 50px !important;
+          min-width: 50px !important;
+          color: $textColor;
         }
-        .fileIconConteinerOptim{
-          width: 38dvw ;
-          height: 30dvw ;
+        .fileIconConteinerOptim {
+          width: 38dvw;
+          height: 30dvw;
           user-select: none;
           background-color: $fileIconbg;
           border-radius: 20px;
@@ -119,7 +122,9 @@
             padding: 0;
             margin: 0;
           }
-
+          .fileIconName:disabled{
+            color:hsl(0, 0%, 20%);
+          }
           .fileIconType {
             @include textformat(100%, 700, 10px);
           }
@@ -129,26 +134,23 @@
           }
         }
         .addFile {
-
+          min-height: 50px !important;
           input {
-            width:100% !important;
+            width: 100% !important;
             transform: scale(0.8);
             transform-origin: left;
           }
-          select{
-            width:100% !important;
+          select {
+            width: 100% !important;
             transform: scale(0.8);
             transform-origin: left;
           }
-          .fileIconName{
+          .fileIconName {
             transform-origin: left;
             transform: scale(0.8);
-
           }
-          .upperside {
-            div {
-              transform: scale(0.5) translate(0px) !important ;
-            }
+          .submit{
+            font-size:20px !important;
           }
         }
         .fileIconName {
@@ -156,7 +158,7 @@
         }
 
         .fileIconType {
-          @include textformat(70%, 600, 15px); 
+          @include textformat(70%, 600, 15px);
         }
       }
     }
@@ -165,17 +167,15 @@
       height: 50px !important ;
       padding: 5px;
       width: 100%;
-      .nameCont{
-
+      .nameCont {
         max-width: 75%;
         font-size: 20px;
 
-        .Name{
+        .Name {
           overflow: hidden;
           flex: 1;
           font-size: 20px;
         }
-
       }
 
       .upperRightRightsectionHomePageNavbar {
@@ -186,12 +186,11 @@
         padding-right: 0px !important;
         justify-content: flex-end !important;
 
-        #showhideCont{
+        #showhideCont {
           flex-direction: column;
-          
         }
         #logosvg {
-          transform: scale(0.8);
+          transform: scale(0.7);
         }
         .backLeaf {
           max-width: 10vw;
@@ -208,9 +207,31 @@
   }
   .desktopWithFiles {
     border-top-left-radius: 0px;
-    padding-left: 10%;
-    padding-right: 10%;
-    
+    padding-left: 2% !important;
+    padding-right: 2% !important;
   }
+}
 
+
+.shwoMenuLines {
+  width: 100%;
+  height: 20px !important;
+  background-color: black; 
+  border-radius: 3px; 
+  margin: 5px 0;
+  transition: all 0.3s ease; 
+}
+
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 0.5;
+  max-height: 100%;
+  max-width: 15%;
+  cursor: pointer;
+}
+
+.menuContainer:hover .shwoMenuLines{
+  opacity: 0.2;
 }

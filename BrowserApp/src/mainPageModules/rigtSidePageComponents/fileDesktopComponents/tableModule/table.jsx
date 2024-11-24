@@ -1,17 +1,13 @@
 import React, { memo, useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 import DoneIcon from "../../../../assetModules/svgs/doneIcon";
 import CrissCrossIcon from "../../../../assetModules/svgs/crissCross";
 
 const Table = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
-  const { name } = useParams();
 
-  const typeName = "table/" + name;
-
-  const [table, setTable] = useLocalStorage(typeName, [
+  const [table, setTable] = useLocalStorage("table/", [
     ["", ""],
     ["", ""],
   ]);
@@ -157,7 +153,7 @@ const Table = () => {
             style={{ height: "fit-content", width: "fit-content" }}
           >
             <CrissCrossIcon
-              size={0.5}
+              size={0.05}
               color={isEditable ? "#7a7c7c" : "#484848"}
             />
           </div>
@@ -169,8 +165,8 @@ const Table = () => {
           style={{ height: "fit-content", width: "fit-content" }}
         >
           <CrissCrossIcon
-            size={0.5}
-            color={isEditable ? "#7a7c7c" : "#484848 "}
+            size={0.05}
+            color={isEditable ? "#7a7c7c" : "#484848"}
           />
         </div>
       </div>

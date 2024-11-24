@@ -1,44 +1,37 @@
-import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useMemo, useEffect, } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const useLocalStorage = (key) => {
+const useLocalStorage = (type) => {
+  const { name } = useParams()
   const navigate = useNavigate()
   const isLocal = useMemo(() => {
-    if (localStorage.getItem(key)) return true;
-    else if (sessionStorage.getItem(key)) return false
+    if (localStorage.getItem(type + name)) return true;
+    else if (sessionStorage.getItem(type + name)) return false
     else navigate("404")
   }, [navigate])
   const [fileValue, setFileValue] = useState(() => {
     try {
-      if (isLocal) return JSON.parse(localStorage.getItem(key));
-      else return JSON.parse(sessionStorage.getItem(key))
+      if (isLocal) return JSON.parse(localStorage.getItem(type + name));
+      else return JSON.parse(sessionStorage.getItem(type + name))
     } catch (er) {
       console.error(er);
       navigate("404")
     }
   })
 
+
+
   useEffect(() => {
-    if (isLocal) setFileValue(JSON.parse(localStorage.getItem(key)))
-    else if (!isLocal) setFileValue(JSON.parse(sessionStorage.getItem(key)))
+    if (isLocal) setFileValue(JSON.parse(localStorage.getItem(type + name)))
+    else if (!isLocal) setFileValue(JSON.parse(sessionStorage.getItem(type + name)))
     else navigate('/404')
-
-    return () => {
-
-    }
-  }, [navigate])
+  }, [name])
 
   const setValue = (value) => {
     setFileValue(value);
-    if (debounce) clearTimeout(debounce);
-    var debounce = setTimeout(() => {
-      if (isLocal) {
-        window.localStorage.setItem(key, JSON.stringify(value));
-      } else {
-        window.sessionStorage.setItem(key, JSON.stringify(value));
-      }
-    }, 1000)
-
+     if (isLocal) localStorage.setItem(type + name, JSON.stringify(fileValue))
+    else sessionStorage.setItem(type + name, JSON.stringify(fileValue))
+     console.log(JSON.stringify(fileValue))
   }
 
   return [fileValue, setValue]

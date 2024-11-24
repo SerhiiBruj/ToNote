@@ -4,13 +4,14 @@ import Ard from "../../assetModules/svgs/ard";
 import { memo, useState } from "react";
 import { useSelector } from "react-redux";
 
-const Scrollpanel = () => {
+// eslint-disable-next-line react/prop-types
+const Scrollpanel = ({setShowMenu}) => {
   const pages = useSelector((state) => state.pages.value);
 
   const [allow, setAllow] = useState(true);
   return (
     <div className="scrollpanel">
-      <ListOfFiles allow={allow} />
+      {window.innerWidth > 500 && <ListOfFiles allow={allow} />}
       <div
         className="innerdivider"
         onClick={() => setAllow((prev) => !prev)}
@@ -25,7 +26,7 @@ const Scrollpanel = () => {
       >
         <div
           style={{
-            display: pages.length > 4 ? "flex" : "none",
+            display: pages.length > 4 && window.innerWidth>500 ? "flex" : "none",
             transform: allow ? "none" : "rotate(180deg)",
             transition: "all ease 0.2s",
           }}
@@ -33,7 +34,7 @@ const Scrollpanel = () => {
           <Ard />
         </div>
       </div>
-      <ListOfSettings />
+      <ListOfSettings setShowMenu={setShowMenu} />
     </div>
   );
 };

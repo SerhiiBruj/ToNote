@@ -22,7 +22,8 @@ import mylocalip from "../../../../../mylocalip";
 
 const listOfFileTypes = ["dashboard", "note", "checklist", "todo", "table"];
 
-const UpperRightHomePgeNavbar = () => {
+// eslint-disable-next-line react/prop-types
+const UpperRightHomePgeNavbar = ({ setShowMenu }) => {
   const { isSelecting, selected } = useSelector((state) => state.select);
   const showSomething = useSelector((state) => state.showExpo.value);
   const isEditable = useSelector((state) => state.isEditable.value);
@@ -35,7 +36,6 @@ const UpperRightHomePgeNavbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const handleResize = () => {
       setWidth(window.innerWidth);
@@ -43,7 +43,7 @@ const UpperRightHomePgeNavbar = () => {
     window.addEventListener("resize", handleResize);
 
     const handleEdit = (event) => {
-      console.log("object")
+      console.log("object");
       if (event.ctrlKey && event.key.toLowerCase() === "e") {
         event.preventDefault();
         dispatch(edit());
@@ -60,8 +60,6 @@ const UpperRightHomePgeNavbar = () => {
       window.removeEventListener("keydown", handleEdit);
     };
   }, []);
-
- 
 
   useEffect(() => {
     const paths = location.pathname.split("/");
@@ -135,18 +133,29 @@ const UpperRightHomePgeNavbar = () => {
 
   return (
     <div className="upperRightHomePageNavbar">
+      {isHome && window.innerWidth < 500 && (
+        <div onClick={() => setShowMenu(true)} className="menuContainer">
+          <div className="shwoMenuLines"></div>
+          <div className="shwoMenuLines"></div>
+          <div className="shwoMenuLines"></div>
+        </div>
+      )}
+      
       <div
         className="backLeaf"
         style={{
+          display:window.innerWidth < 500 && isHome&& "none",
           transition: "all ease 0.5s",
           opacity: !isHome ? "1" : "0",
           transform: !isHome ? "scale(1)" : "scale(0)",
-          width:window.innerWidth>500 ? "20%": "25%"
+          width: window.innerWidth > 500 ? "20%" : "25%",
         }}
       >
-        <BackLeafIcon size={window.innerWidth>500?"30%":"20vw"} color={"#2e2e2e"} />
+        <BackLeafIcon
+          size={window.innerWidth > 500 ? "30%" : "20vw"}
+          color={"#2e2e2e"}
+        />
       </div>
-
       <div className="nameCont">
         <h1 className="Name">
           {decodeURIComponent(page.replace(/(%20|_)/g, " "))}

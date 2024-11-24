@@ -1,6 +1,6 @@
-import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import AddClocker from "./components/Addclocker";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 import ClockOn from "./components/ClockOn";
 import CheckIn from "./components/CheckIn";
@@ -8,21 +8,20 @@ import Counter from "./components/Counter";
 import Timer from "./components/Timer";
 
 const Dashboard = () => {
-  const {name}=useParams();
+  const { name } = useParams();
   const ref = useRef();
-  const [ist, setist] = useState(false);
-
-  const typeName = "dashboard/"+name
-
-  const [clockers, setClockers] = useLocalStorage(typeName, {
+  const [isTable, setisTable] = useState(false);
+  const typeName = "dashboard/" + name;
+  const [clockers, setClockers] = useLocalStorage("dashboard/", {
     templates: [],
     table: [],
   });
+  const useSetClockers = useCallback((value) => setClockers(value), []);
+
 
   const tableToRender = useMemo(() => {
-    console.log(ist);
     return [["", ...clockers.templates], ...clockers.table];
-  }, [clockers.templates, clockers.table]);
+  }, [isTable]);
 
   function getDatesArray(startDate) {
     const datesArray = [];
@@ -44,63 +43,63 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    const lastDate = clockers.table[clockers.table.length - 1]?.[0]; // Отримуємо останню дату з таблиці
+    const lastDate = clockers.table[clockers.table.length - 1]?.[0];
     if (lastDate) {
-      const dates = getDatesArray(lastDate); // Генеруємо масив нових дат
+      const dates = getDatesArray(lastDate);
       if (dates.length > 0) {
-        const updatedTable = [...clockers.table]; // Створюємо копію таблиці
+        const updatedTable = [...clockers.table];
         dates.forEach((date) => {
-          let arr = []; // Створюємо новий рядок для додавання у таблицю
-          // Генеруємо значення для кожної колонки на основі шаблону
+          let arr = [];
           clockers.templates.forEach((template) => {
             switch (template.type) {
               case "clock on":
-                arr.push([]); // Для типу "clock on" додаємо порожній масив
+                arr.push([]);
                 break;
               case "counter":
-                arr.push(0); // Для типу "counter" додаємо 0
+                arr.push(0);
                 break;
               case "timer":
-                arr.push([]); // Для типу "timer" додаємо порожній масив
+                arr.push([]);
                 break;
               case "check in":
-                arr.push(false); // Для типу "check in" додаємо false
+                arr.push(false);
                 break;
               default:
-                arr.push(null); // За замовчуванням додаємо null, якщо тип невідомий
+                arr.push(null);
             }
           });
-          updatedTable.push([date, ...arr]); // Додаємо новий рядок до таблиці
+          updatedTable.push([date, ...arr]);
         });
         setClockers({
           ...clockers,
           table: updatedTable,
-        }); // Оновлюємо стан
+        });
       }
     }
-  }, [clockers.table, clockers.templates, setClockers]); // Додаємо точні залежності
+  }, []);
 
   return (
     <>
       <div
+        className="setTableDashBoard"
         style={{
-          position:'fixed',
+          position: "fixed",
           width: "100%",
           display: "flex",
-          top:"0px",
+          top: "0px",
           justifyContent: "flex-end",
           alignItems: "center",
         }}
       >
         <button
-          onClick={() => setist(!ist)}
+          onClick={() => setisTable(!isTable)}
           className="submit"
           style={{ width: "fit-content", margin: 10 }}
         >
           showTable
         </button>
       </div>
-      {!ist ? (
+      {!isTable ? (
         <div className="dashboard fileContainer">
           {clockers.templates.map((clocker, i) => {
             switch (clocker.type) {
@@ -109,7 +108,7 @@ const Dashboard = () => {
                   <Timer
                     colors={colors}
                     clockers={clockers}
-                    setClockers={setClockers}
+                    setClockers={useSetClockers}
                     key={i}
                     i={i + 1}
                   />
@@ -119,7 +118,7 @@ const Dashboard = () => {
                   <Counter
                     colors={colors}
                     clockers={clockers}
-                    setClockers={setClockers}
+                    setClockers={useSetClockers}
                     key={i}
                     i={i + 1}
                   />
@@ -129,7 +128,7 @@ const Dashboard = () => {
                   <ClockOn
                     colors={colors}
                     clockers={clockers}
-                    setClockers={setClockers}
+                    setClockers={useSetClockers}
                     key={i}
                     i={i + 1}
                   />
@@ -138,7 +137,7 @@ const Dashboard = () => {
                 return (
                   <CheckIn
                     clockers={clockers}
-                    setClockers={setClockers}
+                    setClockers={useSetClockers}
                     key={i}
                     dateOfStart={clocker.dateOfStart}
                     name={clocker.name}
@@ -209,7 +208,7 @@ const Dashboard = () => {
                             <p
                               style={{
                                 textAlign: " center",
-                                overflow:'scroll'
+                                overflow: "scroll",
                               }}
                             >
                               {index === 0 ? td.fileName : td}

@@ -167,6 +167,7 @@ const FileIcon = (props) => {
           <div style={{ height: "70%", overflow: "hidden" }}>
             <input
               style={{
+                color:"hsl(0, 0%, 20%)",
                 pointerEvents: isEditable ? "all" : "none",
                 transition: "0.2s all ease",
                 animation:

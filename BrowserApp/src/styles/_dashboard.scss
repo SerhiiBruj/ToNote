@@ -537,3 +537,49 @@ $coolcolor: #1e4f39;
     width: 100%;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .setTableDashBoard {
+    position: static !important;
+    .submit {
+      font-size: 20px;
+      padding: 10px;
+      height: fit-content;
+    }
+  }
+  .dashboard{
+
+    .submit{
+      font-size: 20px !important;
+    }
+
+    padding: 5px;
+    padding-top: 20px;
+    overflow-y: auto !important;
+    padding-right: 5px ;
+    .clockonConteiner{
+      width: 100% ;
+      height: auto;
+      flex-direction: column;
+      .clockonConteinerInner{
+        .clockOn{
+          height: 150px;
+          width: 150px;
+          span{
+            svg{
+              height: 10vw;
+              width: 10vw;
+            }
+          }
+        }
+        .schedule{
+        min-height: 200px;
+
+          height: auto;
+        }
+        width: 100%;
+        padding: 10px;
+      }
+    }
+  }
+}

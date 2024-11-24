@@ -2,6 +2,7 @@ import { memo } from "react";
 import { NavLink } from "react-router-dom";
 
 const ListOfSettings = () => {
+  
   let Settings = [
     "Account settings",
     "Appearance",
@@ -15,7 +16,6 @@ const ListOfSettings = () => {
       {Settings.map((set, index) => (
         <div key={index}    >
           <NavLink
-          
             className={({ isActive }) =>
               `${isActive ? "activeNav" : "inactiveNav"} navLink`
             }

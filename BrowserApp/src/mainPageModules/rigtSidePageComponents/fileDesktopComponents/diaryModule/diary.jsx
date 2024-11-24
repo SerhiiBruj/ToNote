@@ -1,21 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 import Arrow from "../../../../assetModules/svgs/arrow";
 
 const Diary = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
   const textareaRef = useRef(null);
-  const { name } = useParams();
-  const typeName = `diary/` + name;
 
   const getCurrentDate = () => {
     const date = new Date();
     return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
   };
 
-  const [text, setText] = useLocalStorage(typeName, [
+  const [text, setText] = useLocalStorage("diary/", [
     { date: getCurrentDate(), value: "" },
   ]);
   const [page, setPage] = useState(0);

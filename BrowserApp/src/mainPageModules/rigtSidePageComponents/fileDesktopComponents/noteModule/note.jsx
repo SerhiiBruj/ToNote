@@ -7,8 +7,7 @@ const Note = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
   const textareaRef = useRef(null);
   const { name } = useParams();
-  const typeName =  "note/"+name
-  const [text, setText] = useLocalStorage(typeName, "");
+  const [text, setText] = useLocalStorage(  "note/", "");
 
  
 
@@ -27,7 +26,7 @@ const Note = () => {
       const newText = event.target.value;
       setText(newText);
     },
-    [typeName]
+    [name]
   );
 
   return (

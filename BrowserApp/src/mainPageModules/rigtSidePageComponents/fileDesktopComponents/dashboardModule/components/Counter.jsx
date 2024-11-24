@@ -4,14 +4,26 @@ import BellsIcon from "../../../../../assetModules/svgs/bellsIcon";
 import Arrow from "../../../../../assetModules/svgs/arrow";
 
 const Counter = ({ i, clockers, setClockers }) => {
+  console.log("counter")
   const counter = useMemo(
     () => clockers.table[clockers.table.length - 1][i] || 0,
     [clockers.table[clockers.table.length - 1][i]]
   );
-  const [results, setResults] = useState(null);
+
+  const results = useMemo(() => {
+    if (!clockers.table.length || clockers.length === 0) {
+      return 0; 
+    }
+
+    return (
+      (clockers.table.reduce((sum, row) => {
+        return sum + (row[i] || 0);
+      }, 0) / clockers.table.length).toFixed(1)
+    );
+  }, [clockers.table, i]);
+
   const bestResults = useMemo(() => {
     let max = 0;
-
     for (let j = clockers.table.length - 1; j >= 0; j--) {
       const value = clockers.table[j][i];
       if (typeof value === "number" && value > max) {
@@ -19,36 +31,12 @@ const Counter = ({ i, clockers, setClockers }) => {
       }
     }
     console.log("useMemo");
-    return max === -Infinity ? null : max; // Повертаємо null, якщо значень не знайдено
+    return max === -Infinity ? null : max;
   }, [clockers.table, i]);
-  useEffect(() => {
-    try {
-      let total = 0;
-      let count = 0;
-      for (let j = clockers.table.length - 1; j > 0 && count < 30; j--) {
-        if (typeof clockers.table[j][i] === "number") {
-          total += clockers.table[j][i];
-          count++;
-        }
-      }
-      setResults(
-        count > 0
-          ? (total / count) % 2 === 0
-            ? total / count
-            : (total / count).toFixed(1)
-          : 0
-      );
-    } catch (er) {
-      console.log(er.message);
-    }
-
-    console.log("useEffect");
-  }, [clockers.table[clockers.table.length - 1][i]]);
 
   const handleClickIncrease = () => {
     const newTable = [...clockers.table];
     newTable[newTable.length - 1][i] = newTable[newTable.length - 1][i] + 1;
-
     setClockers({
       ...clockers,
       table: newTable,
@@ -147,27 +135,7 @@ const Counter = ({ i, clockers, setClockers }) => {
 
 const Diagram = ({ table, i, bestResults }) => {
   const [neededAr, setNeededAr] = useState([]);
-  const colors = [
-    "#f44336",
-    "#e91e63",
-    "#9c27b0",
-    "#673ab7",
-    "#3f51b5",
-    "#2196f3",
-    "#03a9f4",
-    "#00bcd4",
-    "#009688",
-    "#4caf50",
-    "#8bc34a",
-    "#cddc39",
-    "#ffeb3b",
-    "#ffc107",
-    "#ff9800",
-    "#ff5722",
-    "#795548",
-    "#9e9e9e",
-    "#607d8b",
-  ];
+  
 
   useEffect(() => {
     try {
@@ -241,3 +209,27 @@ const Diagram = ({ table, i, bestResults }) => {
 };
 
 export default Counter;
+
+
+
+const colors = [
+  "#f44336",
+  "#e91e63",
+  "#9c27b0",
+  "#673ab7",
+  "#3f51b5",
+  "#2196f3",
+  "#03a9f4",
+  "#00bcd4",
+  "#009688",
+  "#4caf50",
+  "#8bc34a",
+  "#cddc39",
+  "#ffeb3b",
+  "#ffc107",
+  "#ff9800",
+  "#ff5722",
+  "#795548",
+  "#9e9e9e",
+  "#607d8b",
+];

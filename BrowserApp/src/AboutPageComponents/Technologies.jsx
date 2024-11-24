@@ -76,6 +76,8 @@ const ListOfTechs = () => {
         
       <ul style={{ width: "40%", paddingLeft: 10 ,listStyleType:"none"}}>
       <li
+      className="liTech"
+
           style={{
             color: "#1e1e1e",
             fontSize: 28,
@@ -93,13 +95,7 @@ const ListOfTechs = () => {
           }}
         >
           <span
-            style={{
-              color: "#1e1e1e",
-              fontSize: 25,
-              paddingTop: 10,
-              textAlign: "left",
-              textWrap: "pretty",
-            }}
+          className="liTech"
           >
             React
           </span>
@@ -113,14 +109,7 @@ const ListOfTechs = () => {
           }}
         >
           <span
-            style={{
-              color: "#1e1e1e",
-              fontSize: 25,
-              paddingTop: 10,
-
-              textAlign: "left",
-              textWrap: "pretty",
-            }}
+          className="liTech"
           >
             Vite
           </span>
@@ -134,13 +123,7 @@ const ListOfTechs = () => {
           }}
         >
           <span
-            style={{
-              color: "#1e1e1e",
-              fontSize: 25,
-              paddingTop: 10,
-              textAlign: "left",
-              textWrap: "pretty",
-            }}
+          className="liTech"
           >
             TypeScript
           </span>
@@ -154,14 +137,7 @@ const ListOfTechs = () => {
           }}
         >
           <span
-            style={{
-              color: "#1e1e1e",
-              fontSize: 25,
-              paddingTop: 10,
-
-              textAlign: "left",
-              textWrap: "pretty",
-            }}
+            className="liTech"
           >
             Redux
           </span>
@@ -176,14 +152,7 @@ const ListOfTechs = () => {
           }}
         >
           <span
-            style={{
-              color: "#1e1e1e",
-              fontSize: 25,
-              paddingTop: 10,
-
-              textAlign: "left",
-              textWrap: "pretty",
-            }}
+            className="liTech"
           >
             Sass
           </span>
@@ -209,13 +178,7 @@ const ListOfTechs = () => {
           }}
         >
           <span
-            style={{
-              color: "#1e1e1e",
-              fontSize: 25,
-              paddingTop: 10,
-              textAlign: "left",
-              textWrap: "pretty",
-            }}
+          className="liTech"
           >
             SQLite
           </span>{" "}
@@ -229,13 +192,7 @@ const ListOfTechs = () => {
           }}
         >
           <span
-            style={{
-              color: "#1e1e1e",
-              fontSize: 25,
-              paddingTop: 10,
-              textAlign: "left",
-              textWrap: "pretty",
-            }}
+          className="liTech"
           >
             Express
           </span>
@@ -250,13 +207,7 @@ const ListOfTechs = () => {
           }}
         >
           <span
-            style={{
-              color: "#1e1e1e",
-              fontSize: 25,
-              paddingTop: 10,
-              textAlign: "left",
-              textWrap: "pretty",
-            }}
+          className="liTech"
           >
             Node js
           </span>

@@ -27,7 +27,7 @@ const FileIcon = ({ item, navigation }: FileIconProps) => {
   const handleChangeWidth = () => {
     setShow(!show)
     Animated.timing(widthAnim, {
-      toValue: show ? 0.1 : 0.8,
+      toValue: show ? 0 : 0.8,
       duration: 500,
       useNativeDriver: false,
     }).start();
@@ -60,26 +60,26 @@ const FileIcon = ({ item, navigation }: FileIconProps) => {
           {
             width: widthAnim.interpolate({
               inputRange: [0, 1],
-              outputRange: ["10%", "100%"],
+              outputRange: ["0%", "100%"],
             }),
           },
         ]}>
-          <TouchableOpacity style={{ alignSelf: "flex-end", }} >
+          <TouchableOpacity style={{ alignItems: "center",justifyContent:'center' }} >
             <MaterialIcons name="delete" size={30} color="#323232" />
           </TouchableOpacity>
-          <TouchableOpacity style={{ alignSelf: "flex-end", }} >
+          <TouchableOpacity style={{ alignItems: "center",justifyContent:'center'}} >
             <Ionicons name="pencil-outline" size={24} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity style={{ alignSelf: "flex-end", }} >
+          <TouchableOpacity style={{alignItems: "center",justifyContent:'center'}} >
             <Image
               style={{ height: 20, width: 20 }}
               source={require("../../assets/exportalbl.png")} />
           </TouchableOpacity>
         </Animated.View>
-        <TouchableOpacity style={{ alignSelf: "flex-end", position: "absolute", backgroundColor: "red", padding: 5 }} onPress={handleChangeWidth} >
+      </Pressable>
+        <TouchableOpacity style={{padding:10, position: "absolute", alignItems: "center",justifyContent:'center'}} onPress={handleChangeWidth} >
           <SimpleLineIcons name="options-vertical" size={20} color="black" />
         </TouchableOpacity>
-      </Pressable>
     </TouchableOpacity>
   )
 }
@@ -87,10 +87,9 @@ const styles = StyleSheet.create({
   optionsCont: {
     flexDirection: "row",
     alignItems: "center",
-    width: "100%",
+    width:0,
     overflow: "hidden",
     justifyContent: "space-around",
-    backgroundColor: "red",
     borderRadius: 10
   },
   fileItem: {
