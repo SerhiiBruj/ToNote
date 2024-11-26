@@ -32,9 +32,10 @@ const AddClocker = ({ clockers, setClockers }) => {
       }),
     };
 
-    const newTable = clockers.table.map((row) => {
+    const newTable = structuredClone(clockers.table).map((row) => {
       switch (formData.type) {
         case "clock on":
+          return [...row, []];
         case "timer":
           return [...row, []];
         case "check in":

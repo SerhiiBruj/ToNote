@@ -34,7 +34,7 @@ const Dashboard = () => {
     while (date < currentDate) {
       date.setDate(date.getDate() + 1);
       const day = String(date.getDate()).padStart(2, "0");
-      const month = String(date.getMonth() + 1).padStart(2, "0"); // Fixing the month format
+      const month = String(date.getMonth() + 1).padStart(2, "0"); 
       const year = date.getFullYear();
       datesArray.push(`${day}.${month}.${year}`);
     }

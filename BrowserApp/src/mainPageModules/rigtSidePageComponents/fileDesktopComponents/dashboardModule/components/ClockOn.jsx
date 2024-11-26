@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import {  useEffect, useMemo, useState } from "react";
+import {   useEffect, useMemo, useState } from "react";
 import BellsIcon from "../../../../../assetModules/svgs/bellsIcon";
 const timeToMilliseconds = (time) => {
   if (!time || typeof time !== "string") {
@@ -16,7 +16,7 @@ const calculateDuration = (ar) => {
 
   for (let j = 0; j < ar.length; j++) {
     const { s, e } = ar[j];
-    if (!e) continue;
+    if (e===null) continue;
     const startTime = timeToMilliseconds(s);
     const endTime = timeToMilliseconds(e);
 
@@ -29,9 +29,9 @@ const calculateDuration = (ar) => {
 const ClockOn = ({ i, clockers, setClockers }) => {
   const results = useMemo(() => {
     if (Array.isArray(clockers.table[clockers.table.length - 1][i])) {
-      let count = 0;
-      let total = 0;
-
+      let count = 0; 
+      let total = 0; 
+  
       // Проходимо по рядках таблиці, починаючи з останнього
       for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
         if (Array.isArray(clockers.table[j][i])) {
@@ -47,10 +47,8 @@ const ClockOn = ({ i, clockers, setClockers }) => {
       if (count > 0) {
         const averageDuration = total / count;
         const hours = Math.floor(averageDuration / (60 * 60 * 1000));
-        const minutes = Math.floor(
-          (averageDuration % (60 * 60 * 1000)) / (60 * 1000)
-        );
-        return `${hours}:${minutes.toString().padStart(2, "0")} a day`;
+        const minutes = Math.floor((averageDuration % (60 * 60 * 1000)) / (60 * 1000));
+        return `${hours}:${minutes.toString().padStart(2, '0')} a day`;
       } else {
         return "0:00 a day";
       }
@@ -92,36 +90,26 @@ const ClockOn = ({ i, clockers, setClockers }) => {
     e.stopPropagation();
     let newClockers = JSON.parse(JSON.stringify(clockers));
 
-    if (
-      newClockers.table[newClockers.table.length - 1][i].length > 0 &&
-      !newClockers.table[newClockers.table.length - 1][i][
-        newClockers.table[newClockers.table.length - 1][i].length - 1
-      ]?.e
-    ) {
-      newClockers.table[newClockers.table.length - 1][i][
-        newClockers.table[newClockers.table.length - 1][i].length - 1
-      ] = {
-        ...newClockers.table[newClockers.table.length - 1][i][
-          newClockers.table[newClockers.table.length - 1][i].length - 1
-        ],
-        e: `${String(new Date().getHours()).padStart(2, "0")}:${String(
-          new Date().getMinutes()
-        ).padStart(2, "0")}`,
-      };
+    // Отримуємо останній елемент для поточної колонки
+    const lastIndex = newClockers.table[newClockers.table.length - 1][i].length - 1;
+    const currentRow = newClockers.table[newClockers.table.length - 1][i];
+    const currentTime = `${String(new Date().getHours()).padStart(2, "0")}:${String(new Date().getMinutes()).padStart(2, "0")}`;
+
+    if ( currentRow[lastIndex]?.e === null) {
+      console.log(currentRow[lastIndex])
+      currentRow[lastIndex].e = currentTime; 
+      console.log(currentRow[lastIndex])
     } else {
+      console.log(currentRow[lastIndex])
       let newTime = {
-        s: `${String(new Date().getHours()).padStart(2, "0")}:${String(
-          new Date().getMinutes()
-        ).padStart(2, "0")}`,
+        s: currentTime,
         e: null, 
       };
-      newClockers.table[newClockers.table.length - 1][i].push(newTime);
+      console.log(currentRow[lastIndex])
+      currentRow.push(newTime);
     }
-
-    setClockers(newClockers);
-    console.log("handleClick");
+    setClockers(newClockers); 
   };
-
   return (
     <div className="clockonConteiner">
       <div className="clockonConteinerInner">
