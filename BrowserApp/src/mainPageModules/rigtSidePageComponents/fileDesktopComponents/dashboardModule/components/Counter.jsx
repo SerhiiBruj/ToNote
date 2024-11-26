@@ -180,7 +180,7 @@ const Diagram = ({ table, i, bestResults }) => {
                 alignItems: "center",
                 color: "lightgray",
                 width: "100%",
-                height: `${Math.min((el.value / bestResults) * 80, 80)}%`,
+                height: `${(el.value - 0) * (80 - 5) / (bestResults - 0) + 5}%`,
                 minHeight: "6%",
               }}
             >

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { isEmail } from "validator";
@@ -9,9 +9,9 @@ import { updatePages } from "../redux/pagesSlice";
 import mylocalip from "../../../mylocalip";
 const Login = () => {
   const [isLoggingIn, setIsLoggingIn] = useState(true);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsernamme] = useState("");
+  const [email, setEmaill] = useState("");
+  const [password, setPasswordd] = useState("");
   const navigate = useNavigate();
   const token =
     !!localStorage.getItem("token") && localStorage.getItem("token");
@@ -55,6 +55,10 @@ const Login = () => {
       verifyToken();
     }
   }, []);
+
+  const setPassword = useCallback((val)=>setPasswordd(val))
+  const setUsername = useCallback((val)=>setUsernamme(val))
+  const setEmail = useCallback((val)=>setEmaill(val))
 
   const switchSide = () => {
     setIsLoggingIn(!isLoggingIn);
@@ -173,6 +177,7 @@ const Register = (props) => {
             <input
               type="text"
               placeholder="example@gmail.com"
+              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -197,6 +202,7 @@ const Register = (props) => {
                 placeholder="************"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                pattern="[ -~]{10,50}" 
               />
             </label>
           </div>
@@ -240,9 +246,8 @@ const LogIn = (props) => {
         }
       );
       if (res.status === 200) {
-        if (await GCS(token)) {
+          await GCS(token)
           dispatch(updatePages());
-        }
       }
 
       localStorage.setItem("token", token);
@@ -298,7 +303,7 @@ const LogIn = (props) => {
     </div>
   );
 };
-
+//Sliding CURTAIN
 const Curtain = ({ isLoggingIn }) => {
   return (
     <div
@@ -318,6 +323,8 @@ const Curtain = ({ isLoggingIn }) => {
   );
 };
 
+
+//GET CLUD FILES
 const GCS = async (token) => {
   try {
     const response = await axios.get(

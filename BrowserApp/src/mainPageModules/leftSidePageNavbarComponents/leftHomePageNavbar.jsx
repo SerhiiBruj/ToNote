@@ -4,7 +4,7 @@ import Arrow from "../../assetModules/svgs/arrow";
 import Scrollpanel from "./Scrollpanel";
 import { useLocation } from "react-router-dom";
 // eslint-disable-next-line react/prop-types
-const LeftHomePageNavbar = ({ setShowMenu }) => {
+const LeftHomePageNavbar = ({ setShowMenu,showMenu }) => {
   const location = useLocation()
   const ref = useRef(null);
   

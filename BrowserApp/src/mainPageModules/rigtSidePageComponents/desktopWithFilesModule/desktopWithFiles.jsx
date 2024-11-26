@@ -20,7 +20,7 @@ const DesktopWithFiles = () => {
   }, [boolAnimate]);
 
   return (
-    <div style={{ width: "100%", display: "flex" }}>
+    <div  className="beforeDesktop" style={{ width: "100%",height:"100%", display: "flex" }}>
       <div className="desktopWithFiles" style={{ height: "fit-content", background: "none" }}>
         {pages.map((page, index) => (
           <FileIcon setBoolAnimate={setBoolAnimate} boolAnimate={boolAnimate} key={index} name={page.split("/")[1]} type={page.split("/")[0]} />

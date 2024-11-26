@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
-import {  useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import BellsIcon from "../../../../../assetModules/svgs/bellsIcon";
 const timeToMilliseconds = (time) => {
-  if (!time || typeof time !== 'string') {
-    return 0; 
+  if (!time || typeof time !== "string") {
+    return 0;
   }
-  
+
   const [hours, minutes] = time.split(":").map((val) => Number(val));
   console.log(hours, minutes);
-  return ((hours * 60) + minutes) * 60 * 1000;
+  return (hours * 60 + minutes) * 60 * 1000;
 };
 
 const calculateDuration = (ar) => {
@@ -16,9 +16,7 @@ const calculateDuration = (ar) => {
 
   for (let j = 0; j < ar.length; j++) {
     const { s, e } = ar[j];
-
-    if (!e) continue; // Skip if end time is not defined
-
+    if (!e) continue;
     const startTime = timeToMilliseconds(s);
     const endTime = timeToMilliseconds(e);
 
@@ -28,15 +26,12 @@ const calculateDuration = (ar) => {
   return total;
 };
 
-
-
 const ClockOn = ({ i, clockers, setClockers }) => {
-
   const results = useMemo(() => {
     if (Array.isArray(clockers.table[clockers.table.length - 1][i])) {
-      let count = 0; 
-      let total = 0; 
-  
+      let count = 0;
+      let total = 0;
+
       // Проходимо по рядках таблиці, починаючи з останнього
       for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
         if (Array.isArray(clockers.table[j][i])) {
@@ -52,8 +47,10 @@ const ClockOn = ({ i, clockers, setClockers }) => {
       if (count > 0) {
         const averageDuration = total / count;
         const hours = Math.floor(averageDuration / (60 * 60 * 1000));
-        const minutes = Math.floor((averageDuration % (60 * 60 * 1000)) / (60 * 1000));
-        return `${hours}:${minutes.toString().padStart(2, '0')} a day`;
+        const minutes = Math.floor(
+          (averageDuration % (60 * 60 * 1000)) / (60 * 1000)
+        );
+        return `${hours}:${minutes.toString().padStart(2, "0")} a day`;
       } else {
         return "0:00 a day";
       }
@@ -91,44 +88,39 @@ const ClockOn = ({ i, clockers, setClockers }) => {
     console.log("useMemo");
   }, [clockers.table, i]);
 
-  const handleClick = useCallback(
-    (e) => {
-      
-      e.stopPropagation();
-      let newClockers = JSON.parse(JSON.stringify(clockers));
+  const handleClick = (e) => {
+    e.stopPropagation();
+    let newClockers = JSON.parse(JSON.stringify(clockers));
 
-      if (
-        newClockers.table[newClockers.table.length - 1][i].length > 0 &&
-        !newClockers.table[newClockers.table.length - 1][i][
+    if (
+      newClockers.table[newClockers.table.length - 1][i].length > 0 &&
+      !newClockers.table[newClockers.table.length - 1][i][
+        newClockers.table[newClockers.table.length - 1][i].length - 1
+      ]?.e
+    ) {
+      newClockers.table[newClockers.table.length - 1][i][
+        newClockers.table[newClockers.table.length - 1][i].length - 1
+      ] = {
+        ...newClockers.table[newClockers.table.length - 1][i][
           newClockers.table[newClockers.table.length - 1][i].length - 1
-        ]?.e
-      ) {
-        newClockers.table[newClockers.table.length - 1][i][
-          newClockers.table[newClockers.table.length - 1][i].length - 1
-        ] = {
-          ...newClockers.table[newClockers.table.length - 1][i][
-            newClockers.table[newClockers.table.length - 1][i].length - 1
-          ],
-          e: `${String(new Date().getHours()).padStart(2, "0")}:${String(
-            new Date().getMinutes()
-          ).padStart(2, "0")}`,
-        };
-      } else {
-        // Інакше створюємо новий запис
-        let newTime = {
-          s: `${String(new Date().getHours()).padStart(2, "0")}:${String(
-            new Date().getMinutes()
-          ).padStart(2, "0")}`,
-          e: null, // Значення кінцевого часу встановлюється як null
-        };
-        newClockers.table[newClockers.table.length - 1][i].push(newTime);
-      }
+        ],
+        e: `${String(new Date().getHours()).padStart(2, "0")}:${String(
+          new Date().getMinutes()
+        ).padStart(2, "0")}`,
+      };
+    } else {
+      let newTime = {
+        s: `${String(new Date().getHours()).padStart(2, "0")}:${String(
+          new Date().getMinutes()
+        ).padStart(2, "0")}`,
+        e: null, 
+      };
+      newClockers.table[newClockers.table.length - 1][i].push(newTime);
+    }
 
-      setClockers(newClockers);
-      console.log("handleClick");
-    },
-    [clockers, i]
-  );
+    setClockers(newClockers);
+    console.log("handleClick");
+  };
 
   return (
     <div className="clockonConteiner">
@@ -199,19 +191,17 @@ const ClockOnSchedule = ({ i, table }) => {
   const [rows, setRows] = useState([[]]);
   const [month, setMonth] = useState("");
   const timeToMilliseconds = (timeString) => {
-    // Перевіряємо, чи timeString є дійсним
     if (!timeString) {
-      return 0;  // Повертаємо 0 або інше значення за замовчуванням, якщо timeString є null або undefined
+      return 0;
     }
-    
-    const timeParts = timeString.split(':');
-    
-    // Конвертація годин, хвилин та секунд у мілісекунди
+
+    const timeParts = timeString.split(":");
+
     const hours = parseInt(timeParts[0], 10) || 0;
     const minutes = parseInt(timeParts[1], 10) || 0;
     const seconds = parseInt(timeParts[2], 10) || 0;
-  
-    return (hours * 3600000) + (minutes * 60000) + (seconds * 1000);
+
+    return hours * 3600000 + minutes * 60000 + seconds * 1000;
   };
 
   const calculateDuration = (ar) => {
@@ -255,7 +245,7 @@ const ClockOnSchedule = ({ i, table }) => {
       setRows(arr);
     }
   }, [i, table]);
-  
+
   useEffect(() => {
     if (
       rows.length > 0 &&
@@ -324,12 +314,12 @@ const ClockOnSchedule = ({ i, table }) => {
                       position: "relative",
                       transform: "translateY(5px) translateX(0px)",
                       fontSize: 12,
-                      height:10,
-                      width:10,
-                      display:'flex',
-                      justifyContent:'center',
-                      alignItems:'center',
-                      textAlign:'center',
+                      height: 10,
+                      width: 10,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
                       background: "#03a9f4",
                       padding: 5,
                       color: "black",

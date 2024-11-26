@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import AddClocker from "./components/Addclocker";
 import { useParams } from "react-router-dom";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
@@ -16,7 +16,7 @@ const Dashboard = () => {
     templates: [],
     table: [],
   });
-  const useSetClockers = useCallback((value) => setClockers(value), []);
+  
 
 
   const tableToRender = useMemo(() => {
@@ -108,7 +108,7 @@ const Dashboard = () => {
                   <Timer
                     colors={colors}
                     clockers={clockers}
-                    setClockers={useSetClockers}
+                    setClockers={setClockers}
                     key={i}
                     i={i + 1}
                   />
@@ -118,7 +118,7 @@ const Dashboard = () => {
                   <Counter
                     colors={colors}
                     clockers={clockers}
-                    setClockers={useSetClockers}
+                    setClockers={setClockers}
                     key={i}
                     i={i + 1}
                   />
@@ -128,7 +128,7 @@ const Dashboard = () => {
                   <ClockOn
                     colors={colors}
                     clockers={clockers}
-                    setClockers={useSetClockers}
+                    setClockers={setClockers}
                     key={i}
                     i={i + 1}
                   />
@@ -137,7 +137,7 @@ const Dashboard = () => {
                 return (
                   <CheckIn
                     clockers={clockers}
-                    setClockers={useSetClockers}
+                    setClockers={setClockers}
                     key={i}
                     dateOfStart={clocker.dateOfStart}
                     name={clocker.name}

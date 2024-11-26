@@ -49,7 +49,9 @@ const ChecklistModule = lazy(() =>
     "./mainPageModules/rigtSidePageComponents/fileDesktopComponents/сheckListModule/checklist.jsx"
   )
 );
-import SettingsPage from "./mainPageModules/rigtSidePageComponents/Settings/SettingsPage.jsx";
+const SettingsPage = lazy(() =>
+  import("./mainPageModules/rigtSidePageComponents/Settings/SettingsPage.jsx")
+);
 
 const CloudStorage = lazy(() =>
   import(
@@ -173,7 +175,7 @@ function App() {
           index
           element={
             <Suspense fallback={<Loading />}>
-                <DesktopWithFiles />
+              <DesktopWithFiles />
             </Suspense>
           }
         />
