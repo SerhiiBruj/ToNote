@@ -7,8 +7,14 @@ body {
 .root {
   height: 100vh;
 }
-.scroll .beforeDesktop div{
+.scroll .beforeDesktop .upperside{
   height: 100%;
+}
+.desktopWithFiles{
+  height: 100%;
+}
+input:invalid{
+  border:2px solid rgb(68, 0, 0);
 }
 
 .addFile {

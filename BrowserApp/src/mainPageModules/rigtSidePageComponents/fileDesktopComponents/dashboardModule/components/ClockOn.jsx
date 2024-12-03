@@ -32,10 +32,8 @@ const ClockOn = ({ i, clockers, setClockers }) => {
       let count = 0; 
       let total = 0; 
   
-      // Проходимо по рядках таблиці, починаючи з останнього
       for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
         if (Array.isArray(clockers.table[j][i])) {
-          // Підсумовуємо тривалість для кожного елемента масиву
           for (let k = 0; k < clockers.table[j][i].length; k++) {
             const duration = calculateDuration([clockers.table[j][i][k]]);
             total += duration;

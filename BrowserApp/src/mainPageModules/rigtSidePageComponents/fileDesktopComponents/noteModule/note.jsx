@@ -1,15 +1,11 @@
-import { useEffect, useRef, useCallback, memo } from "react";
+import { useEffect, useRef, memo } from "react";
 import { useSelector } from "react-redux";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
-import { useParams } from "react-router-dom";
 
 const Note = () => {
   const isEditable = useSelector((state) => state.isEditable.value);
   const textareaRef = useRef(null);
-  const { name } = useParams();
-  const [text, setText] = useLocalStorage(  "note/", "");
-
- 
+  const [text, setText] = useLocalStorage("note/", "");
 
   useEffect(() => {
     location.pathname.split("/")[1] === "Home" ? "flex" : "none";
@@ -21,13 +17,10 @@ const Note = () => {
     console.log("note");
   }, []);
 
-  const handleTextChange = useCallback(
-    (event) => {
-      const newText = event.target.value;
-      setText(newText);
-    },
-    [name]
-  );
+  const handleTextChange = (event) => {
+    setText(event.target.value);
+    console.log(text);
+  };
 
   return (
     <div

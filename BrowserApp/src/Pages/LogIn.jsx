@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { isEmail } from "validator";
@@ -7,11 +7,8 @@ import { useDispatch } from "react-redux";
 import { doHaveData, setUserData } from "../redux/UserData";
 import { updatePages } from "../redux/pagesSlice";
 import mylocalip from "../../../mylocalip";
-const Login = () => {
+const Authentification = () => {
   const [isLoggingIn, setIsLoggingIn] = useState(true);
-  const [username, setUsernamme] = useState("");
-  const [email, setEmaill] = useState("");
-  const [password, setPasswordd] = useState("");
   const navigate = useNavigate();
   const token =
     !!localStorage.getItem("token") && localStorage.getItem("token");
@@ -56,16 +53,8 @@ const Login = () => {
     }
   }, []);
 
-  const setPassword = useCallback((val)=>setPasswordd(val))
-  const setUsername = useCallback((val)=>setUsernamme(val))
-  const setEmail = useCallback((val)=>setEmaill(val))
-
   const switchSide = () => {
     setIsLoggingIn(!isLoggingIn);
-
-    setUsername("");
-    setPassword("");
-    setEmail("");
 
     if (ref.current.offsetWidth === window.innerWidth * 2) {
       console.log("object");
@@ -78,28 +67,12 @@ const Login = () => {
   return (
     <div className="loginCenterDiv">
       <h1 className="excuseText">
-        The back-end hasn&apos;t been hosted yet, so please press the button below
-        the form
+        The back-end hasn&apos;t been hosted yet, so please press the button
+        below the form
       </h1>
       <div className="authContteiner" ref={ref}>
-        <LogIn
-          setUsername={setUsername}
-          username={username}
-          setPassword={setPassword}
-          navigate={navigate}
-          password={password}
-          switchSide={switchSide}
-        />
-        <Register
-          email={email}
-          setEmail={setEmail}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          navigate={navigate}
-          setPassword={setPassword}
-          switchSide={switchSide}
-        />
+        <LogIn navigate={navigate} switchSide={switchSide} />
+        <Register navigate={navigate} switchSide={switchSide} />
         <Curtain isLoggingIn={isLoggingIn} />
       </div>
       <h2
@@ -121,25 +94,36 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Authentification;
 
 const Register = (props) => {
-  const {
-    email,
-    setEmail,
-    username,
-    setUsername,
-    navigate,
-    password,
-    setPassword,
-    switchSide,
-  } = props;
+  const { navigate, switchSide } = props;
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
   const [error, setError] = useState("");
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    if (!(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(email))) {
+      setError("your email is incorrect");
+      return
+    }
+    if (!(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(password))) {
+      if (password.length < 8) setError("your password is too short");
+      else setError("your password must contein 8 symbols");
+      return
+    
+    }
+    if (!(/[a-zA-Z0-9]{4,15}/.test(username))) {
+      if (password.length < 8) setError("your password is too short");
+      else setError("your password must contein 8 symbols");
+      return
+    }
+
     try {
       if (!isEmail(email) || username.length < 6 || password.length > 6) {
         setError("Невірний емейл");
@@ -177,7 +161,7 @@ const Register = (props) => {
             <input
               type="text"
               placeholder="example@gmail.com"
-              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+              pattern="[a-z0-9]{5,}+@[a-z]{2,}.[a-zA-Z]{2,}"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -202,9 +186,9 @@ const Register = (props) => {
                 placeholder="************"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                pattern="[ -~]{10,50}" 
               />
             </label>
+            <span style={{ minHeight: "1.5em" }}>{error}</span>
           </div>
         </div>
 
@@ -218,17 +202,19 @@ const Register = (props) => {
     </div>
   );
 };
+
 const LogIn = (props) => {
-  const { setUsername, username, setPassword, password, switchSide, navigate } =
-    props;
+  const { switchSide, navigate } = props;
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const [, setError] = useState(null);
+  const [error, setError] = useState("");
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    if (login < 5) setError("The login or password is incorrect");
     try {
       const response = await axios.post("http://" + mylocalip + ":3000/login", {
-        username,
+        login,
         password,
         headers: {
           clientTime: new Date().getTime(),
@@ -246,8 +232,8 @@ const LogIn = (props) => {
         }
       );
       if (res.status === 200) {
-          await GCS(token)
-          dispatch(updatePages());
+        await GCS(token);
+        dispatch(updatePages());
       }
 
       localStorage.setItem("token", token);
@@ -272,18 +258,18 @@ const LogIn = (props) => {
         <div>
           <label>
             <span>Username/Email</span>
+
             <input
               type="text"
               placeholder="example123"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={login}
+              onChange={(e) => setLogin(e.target.value)}
             />
           </label>
         </div>
         <div>
           <label>
             <span>Password</span>
-
             <input
               type="password"
               placeholder="************"
@@ -292,6 +278,7 @@ const LogIn = (props) => {
             />
           </label>
         </div>
+        <span style={{ minHeight: "1.5em" }}>{error}</span>
 
         <button className="submit" type="submit">
           Log in
@@ -322,7 +309,6 @@ const Curtain = ({ isLoggingIn }) => {
     </div>
   );
 };
-
 
 //GET CLUD FILES
 const GCS = async (token) => {

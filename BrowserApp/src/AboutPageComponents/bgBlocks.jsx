@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 function pRV() {
   return Math.floor(Math.random() * 250 * (Math.random() < 0.4 ? -1 : 1));
@@ -9,11 +9,7 @@ function pRV() {
 const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
   console.log("about");
   const ref = useRef(null);
-
   const blockRefs = useRef([]);
-  useEffect(() => {
-    console.log("BgBlocks was updated");
-  }, []);
   useEffect(() => {
     blockRefs.current.forEach((block) => {
       const t = pRV();
@@ -84,9 +80,9 @@ const BgBlocks = ({ children, num, text, ff, delay = 100 }) => {
         >
           {text}
         </span>
-            {!!text && <TypingAnimation delay={delay} text={text} />}
-            {children}
-          </div>
+        {!!text && <TypingAnimation delay={delay} text={text} />}
+        {children}
+      </div>
     </div>
   );
 };
@@ -95,9 +91,19 @@ export default BgBlocks;
 
 // eslint-disable-next-line react/prop-types
 const TypingAnimation = ({ delay, text }) => {
-  console.log("TypingAnimation");
-
   const ref = useRef(null);
+
+  useLayoutEffect(() => {
+    let NeededHeight = document.createElement("span");
+    NeededHeight.className = "typing-animation";
+    NeededHeight.innerHTML = text;
+    NeededHeight.style.opacity = 0;
+    NeededHeight.style.position = "absolute";
+    ref.current.parentElement.insertBefore(NeededHeight, ref.current);
+    const height = NeededHeight.getBoundingClientRect().height;
+    ref.current.style.height = `${height - Number(window.getComputedStyle(ref.current).paddingBottom.replace(/px/g,""))*2 }px`;
+    NeededHeight.remove();
+  }, []);
 
   useEffect(() => {
     let i = 0;
@@ -106,10 +112,10 @@ const TypingAnimation = ({ delay, text }) => {
     const renderText = () => {
       intervalId = setInterval(() => {
         if (i < text.length && ref.current) {
-          console.log("object");
           ref.current.insertAdjacentText("beforeend", text[i]);
           i++;
         } else {
+          if (ref.current)
           clearInterval(intervalId);
         }
       }, 50);
@@ -138,7 +144,7 @@ const TypingAnimation = ({ delay, text }) => {
     <span
       ref={ref}
       className="typing-animation"
-      style={{ textAlign: "left", verticalAlign: "" }}
+      style={{ textAlign: "left" }}
     ></span>
   );
 };
