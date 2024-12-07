@@ -361,9 +361,6 @@ input[type=checkbox]:checked + .checkbox-custom {
   width: 40%;
   height: 50px;
 }
-.homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile form .submit:focus {
-  background: rgba(217, 217, 217, 0.5);
-}
 .homePageNavbarConteiner .rightHomePage .desktopWithFilesbgbg .scroll .desktopWithFiles .addFile form .fileType {
   display: flex;
   flex-direction: row;
@@ -806,6 +803,23 @@ input[type=checkbox]:checked + .checkbox-custom {
   justify-content: center;
 }
 
+.indicatorCheckIn {
+  height: 150%;
+  background-color: var(--background-color); /* Замінимо динамічний колір через CSS змінну */
+  transition: background-color 0.5s ease;
+  color: white !important;
+  border-radius: 20%;
+  font-size: 18px;
+  text-align: center;
+  font-size: 15px;
+  border-radius: 10px;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: darkgreen;
+}
+
 .dashboard {
   padding: 20px;
   display: flex;
@@ -867,27 +881,55 @@ input[type=checkbox]:checked + .checkbox-custom {
   overflow: hidden;
 }
 .dashboard .clockonConteiner .clockonConteinerInner .schedule .days {
-  gap: 15%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  padding-left: 5%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.dashboard .clockonConteiner .clockonConteinerInner .schedule .days div {
+  color: rgba(217, 217, 217, 0.5019607843);
 }
 .dashboard .clockonConteiner .clockonConteinerInner .schedule .days * {
   width: 15px;
   text-align: center;
 }
 .dashboard .clockonConteiner .clockonConteinerInner .schedule .alignedDiv {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.dashboard .clockonConteiner .clockonConteinerInner .schedule .alignedDiv .filler {
+  width: 14.28%;
+  padding-bottom: 5;
   display: flex;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-  width: 90%;
-  padding-left: 5%;
-  gap: 10%;
-  padding-bottom: 5%;
+  padding-right: 10px;
+  flex-direction: column;
+}
+.dashboard .clockonConteiner .clockonConteinerInner .schedule .alignedDiv .filler .innnerDateIndicator {
+  position: relative;
+  transform: translateY(5px) translateX(35px);
+  font-size: 12px;
+  height: 10px;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #03a9f4;
+  padding: 5px;
+  color: black;
+  align-self: flex-end;
+  border-radius: 50%;
 }
 .dashboard .clockonConteiner .clockonConteinerInner .schedule .alignedDiv * {
   color: rgba(217, 217, 217, 0.5019607843);
 }
 .dashboard .clockonConteiner .clockonConteinerInner .schedule .alignedDiv .indicator {
   width: 25px;
+  font-size: 10px;
   height: 15px;
   border-radius: 50%;
   background-color: darkgreen;
@@ -1184,22 +1226,19 @@ input[type=checkbox]:checked + .checkbox-custom {
     flex-direction: column;
     overflow: hidden;
   }
-  .dashboard .clockonConteiner .clockonConteinerInner .schedule .days {
-    gap: 15%;
-  }
   .dashboard .clockonConteiner .clockonConteinerInner .schedule .days * {
     width: 15px;
     text-align: center;
   }
   .dashboard .clockonConteiner .clockonConteinerInner .schedule .alignedDiv {
-    display: flex;
+    gap: 0;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
     -webkit-user-select: none;
        -moz-user-select: none;
             user-select: none;
-    width: 90%;
-    padding-left: 5%;
-    gap: 10%;
-    padding-bottom: 5%;
+    width: 100%;
+    padding-bottom: 10px;
   }
   .dashboard .clockonConteiner .clockonConteinerInner .schedule .alignedDiv * {
     color: rgba(217, 217, 217, 0.5019607843);
@@ -1906,8 +1945,8 @@ input[type=checkbox]:checked + .checkbox-custom {
      -moz-user-select: none;
           user-select: none;
   position: absolute;
-  height: 246px;
-  width: 306px;
+  height: 277px;
+  width: 293px;
 }
 
 .bgblockcontent {

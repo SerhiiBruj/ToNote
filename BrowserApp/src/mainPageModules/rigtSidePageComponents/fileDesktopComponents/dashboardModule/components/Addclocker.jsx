@@ -16,7 +16,7 @@ const AddClocker = ({ clockers, setClockers }) => {
       [name]: value,
     }));
   };
-
+  console.log(clockers)
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.fileName.trim() === "") return;
@@ -118,6 +118,7 @@ const AddClocker = ({ clockers, setClockers }) => {
             className="fileName"
             name="fileName"
             placeholder="Name"
+            pattern="[a-zA-Z0-9]{3,20}"
             value={formData.fileName}
             onChange={handleChange}
             required

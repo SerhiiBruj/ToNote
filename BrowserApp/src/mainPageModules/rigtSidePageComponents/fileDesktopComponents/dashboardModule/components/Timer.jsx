@@ -18,7 +18,7 @@ const Timer = ({ setClockers, clockers, i, colors }) => {
         });
       }
     }
-    console.log('useMemo')
+    console.log("useMemo");
     return count;
   }, [clockers.table]);
 
@@ -46,7 +46,7 @@ const Timer = ({ setClockers, clockers, i, colors }) => {
     } catch (er) {
       console.log(er.message);
     }
-    console.log('useEffect')
+    console.log("useEffect");
   }, [clockers.table[clockers.table.length - 1][i]]);
 
   const handleClick = useCallback(
@@ -149,9 +149,8 @@ const TimerDiagram = ({ bestResults, i, table, colors }) => {
           table.length - index <= 7 ? { date: row[0], value: row[i] } : null
         )
         .filter((el) => el !== null);
-
       setNeededAr(newNeededAr.reverse());
-      console.log('TimerDiagram')
+      console.log("TimerDiagram");
     } catch (er) {
       console.error(er);
     }
@@ -170,7 +169,7 @@ const TimerDiagram = ({ bestResults, i, table, colors }) => {
       >
         {neededAr.map((el, index) => {
           let count = 0;
-          if (count < 4 && el.value.length > 0 )
+          if (count < 4 && el.value.length > 0)
             return (
               <div
                 key={index}
@@ -194,29 +193,28 @@ const TimerDiagram = ({ bestResults, i, table, colors }) => {
                 >
                   {Array.isArray(el.value) &&
                     el.value.slice(-4).map((element, idx) => {
-                      if (count < 5 && element)
-                      count+=1
-                        return (
-                          <div
-                            key={idx}
-                            style={{
-                              background: colors[index],
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              color: "lightgray",
-                              width: "100%",
-                              height: `${Math.min(
-                                (element / bestResults) * 100,
-                                100
-                              )}%`,
+                      if (count < 5 && element) count += 1;
+                      return (
+                        <div
+                          key={idx}
+                          style={{
+                            background: colors[index],
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            color: "lightgray",
+                            width: "100%",
+                            height: `${Math.min(
+                              (element / bestResults) * 100,
+                              100
+                            )}%`,
 
-                              overflow: "hidden",
-                            }}
-                          >
-                            {element}
-                          </div>
-                        );
+                            overflow: "hidden",
+                          }}
+                        >
+                          {element}
+                        </div>
+                      );
                     })}
                 </div>
 

@@ -3,10 +3,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import BellsIcon from "../../../../../assetModules/svgs/bellsIcon";
 
 const CheckIn = ({ setClockers, clockers, i }) => {
-
   const results = useMemo(() => {
     let total = 0;
-    let count = 0; 
+    let count = 0;
 
     for (let j = clockers.table.length - 1; j >= 0 && count < 30; j--) {
       if (
@@ -15,7 +14,7 @@ const CheckIn = ({ setClockers, clockers, i }) => {
       ) {
         total += 1;
       }
-      count += 1; 
+      count += 1;
     }
 
     if (count > 0) {
@@ -97,31 +96,27 @@ const CheckIn = ({ setClockers, clockers, i }) => {
 
 export default CheckIn;
 const CalendarComp = ({ i, table }) => {
-  const [rows, setRows] = useState([]);
+  const [dates, setRows] = useState([]);
   const [month, setMonth] = useState("");
 
   useEffect(() => {
-    // Створюємо масив з датами та значеннями
     let neededarr = table.map((row) => ({
       date: row[0],
       value: row[i],
     }));
-
-    // Обрізаємо масив до останніх 21 записів
-    if (neededarr.length > 21) {
-      neededarr = neededarr.slice(-21);
+    if (neededarr.length > 14) {
+      neededarr = neededarr.slice(-14);
     }
-    let arr = [];
-    for (let j = 0; j < neededarr.length; j += 7) {
-      arr.push(neededarr.slice(j, j + 7));
+    const firstDate = new Date(
+      neededarr[0].date.split(".").reverse().join("-")
+    );
+    const firstMonth = neededarr[0].date.split(".")[1];
+    for (let i = firstDate.getDay(); i > 0; i--) {
+      neededarr.unshift(1);
     }
-    setRows(arr);
-
-    // Визначаємо місяць для відображення
-    if (arr.length > 0) {
-      const firstMonth = arr[0][0].date.split(".")[1];
-      const lastMonth =
-        arr[arr.length - 1][arr[arr.length - 1].length - 1].date.split(".")[1];
+    setRows(neededarr);
+    if (neededarr.length > 0) {
+      const lastMonth = neededarr[neededarr.length - 1].date.split(".")[1];
       setMonth(
         firstMonth === lastMonth ? firstMonth : `${firstMonth}-${lastMonth}`
       );
@@ -131,7 +126,14 @@ const CalendarComp = ({ i, table }) => {
   return (
     <>
       <div className="schedule">
-        <div className="alignedDiv days">
+        <div
+          className="alignedDiv days"
+          style={{
+            display: "grid",
+            gap: 0,
+            gridTemplateColumns: "repeat(7, 1fr)",
+          }}
+        >
           <div>s</div>
           <div>m</div>
           <div>t</div>
@@ -141,6 +143,7 @@ const CalendarComp = ({ i, table }) => {
           <div>s</div>
         </div>
         <div
+          className="alignedDiv"
           style={{
             display: "flex",
             flexDirection: "column",
@@ -150,36 +153,26 @@ const CalendarComp = ({ i, table }) => {
             paddingBottom: 10,
           }}
         >
-          {rows.map((row, index) => (
-            <div
-              className="alignedDiv"
-              key={index}
-              style={{
-                gap: "7%",
-              }}
-            >
-              {row.map((date, idx) => (
-                <div
-                  className="indicator"
-                  key={idx}
-                  style={{
-                    backgroundColor: date.value ? "#1e4f39" : "brown",
-                    transition: "background-color 0.5s ease",
-                    color: "white",
-                    borderRadius: "20%",
-                    fontSize: "18px",
-                    width: "8%",
-                    height: "fit-content",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {date.date.split(".")[0]}
-                </div>
-              ))}
-            </div>
-          ))}
+          <div
+            className="alignedDiv"
+            style={{
+              display: " grid",
+              gridTemplateColumns: " repeat(7, 1fr)",
+            }}
+          >
+            {dates.map((date, idx) => (
+              <div
+                className="indicatorCheckIn"
+                key={idx}
+                style={{
+                  visibility: date === 1 && "hidden",
+                  backgroundColor: date.value ? "#1e4f39" : "brown",
+                }}
+              >
+                {date.date && date.date.split(".")[0]}
+              </div>
+            ))}
+          </div>
           <span
             style={{
               alignSelf: "flex-end",

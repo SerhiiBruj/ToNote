@@ -108,16 +108,9 @@ const Register = (props) => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    if (!(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(email))) {
-      setError("your email is incorrect");
-      return
-    }
-    if (!(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(password))) {
-      if (password.length < 8) setError("your password is too short");
-      else setError("your password must contein 8 symbols");
-      return
-    
-    }
+   
+    if (password.length < 8) setError("your password is too short");
+    else setError("your password must contein 8 symbols");
     if (!(/[a-zA-Z0-9]{4,15}/.test(username))) {
       if (password.length < 8) setError("your password is too short");
       else setError("your password must contein 8 symbols");
@@ -125,10 +118,7 @@ const Register = (props) => {
     }
 
     try {
-      if (!isEmail(email) || username.length < 6 || password.length > 6) {
-        setError("Невірний емейл");
-        throw error;
-      }
+     
       const response = await axios.post(
         "http://" + mylocalip + ":3000/register",
         {
@@ -214,7 +204,7 @@ const LogIn = (props) => {
     if (login < 5) setError("The login or password is incorrect");
     try {
       const response = await axios.post("http://" + mylocalip + ":3000/login", {
-        login,
+        username:login,
         password,
         headers: {
           clientTime: new Date().getTime(),
