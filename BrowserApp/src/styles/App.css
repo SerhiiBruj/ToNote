@@ -904,7 +904,6 @@ input[type=checkbox]:checked + .checkbox-custom {
   width: 14.28%;
   padding-bottom: 5;
   display: flex;
-  padding-right: 10px;
   flex-direction: column;
 }
 .dashboard .clockonConteiner .clockonConteinerInner .schedule .alignedDiv .filler .innnerDateIndicator {
@@ -1945,8 +1944,8 @@ input[type=checkbox]:checked + .checkbox-custom {
      -moz-user-select: none;
           user-select: none;
   position: absolute;
-  height: 277px;
-  width: 293px;
+  height: 224px;
+  width: 334px;
 }
 
 .bgblockcontent {
