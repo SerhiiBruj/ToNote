@@ -53,7 +53,7 @@ const Dashboard = () => {
           clockers.templates.forEach((template) => {
             switch (template.type) {
               case "clock on":
-                arr.push([]);
+                arr.push([{}]);
                 break;
               case "counter":
                 arr.push(0);

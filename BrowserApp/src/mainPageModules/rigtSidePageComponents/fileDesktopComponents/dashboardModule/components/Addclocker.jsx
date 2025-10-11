@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import CrissCrossIcon from "../../../../../assetModules/svgs/crissCross";
+import { useParams } from "react-router-dom";
 
 const AddClocker = ({ clockers, setClockers }) => {
   const [isAdding, setIsAdding] = useState(false);
@@ -9,6 +10,11 @@ const AddClocker = ({ clockers, setClockers }) => {
     type: "counter",
     goal: "",
   });
+
+
+
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({

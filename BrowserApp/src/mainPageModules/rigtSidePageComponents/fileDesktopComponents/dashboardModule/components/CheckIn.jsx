@@ -175,8 +175,9 @@ const CalendarComp = ({ i, table }) => {
           </div>
           <span
             style={{
+              width:"100%",
+              textAlign:"center",
               alignSelf: "flex-end",
-              paddingRight: "55%",
               color: "lightgray",
             }}
           >

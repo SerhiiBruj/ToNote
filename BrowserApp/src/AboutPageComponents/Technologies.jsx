@@ -55,7 +55,7 @@ const Technologies = () => {
       <BgBlocks
         delay={1700}
         num={8}
-        text={`Desktop and Mobile Apps are being Developed with React Native`}
+        text={`Desktop and Mobile Apps are being Developed with Tauri and React Native `}
       />
     </section>
   );

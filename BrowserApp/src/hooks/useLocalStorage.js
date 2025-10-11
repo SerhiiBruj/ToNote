@@ -29,9 +29,9 @@ const useLocalStorage = (type) => {
 
   const setValue = (value) => {
     setFileValue(value);
-     if (isLocal) localStorage.setItem(type + name, JSON.stringify(fileValue))
-    else sessionStorage.setItem(type + name, JSON.stringify(fileValue))
-     console.log(JSON.stringify(fileValue))
+     if (isLocal) localStorage.setItem(type + name, JSON.stringify(value))
+    else sessionStorage.setItem(type + name, JSON.stringify(value))
+     console.log(JSON.stringify(value))
   }
 
   return [fileValue, setValue]

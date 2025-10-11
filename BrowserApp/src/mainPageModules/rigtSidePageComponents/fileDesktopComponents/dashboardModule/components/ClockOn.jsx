@@ -111,6 +111,9 @@ const ClockOn = ({ i, clockers, setClockers }) => {
     }
     setClockers(newClockers);
   };
+
+
+
   return (
     <div className="clockonConteiner">
       <div className="clockonConteinerInner">
@@ -223,7 +226,13 @@ const ClockOnSchedule = ({ i, table }) => {
           <div>f</div>
           <div>s</div>
         </div>
-        <div className="alignedDivConteiner">
+        <div className="alignedDivConteiner" style={{
+          height:"100%",
+          display:"flex",
+          flexDirection:"column",
+          justifyContent:"space-between",
+          paddingBottom: 10
+        }}>
             <div className="alignedDiv">
               {rows.map((item, idx) => {
                 if (item === 1) {
@@ -263,8 +272,9 @@ const ClockOnSchedule = ({ i, table }) => {
             </div>
           <span
             style={{
+              width:"100%",
+              textAlign:"center",
               alignSelf: "flex-end",
-              paddingRight: "55%",
               color: "lightgray",
             }}
           >
